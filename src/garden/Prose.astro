@@ -1,0 +1,23 @@
+---
+// Rendered Markdown: the typography plugin with this site's element modifiers
+// (`size="lg"` for 18px; `as` is the wrapping tag).
+type Props = { as?: string; size?: 'base' | 'lg'; class?: string; [key: string]: unknown };
+const { as: Tag = 'div', size = 'base', class: className, ...rest } = Astro.props;
+---
+
+<Tag
+  class:list={[
+    'prose max-w-none font-prose wrap-break-word',
+    { 'prose-lg': size === 'lg' },
+    'prose-headings:scroll-mt-24 prose-headings:font-heading prose-headings:font-extrabold prose-headings:text-balance',
+    'prose-p:text-pretty prose-li:text-pretty prose-blockquote:text-pretty',
+    'prose-a:hover:text-accent-hover',
+    'prose-code:wrap-anywhere prose-code:before:content-none prose-code:after:content-none',
+    'prose-table:block prose-table:overflow-x-auto',
+    'prose-img:rounded-site prose-img:border prose-img:border-rule',
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</Tag>

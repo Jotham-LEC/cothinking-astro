@@ -1,0 +1,67 @@
+---
+// The keyboard card `?` opens, a native <dialog> (scripts/site/keys.js). The
+// checkbox turns the single-key shortcuts off (WCAG 2.1.4).
+---
+
+<dialog
+  class="rounded-site border-rule-strong bg-bg text-fg backdrop:bg-fg/30 m-auto w-[min(26rem,92vw)] border p-0 text-sm shadow-2xl backdrop:backdrop-blur-xs"
+  aria-labelledby="keys-title"
+  data-keys
+  data-pagefind-ignore
+>
+  <div class="border-rule flex items-center justify-between border-b px-4 py-3">
+    <h2 id="keys-title" class="text-heading font-semibold">
+      Keyboard shortcuts
+    </h2>
+    <form method="dialog">
+      <button class="text-muted hover:text-fg" type="submit" aria-label="Close">
+        <kbd class="border-rule rounded border px-1.5 font-mono text-[0.65rem]">esc</kbd>
+      </button>
+    </form>
+  </div>
+  <dl class="[&_kbd]:border-rule [&_kbd]:bg-bg-elev [&_kbd]:mr-1 [&_kbd]:rounded [&_kbd]:border [&_kbd]:px-1 [&_kbd]:font-mono [&_kbd]:text-[0.7rem] grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-2 px-4 py-4">
+    <dt>
+      <kbd>⌘K</kbd>
+      <kbd>/</kbd>
+      <kbd>:</kbd>
+    </dt>
+    <dd>Search (Ctrl+K off a Mac)</dd>
+    <dt>
+      <kbd>j</kbd>
+      <kbd>k</kbd>
+    </dt>
+    <dd>Scroll down, up</dd>
+    <dt>
+      <kbd>g</kbd>
+      <kbd>g</kbd>
+    </dt>
+    <dd>Top of the page</dd>
+    <dt>
+      <kbd>G</kbd>
+    </dt>
+    <dd>Bottom of the page</dd>
+    <dt>
+      <kbd>g</kbd>
+      <kbd>h</kbd>
+    </dt>
+    <dd>Home</dd>
+    <dt>
+      <kbd>z</kbd>
+    </dt>
+    <dd>Reader mode (wide screens)</dd>
+    <dt>
+      <kbd>?</kbd>
+    </dt>
+    <dd>This card</dd>
+    <dt>
+      <kbd>Ctrl</kbd>
+      <kbd>n</kbd>
+      <kbd>p</kbd>
+    </dt>
+    <dd>Next, previous result in search</dd>
+  </dl>
+  <label class="border-rule bg-bg-elev text-muted flex items-center gap-2 border-t px-4 py-2.5 text-xs">
+    <input type="checkbox" class="accent-accent" checked data-keys-toggle />
+    Single-key shortcuts (everything here but ⌘K)
+  </label>
+</dialog>

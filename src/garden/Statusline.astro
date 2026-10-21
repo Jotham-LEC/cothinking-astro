@@ -1,0 +1,68 @@
+---
+// A vim status line on wide screens: the mode, the path, the layout's
+// `statusline` and the scroll position. The arrows are clip-paths, as the
+// fonts have no powerline glyphs. Hidden from screen readers, as it repeats
+// the page; the JS keeps it current.
+type Props = { path: string; statusline?: string | null };
+const { path, statusline = null } = Astro.props;
+const segments = path.split('/').filter((part) => part !== '');
+const arrow = '[clip-path:polygon(0_0,calc(100%_-_0.5rem)_0,100%_50%,calc(100%_-_0.5rem)_100%,0_100%)]';
+---
+
+<div
+  class="bg-bg-elev border-rule text-muted fixed inset-x-0 bottom-0 z-30 hidden h-6 items-stretch border-t text-xs lg:flex"
+  aria-hidden="true"
+  data-pagefind-ignore
+>
+  <span
+    class:list={['bg-status-mode text-fg relative z-10 flex items-center pr-3.5 pl-2 font-semibold', arrow]}
+    data-status-mode
+  >
+    NORMAL
+  </span>
+  <span
+    class:list={['bg-button-bg text-button-fg -ml-2 flex min-w-0 items-center gap-1.5 pr-4 pl-4 font-semibold', arrow]}
+  >
+    <span>~</span>
+    {segments.map((segment) => (
+      <>
+        <svg
+          class="size-3 shrink-0"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+        <span class="max-w-[40ch] truncate">{segment}</span>
+      </>
+    ))}
+  </span>
+  <span class="ml-auto flex items-center gap-2 pr-3 pl-4 tabular-nums">
+    {statusline && (
+      <>
+        <svg
+          class="text-subtle size-3 shrink-0"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+        <span>{statusline}</span>
+      </>
+    )}
+  </span>
+  <span
+    class="bg-muted text-bg flex min-w-[6ch] items-center justify-end pr-2 pl-4 font-semibold tabular-nums [clip-path:polygon(0.5rem_0,100%_0,100%_100%,0.5rem_100%,0_50%)]"
+    data-status-scroll
+  ></span>
+</div>

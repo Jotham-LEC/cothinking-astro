@@ -1,0 +1,84 @@
+/* Every colour on jothamlim.com, and the only file that holds one. site.css
+   hands these to Tailwind's utilities by reference (@theme inline), so a view
+   writes `text-accent` and gets var(--site-accent); nothing else names a colour.
+
+   Each value is light-dark(<light mode>, <dark mode>). The mode is the
+   [data-theme] attribute the header's toggle sets, or the OS when unset,
+   which the color-scheme rules below translate for light-dark(), so the site
+   needs no dark: variants.
+
+   Two things read this file from outside CSS, so keep their lines' shape:
+   config/site.php carries the dark-mode
+   palette for the og cards, and tests/Feature/BrandPaletteTest.php checks
+   both and the contrast of the text colours. The SVGs (favicon, logos) carry
+   the brand colours themselves. */
+:root {
+  color-scheme: light dark;
+
+  /* CoThinking's brand on a Gruvbox ground. The yellow is too faint for
+       text on the cream page, so light mode draws text accents in Gruvbox's
+       faded orange, which clears 4.5:1. */
+  --brand-yellow: #fad03a;
+  --brand-ink: #18181b;
+  --brand-accent: light-dark(#af3a03, #fad03a);
+  --brand-danger: light-dark(#9d0006, #ff6c5c);
+
+  /* Roles. Links, the active tab and TOC entry, callouts and focus rings
+       take the accent; buttons, the active sidebar row and text selection
+       take the yellow, so the brand colour shows in both modes. */
+  --site-accent: var(--brand-accent);
+  /* A link under the pointer: a lighter shade of the accent. */
+  --site-accent-hover: light-dark(#d65d0e, #fde68a);
+  --site-accent-soft: light-dark(
+    color-mix(in srgb, var(--brand-yellow) 30%, transparent),
+    color-mix(in srgb, var(--brand-yellow) 14%, transparent)
+  );
+  --site-selection: color-mix(in srgb, var(--brand-yellow) 45%, transparent);
+  --site-button-bg: var(--brand-yellow);
+  --site-button-fg: var(--brand-ink);
+  --site-danger: var(--brand-danger);
+
+  /* Neutrals (Gruvbox: light0/dark0 grounds, light1/dark1 text). */
+  --site-bg: light-dark(#fbf1c7, #282828);
+  --site-bg-elev: light-dark(#f2e5bc, #32302f);
+  --site-fg: light-dark(#3c3836, #ebdbb2);
+  --site-heading: light-dark(#282828, #fbf1c7);
+  --site-muted: light-dark(#665c54, #bdae93);
+  /* Marks and icons (heading markers, chevrons, bullets): 3:1 on both grounds. */
+  --site-subtle: #928374;
+  --site-rule: light-dark(rgb(60 56 54 / 0.12), rgb(235 219 178 / 0.1));
+  --site-rule-strong: light-dark(rgb(60 56 54 / 0.22), rgb(235 219 178 / 0.18));
+  --site-code-bg: light-dark(#ebdbb2, #3c3836);
+  /* A room's ground (`bg-terminal`): the + on each character cell and
+       the scanlines between rows. Marks, not text, so no contrast floor. */
+  --site-grid-mark: light-dark(rgb(60 56 54 / 0.05), rgb(235 219 178 / 0.05));
+  --site-scanline: light-dark(rgb(60 56 54 / 0.0225), rgb(0 0 0 / 0.06));
+  /* The status line's mode segment: opaque grey, as its arrow overlaps the
+       yellow path segment and a translucent one would blend into it. */
+  --site-status-mode: color-mix(in srgb, var(--site-fg) 22%, var(--site-bg-elev));
+  /* The graph's nodes, one Gruvbox colour per section (faded in light mode,
+       bright in dark): 3:1 on the graph's card in both modes. */
+  --site-graph-essays: light-dark(#af3a03, #fe8019);
+  --site-graph-notes: light-dark(#427b58, #8ec07c);
+  --site-graph-publications: light-dark(#8f3f71, #d3869b);
+  --site-graph-projects: light-dark(#076678, #83a598);
+  --site-graph-pages: light-dark(#79740e, #b8bb26);
+
+  --site-radius: 0.25rem;
+  /* Aporetic, self-hosted (the @font-face rules are in site.css): Sans
+       for everything, Sans Mono for code. Headings (`font-heading`) and
+       prose (`font-prose`) keep roles of their own, so either can change
+       here alone. */
+  --site-sans: 'Aporetic Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --site-heading-font: var(--site-sans);
+  --site-prose: var(--site-sans);
+  --site-mono: 'Aporetic Sans Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}

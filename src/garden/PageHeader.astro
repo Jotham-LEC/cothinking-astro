@@ -1,0 +1,23 @@
+---
+// The title block: an eyebrow, the h1 and, for a piece first published
+// elsewhere, where (`source`). With `popover`, it is part of the hover preview.
+type Props = { title: string; eyebrow?: string | null; source?: string | null; sourceDate?: string; popover?: boolean };
+const { title, eyebrow = null, source = null, sourceDate = '', popover = false } = Astro.props;
+const host = source ? new URL(source).host.replace(/^www\./, '') : '';
+---
+
+<header class="mb-8" data-popover={popover ? '' : undefined}>
+  {eyebrow && <p class="text-accent mb-2 text-xs font-semibold tracking-wider uppercase">{eyebrow}</p>}
+  <h1 class="after:bg-accent motion-safe:after:animate-blink text-heading font-heading text-3xl font-extrabold tracking-tight text-balance after:ml-[0.2em] after:inline-block after:h-[0.85em] after:w-[0.5em] after:align-[-0.05em] after:content-[''] sm:text-4xl print:after:hidden">
+    {title}
+  </h1>
+  {source && (
+    <p class="text-muted mt-2 text-sm">
+      Originally published at{' '}
+      <a class="text-accent" href={source}>
+        {host}
+      </a>
+      {sourceDate} →
+    </p>
+  )}
+</header>

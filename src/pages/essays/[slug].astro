@@ -1,0 +1,18 @@
+---
+// An entry of the essays collection: the default template, nothing but the page.
+import { render } from 'astro:content';
+import { wiki } from '../../wiki/load.ts';
+import Entry from '../../garden/Entry.astro';
+
+export async function getStaticPaths() {
+  const w = await wiki();
+  return w.live.filter((p) => p.collection === 'essays').map((p) => ({ params: { slug: p.slug }, props: { page: p } }));
+}
+const { page } = Astro.props;
+const w = await wiki();
+const { Content, headings } = await render(w.entryOf(page));
+---
+
+<Entry page={page} headings={headings}>
+  <Content />
+</Entry>

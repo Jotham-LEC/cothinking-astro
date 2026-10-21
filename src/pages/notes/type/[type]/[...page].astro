@@ -1,0 +1,42 @@
+---
+// /notes/type/{type}: the stream narrowed to one post type; only a type with
+// a published note gets a listing.
+import type { GetStaticPaths } from 'astro';
+import { wiki } from '../../../../wiki/load.ts';
+import { byDateDesc, landingOf } from '../../../../wiki/pages.ts';
+import { noteTypes } from '../../../../wiki/noteTypes.ts';
+import Layout from '../../../../garden/Layout.astro';
+import Breadcrumbs from '../../../../garden/Breadcrumbs.astro';
+import PageHeader from '../../../../garden/PageHeader.astro';
+import Stream from '../../../../components/notes/Stream.astro';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const w = await wiki();
+  const landing = landingOf('notes', w.live, w.collections);
+  if (!landing) return [];
+  return noteTypes(w.live, w.collections).flatMap((type) =>
+    paginate(byDateDesc(w.live.filter((p) => p.collection === 'notes' && (p.type ?? 'text') === type.handle)), {
+      pageSize: 20,
+      params: { type: type.handle },
+      props: { type, landing },
+    }),
+  );
+}) satisfies GetStaticPaths;
+
+const { page, type, landing } = Astro.props;
+const w = await wiki();
+const path =
+  page.currentPage > 1
+    ? `${landing.url}/type/${type.handle}/${page.currentPage}`
+    : `${landing.url}/type/${type.handle}`;
+---
+
+<Layout path={path} seoTitle={type.seoTitle} seoDescription={type.seoDescription}>
+  <Fragment slot="head">
+    {page.url.prev && <link rel="prev" href={page.url.prev} />}
+    {page.url.next && <link rel="next" href={page.url.next} />}
+  </Fragment>
+  <Breadcrumbs url={path} pages={w.live} currentCrumb />
+  <PageHeader title={type.title} eyebrow={landing.title} />
+  <Stream page={page} />
+</Layout>

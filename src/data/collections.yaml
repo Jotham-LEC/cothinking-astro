@@ -1,0 +1,69 @@
+essays:
+  title: Essays
+  route: "{mount}/{slug}"
+  dated: true
+  root: false
+  orderable: false
+  mount:
+    collection: pages
+    slug: essays
+  og_type: article
+  schema: Article
+notes:
+  title: Notes
+  route: "{mount}/{slug}"
+  dated: true
+  root: false
+  orderable: false
+  mount:
+    collection: pages
+    slug: notes
+  template: notes/show
+  og_type: article
+  schema: Article
+  types:
+    - handle: text
+      title: Text
+    - handle: photo
+      title: Photo
+    - handle: link
+      title: Link
+    - handle: quote
+      title: Quote
+    - handle: video
+      title: Video
+pages:
+  title: Pages
+  route: "{parent_uri}/{slug}"
+  dated: false
+  root: true
+  orderable: false
+projects:
+  title: Projects
+  route: "{mount}/{slug}"
+  dated: true
+  root: false
+  orderable: false
+  mount:
+    collection: pages
+    slug: projects
+  og_type: article
+  schema: Article
+publications:
+  title: Publications
+  route: "{mount}/{slug}"
+  dated: true
+  root: false
+  orderable: false
+  mount:
+    collection: pages
+    slug: publications
+  og_type: article
+  schema: Article
+  options:
+    outlet:
+      the-edge: The Edge
+      property-insight: Property Insight
+      entrepreneur-insight: Entrepreneur Insight
+      report: Report
+      press-mentions: Press Mentions

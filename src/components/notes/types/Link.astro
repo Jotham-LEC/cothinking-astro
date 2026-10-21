@@ -1,0 +1,20 @@
+---
+// The linked page as a card: its preview image, title and host. The rule under it separates it from the note's text, when there is any.
+import type { Page } from '../../../wiki/types.ts';
+type Props = { note: Page };
+const { note } = Astro.props;
+const url = String(note.data.link_url ?? '');
+const image = typeof note.data.link_image === 'string' ? note.data.link_image : null;
+const title = typeof note.data.link_title === 'string' && note.data.link_title !== '' ? note.data.link_title : url;
+const host = url ? new URL(url).host.replace(/^www\./, '') : '';
+---
+
+<a class="border-rule block border-b text-inherit no-underline last:border-b-0" href={url}>
+  {image && (
+    <img class="m-0 block h-auto w-full rounded-none border-0" src={image} alt="" loading="lazy" decoding="async" />
+  )}
+  <span class="text-accent block px-6 pt-4 pb-1 text-lg font-semibold" data-link-title>
+    {title}
+  </span>
+  <span class="text-muted block px-6 pb-4 text-xs">{host}</span>
+</a>

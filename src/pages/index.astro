@@ -1,0 +1,28 @@
+---
+// The home page: what you write on the page, then the newest pages across every section.
+import { render } from 'astro:content';
+import { wiki } from '../wiki/load.ts';
+import { byDateDesc, home, isChild } from '../wiki/pages.ts';
+import Entry from '../garden/Entry.astro';
+import ArchiveRow from '../garden/ArchiveRow.astro';
+import HeadingLink from '../garden/HeadingLink.astro';
+const w = await wiki();
+const page = home(w.pages);
+if (!page) throw new Error('No home page: the pages tree has no root.');
+const { Content, headings } = await render(w.entryOf(page));
+const latest = byDateDesc(w.live.filter((p) => isChild(p, w.collections))).slice(0, 5);
+---
+
+<Entry page={page} headings={headings} extraHeadings={[{ level: 2, id: 'latest', text: 'Latest' }]}>
+  <Content />
+  <Fragment slot="after-body">
+    <h2 id="latest">
+      <HeadingLink id="latest" title="Latest" />
+    </h2>
+    <ul class="not-prose list-none p-0">
+      {latest.map((entry) => (
+        <ArchiveRow date={entry.date} url={entry.url!} title={entry.title} />
+      ))}
+    </ul>
+  </Fragment>
+</Entry>

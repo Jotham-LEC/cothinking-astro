@@ -1,0 +1,12 @@
+- source: /about
+  target: /
+- source: /connect
+  target: /
+- source: /cothinking
+  target: https://cothink.ing
+- source: /media/career/jotham-lim-resume.pdf
+  target: /resume/jotham-lim-resume.pdf
+- source: /projects/ultimate-circle
+  target: https://cothink.ing/work/ultimate-circle
+- source: /web-development
+  target: /projects

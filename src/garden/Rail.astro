@@ -1,0 +1,79 @@
+---
+// The rail: the local graph, the outline (wide screens) and the pages that
+// link here; each hides when it has nothing.
+import type { Page } from '../wiki/types.ts';
+import type { TocEntry } from '../wiki/toc.ts';
+import type { GraphNode } from '../wiki/graph.ts';
+import GraphControls from './GraphControls.astro';
+type Props = { page: Page; toc: TocEntry[]; graphSection?: string | null; backlinks: GraphNode[] };
+const { page, toc, graphSection = null, backlinks } = Astro.props;
+---
+
+<div class="space-y-8 text-sm" data-pagefind-ignore>
+  {/* This page and its neighbours one link away (scripts/graph.js); gone when it has none. `graphSection` widens it to the whole section. */}
+  <section data-graph={page.url} data-graph-url="/graph.json" data-graph-section={graphSection ?? undefined} hidden>
+    <h2 class="text-heading mb-2 text-sm font-semibold lowercase">Graph</h2>
+    <div class="relative">
+      <canvas
+        class="rounded-site border-rule bg-bg-elev block aspect-square w-full touch-none border bg-[radial-gradient(var(--color-rule-strong)_1px,transparent_1px)] bg-size-[16px_16px]"
+        aria-label="Pages linked with this one"
+        role="img"
+        data-graph-canvas
+      ></canvas>
+      <GraphControls expand={true} />
+    </div>
+    <dialog
+      class="rounded-site border-rule bg-bg text-fg backdrop:bg-fg/30 m-auto h-[min(85vh,48rem)] w-[min(92vw,72rem)] overflow-hidden border p-0 shadow-2xl backdrop:backdrop-blur-xs"
+      aria-label="Graph"
+      data-graph-dialog
+    >
+      <div class="relative h-full">
+        <canvas
+          class="block size-full touch-none bg-[radial-gradient(var(--color-rule-strong)_1px,transparent_1px)] bg-size-[16px_16px]"
+          aria-label="Pages linked with this one, enlarged"
+          role="img"
+          data-graph-canvas
+        ></canvas>
+        <GraphControls expand={false} />
+      </div>
+    </dialog>
+  </section>
+
+  <div class="hidden xl:block" data-toc>
+    {toc.length > 0 && (
+      <>
+        <h2 class="text-heading mb-2 text-sm font-semibold lowercase">On this page</h2>
+        <ul class="border-rule space-y-1 border-l">
+          {toc.map((heading) => (
+            <li>
+              <a
+                href={`#${heading.id}`}
+                class:list={[
+                  '-ml-px block border-l border-transparent py-0.5 text-muted no-underline hover:text-fg [&.is-active]:text-accent',
+                  heading.level === 2 ? 'pl-3' : 'pl-6',
+                ]}
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </div>
+
+  {backlinks.length > 0 && (
+    <section data-backlinks>
+      <h2 class="text-heading mb-2 text-sm font-semibold lowercase">Linked from</h2>
+      <ul class="space-y-1">
+        {backlinks.map((b) => (
+          <li>
+            <a class="text-muted hover:text-fg inline-block py-0.5 no-underline pointer-coarse:py-1.5" href={b.url}>
+              {b.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</div>

@@ -1,0 +1,41 @@
+---
+// A YouTube or Vimeo URL in its privacy-friendly player; any other host is a plain link.
+import type { Page } from '../../../wiki/types.ts';
+type Props = { note: Page };
+const { note } = Astro.props;
+const url = String(note.data.video_url ?? '');
+function embedUrl(video: string): string | null {
+  try {
+    const u = new URL(video);
+    const host = u.host.replace(/^www\./, '');
+    if (host === 'youtube.com' || host === 'm.youtube.com') {
+      const id = u.searchParams.get('v') ?? u.pathname.match(/^\/(?:embed|shorts|live)\/([\w-]+)/)?.[1];
+      return id ? `https://www.youtube-nocookie.com/embed/${id}` : null;
+    }
+    if (host === 'youtu.be') return `https://www.youtube-nocookie.com/embed/${u.pathname.slice(1)}`;
+    if (host === 'vimeo.com' || host === 'player.vimeo.com') {
+      const id = u.pathname.match(/(\d+)/)?.[1];
+      return id ? `https://player.vimeo.com/video/${id}?dnt=1` : null;
+    }
+  } catch {}
+  return null;
+}
+const embed = url ? embedUrl(url) : null;
+---
+
+{embed ? (
+  <div class="relative aspect-video">
+    <iframe
+      class="absolute inset-0 size-full"
+      src={embed}
+      loading="lazy"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen
+      title={note.title}
+    ></iframe>
+  </div>
+) : url ? (
+  <p>
+    <a href={url}>{url}</a>
+  </p>
+) : null}
