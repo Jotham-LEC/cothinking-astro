@@ -1,13 +1,14 @@
 // Every site in sites/*: its config and content, scanned off the disk, pass
 // the content check (garden/lib/check.ts) and hold together: a home page, a
 // landing page per section, the Explorer's folders, a graph with a node per
-// page, a title for every [[wiki link]] either site makes to the other.
+// page, a title for every [[wiki link]] either site makes to the other. When
+// a site is built, every published page has its file in dist/.
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { check } from '../lib/check.ts';
-import { byUrl, published, toSiteEntry, type UrlOf } from '../lib/entry.ts';
+import { byUrl, published, toSiteEntry, urlFor } from '../lib/entry.ts';
 import { explorerRows } from '../lib/explorer.ts';
 import { buildGraph } from '../lib/graph.ts';
 import { scanRaw } from '../lib/scan.ts';
@@ -17,23 +18,24 @@ import { titleIndex } from '../lib/titles.ts';
 const sitesDir = path.resolve(__dirname, '../../../sites');
 const names = fs.readdirSync(sitesDir).filter((n) => fs.existsSync(path.join(sitesDir, n, 'src/site.config.ts')));
 
-type Loaded = { name: string; root: string; site: SiteConfig; urlOf: UrlOf };
+type Loaded = { name: string; root: string; site: SiteConfig };
 const loaded: Loaded[] = await Promise.all(
   names.map(async (name) => {
     const root = path.join(sitesDir, name);
     const { site } = (await import(pathToFileURL(path.join(root, 'src/site.config.ts')).href)) as { site: SiteConfig };
-    const { urlOf } = (await import(pathToFileURL(path.join(root, 'src/lib/urls.ts')).href)) as { urlOf: UrlOf };
-    return { name, root, site, urlOf };
+    return { name, root, site };
   }),
 );
-const otherOf = (s: Loaded) => loaded.find((o) => o.site.url === s.site.otherSite.url) ?? null;
+const otherOf = (s: Loaded) =>
+  loaded.find((o) => o.name === s.site.otherSite.folder && o.site.url === s.site.otherSite.url) ?? null;
 
 describe.each(loaded)('$name', (s) => {
   const raws = scanRaw(s.root);
-  const entries = raws.map((r) => toSiteEntry(r, s.urlOf));
+  const entries = raws.map((r) => toSiteEntry(r, urlFor(s.site)));
   const live = published(entries);
   const other = otherOf(s);
-  const otherEntries = other ? published(scanRaw(other.root).map((r) => toSiteEntry(r, other.urlOf))) : [];
+  const otherEntries = other ? published(scanRaw(other.root).map((r) => toSiteEntry(r, urlFor(other.site)))) : [];
+  const dist = path.join(s.root, 'dist');
 
   it('names its other site, which is in sites/ too', () => {
     expect(other).not.toBeNull();
@@ -43,7 +45,6 @@ describe.each(loaded)('$name', (s) => {
       check({
         root: s.root,
         site: s.site,
-        urlOf: s.urlOf,
         raws,
         other: { entries: otherEntries, url: s.site.otherSite.url },
       }),
@@ -53,7 +54,7 @@ describe.each(loaded)('$name', (s) => {
     const urls = byUrl(live);
     expect(urls.get('/')?.collection).toBe('pages');
     for (const [collection, c] of Object.entries(s.site.collections))
-      if (c.landing) expect(urls.get(s.urlOf('pages', c.landing))?.id, collection).toBe(c.landing);
+      if (c.landing) expect(urls.get(urlFor(s.site)('pages', c.landing))?.id, collection).toBe(c.landing);
   });
   it('gives every address to one entry', () => {
     const seen = new Map<string, string>();
@@ -71,5 +72,11 @@ describe.each(loaded)('$name', (s) => {
     expect(graph.nodes.length).toBe(live.length);
     expect(graph.links.length).toBeGreaterThan(0);
     expect(graph.links.some((l) => l.source === l.target)).toBe(false);
+  });
+  it.skipIf(!fs.existsSync(dist))('builds a page for every published entry, where urlFor says', () => {
+    const missing = live
+      .map((e) => (e.url === '/' ? 'index.html' : `${e.url.slice(1)}.html`))
+      .filter((file) => !fs.existsSync(path.join(dist, file)));
+    expect(missing).toEqual([]);
   });
 });

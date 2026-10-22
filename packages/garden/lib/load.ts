@@ -1,14 +1,14 @@
 // The site at build time: its config and its published content entries
-// (validated by its content.config.ts) as SiteEntries, with the Explorer and
-// the graph, each worked out once per build. `garden()` is the one
-// thing a component awaits; the three `@site` imports (here and in
-// layouts/Layout.astro) are the whole contract between a site and the garden.
-import { getEntry, render, type CollectionKey } from 'astro:content';
+// (every collection site.config.ts lists, validated by its
+// content.config.ts) as SiteEntries, with the Explorer and the graph, each
+// worked out once per build. `garden()` is the one thing a component awaits;
+// the two `@site` imports (here and in layouts/Layout.astro) are the whole
+// contract between a site and the garden.
+import { getCollection, getEntry, render, type CollectionKey } from 'astro:content';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 // `@site/*` is the site being built: each site's tsconfig.json maps it to its own src/ (AGENTS.md, "Aliases").
 import { site } from '@site/site.config.ts';
-import { loadEntries, otherEntries } from '@site/lib/entries.ts';
-import { keyOf, published, type SiteEntry } from './entry.ts';
+import { keyOf, published, toSiteEntry, urlFor, type SiteEntry } from './entry.ts';
 import { explorerRows, type Row } from './explorer.ts';
 import { buildGraph, type Graph } from './graph.ts';
 import type { SiteConfig } from './site.ts';
@@ -30,10 +30,15 @@ let cache: Promise<Garden> | null = null;
 
 export function garden(): Promise<Garden> {
   cache ??= (async () => {
-    const entries = await loadEntries();
+    const urlOf = urlFor(site);
+    // A–Z by name, so the graph's order does not follow the config's.
+    const names = Object.keys(site.collections).sort();
+    const collections = await Promise.all(names.map((c) => getCollection(c as CollectionKey)));
+    const entries = collections.flat().map((e) => toSiteEntry(e, urlOf));
     const live = published(entries);
     const byId = new Map(entries.map((e) => [keyOf(e), e]));
-    const titles = titleIndex(live, otherEntries(), site.otherSite.url);
+    // The graph's links are this site's pages only, so its titles are enough (a [[link]] to the other site is no node).
+    const titles = titleIndex(live);
     const html = new Map<string, Promise<string>>();
     let container: Promise<AstroContainer> | null = null;
     return {

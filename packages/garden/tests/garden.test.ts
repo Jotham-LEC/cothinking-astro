@@ -5,7 +5,16 @@ import { describe, expect, it } from 'vitest';
 import { breadcrumbs } from '../lib/breadcrumbs.ts';
 import { check } from '../lib/check.ts';
 import { atom, day, formatDate, year } from '../lib/dates.ts';
-import { byDateDesc, byYear, childrenOf, mountedOn, published, toSiteEntry, type RawEntry } from '../lib/entry.ts';
+import {
+  byDateDesc,
+  byYear,
+  childrenOf,
+  mountedOn,
+  published,
+  toSiteEntry,
+  urlFor,
+  type RawEntry,
+} from '../lib/entry.ts';
 import { fullUrls, pageOnly } from '../lib/feed.ts';
 import { explorerRows, headerLinks, markCurrent, menu, panels, urlsIn } from '../lib/explorer.ts';
 import { backlinks, buildGraph } from '../lib/graph.ts';
@@ -30,7 +39,7 @@ const site: SiteConfig = {
   collections: {
     pages: { title: 'Pages', order: 'order' },
     essays: { title: 'Essays', landing: 'essays', article: true, feed: true, order: 'date', graphColour: 'essays' },
-    problems: { title: 'Problems', landing: 'problems', order: 'order', graphSection: true },
+    problems: { title: 'Problems', landing: 'problems', path: '', order: 'order', graphSection: true },
   },
   navigation: {
     explorer: [
@@ -44,18 +53,11 @@ const site: SiteConfig = {
     footer: [{ title: 'Garden', children: [{ entry: 'pages/about' }, { title: 'Mail', url: 'mailto:x@y' }] }],
   },
   author: { name: 'Me', url: 'https://other.test/me', bio: 'Writes.' },
-  otherSite: { name: 'Other', url: 'https://other.test' },
+  otherSite: { name: 'Other', url: 'https://other.test', folder: 'other' },
   seo: { defaultDescription: 'A garden.', publisher: { type: 'Person' } },
   marketing: {},
 };
-const urlOf = (collection: string, id: string) =>
-  collection === 'pages'
-    ? id === 'home'
-      ? '/'
-      : `/${id}`
-    : collection === 'problems'
-      ? `/${id}`
-      : `/${collection}/${id}`;
+const urlOf = urlFor(site);
 
 const raws: RawEntry[] = [
   { collection: 'pages', id: 'home', data: { title: 'Home', order: 0 }, body: 'See [[About]] and [[Newer]].' },
@@ -102,8 +104,15 @@ describe('entries', () => {
     expect(at('/').collection).toBe('pages');
     expect(at('/essays/older')).toMatchObject({ title: 'Older Essay', series: 's', part: 1, type: null });
     expect(live.map((e) => e.id)).not.toContain('draft');
+    expect([urlOf('pages', 'home'), urlOf('pages', 'about'), urlOf('essays', 'x'), urlOf('problems', 'spam')]).toEqual([
+      '/',
+      '/about',
+      '/essays/x',
+      '/spam',
+    ]);
+    expect(() => urlOf('talks', 'x')).toThrow('No talks collection');
     expect(
-      toSiteEntry({ collection: 'notes', id: 'n', data: { title: 'N', date: '2024-01-01' } }, urlOf),
+      toSiteEntry({ collection: 'notes', id: 'n', data: { title: 'N', date: '2024-01-01' } }, () => '/notes/n'),
     ).toMatchObject({
       type: 'text',
       date: new Date('2024-01-01'),
@@ -339,7 +348,6 @@ describe('content check', () => {
     check({
       root: '/nowhere',
       site: config,
-      urlOf,
       raws: [...raws, ...extra],
       other: { entries: other, url: site.otherSite.url },
     });

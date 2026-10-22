@@ -54,7 +54,7 @@ export const site = {
     '/projects/ultimate-circle': 'https://cothink.ing/work/ultimate-circle',
     '/web-development': '/projects',
   },
-  otherSite: { name: 'CoThinking', url: 'https://cothink.ing' },
+  otherSite: { name: 'CoThinking', url: 'https://cothink.ing', folder: 'cothinking' },
   seo: {
     defaultDescription:
       "Hi! I'm Jotham, Head of Global Marketing at Moojing, a certified career coach, and I run CoThinking, my web, IT and marketing practice. I write about marketing, tech and work.",
