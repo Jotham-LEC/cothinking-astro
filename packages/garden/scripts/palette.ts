@@ -37,185 +37,212 @@ function bySection(hits: Hit[]): Hit[] {
   return [...buckets.values()].flat();
 }
 
+/** The palette's parts and what it remembers between keystrokes. */
+type Palette = {
+  dialog: HTMLDialogElement;
+  input: HTMLInputElement;
+  list: HTMLElement;
+  status: HTMLElement | null;
+  /** The pre-rendered page list, put back when the query is cleared. */
+  originalHtml: string;
+  activeIndex: number;
+  debounce: ReturnType<typeof setTimeout> | null;
+  /** Bumped by each search, so an answer that comes back late is dropped. */
+  requestId: number;
+};
+
+const items = (p: Palette) => [...p.list.querySelectorAll<HTMLAnchorElement>('li a')];
+const visibleItems = (p: Palette) => items(p).filter((a) => !a.parentElement!.hasAttribute('hidden'));
+const announce = (p: Palette, count: number) => {
+  if (p.status) p.status.textContent = count ? `${count} ${count === 1 ? 'result' : 'results'}` : 'No results';
+};
+
+function setActive(p: Palette, i: number) {
+  const visible = visibleItems(p);
+  for (const a of items(p)) {
+    a.classList.remove('is-active');
+    a.parentElement!.setAttribute('aria-selected', 'false');
+  }
+  if (!visible.length) {
+    p.activeIndex = -1;
+    p.input.removeAttribute('aria-activedescendant');
+    return;
+  }
+  p.activeIndex = Math.max(0, Math.min(visible.length - 1, i));
+  const active = visible[p.activeIndex]!;
+  active.classList.add('is-active');
+  active.parentElement!.setAttribute('aria-selected', 'true');
+  p.input.setAttribute('aria-activedescendant', active.parentElement!.id);
+  active.scrollIntoView({ block: 'nearest' });
+}
+
+function localFilter(p: Palette, query: string) {
+  const q = query.trim().toLowerCase();
+  for (const a of items(p)) {
+    a.parentElement!.toggleAttribute('hidden', !(!q || (a.dataset.label ?? '').includes(q)));
+    a.classList.remove('is-active');
+  }
+  setActive(p, 0);
+  announce(p, visibleItems(p).length);
+}
+
+const restore = (p: Palette) => {
+  p.list.innerHTML = p.originalHtml;
+};
+
+/** Pagefind's hits as options, under a header each time a section's run begins. */
+function renderResults(p: Palette, hits: Hit[]) {
+  p.list.innerHTML = '';
+  if (!hits.length) {
+    const empty = document.createElement('li');
+    empty.className = 'palette-empty';
+    empty.setAttribute('role', 'presentation');
+    empty.textContent = 'No results';
+    p.list.appendChild(empty);
+    setActive(p, -1);
+    announce(p, 0);
+    return;
+  }
+  let lastSection: string | null = null;
+  let n = 0;
+  for (const hit of bySection(hits)) {
+    // A header the first time each section's run begins: an <li> with no anchor, so keyboard navigation skips it.
+    if (hit.section !== lastSection) {
+      lastSection = hit.section;
+      if (hit.section !== '') {
+        const header = document.createElement('li');
+        header.className = 'palette-section';
+        header.setAttribute('role', 'presentation');
+        header.setAttribute('aria-hidden', 'true');
+        header.textContent = hit.section;
+        p.list.appendChild(header);
+      }
+    }
+    const li = document.createElement('li');
+    li.setAttribute('role', 'option');
+    li.id = `palette-hit-${n++}`;
+    li.setAttribute('aria-selected', 'false');
+    const a = document.createElement('a');
+    a.href = hit.url;
+    a.dataset.label = hit.title.toLowerCase();
+    const title = document.createElement('span');
+    title.className = 'palette-title';
+    title.textContent = hit.title;
+    a.appendChild(title);
+    if (hit.excerpt) {
+      const excerpt = document.createElement('span');
+      excerpt.className = 'palette-excerpt';
+      excerpt.appendChild(marked(hit.excerpt));
+      a.appendChild(excerpt);
+    }
+    li.appendChild(a);
+    p.list.appendChild(li);
+  }
+  setActive(p, 0);
+  announce(p, hits.length);
+}
+
+async function remoteSearch(p: Palette, q: string) {
+  const id = ++p.requestId;
+  try {
+    const pagefind = await loadPagefind();
+    const search = await pagefind.search(q);
+    const pages: PagefindResult[] = await Promise.all(search.results.slice(0, 20).map((r) => r.data()));
+    if (id !== p.requestId) return;
+    renderResults(
+      p,
+      pages.map((page) => ({
+        title: page.meta.title,
+        url: cleanUrl(page.url),
+        section: page.meta.section ?? '',
+        excerpt: page.excerpt,
+      })),
+    );
+  } catch {
+    // A failed search falls back to filtering the page titles.
+    if (id !== p.requestId) return;
+    restore(p);
+    localFilter(p, q);
+  }
+}
+
+function onInput(p: Palette) {
+  const q = p.input.value.trim();
+  if (p.debounce) clearTimeout(p.debounce);
+  if (q.length < MIN_CHARS) {
+    p.requestId++;
+    restore(p);
+    localFilter(p, '');
+    return;
+  }
+  p.debounce = setTimeout(() => remoteSearch(p, q), 150);
+}
+
+// A search still on its way must not fill the list after it closes, or under an empty field when it opens again.
+function forget(p: Palette) {
+  if (p.debounce) clearTimeout(p.debounce);
+  p.requestId++;
+}
+
+function open(p: Palette) {
+  if (p.dialog.open) return;
+  forget(p);
+  p.input.value = '';
+  restore(p);
+  localFilter(p, '');
+  p.dialog.showModal();
+}
+
+/** ⌘K/Ctrl+K toggles the palette; while it is open, Esc closes it, arrows and Ctrl+n/p move, Enter opens. */
+function onKeydown(p: Palette, e: KeyboardEvent) {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    if (p.dialog.open) p.dialog.close();
+    else open(p);
+    return;
+  }
+  if (!p.dialog.open) return;
+  // The search field swallows Escape to clear itself; the dialog must close all the same.
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    p.dialog.close();
+  } else if (e.ctrlKey && (e.key === 'n' || e.key === 'p')) {
+    // Vim's Ctrl-n / Ctrl-p; plain j and k would be typed into the field.
+    e.preventDefault();
+    setActive(p, p.activeIndex + (e.key === 'n' ? 1 : -1));
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    setActive(p, p.activeIndex + 1);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    setActive(p, p.activeIndex - 1);
+  } else if (e.key === 'Enter' && document.activeElement === p.input) {
+    const target = visibleItems(p)[p.activeIndex];
+    if (target) {
+      e.preventDefault();
+      window.location.href = target.href;
+    }
+  }
+}
+
 export function initPalette() {
-  const palette = document.querySelector<HTMLDialogElement>('#palette');
-  const input = palette?.querySelector<HTMLInputElement>('[data-palette-input]');
-  const results = palette?.querySelector<HTMLElement>('[data-palette-results]');
-  const status = palette?.querySelector<HTMLElement>('[data-palette-status]');
-  if (!palette || !input || !results) return;
-  const list = results;
-
-  const originalHtml = list.innerHTML;
-  let activeIndex = -1;
-  let debounce: ReturnType<typeof setTimeout> | null = null;
-  let requestId = 0;
-
-  const items = () => [...list.querySelectorAll<HTMLAnchorElement>('li a')];
-  const visibleItems = () => items().filter((a) => !a.parentElement!.hasAttribute('hidden'));
-  const announce = (count: number) => {
-    if (status) status.textContent = count ? `${count} ${count === 1 ? 'result' : 'results'}` : 'No results';
+  const dialog = document.querySelector<HTMLDialogElement>('#palette');
+  const input = dialog?.querySelector<HTMLInputElement>('[data-palette-input]');
+  const list = dialog?.querySelector<HTMLElement>('[data-palette-results]');
+  if (!dialog || !input || !list) return;
+  const p: Palette = {
+    dialog,
+    input,
+    list,
+    status: dialog.querySelector<HTMLElement>('[data-palette-status]'),
+    originalHtml: list.innerHTML,
+    activeIndex: -1,
+    debounce: null,
+    requestId: 0,
   };
-  function setActive(i: number) {
-    const visible = visibleItems();
-    for (const a of items()) {
-      a.classList.remove('is-active');
-      a.parentElement!.setAttribute('aria-selected', 'false');
-    }
-    if (!visible.length) {
-      activeIndex = -1;
-      input!.removeAttribute('aria-activedescendant');
-      return;
-    }
-    activeIndex = Math.max(0, Math.min(visible.length - 1, i));
-    const active = visible[activeIndex]!;
-    active.classList.add('is-active');
-    active.parentElement!.setAttribute('aria-selected', 'true');
-    input!.setAttribute('aria-activedescendant', active.parentElement!.id);
-    active.scrollIntoView({ block: 'nearest' });
-  }
-  function localFilter(query: string) {
-    const q = query.trim().toLowerCase();
-    for (const a of items()) {
-      a.parentElement!.toggleAttribute('hidden', !(!q || (a.dataset.label ?? '').includes(q)));
-      a.classList.remove('is-active');
-    }
-    setActive(0);
-    announce(visibleItems().length);
-  }
-  const restore = () => {
-    list.innerHTML = originalHtml;
-  };
-  function renderResults(hits: Hit[]) {
-    list.innerHTML = '';
-    if (!hits.length) {
-      const empty = document.createElement('li');
-      empty.className = 'palette-empty';
-      empty.setAttribute('role', 'presentation');
-      empty.textContent = 'No results';
-      list.appendChild(empty);
-      setActive(-1);
-      announce(0);
-      return;
-    }
-    let lastSection: string | null = null;
-    let n = 0;
-    for (const hit of bySection(hits)) {
-      // A header the first time each section's run begins: an <li> with no anchor, so keyboard navigation skips it.
-      if (hit.section !== lastSection) {
-        lastSection = hit.section;
-        if (hit.section !== '') {
-          const header = document.createElement('li');
-          header.className = 'palette-section';
-          header.setAttribute('role', 'presentation');
-          header.setAttribute('aria-hidden', 'true');
-          header.textContent = hit.section;
-          list.appendChild(header);
-        }
-      }
-      const li = document.createElement('li');
-      li.setAttribute('role', 'option');
-      li.id = `palette-hit-${n++}`;
-      li.setAttribute('aria-selected', 'false');
-      const a = document.createElement('a');
-      a.href = hit.url;
-      a.dataset.label = hit.title.toLowerCase();
-      const title = document.createElement('span');
-      title.className = 'palette-title';
-      title.textContent = hit.title;
-      a.appendChild(title);
-      if (hit.excerpt) {
-        const excerpt = document.createElement('span');
-        excerpt.className = 'palette-excerpt';
-        excerpt.appendChild(marked(hit.excerpt));
-        a.appendChild(excerpt);
-      }
-      li.appendChild(a);
-      list.appendChild(li);
-    }
-    setActive(0);
-    announce(hits.length);
-  }
-  async function remoteSearch(q: string) {
-    const id = ++requestId;
-    try {
-      const pagefind = await loadPagefind();
-      const search = await pagefind.search(q);
-      const pages: PagefindResult[] = await Promise.all(search.results.slice(0, 20).map((r) => r.data()));
-      if (id !== requestId) return;
-      renderResults(
-        pages.map((page) => ({
-          title: page.meta.title,
-          url: cleanUrl(page.url),
-          section: page.meta.section ?? '',
-          excerpt: page.excerpt,
-        })),
-      );
-    } catch {
-      // A failed search falls back to filtering the page titles.
-      if (id !== requestId) return;
-      restore();
-      localFilter(q);
-    }
-  }
-  function onInput() {
-    const q = input!.value.trim();
-    if (debounce) clearTimeout(debounce);
-    if (q.length < MIN_CHARS) {
-      requestId++;
-      restore();
-      localFilter('');
-      return;
-    }
-    debounce = setTimeout(() => remoteSearch(q), 150);
-  }
-
-  // A search still on its way must not fill the list after it closes, or under an empty field when it opens again.
-  function forget() {
-    if (debounce) clearTimeout(debounce);
-    requestId++;
-  }
-
-  function open() {
-    if (palette!.open) return;
-    forget();
-    input!.value = '';
-    restore();
-    localFilter('');
-    palette!.showModal();
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-      e.preventDefault();
-      if (palette.open) palette.close();
-      else open();
-      return;
-    }
-    if (!palette.open) return;
-    // The search field swallows Escape to clear itself; the dialog must close all the same.
-    if (e.key === 'Escape') {
-      e.preventDefault();
-      palette.close();
-    } else if (e.ctrlKey && (e.key === 'n' || e.key === 'p')) {
-      // Vim's Ctrl-n / Ctrl-p; plain j and k would be typed into the field.
-      e.preventDefault();
-      setActive(activeIndex + (e.key === 'n' ? 1 : -1));
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setActive(activeIndex + 1);
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActive(activeIndex - 1);
-    } else if (e.key === 'Enter' && document.activeElement === input) {
-      const target = visibleItems()[activeIndex];
-      if (target) {
-        e.preventDefault();
-        window.location.href = target.href;
-      }
-    }
-  });
-
-  for (const button of document.querySelectorAll('[data-palette-open]')) button.addEventListener('click', open);
-  input.addEventListener('input', onInput);
-  palette.addEventListener('close', forget);
+  document.addEventListener('keydown', (e) => onKeydown(p, e));
+  for (const button of document.querySelectorAll('[data-palette-open]'))
+    button.addEventListener('click', () => open(p));
+  input.addEventListener('input', () => onInput(p));
+  dialog.addEventListener('close', () => forget(p));
 }
