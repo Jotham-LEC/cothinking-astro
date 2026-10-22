@@ -27,7 +27,6 @@ const verbose = process.argv.includes('--verbose');
 //  - /search.json → Pagefind: not compared
 //  - GFM autolinks bare URLs: body links other than wiki links are not compared
 //  - 404 suggestions come from Pagefind in the browser: not compared; its og:url is the address asked for, which a static page cannot know
-//  - a reshare across sites: none on this site
 //  - feed bodies: Blade indented the CDATA, wrote `<img />` and escaped quotes and ampersands as &quot;/&amp; where rehype writes &#x26;; the HTML is the same
 //  - the sitemap is @astrojs/sitemap's: /sitemap-index.xml + /sitemap-0.xml instead of /sitemap.xml, and robots.txt names the index
 //  - Explorer rows for note types and years: Laravel printed absolute addresses, Astro prints paths

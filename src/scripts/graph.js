@@ -19,17 +19,13 @@ function colorOf(className) {
 
 // Section (a collection's handle, as graph.json names it; '' is a root page)
 // → the utility that carries its colour. The legend shows the collection's
-// title (`section_title`), so a renamed collection keeps its colour. The class names are written out in full so
-// Tailwind's scan generates them. cothink.ing's sections borrow jothamlim.com's
-// colours, as the two sites' graphs never meet.
+// title (`section_title`), so a renamed collection keeps its colour. The
+// class names are written out in full so Tailwind's scan generates them.
 const SECTIONS = {
   essays: 'text-graph-essays',
   notes: 'text-graph-notes',
   publications: 'text-graph-publications',
   projects: 'text-graph-projects',
-  wiki: 'text-graph-essays',
-  work: 'text-graph-projects',
-  problems: 'text-graph-notes',
   '': 'text-graph-pages',
 };
 
@@ -68,10 +64,8 @@ function legend(mount, graph) {
   mount.appendChild(list);
 }
 
-// The page and its neighbours one link away. A section's index that names its
-// section (data-graph-section: cothink.ing's Wiki) holds every page of the
-// section instead, each tied to the index, with the links between them.
-function neighbourhood(data, url, section) {
+// The page and its neighbours one link away, with the links between them.
+function neighbourhood(data, url) {
   const current = data.nodes.find((node) => node.url === url);
   if (!current) return null;
   const near = new Set([current.id]);
@@ -79,21 +73,11 @@ function neighbourhood(data, url, section) {
     if (link.source === current.id) near.add(link.target);
     if (link.target === current.id) near.add(link.source);
   });
-  const members = section ? data.nodes.filter((node) => node.section === section).map((node) => node.id) : [];
-  members.forEach((id) => near.add(id));
   if (near.size < 2) return null;
-  const links = data.links.filter((link) => near.has(link.source) && near.has(link.target));
-  const tied = new Set(
-    links.flatMap((link) =>
-      link.source === current.id || link.target === current.id ? [link.source, link.target] : [],
-    ),
-  );
   return {
     current,
     nodes: data.nodes.filter((node) => near.has(node.id)).map((node) => ({ ...node })),
-    links: [...links, ...members.filter((id) => !tied.has(id)).map((id) => ({ source: current.id, target: id }))].map(
-      (link) => ({ ...link }),
-    ),
+    links: data.links.filter((link) => near.has(link.source) && near.has(link.target)).map((link) => ({ ...link })),
   };
 }
 
@@ -304,7 +288,7 @@ function createView(canvas, graph, { labels = 'hover' } = {}) {
 // The rail's graph, its zoom buttons, and the dialog that shows it larger
 // with every page named (a fresh copy, laid out again at that size).
 function mountGraph(mount, data) {
-  const make = () => neighbourhood(data, mount.getAttribute('data-graph'), mount.getAttribute('data-graph-section'));
+  const make = () => neighbourhood(data, mount.getAttribute('data-graph'));
   const graph = make();
   if (!graph) {
     mount.remove();

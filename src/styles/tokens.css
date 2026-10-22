@@ -49,10 +49,6 @@
   --site-rule: light-dark(rgb(60 56 54 / 0.12), rgb(235 219 178 / 0.1));
   --site-rule-strong: light-dark(rgb(60 56 54 / 0.22), rgb(235 219 178 / 0.18));
   --site-code-bg: light-dark(#ebdbb2, #3c3836);
-  /* A room's ground (`bg-terminal`): the + on each character cell and
-       the scanlines between rows. Marks, not text, so no contrast floor. */
-  --site-grid-mark: light-dark(rgb(60 56 54 / 0.05), rgb(235 219 178 / 0.05));
-  --site-scanline: light-dark(rgb(60 56 54 / 0.0225), rgb(0 0 0 / 0.06));
   /* The status line's mode segment: opaque grey, as its arrow overlaps the
        yellow path segment and a translucent one would blend into it. */
   --site-status-mode: color-mix(in srgb, var(--site-fg) 22%, var(--site-bg-elev));

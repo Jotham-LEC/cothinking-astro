@@ -64,7 +64,7 @@ const pages = defineCollection({
 
 const essays = defineCollection({
   loader: loader('essays'),
-  schema: z.object({ ...base, ...dated, reshare: z.string().optional() }).strict(),
+  schema: z.object({ ...base, ...dated }).strict(),
 });
 
 const notes = defineCollection({
@@ -112,10 +112,8 @@ const site = defineCollection({
       attributes: z
         .object({
           logo: z.string().optional(),
-          logo_dark: z.string().optional(),
           favicon: z.string().optional(),
           explorer: z.boolean().optional(),
-          closed_panels: z.array(z.string()).optional(),
           pages: z.string().optional(),
         })
         .loose(),
@@ -175,14 +173,6 @@ const redirects = defineCollection({
   schema: z.object({ source: z.string(), target: z.string() }),
 });
 
-/** Who wrote an entry (an `author` field): Statamic's users, by slug. */
-const authors = defineCollection({
-  loader: file('src/data/authors.yaml'),
-  schema: z
-    .object({ id: z.string(), name: z.string(), bio: z.string().optional(), url: z.string().optional() })
-    .strict(),
-});
-
 export const collections = {
   pages,
   essays,
@@ -193,5 +183,4 @@ export const collections = {
   collectionsConfig,
   navigation,
   redirects,
-  authors,
 };

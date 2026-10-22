@@ -7,10 +7,10 @@ import { explorerRows, type Row } from './explorer.ts';
 import { buildGraph, type Graph } from './graph.ts';
 import { published, toPages } from './pages.ts';
 import type { TitleIndex } from './titles.ts';
-import type { Author, Collections, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
+import type { Collections, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
 
 /** The data collections, as opposed to the content ones a Page comes from. */
-const DATA_COLLECTIONS = ['site', 'collectionsConfig', 'navigation', 'redirects', 'authors'];
+const DATA_COLLECTIONS = ['site', 'collectionsConfig', 'navigation', 'redirects'];
 
 export type Wiki = {
   site: SiteConfig;
@@ -20,7 +20,6 @@ export type Wiki = {
   live: Page[];
   navigation: Record<string, NavItem[]>;
   redirects: { source: string; target: string }[];
-  authors: Author[];
   titles: TitleIndex;
   explorer: Row[];
   graph: Graph;
@@ -40,7 +39,6 @@ export function wiki(): Promise<Wiki> {
       (await getCollection('navigation')).map((n) => [n.id, n.data.items as NavItem[]]),
     );
     const redirects = (await getCollection('redirects')).map((r) => r.data);
-    const authors = (await getCollection('authors')).map((a) => a.data);
 
     const raws: RawEntry[] = [];
     const entries = new Map<string, CollectionEntry<CollectionKey>>();
@@ -57,7 +55,6 @@ export function wiki(): Promise<Wiki> {
       ...partial,
       live: published(pages),
       redirects,
-      authors,
       titles,
       explorer: explorerRows(partial),
       graph: buildGraph(pages, collections, titles),

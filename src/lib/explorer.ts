@@ -1,11 +1,10 @@
 // The Explorer: the site as one tree, from the `explorer` navigation. A nav
 // item whose page has a collection mounted on it is a folder holding that
 // collection's pages (notes: one row per post type in use; publications: a
-// group per year; a collection with a `category` select: a group per
-// category, A–Z, "Other" last). At each level single pages come before
-// folders; text-only items holding nothing are dropped, so are drafts. Also
-// the drawer's menu and which panels a page has (App\Tags\Wiki).
-import { byTitle, childrenOf, isChild, mountedOn, naturalTitle, pageByKey, published } from './pages.ts';
+// group per year). At each level single pages come before folders; text-only
+// items holding nothing are dropped, so are drafts. Also the header, drawer
+// and footer links (App\Tags\Wiki).
+import { childrenOf, isChild, mountedOn, naturalTitle, pageByKey, published } from './pages.ts';
 import type { Collections, NavItem, Page, SiteConfig } from './types.ts';
 import { pathOf } from './urls.ts';
 import { year } from './dates.ts';
@@ -71,6 +70,7 @@ export function explorerRows({ pages, collections, navigation }: Site): Row[] {
         group(t.title, `${landing.url}/type/${t.handle}`, [], null, 'type'),
       );
     } else if (section === 'publications') {
+      // The archive by year, as its landing page (`publications` template) lists it: this site's one dated archive.
       children = byYear(childrenOf(section, live, collections)).map(([y, pieces]) =>
         group(
           y,
@@ -78,18 +78,6 @@ export function explorerRows({ pages, collections, navigation }: Site): Row[] {
           pieces.map((p) => row(p)),
         ),
       );
-    } else if (config.options?.category) {
-      children = byCategory(childrenOf(section, live, collections), config.options.category).map((c) =>
-        group(
-          c.title,
-          `${landing.url}#${c.handle}`,
-          c.entries.map((p) => row(p)),
-        ),
-      );
-    } else if (section === 'work') {
-      children = childrenOf(section, live, collections)
-        .filter((p) => p.body.trim() !== '')
-        .map((p) => row(p));
     } else {
       children = childrenOf(section, live, collections).map((p) => row(p));
     }
@@ -107,22 +95,6 @@ export function byYear(pieces: Page[]): [string, Page[]][] {
     groups.set(y, [...(groups.get(y) ?? []), p]);
   }
   return [...groups.entries()];
-}
-
-/** Pages by a `category` select, in the options' order, each A–Z; the rest last as "Other". */
-export function byCategory(
-  pages: Page[],
-  options: Record<string, string>,
-): { handle: string; title: string; entries: Page[] }[] {
-  const sorted = byTitle(pages);
-  const out: { handle: string; title: string; entries: Page[] }[] = [];
-  for (const [handle, title] of Object.entries(options)) {
-    const entries = sorted.filter((p) => p.data.category === handle);
-    if (entries.length) out.push({ handle, title, entries });
-  }
-  const other = sorted.filter((p) => !(typeof p.data.category === 'string' && p.data.category in options));
-  if (other.length) out.push({ handle: 'other', title: 'Other', entries: other });
-  return out;
 }
 
 /** The post types with a published note, in blueprint order. */
@@ -160,17 +132,11 @@ export function headerLinks({ pages, navigation }: Site, currentUrl: string | nu
 }
 
 /** The drawer's menu: the header's links but the last (the call to action), minus those the Explorer already lists. */
-export function menu(site: Site, currentUrl: string | null, hasExplorer: boolean): Link[] {
-  const listed = hasExplorer ? new Set(explorerRows(site).flatMap(urlsIn).map(pathOf)) : new Set<string>();
+export function menu(site: Site, currentUrl: string | null): Link[] {
+  const listed = new Set(explorerRows(site).flatMap(urlsIn).map(pathOf));
   return headerLinks(site, currentUrl)
     .slice(0, -1)
     .filter((link) => !listed.has(pathOf(link.url)));
-}
-
-/** Whether a page has an Explorer (every page but a room on a site without one) and a drawer. */
-export function panels(site: Site, room: boolean): { hasExplorer: boolean; hasDrawer: boolean } {
-  const hasExplorer = Boolean(site.site.attributes.explorer) || !room;
-  return { hasExplorer, hasDrawer: hasExplorer || headerLinks(site, null).length > 1 };
 }
 
 /** The footer navigation: a heading per top-level item with its children as links. */

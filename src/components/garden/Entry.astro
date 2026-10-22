@@ -5,7 +5,6 @@
 // default slot is the rendered body; `head` goes into the <head>.
 // `extraHeadings` are headings for the outline that the body lacks (a view's
 // own h2s). `path` is the address when it is not the entry's own (/notes/2).
-import { render } from 'astro:content';
 import { wiki } from '../../lib/load.ts';
 import { pageInfo } from '../../lib/entry.ts';
 import { backlinks } from '../../lib/graph.ts';
@@ -26,12 +25,9 @@ const path = Astro.props.path ?? page.url!;
 const w = await wiki();
 // The body as plain HTML, for a description from its first paragraph.
 const html = await renderFeed(page.body, w.titles, { callouts: true });
-const info = pageInfo(page, w.pages, w.collections, w.site);
+const info = pageInfo(page, w.collections, w.site);
 
-// A reshare shows the original's text after its own; its headings join the outline.
-const original = info.original ? await render(w.entryOf(info.original)) : null;
-const Reshared = original?.Content ?? null;
-const entries = toc([...headings, ...(original?.headings ?? [])], extraHeadings);
+const entries = toc(headings, extraHeadings);
 const neighbours = pager(page, w.pages);
 const linked = backlinks(w.graph, page);
 const updated = page.updated ?? page.date;
@@ -91,17 +87,12 @@ const section = info.section ? (w.collections[info.section]?.title ?? info.secti
       <Prose as="article" data-popover>
         <slot name="before-body" />
         <slot />
-        {Reshared && (
-          <div data-reshared>
-            <Reshared />
-          </div>
-        )}
         <slot name="after-body" />
       </Prose>
     )}
   </div>
 
-  {/* The pages either side: a series' parts, or the notes by date. */}
+  {/* The pages either side: the notes by date. */}
   {(neighbours.previous || neighbours.next) && (
     <nav class="mt-10 grid gap-3 font-sans text-sm sm:grid-cols-2" aria-label="Previous and next" data-pagefind-ignore>
       {(
@@ -135,5 +126,5 @@ const section = info.section ? (w.collections[info.section]?.title ?? info.secti
     <p class="border-rule text-muted mt-10 border-t pt-5 text-sm">Last updated {day(updated)}</p>
   )}
 
-  <Rail slot="rail" page={page} toc={entries} graphSection={info.graphSection} backlinks={linked} />
+  <Rail slot="rail" page={page} toc={entries} backlinks={linked} />
 </Layout>

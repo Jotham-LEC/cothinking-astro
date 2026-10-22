@@ -1,11 +1,11 @@
-// The wiki layer on the imported content: the Explorer, menu and panels, the
+// The wiki layer on the imported content: the Explorer and menu, the
 // graph and backlinks, the pager, the years, the note types, breadcrumbs and
 // the head model, against what the Laravel app printed (DEV_FILES/golden).
 import fs from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { loadProject } from '../src/lib/files.ts';
-import { explorerRows, markCurrent, menu, panels, urlsIn } from '../src/lib/explorer.ts';
+import { explorerRows, markCurrent, menu, urlsIn } from '../src/lib/explorer.ts';
 import { backlinks, buildGraph } from '../src/lib/graph.ts';
 import { pager } from '../src/lib/pager.ts';
 import { years } from '../src/lib/years.ts';
@@ -64,9 +64,8 @@ describe('explorer', () => {
     });
     expect(ours).toEqual(printed);
   });
-  it('gives the menu the header links the Explorer lacks, and every page a drawer', () => {
-    expect(menu(project, '/career', true)).toEqual([]);
-    expect(panels(project, false)).toEqual({ hasExplorer: true, hasDrawer: true });
+  it('gives the menu the header links the Explorer lacks', () => {
+    expect(menu(project, '/career')).toEqual([]);
     expect(urlsIn(rows[0]!)).toEqual(['/']);
   });
 });
@@ -163,12 +162,12 @@ describe('pager, years, note types, breadcrumbs', () => {
     expect(breadcrumbs('/notes/type/text', live).map((c) => c.url)).toEqual(['/', '/notes']);
   });
   it('describes a page: eyebrow, feed, source, outline', () => {
-    const info = pageInfo(page('/essays/being-personal-in-the-workplace'), pages, collections, site);
+    const info = pageInfo(page('/essays/being-personal-in-the-workplace'), collections, site);
     expect(info.eyebrow).toBe('2023-01-18 · 8 min read');
     expect(info.feedUrl).toBe('/essays/feed.xml');
-    expect(pageInfo(page('/'), pages, collections, site)).toMatchObject({ isHome: true, eyebrow: null, feedUrl: null });
+    expect(pageInfo(page('/'), collections, site)).toMatchObject({ isHome: true, eyebrow: null, feedUrl: null });
     const publication = live.find((p) => p.collection === 'publications' && p.seo.canonical)!;
-    expect(pageInfo(publication, pages, collections, site).source).toBe(publication.seo.canonical);
+    expect(pageInfo(publication, collections, site).source).toBe(publication.seo.canonical);
     expect(toc([{ depth: 2, slug: 'a', text: 'A' }])).toEqual([]);
     expect(
       toc([

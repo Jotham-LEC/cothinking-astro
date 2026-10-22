@@ -5,13 +5,13 @@ import type { Page } from '../../lib/types.ts';
 import type { TocEntry } from '../../lib/toc.ts';
 import type { GraphNode } from '../../lib/graph.ts';
 import GraphControls from './GraphControls.astro';
-type Props = { page: Page; toc: TocEntry[]; graphSection?: string | null; backlinks: GraphNode[] };
-const { page, toc, graphSection = null, backlinks } = Astro.props;
+type Props = { page: Page; toc: TocEntry[]; backlinks: GraphNode[] };
+const { page, toc, backlinks } = Astro.props;
 ---
 
 <div class="space-y-8 text-sm" data-pagefind-ignore>
-  {/* This page and its neighbours one link away (scripts/graph.js); gone when it has none. `graphSection` widens it to the whole section. */}
-  <section data-graph={page.url} data-graph-url="/graph.json" data-graph-section={graphSection ?? undefined} hidden>
+  {/* This page and its neighbours one link away (scripts/graph.js); gone when it has none. */}
+  <section data-graph={page.url} data-graph-url="/graph.json" hidden>
     <h2 class="text-heading mb-2 text-sm font-semibold lowercase">Graph</h2>
     <div class="relative">
       <canvas

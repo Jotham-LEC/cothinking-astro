@@ -3,8 +3,8 @@
 // theme toggle and the menu button.
 import type { SiteConfig } from '../../lib/types.ts';
 import type { Link } from '../../lib/explorer.ts';
-type Props = { site: SiteConfig; room: boolean; hasExplorer: boolean; hasDrawer: boolean; links: Link[] };
-const { site, room, hasExplorer, hasDrawer, links } = Astro.props;
+type Props = { site: SiteConfig; links: Link[] };
+const { site, links } = Astro.props;
 const last = links.length - 1;
 ---
 
@@ -13,39 +13,9 @@ const last = links.length - 1;
   data-header
 >
   <a class="text-heading flex shrink-0 items-center gap-2.5 font-semibold whitespace-nowrap no-underline" href="/">
-    {/* The site's logo: a wordmark with its dark-mode twin, or a portrait beside the name.
-        Below 400px a wordmark's favicon stands in for it; below 360px the logo goes. */}
-    {site.attributes.logo_dark ? (
-      <>
-        <img
-          class:list={['size-7 min-[400px]:hidden', { 'max-[359px]:hidden': hasDrawer }]}
-          src={site.attributes.favicon}
-          alt={site.name}
-          width="28"
-          height="28"
-        />
-        <img
-          class="wiki-logo-light h-7 w-auto max-[399px]:hidden!"
-          src={site.attributes.logo}
-          alt={site.name}
-          width="122"
-          height="28"
-        />
-        <img
-          class="wiki-logo-dark h-7 w-auto max-[399px]:hidden!"
-          src={site.attributes.logo_dark}
-          alt={site.name}
-          width="122"
-          height="28"
-        />
-      </>
-    ) : (
-      <>
-        <img class="size-7 rounded-full" src={site.attributes.logo} alt="" width="400" height="400" />
-        {/* Below 380px the name gives way to "Work with me"; screen readers still hear it. */}
-        <span class="max-[380px]:sr-only">{site.name}</span>
-      </>
-    )}
+    {/* The portrait beside the name. Below 380px the name gives way to "Work with me"; screen readers still hear it. */}
+    <img class="size-7 rounded-full" src={site.attributes.logo} alt="" width="400" height="400" />
+    <span class="max-[380px]:sr-only">{site.name}</span>
   </a>
   <button
     type="button"
@@ -114,8 +84,7 @@ const last = links.length - 1;
     ))}
   </nav>
   {/* Reader mode, from lg: puts the Explorer and the rail away together, pressed while neither shows. Its label shows from xl. */}
-  {!room && (
-    <button
+  <button
       class="group rounded-site border-subtle text-heading hover:bg-bg-elev aria-pressed:border-accent aria-pressed:bg-bg-elev aria-pressed:text-accent relative hidden h-9 shrink-0 items-center justify-center gap-2 border px-3 text-sm font-semibold lg:flex"
       type="button"
       aria-label="Reader mode"
@@ -147,7 +116,6 @@ const last = links.length - 1;
         <kbd class="border-rule bg-bg-elev ml-1.5 rounded border px-1 font-mono text-[0.65rem]">z</kbd>
       </span>
     </button>
-  )}
   {/* Two states, light and dark; the JS sets the state from the scheme in effect. */}
   <button
     class="text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11"
@@ -183,12 +151,8 @@ const last = links.length - 1;
   </button>
   {/* The menu, last as on most phones: it opens the drawer, with the header's links above the Explorer.
       From lg the Explorer is a column and from xl the links are in the header, so it goes. */}
-  {hasDrawer && (
     <button
-      class:list={[
-        'text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11',
-        { 'lg:hidden': !room, 'xl:hidden': room && !hasExplorer },
-      ]}
+      class="text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11 lg:hidden"
       type="button"
       aria-label="Menu"
       aria-expanded="false"
@@ -208,5 +172,4 @@ const last = links.length - 1;
         <path d="M3 6h18M3 12h18M3 18h18" />
       </svg>
     </button>
-  )}
 </header>
