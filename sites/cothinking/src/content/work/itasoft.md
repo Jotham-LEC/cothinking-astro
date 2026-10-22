@@ -9,5 +9,4 @@ year: 2025
 kind: CoThinking client · GSAP
 seo:
   noindex: true
-  sitemap: false
 ---

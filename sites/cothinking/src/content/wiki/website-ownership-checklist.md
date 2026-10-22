@@ -3,7 +3,6 @@ title: "Website ownership checklist: who should hold your domain, hosting and an
 description: Your company, not your vendor, should own the domain, DNS, hosting, email admin and analytics. A checklist of every account and who should hold it.
 date: 2026-10-12
 updated: 2026-10-15T01:20:18+00:00
-author: jotham-lim
 category: ownership-and-compliance
 related_pages:
   - problems/recover-your-domain-from-an-old-vendor

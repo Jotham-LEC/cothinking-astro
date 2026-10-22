@@ -4,7 +4,6 @@ description: "Package sites from about RM2,000, custom agency builds from about 
 date: 2026-10-12
 updated: 2026-10-15T05:57:01+00:00
 category: choosing-a-provider
-author: jotham-lim
 related_pages:
   - pages/how-i-work
   - pages/websites

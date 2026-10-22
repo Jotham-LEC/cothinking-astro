@@ -4,7 +4,6 @@ description: "18 questions to ask an IT support provider in Malaysia, with what 
 date: 2026-10-12
 updated: 2026-10-15T08:30:50+00:00
 category: choosing-a-provider
-author: jotham-lim
 related_pages:
   - pages/how-i-work
 ---

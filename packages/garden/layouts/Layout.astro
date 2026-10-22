@@ -56,7 +56,7 @@ const gtmId = import.meta.env.PROD ? (site.marketing.gtmId ?? null) : null;
 ---
 
 <!doctype html>
-<html lang={site.lang.replace('_', '-')}>
+<html lang={site.lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -92,7 +92,7 @@ const gtmId = import.meta.env.PROD ? (site.marketing.gtmId ?? null) : null;
     <Header site={site} room={room} hasExplorer={hasExplorer} hasDrawer={hasDrawer} links={links} />
 
     <div class="shell" data-room={room ? '' : undefined}>
-      {hasDrawer && <Drawer rows={rows} menu={hasDrawer ? menu(live, site, path, rows) : []} room={room} />}
+      {hasDrawer && <Drawer rows={rows} menu={menu(live, site, path, rows)} room={room} />}
 
       {room ? (
         <main id="main" tabindex="-1" class="py-10 focus:outline-none sm:py-14" data-pagefind-body>

@@ -13,7 +13,7 @@ is what Astro ships; the custom parts are listed under "What is custom".
 package.json           workspaces: packages/garden, sites/*; root scripts run both sites
 packages/garden/       @cothinking/garden: the shared code and its runtime dependencies (no site's name in it)
   config.mjs           gardenConfig({ root, site, urlOf, otherSite }): the Astro config both sites use
-  content.ts           the schema pieces: base(image), seo, dated, enumOf, loader (content.config.ts imports it as @garden/content.ts)
+  content.ts           the schema pieces: base(image), dated, loader (content.config.ts imports it as @garden/content.ts)
   lib/                 the garden layer, plain TypeScript (tests cover it): see "How a page is built"
   lib/markdown/        the remark/rehype plugins and the Shiki transformer
   components/          22 .astro components; layouts/Layout.astro is the shell
@@ -23,7 +23,7 @@ packages/garden/       @cothinking/garden: the shared code and its runtime depen
   tests/               markdown, garden (the lib on a made-up site), sites (both real sites), tokens
 sites/<site>/          one Astro root each: jothamlim, cothinking
   astro.config.mjs     gardenConfig(...) with the site's config and the other site's folder
-  src/site.config.ts   the site: name, URL, collections, navigation, redirects, authors, SEO, marketing (`satisfies SiteConfig`)
+  src/site.config.ts   the site: name, URL, collections, navigation, redirects, author, SEO, GTM (`satisfies SiteConfig`)
   src/lib/urls.ts      urlOf(collection, id): where an entry lives
   src/lib/entries.ts   loadEntries() for the garden, and otherEntries() (the other site, for [[wiki links]])
   src/content.config.ts  the collections' schemas (zod, strict)
@@ -47,9 +47,8 @@ from `lib/seo.ts`.
 - **The garden's model** is `lib/entry.ts`: every content entry becomes a
   `SiteEntry` (address, title, dates, body, the opening paragraphs, and the
   fields the garden reads, `null` where a site has none) through `toSiteEntry`.
-  `lib/load.ts` `garden()` loads them once per build: `site`, `entries`,
-  `live` (published), `byUrl`, `entry(astroEntry)`, `titles`, `explorer`,
-  `graph`, `htmlOf()`. A site's view keeps its own typed Astro entry for its
+  `lib/load.ts` `garden()` loads them once per build: `site`,
+  `live` (published), `entry(astroEntry)`, `explorer`, `graph`, `htmlOf()`. A site's view keeps its own typed Astro entry for its
   own fields and asks `g.entry(entry)` for the garden's.
 - **A site tells the garden three things**, the only `@site` imports the
   garden makes: `src/site.config.ts` (the config), `src/lib/entries.ts` (its
@@ -112,7 +111,7 @@ build). The share cards read their four colours off `tokens.css`
   `title`, `date` on a dated collection, optional `description`, `image`
   (a file under `src/assets/media`, referenced relatively), `updated`,
   `draft: true`, `seo` (`title`, `description`, `canonical`, `og_type`,
-  `noindex`, `sitemap`). Headings start at `##` (the check fails otherwise); `[[Title]]` links a page on
+  `noindex`; a noindex page is left out of the sitemap and llms.txt). Headings start at `##` (the check fails otherwise); `[[Title]]` links a page on
   either site; `> [!NOTE] Title` is a callout; raw HTML is allowed
   (`<img class="wiki-logo-light">`/`-dark` pairs, `<figure class="wiki-pdf">`,
   `<a class="button">`).

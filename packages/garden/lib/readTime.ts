@@ -7,6 +7,8 @@ export function wordCount(text: string): number {
   return stripped.split(/[^\p{L}\p{N}']+/u).filter((word) => word !== '' && word !== '0').length;
 }
 
-export function readTime(text: string, wordsPerMinute = 200): number {
-  return Math.ceil(wordCount(text) / wordsPerMinute);
+const WORDS_PER_MINUTE = 200;
+
+export function readTime(text: string): number {
+  return Math.ceil(wordCount(text) / WORDS_PER_MINUTE);
 }

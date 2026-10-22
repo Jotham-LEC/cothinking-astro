@@ -3,7 +3,6 @@ title: What is DMARC?
 description: DMARC is a DNS record telling inboxes what to do with email that claims to be from your domain but fails SPF and DKIM. How it works and how to set it up.
 date: 2026-10-12
 updated: 2026-10-15T08:30:50+00:00
-author: jotham-lim
 category: email-and-security
 related_pages:
   - problems/emails-going-to-spam

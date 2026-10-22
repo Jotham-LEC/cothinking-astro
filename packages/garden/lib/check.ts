@@ -6,8 +6,7 @@
 // pages or routes, its image exists, its first heading is `##` (the page's
 // title is the h1), no "Sample:" page is left. Every page
 // (drafts too): an ordered collection's page has its `order`; a field that
-// names another entry (`collection/id`) names one that exists; its author
-// is known; its title can be linked (no `[`, `]` or `|`) and is unique
+// names another entry (`collection/id`) names one that exists; its title can be linked (no `[`, `]` or `|`) and is unique
 // across both sites. Every navigation item that names an entry names a
 // published one (the Explorer, header and footer would drop it in silence),
 // and every redirect leaves an address no page uses for a page that exists
@@ -120,8 +119,6 @@ export function check({ root, site, urlOf, raws, other }: CheckInput): string[] 
         else if (!byKey(entries, key)) problems.push(`${where(page)}: its ${field} ${key} names no page.`);
       }
     }
-    if (page.author && !site.authors[page.author])
-      problems.push(`${where(page)}: its author ${page.author} is not in site.config.ts.`);
   }
 
   // Two pages with one title (a draft included, and the other site's pages).

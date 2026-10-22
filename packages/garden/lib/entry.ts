@@ -13,7 +13,6 @@ export type Seo = {
   canonical?: string;
   og_type?: string;
   noindex?: boolean;
-  sitemap?: boolean;
 };
 
 export type SiteEntry = {
@@ -38,7 +37,6 @@ export type SiteEntry = {
   category: string | null;
   series: string | null;
   part: number | null;
-  author: string | null;
   /** A quote note's quote and who said it. */
   quote: string | null;
   cite: string | null;
@@ -97,7 +95,6 @@ export function toSiteEntry({ collection, id, data: d, body, rendered }: RawEntr
     category: asString(d.category),
     series: asString(d.series),
     part: asNumber(d.part),
-    author: asString(d.author),
     quote: asString(d.quote),
     cite: asString(d.cite),
   };
@@ -125,16 +122,6 @@ export function mountedOn(entry: SiteEntry, site: SiteConfig): string | null {
   if (entry.collection !== 'pages') return null;
   for (const [handle, c] of Object.entries(site.collections)) if (c.landing === entry.id) return handle;
   return null;
-}
-
-/** The section an entry belongs to: its own collection when it is a section's page, else the collection it is the landing page of. */
-export const sectionOf = (entry: SiteEntry, site: SiteConfig): string | null =>
-  isChild(entry, site) ? entry.collection : mountedOn(entry, site);
-
-/** A section's landing page. */
-export function landingOf(collection: string, entries: SiteEntry[], site: SiteConfig): SiteEntry | null {
-  const landing = site.collections[collection]?.landing;
-  return landing ? byKey(entries, `pages/${landing}`) : null;
 }
 
 /** Newest first, then by title (Statamic's `date:desc|title:asc`). */

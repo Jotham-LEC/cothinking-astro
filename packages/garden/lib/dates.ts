@@ -9,9 +9,9 @@ const read = (date: Date, options: Intl.DateTimeFormatOptions): Record<string, s
   return out;
 };
 
-const parts = (date: Date, timeZone: string): Record<string, string> => ({
+const parts = (date: Date): Record<string, string> => ({
   ...read(date, {
-    timeZone,
+    timeZone: DISPLAY_TIMEZONE,
     year: 'numeric',
     month: 'long',
     day: '2-digit',
@@ -21,14 +21,14 @@ const parts = (date: Date, timeZone: string): Record<string, string> => ({
     second: '2-digit',
     hour12: false,
   }),
-  monthNumber: read(date, { timeZone, month: '2-digit' }).month!,
+  monthNumber: read(date, { timeZone: DISPLAY_TIMEZONE, month: '2-digit' }).month!,
 });
 
 /**
  * Formats with PHP's date letters (the ones the views use): Y m d j n M F D l H i s.
  */
-export function formatDate(date: Date, pattern: string, timeZone = DISPLAY_TIMEZONE): string {
-  const p = parts(date, timeZone);
+export function formatDate(date: Date, pattern: string): string {
+  const p = parts(date);
   const hour = p.hour === '24' ? '00' : p.hour;
   const map: Record<string, string> = {
     Y: p.year!,

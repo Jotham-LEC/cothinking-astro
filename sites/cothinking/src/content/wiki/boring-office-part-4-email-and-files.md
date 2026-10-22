@@ -3,7 +3,6 @@ title: "Setting up IT for a small company, Part 4: Email and files"
 description: "How a small company should set up email and shared files: one suite, shared mailboxes and drives, file names that sort, access by department, and one source of truth."
 date: 2026-10-18
 updated: 2026-10-20T07:51:41+00:00
-author: jotham-lim
 category: setting-up-it
 series: The Boring Office
 part: 4

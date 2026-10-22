@@ -2,7 +2,7 @@
 // block, the loader) from garden/content.ts; the enums from site.config.ts.
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { base, dated, enumOf, loader } from '@garden/content.ts';
+import { base, dated, loader } from '@garden/content.ts';
 import { outlets, site } from './site.config.ts';
 
 const pages = defineCollection({
@@ -28,7 +28,7 @@ const notes = defineCollection({
       .object({
         ...base(image),
         ...dated,
-        type: enumOf(Object.keys(site.collections.notes.types)).default('text'),
+        type: z.enum(Object.keys(site.collections.notes.types)).default('text'),
         quote: z.string().optional(),
         cite: z.string().optional(),
       })
@@ -42,7 +42,7 @@ const projects = defineCollection({
 
 const publications = defineCollection({
   loader: loader('publications'),
-  schema: ({ image }) => z.object({ ...base(image), ...dated, outlet: enumOf(Object.keys(outlets)) }).strict(),
+  schema: ({ image }) => z.object({ ...base(image), ...dated, outlet: z.enum(Object.keys(outlets)) }).strict(),
 });
 
 export const collections = { pages, essays, notes, projects, publications };

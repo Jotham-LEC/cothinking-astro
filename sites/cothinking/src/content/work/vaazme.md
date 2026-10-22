@@ -9,5 +9,4 @@ year: 2026
 kind: CoThinking client · marketing site
 seo:
   noindex: true
-  sitemap: false
 ---

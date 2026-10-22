@@ -3,7 +3,6 @@ title: "Setting up IT for a small company, Part 5: Laptops"
 description: Which operating system a small company's laptops should run, when Linux Mint with LibreOffice is worth considering in Malaysia, and the settings every laptop needs.
 date: 2026-10-18
 updated: 2026-10-20T07:51:41+00:00
-author: jotham-lim
 category: setting-up-it
 series: The Boring Office
 part: 5

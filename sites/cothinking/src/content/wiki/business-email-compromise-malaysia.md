@@ -3,7 +3,6 @@ title: "Business email compromise in Malaysia: how invoice fraud works"
 description: Business email compromise tricks your accounts team into paying a scammer. How it works, recent Malaysian cases, and the controls that stop it.
 date: 2026-10-12
 updated: 2026-10-15T08:30:50+00:00
-author: jotham-lim
 category: email-and-security
 related_pages:
   - problems/emails-going-to-spam

@@ -21,8 +21,10 @@
     "remark-parse": "^11.0.0",
     "remark-wiki-link": "^2.0.1",
     "satori": "^0.63.2",
+    "shiki": "^4.5.0",
     "tailwindcss": "^4.3.3",
     "unified": "^11.0.5",
-    "unist-util-visit": "^5.1.0"
+    "unist-util-visit": "^5.1.0",
+    "vfile": "^6.0.3"
   }
 }

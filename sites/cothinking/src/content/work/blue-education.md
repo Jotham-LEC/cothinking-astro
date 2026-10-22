@@ -9,5 +9,4 @@ year: 2026
 kind: CoThinking client · Laravel · open source
 seo:
   noindex: true
-  sitemap: false
 ---

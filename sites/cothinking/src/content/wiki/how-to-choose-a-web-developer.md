@@ -4,7 +4,6 @@ description: Decide what the site must do, set a budget, and pick the kind of pr
 date: 2026-10-12
 updated: 2026-10-15T01:20:18+00:00
 category: choosing-a-provider
-author: jotham-lim
 related_pages:
   - pages/websites
 ---

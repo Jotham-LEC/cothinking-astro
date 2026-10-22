@@ -1,12 +1,10 @@
 ---
 // An email button whose subject names the page (`about`), else the site.
-// `secondary` as on <Button>; the slot replaces the label.
+// The slot replaces the label.
 import Button from '@garden/components/Button.astro';
 import { emailHref } from '@site/lib/contact.ts';
-type Props = { about?: string | null; secondary?: boolean };
-const { about = null, secondary = false } = Astro.props;
+type Props = { about?: string | null };
+const { about = null } = Astro.props;
 ---
 
-<Button href={emailHref(about)} secondary={secondary}>
-  {Astro.slots.has('default') ? <slot /> : 'Email me'}
-</Button>
+<Button href={emailHref(about)}>{Astro.slots.has('default') ? <slot /> : 'Email me'}</Button>

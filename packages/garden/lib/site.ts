@@ -9,8 +9,6 @@ export type NavItem = {
   children?: NavItem[];
 };
 
-export type Author = { name: string; bio?: string; url?: string };
-
 export type CollectionConfig = {
   title: string;
   /** The `pages` entry the collection hangs under: a section's landing page. Absent for `pages` itself. */
@@ -49,8 +47,8 @@ export type SiteConfig = {
   navigation: { explorer: NavItem[]; header: NavItem[]; footer: NavItem[] };
   /** Old addresses and where they go: Astro writes each as a meta-refresh page (garden/config.mjs). */
   redirects?: Record<string, string>;
-  /** Who writes the articles (an entry's `author`), by id. */
-  authors: Record<string, Author>;
+  /** Who writes the articles, for the byline and the JSON-LD: the owner, named as on the other site. Absent when the publisher is the author (a Person). */
+  author?: { name: string; url: string; bio: string };
   /** The owner's other site: `[[wiki links]]` reach its pages, and the JSON-LD names it. */
   otherSite: { name: string; url: string };
   seo: {
@@ -75,12 +73,7 @@ export type SiteConfig = {
       sameAs?: string[];
     };
   };
-  marketing: {
-    gtmId?: string;
-    robotsDisallow: string[];
-    allowAiTraining: boolean;
-    allowAiSearch: boolean;
-  };
+  marketing: { gtmId?: string };
 };
 
 /** The absolute address of a path on a site; the home page is the bare site URL. */

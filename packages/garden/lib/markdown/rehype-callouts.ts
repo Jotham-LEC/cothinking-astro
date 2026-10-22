@@ -1,4 +1,4 @@
-// `> [!NOTE]` blockquotes become callouts, as App\Markdown\Callouts did: the
+// `> [!NOTE]` blockquotes become callouts, as the old Laravel site's did: the
 // blockquote's first paragraph opens with the marker; the rest of that line
 // is the title (plain text, the type's name when empty); everything after it
 // is the body.

@@ -107,12 +107,10 @@ export const site = {
     '/wiki/whatsapp-to-crm': 'https://jothamlim.com/essays/whatsapp-to-crm',
     '/wiki/what-is-geo': '/wiki/appearing-in-google-and-ai-search',
   },
-  authors: {
-    'jotham-lim': {
-      name: 'Jotham Lim',
-      bio: 'I run CoThinking, a web, IT and marketing service for small businesses in Malaysia. I am also the Head of Global Marketing at Moojing, a China-based market-intelligence company.',
-      url: 'https://jothamlim.com/career',
-    },
+  author: {
+    name: 'Jotham Lim',
+    bio: 'I run CoThinking, a web, IT and marketing service for small businesses in Malaysia. I am also the Head of Global Marketing at Moojing, a China-based market-intelligence company.',
+    url: 'https://jothamlim.com/career',
   },
   otherSite: { name: 'Jotham Lim', url: 'https://jothamlim.com' },
   seo: {
@@ -131,7 +129,7 @@ export const site = {
       contactPoints: [{ contactType: 'customer service', telephone: '+60 17-642 1337', email: 'jotham@cothink.ing' }],
     },
   },
-  marketing: { gtmId: 'GTM-K59BBZ9S', robotsDisallow: ['/cp/'], allowAiTraining: true, allowAiSearch: true },
+  marketing: { gtmId: 'GTM-K59BBZ9S' },
 } satisfies SiteConfig;
 
 /** How to get in touch: the views write mailto: and wa.me links from these (src/lib/contact.ts). */

@@ -5,7 +5,6 @@ date: 2026-10-19
 updated: 2026-10-19T06:00:00+00:00
 draft: true
 category: choosing-a-provider
-author: jotham-lim
 related_pages:
   - pages/how-i-work
 ---

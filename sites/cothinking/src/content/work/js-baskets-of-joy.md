@@ -13,5 +13,4 @@ quote_role: Chief Joy Curator, JS Baskets of Joy Creation
 quote_photo: ../../assets/media/cothinking/testimonials/js-baskets-of-joy-heart-of-joy-hamper.webp
 seo:
   noindex: true
-  sitemap: false
 ---

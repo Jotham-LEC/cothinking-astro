@@ -3,7 +3,6 @@ title: "Setting up IT for a small company, Part 3: Password managers"
 description: Why a business of up to 50 staff should adopt a password manager first, and why 1Password is the one to choose, with prices and a decision tree.
 date: 2026-10-18
 updated: 2026-10-21T04:22:02+00:00
-author: jotham-lim
 category: setting-up-it
 series: The Boring Office
 part: 3

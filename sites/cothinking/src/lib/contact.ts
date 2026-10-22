@@ -3,7 +3,7 @@
 import { contact } from '@site/site.config.ts';
 
 /** PHP's rawurlencode: encodeURIComponent, with !'()* escaped too. */
-export const rawUrlEncode = (s: string): string =>
+const rawUrlEncode = (s: string): string =>
   encodeURIComponent(s).replace(/[!'()*]/g, (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
 
 /** A mailto: link with the subject `Enquiry: {about}`, else `Enquiry from cothink.ing`; `subject` overrides both. */

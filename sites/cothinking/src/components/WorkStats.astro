@@ -1,7 +1,7 @@
 ---
 // A case study's numbers (the Work entry's `stats`), each value over its label.
-type Props = { stats: unknown };
-const stats = Array.isArray(Astro.props.stats) ? (Astro.props.stats as { value: string; label: string }[]) : [];
+type Props = { stats?: { value: string; label: string }[] };
+const { stats = [] } = Astro.props;
 ---
 
 {stats.length > 0 && (

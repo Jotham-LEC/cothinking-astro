@@ -3,7 +3,6 @@ title: Why I build websites on BLaST instead of WordPress or a hosted website bu
 description: "Why I build small-business websites on Blade, Laravel, Statamic, and Tailwind: staff can edit the site, yearly costs are lower, and there is no lock-in."
 date: 2026-10-15
 updated: 2026-10-15T12:23:07+00:00
-author: jotham-lim
 category: choosing-a-provider
 related_pages:
   - pages/websites

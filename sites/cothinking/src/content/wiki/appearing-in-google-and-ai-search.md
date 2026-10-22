@@ -3,7 +3,6 @@ title: Appearing in Google and AI search
 description: How a small business gets found in Google and quoted in AI answers such as Google's AI Overviews and ChatGPT search, and what to check first.
 date: 2026-10-12
 updated: 2026-10-20T08:00:00+00:00
-author: jotham-lim
 category: search
 related_pages:
   - problems/get-your-business-on-google

@@ -23,7 +23,7 @@ export type HeadInput = {
   site: SiteConfig;
   /** The published entries, for the breadcrumbs and the home page's card. */
   live: SiteEntry[];
-  overrides?: { title?: string | null; description?: string | null; noindex?: boolean; ogType?: string | null };
+  overrides?: { title?: string | null; description?: string | null; noindex?: boolean };
   status?: number;
 };
 
@@ -67,7 +67,7 @@ const isArticle = (page: SiteEntry | null, site: SiteConfig) =>
   page !== null && (site.collections[page.collection]?.article ?? false);
 
 /** The page's title with the site's name after it, unless that runs long. */
-export function title(input: HeadInput): string {
+function title(input: HeadInput): string {
   const { page, site, overrides } = input;
   if (page?.seo.title && !overrides?.title) return page.seo.title;
   if (isHome(input) && !overrides?.title) return site.name;
@@ -106,28 +106,27 @@ export function description(input: HeadInput): string | null {
 /** One line: whitespace collapsed. */
 export const squish = (text: string): string => text.replace(/\s+/g, ' ').trim();
 
-export const url = ({ site, path }: HeadInput): string => absolute(site.url, path);
+const url = ({ site, path }: HeadInput): string => absolute(site.url, path);
 
-export function canonical(input: HeadInput): string | null {
+function canonical(input: HeadInput): string | null {
   if ((input.status ?? 200) >= 400) return null;
   return input.page?.seo.canonical ?? url(input);
 }
 
-export function robots({ page, overrides, status }: HeadInput): string {
+function robots({ page, overrides, status }: HeadInput): string {
   const noindex = overrides?.noindex ?? page?.seo.noindex ?? false;
   return noindex || (status ?? 200) >= 400 ? 'noindex, follow' : ROBOTS_DEFAULT;
 }
 
 /** `profile` on a home page that says so, `article` for a section's articles, else `website`. */
-export function ogType(input: HeadInput): string {
-  const { page, site, overrides } = input;
-  if (overrides?.ogType) return overrides.ogType;
+function ogType(input: HeadInput): string {
+  const { page, site } = input;
   if (isHome(input)) return page?.seo.og_type === 'profile' ? 'profile' : 'website';
   return page?.seo.og_type ?? (isArticle(page, site) ? 'article' : 'website');
 }
 
 /** The share image: the entry's `image`, else the generated card; a listing without an entry shares the home page's. */
-export function image(input: HeadInput): ShareImage | null {
+function image(input: HeadInput): ShareImage | null {
   const { page, site, live, status } = input;
   if ((status ?? 200) >= 400) return null;
   if (page?.image)
@@ -190,12 +189,12 @@ function publisherNode(site: SiteConfig) {
   });
 }
 
-/** The person an article names in its `author` field; one whose page is on a site of the owner's is that site's Person, by its id. */
-function authorNodes(page: SiteEntry, site: SiteConfig): Record<string, unknown>[] {
-  const author = page.author ? site.authors[page.author] : undefined;
-  if (!author) return [];
+/** Who wrote an article: the site's `author` (the owner, the other site's Person by its id when their page is there), else the publisher. */
+function authorNode(site: SiteConfig): Record<string, unknown> | Record<string, unknown>[] {
+  const author = site.author;
+  if (!author) return { '@id': publisherId(site) };
   const sites = [site.url, site.otherSite.url].map((u) => u.replace(/\/$/, ''));
-  const home = author.url ? sites.find((u) => author.url!.startsWith(u)) : undefined;
+  const home = sites.find((u) => author.url.startsWith(u));
   return [
     clean({ ...(home ? { '@id': `${home}/#publisher` } : {}), '@type': 'Person', name: author.name, url: author.url }),
   ];
@@ -243,7 +242,6 @@ function articleNode(
 ) {
   const { page, site } = input;
   if (!page || !isArticle(page, site)) return null;
-  const people = authorNodes(page, site);
   return clean({
     '@type': 'Article',
     '@id': `${url(input)}#article`,
@@ -252,7 +250,7 @@ function articleNode(
     image: head.image ? [head.image.url] : null,
     datePublished: page.date ? atom(page.date) : null,
     dateModified: page.updated ? atom(page.updated) : null,
-    author: people.length ? people : { '@id': publisherId(site) },
+    author: authorNode(site),
     publisher: { '@id': publisherId(site) },
     mainEntityOfPage: { '@id': head.canonical ?? url(input) },
   });
@@ -326,9 +324,9 @@ export function jsonLd(graph: Record<string, unknown>[]): string | null {
     .replace(/&/g, '\\u0026');
 }
 
-/** Whether a page is listed in the sitemap and llms.txt: its own canonical address, indexable, not left out. */
+/** Whether a page is listed in the sitemap and llms.txt: published, indexable, and its own canonical address. */
 export function inSitemap(page: SiteEntry, site: SiteConfig): boolean {
-  if (page.draft || page.seo.noindex || page.seo.sitemap === false) return false;
+  if (page.draft || page.seo.noindex) return false;
   const canonical = page.seo.canonical?.replace(/\/$/, '');
   return !canonical || canonical === absolute(site.url, page.url).replace(/\/$/, '');
 }
