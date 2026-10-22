@@ -2,11 +2,11 @@
 title: Will ChatGPT Replace Writers?
 date: 2024-01-14
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/will-chatgpt-replace-writers/90e7e1c6-9ec2-4f66-b3cd-9433b6328a64_1476x830.webp
+image: ../../assets/media/essays/will-chatgpt-replace-writers/90e7e1c6-9ec2-4f66-b3cd-9433b6328a64_1476x830.webp
 ---
 This article first appeared in The Edge as [[Disruption: Adapting to new age of AI tools]].
 
-![](/media/essays/will-chatgpt-replace-writers/90e7e1c6-9ec2-4f66-b3cd-9433b6328a64_1476x830.webp)A few weeks back, an old friend asked me this over some pints. “Do you think ChatGPT will replace us one day?” Both of us are from the creative industry, initially assumed to be technologically resilient. But like truck drivers with self-driving vehicles, it is now our heads at risk of the chopping block.
+![](../../assets/media/essays/will-chatgpt-replace-writers/90e7e1c6-9ec2-4f66-b3cd-9433b6328a64_1476x830.webp)A few weeks back, an old friend asked me this over some pints. “Do you think ChatGPT will replace us one day?” Both of us are from the creative industry, initially assumed to be technologically resilient. But like truck drivers with self-driving vehicles, it is now our heads at risk of the chopping block.
 
 By now, most readers are well aware of the disruptive capabilities of ChatGPT. OpenAI and their counterparts have been making inroads within the generative A.I. space, mainly for text, images and code. With rapid development within this space, is it a cause for concern for the average knowledge worker?
 

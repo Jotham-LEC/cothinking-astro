@@ -2,16 +2,15 @@
 // block, the loader) from garden/content.ts; the enums from site.config.ts.
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { dated, enumOf, garden } from '../../../packages/garden/content.ts';
+import { base, dated, enumOf, loader } from '../../../packages/garden/content.ts';
 import { outlets, site } from './site.config.ts';
-
-const { base, loader } = garden(new URL('.', import.meta.url));
 
 const pages = defineCollection({
   loader: loader('pages'),
-  schema: z
+  schema: ({ image }) =>
+    z
     .object({
-      ...base,
+      ...base(image),
       order: z.number().int(),
     })
     .strict(),
@@ -19,14 +18,15 @@ const pages = defineCollection({
 
 const essays = defineCollection({
   loader: loader('essays'),
-  schema: z.object({ ...base, ...dated }).strict(),
+  schema: ({ image }) => z.object({ ...base(image), ...dated }).strict(),
 });
 
 const notes = defineCollection({
   loader: loader('notes'),
-  schema: z
+  schema: ({ image }) =>
+    z
     .object({
-      ...base,
+      ...base(image),
       ...dated,
       type: enumOf(Object.keys(site.collections.notes.types)).default('text'),
       quote: z.string().optional(),
@@ -37,12 +37,12 @@ const notes = defineCollection({
 
 const projects = defineCollection({
   loader: loader('projects'),
-  schema: z.object({ ...base, ...dated }).strict(),
+  schema: ({ image }) => z.object({ ...base(image), ...dated }).strict(),
 });
 
 const publications = defineCollection({
   loader: loader('publications'),
-  schema: z.object({ ...base, ...dated, outlet: enumOf(Object.keys(outlets)) }).strict(),
+  schema: ({ image }) => z.object({ ...base(image), ...dated, outlet: enumOf(Object.keys(outlets)) }).strict(),
 });
 
 export const collections = { pages, essays, notes, projects, publications };

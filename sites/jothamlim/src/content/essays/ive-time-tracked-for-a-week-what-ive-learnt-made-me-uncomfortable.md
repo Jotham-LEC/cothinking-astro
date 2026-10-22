@@ -2,7 +2,7 @@
 title: I’ve time-tracked for a week. What I’ve learnt made me uncomfortable.
 date: 2024-06-25
 updated: 2026-10-15T01:20:18+00:00
-image: /media/essays/ive-time-tracked-for-a-week-what-ive-learnt-made-me-uncomfortable/e626a296-2b96-44f8-85e6-3c1f93ad87c7_649x1200.webp
+image: ../../assets/media/essays/ive-time-tracked-for-a-week-what-ive-learnt-made-me-uncomfortable/e626a296-2b96-44f8-85e6-3c1f93ad87c7_649x1200.webp
 ---
 
 I’ve started time-tracking 2 weeks ago after being inspired by the Cortex Podcast by Mike and CGP Grey.
@@ -13,7 +13,7 @@ Ever since I’ve finished my postgraduate studies, I’ve been filling up my ho
 
 Hence, I’d like to test my assumption.
 
-![Screenshot of project categories in Timery for Toggle app.](/media/essays/ive-time-tracked-for-a-week-what-ive-learnt-made-me-uncomfortable/e626a296-2b96-44f8-85e6-3c1f93ad87c7_649x1200.webp "Screenshot of project categories in Timery for Toggle app.")Screenshot of project categories in Timery for Toggle app.
+![Screenshot of project categories in Timery for Toggle app.](../../assets/media/essays/ive-time-tracked-for-a-week-what-ive-learnt-made-me-uncomfortable/e626a296-2b96-44f8-85e6-3c1f93ad87c7_649x1200.webp "Screenshot of project categories in Timery for Toggle app.")Screenshot of project categories in Timery for Toggle app.
 
 There are a lot of projects that I’m working on:
 
@@ -34,7 +34,7 @@ Death is the biggest client that I’m wary of, because in theory, it is time th
 
 After a week of logging, here are the results:
 
-![Screenshot of time tracking distribution report Toggl TimeTracking App.](/media/essays/ive-time-tracked-for-a-week-what-ive-learnt-made-me-uncomfortable/1d3214e2-b302-4ea1-b227-069adb48c198_1200x913.webp "Screenshot of time tracking distribution report Toggl TimeTracking App.")- I’ve managed to get a respectable average of 7 hours of sleep, which is 30 min short of what I’d like it to be.
+![Screenshot of time tracking distribution report Toggl TimeTracking App.](../../assets/media/essays/ive-time-tracked-for-a-week-what-ive-learnt-made-me-uncomfortable/1d3214e2-b302-4ea1-b227-069adb48c198_1200x913.webp "Screenshot of time tracking distribution report Toggl TimeTracking App.")- I’ve managed to get a respectable average of 7 hours of sleep, which is 30 min short of what I’d like it to be.
 
 1. Death makes up the largest time chunk amongst all clients — which is surprising. This shattered any preconception that I was living a productive life.
 2. At the beginning, “death” was a single umbrella category, but I have since segregated it into “travel”, “procrastination” and “transition”. I’m eager to see the time distribution in the upcoming weeks and see how it can be better optimised.

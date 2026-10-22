@@ -2,10 +2,10 @@
 title: How Competitive Shooters Made Me a Better Leader
 date: 2024-01-20
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/how-competitive-shooters-made-me-a-better-leader/4c58808b-5678-4de1-85c4-1c1183c75b77_763x429.png
+image: ../../assets/media/essays/how-competitive-shooters-made-me-a-better-leader/4c58808b-5678-4de1-85c4-1c1183c75b77_763x429.png
 ---
 
-![](/media/essays/how-competitive-shooters-made-me-a-better-leader/4c58808b-5678-4de1-85c4-1c1183c75b77_763x429.png)It’s easy to chalk up e-sports as just children’s pastime. But like any other sport, it takes a lot of practice, skills, and talent to be highly competitive—even more so within a team setting.
+![](../../assets/media/essays/how-competitive-shooters-made-me-a-better-leader/4c58808b-5678-4de1-85c4-1c1183c75b77_763x429.png)It’s easy to chalk up e-sports as just children’s pastime. But like any other sport, it takes a lot of practice, skills, and talent to be highly competitive—even more so within a team setting.
 
 After more than a decade of playing competitive shooters, I come to appreciate the mental gymnastics, teamwork and quick decision-making needed to reach the top of the leaderboards. These values have also helped shaped my career as a B2B marketing manager.
 

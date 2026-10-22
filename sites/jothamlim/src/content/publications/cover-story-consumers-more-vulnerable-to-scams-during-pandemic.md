@@ -17,7 +17,7 @@ Although about half of the scam cases received by OFS YTD were during the RMCO p
 
 “During the MCO period, there was an increase in internet usage. People spent more time online shopping, banking, communicating, being entertained and so on. This gave scammers more opportunities to find victims. Fraudsters are also leveraging the uncertainties during the Covid-19 pandemic, such as financial insecurity, to seek out victims,” she says.
 
-![Cover Story: Consumers more vulnerable to scams during pandemic](/media/the-edge/cover-story-consumers-more-vulnerable-to-scams-during-pandemic/PW6-Marina-3_TEM1338_theedgemarkets.jpg)
+![Cover Story: Consumers more vulnerable to scams during pandemic](../../assets/media/the-edge/cover-story-consumers-more-vulnerable-to-scams-during-pandemic/PW6-Marina-3_TEM1338_theedgemarkets.jpg)
 
 Photo by Kenny Yap/The Edge
 
@@ -35,7 +35,7 @@ Marina attributes the high number of such scams to the sophisticated methods use
 
 “Upon arriving at the ATM, the victim is asked to change the designated phone number attached to his bank account and conduct an instant money transfer to the scammer’s account. The instructions given to the victim are so fast that he does not even realise what the scammer is doing. But after a while, the victim wises up and realises that he has been scammed.”
 
-![Cover Story: Consumers more vulnerable to scams during pandemic](/media/the-edge/cover-story-consumers-more-vulnerable-to-scams-during-pandemic/PW6-Table_TEM1338_theedgemarkets.jpg)
+![Cover Story: Consumers more vulnerable to scams during pandemic](../../assets/media/the-edge/cover-story-consumers-more-vulnerable-to-scams-during-pandemic/PW6-Table_TEM1338_theedgemarkets.jpg)
 
 Conversely, the number of phishing scam cases received by OFS has declined, from five cases in 2018 to two last year. A common modus operandi in such scams is when fraudsters create a fake website that passes itself off as that of a financial institution or authority. The victim would mistakenly input his username and password, thinking it was the real website. The fraudsters would then access the victim’s online banking account using the stolen information.
 
@@ -85,7 +85,7 @@ Marina says the Lebanese loop scam and credit card skimming are no longer preval
 
 Today, one of the most common phone scams encountered by OFS is where the victim receives a phone call from the fraudsters saying that they have made an online bank transfer but have mistakenly registered the victim’s phone number and did not receive the transaction authorisation code (TAC). They will then ask the victim to reveal the TAC to carry out the transaction.
 
-![Cover Story: Consumers more vulnerable to scams during pandemic](/media/the-edge/cover-story-consumers-more-vulnerable-to-scams-during-pandemic/PW6-Table2_TEM1338_theedgemarkets.jpg)
+![Cover Story: Consumers more vulnerable to scams during pandemic](../../assets/media/the-edge/cover-story-consumers-more-vulnerable-to-scams-during-pandemic/PW6-Table2_TEM1338_theedgemarkets.jpg)
 
 “They will ask for the code urgently because it is only valid for a few minutes. They will keep pestering the victim until the latter caves in and reveals it. Soon after, the victim receives an SMS from the bank saying that a sum of money has been transferred out of his account [without his consent],” says Marina.
 

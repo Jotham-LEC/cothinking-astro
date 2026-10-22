@@ -27,7 +27,7 @@ According to the press statement, all cattle farmers must reiterate the commitme
 
 Another recent example would be the US$350 million Energy Transition Bond issued by Hong Kong-based Castle Peak Power Company Ltd on June 16, which will be used to finance the construction of an offshore liquefied natural gas receiving terminal and its associated infrastructure in Hong Kong waters. This bond is expected to reduce the Hong Kong government’s reliance on coal-fired power generation in exchange for gas-fired power generation, which is much more sustainable.
 
-![InTheKnow: Transition bonds](/media/the-edge/intheknow-transition-bonds/PW-9_TEM1331_theedgemarkets.jpg)
+![InTheKnow: Transition bonds](../../assets/media/the-edge/intheknow-transition-bonds/PW-9_TEM1331_theedgemarkets.jpg)
 
 ## Growing industry
 

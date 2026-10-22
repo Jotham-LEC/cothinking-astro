@@ -21,7 +21,7 @@ The digitalisation of front-end business processes, such as e-commerce and web d
 
 However, much improvement can be made in the digitalisation of back-end processes such as human resources management, communication, data processing and document handling. A June 2020 survey by EY showed that 84% of SMEs in Malaysia still had difficulties in online connectivity and communication with customers and suppliers, in addition to their need for better infrastructure.
 
-![Industry 4.0: SME digitalisation: Are government initiatives really effective?](/media/the-edge/industry-4-0-sme-digitalisation-are-government-initiatives-really-effe/DE10-kang-tem1358_theedgemarkets.jpg)
+![Industry 4.0: SME digitalisation: Are government initiatives really effective?](../../assets/media/the-edge/industry-4-0-sme-digitalisation-are-government-initiatives-really-effe/DE10-kang-tem1358_theedgemarkets.jpg)
 
 This is despite the numerous initiatives introduced by the government over the years to encourage digitalisation among SMEs. Pre-Covid, the National Fiberisation and Connectivity Plan (NFCP) was launched by the Malaysian Communications and Multimedia Commission (MCMC) with a heavy emphasis on 5G technology adoption and faster and cheaper internet connectivity across the nation.
 
@@ -57,7 +57,7 @@ Sim points out that the relationship between government incentives and the rate 
 
 “Businesses are struggling to secure and source producers and suppliers. They worry about their logistics, retaining their employees and retraining them to adhere to the new Covid-19 standard operating procedures (SOPs),” he says.
 
-![Industry 4.0: SME digitalisation: Are government initiatives really effective?](/media/the-edge/industry-4-0-sme-digitalisation-are-government-initiatives-really-effe/DE10-sim-tem1358_theedgemarkets.jpg)
+![Industry 4.0: SME digitalisation: Are government initiatives really effective?](../../assets/media/the-edge/industry-4-0-sme-digitalisation-are-government-initiatives-really-effe/DE10-sim-tem1358_theedgemarkets.jpg)
 
 “These day-to-day struggles are already occupying their mind space. To encourage businesses to start thinking about using grants and investments, to ask them to digitalise their business processes and operate differently also requires a significant amount of thought.
 

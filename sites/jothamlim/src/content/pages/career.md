@@ -38,7 +38,7 @@ I also build things: the tooling that runs a marketing department, websites and 
 - [National Board Certified Health & Wellness Coach (NBC-HWC)](https://www.credly.com/badges/e890b57b-7530-4c5a-ae3e-4fb7c31773ba), National Board for Health & Wellness Coaching, 2026
 - [ESOMAR Member](https://community.esomar.org/web/mmark_young/validation.php?id=11647), the global association for market, social and opinion research. As an ESOMAR Member, I comply with the ICC/ESOMAR International Code on Market and Social Research and ESOMAR World Research Guidelines.
 
-<p><a href="https://community.esomar.org/web/mmark_young/validation.php?id=11647" title="ESOMAR membership information"><img class="wiki-logo-light" src="/images/esomar/member-mark.png" alt="ESOMAR member" width="160" height="65"><img class="wiki-logo-dark" src="/images/esomar/member-mark-white.png" alt="ESOMAR member" width="160" height="65"></a></p>
+<p><a href="https://community.esomar.org/web/mmark_young/validation.php?id=11647" title="ESOMAR membership information"><img class="wiki-logo-light" src="/images/esomar/member-mark.png" alt="ESOMAR member" width="160" height="65" loading="lazy" decoding="async"><img class="wiki-logo-dark" src="/images/esomar/member-mark-white.png" alt="ESOMAR member" width="160" height="65" loading="lazy" decoding="async"></a></p>
 
 ## Interests
 

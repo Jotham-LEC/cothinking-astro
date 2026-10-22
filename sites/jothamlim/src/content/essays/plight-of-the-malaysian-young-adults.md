@@ -2,10 +2,10 @@
 title: Plight of the Malaysian Young Adults
 date: 2024-01-01
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/plight-of-the-malaysian-young-adults/83afebac-82d1-4880-8417-a6cfa149247e_2965x1668.webp
+image: ../../assets/media/essays/plight-of-the-malaysian-young-adults/83afebac-82d1-4880-8417-a6cfa149247e_2965x1668.webp
 ---
 
-![](/media/essays/plight-of-the-malaysian-young-adults/83afebac-82d1-4880-8417-a6cfa149247e_2965x1668.webp)I had a discussion with a friend about rising property prices. Both of us are in our late 20s.
+![](../../assets/media/essays/plight-of-the-malaysian-young-adults/83afebac-82d1-4880-8417-a6cfa149247e_2965x1668.webp)I had a discussion with a friend about rising property prices. Both of us are in our late 20s.
 
 “We have it tough. During our parent’s time, homes could be bought with cash. The economy was booming back then, and that’s how affordable houses were.”
 

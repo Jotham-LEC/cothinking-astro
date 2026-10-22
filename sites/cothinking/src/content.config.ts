@@ -4,10 +4,8 @@
 // check says when it names no page).
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { dated, enumOf, garden } from '../../../packages/garden/content.ts';
+import { base, dated, enumOf, loader } from '../../../packages/garden/content.ts';
 import { site } from './site.config.ts';
-
-const { base, media, loader } = garden(new URL('.', import.meta.url));
 
 const reference = z.string().regex(/^[a-z_]+\/[\w-]+$/);
 const ordered = { order: z.number().int() };
@@ -15,9 +13,10 @@ const ordered = { order: z.number().int() };
 /** The site's own pages: each has a file in src/pages (or [slug].astro for the plain ones). */
 const pages = defineCollection({
   loader: loader('pages'),
-  schema: z
+  schema: ({ image }) =>
+    z
     .object({
-      ...base,
+      ...base(image),
       ...ordered,
       related_wiki: z.array(reference).optional(),
     })
@@ -27,9 +26,10 @@ const pages = defineCollection({
 /** The problems I fix: the offer (`what_i_do`, a case study), then the how-to. */
 const problems = defineCollection({
   loader: loader('problems'),
-  schema: z
+  schema: ({ image }) =>
+    z
     .object({
-      ...base,
+      ...base(image),
       ...ordered,
       what_i_do: z.string().optional(),
       case_study: z.array(reference).max(1).optional(),
@@ -41,9 +41,10 @@ const problems = defineCollection({
 /** The wiki: articles by category, some in a series (`series`, `part`). */
 const wiki = defineCollection({
   loader: loader('wiki'),
-  schema: z
+  schema: ({ image }) =>
+    z
     .object({
-      ...base,
+      ...base(image),
       ...dated,
       author: enumOf(Object.keys(site.authors)).optional(),
       category: enumOf(Object.keys(site.collections.wiki.categories)).optional(),
@@ -57,9 +58,10 @@ const wiki = defineCollection({
 /** The websites I have built: a tile each, and a case study when there is a write-up. */
 const work = defineCollection({
   loader: loader('work'),
-  schema: z
+  schema: ({ image }) =>
+    z
     .object({
-      ...base,
+      ...base(image),
       ...ordered,
       website: z.url().optional(),
       year: z.number().int().optional(),
@@ -68,7 +70,7 @@ const work = defineCollection({
       quote: z.string().optional(),
       quote_by: z.string().optional(),
       quote_role: z.string().optional(),
-      quote_photo: media('quote_photo').optional(),
+      quote_photo: image().optional(),
       context: z.string().optional(),
       stats: z.array(z.object({ id: z.string(), value: z.string(), label: z.string() }).strict()).optional(),
       steps: z.array(z.object({ id: z.string(), title: z.string(), body: z.string() }).strict()).optional(),

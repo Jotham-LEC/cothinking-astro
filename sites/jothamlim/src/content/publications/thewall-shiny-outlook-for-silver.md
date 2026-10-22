@@ -19,7 +19,7 @@ How high silver prices go will largely depend on the performance of gold. Prices
 
 “Liquidity injections [by governments] have been stronger than during the 2008 global financial crisis, and this is increasingly supportive for both gold and silver. This was well reflected in the investment demand, and silver inflows [into exchange-traded products] have reached 272 million ounces so far — well above the inflows seen in 2009,” she adds.
 
-![TheWall: Shiny outlook for silver](/media/the-edge/thewall-shiny-outlook-for-silver/PW-2-Halley_TEM1331_theedgemarkets.jpg)
+![TheWall: Shiny outlook for silver](../../assets/media/the-edge/thewall-shiny-outlook-for-silver/PW-2-Halley_TEM1331_theedgemarkets.jpg)
 
 Halley: As long as the US dollar remains weak and interest rates stay in the deep freeze, silver can move higher — but only as long as gold continues to do so
 
@@ -33,7 +33,7 @@ Jeffrey Halley, senior market analyst at Oanda, believes that silver prices have
 
 “The ratio reverted from 1:128 in March all the way to 1:80 today, making it one of the best trades of 2020. The ratio still has further to fall before one can say it is fairly priced, and could fall much more before becoming oversold. That would mean silver has been overbought.
 
-![TheWall: Shiny outlook for silver](/media/the-edge/thewall-shiny-outlook-for-silver/PW-2-Soni_TEM1331_theedgemarkets.jpg)
+![TheWall: Shiny outlook for silver](../../assets/media/the-edge/thewall-shiny-outlook-for-silver/PW-2-Soni_TEM1331_theedgemarkets.jpg)
 
 Soni: Investor demand for silver has been stronger as well, with silver ETF holdings having seen a sharp rise since March. We expect the demand to hold up well for the rest of the year.
 
@@ -49,7 +49,7 @@ Over the past few months, the increase in silver prices has been driven by low b
 
 “The US Treasury real yields curve (rates adjusted for inflation) is now negative all the way out to 30 years. Although silver pays no yields, 0% is still better than -0.5%,” says Halley.
 
-![TheWall: Shiny outlook for silver](/media/the-edge/thewall-shiny-outlook-for-silver/PW-2-Innes_TEM1331_theedgemarkets.jpg)
+![TheWall: Shiny outlook for silver](../../assets/media/the-edge/thewall-shiny-outlook-for-silver/PW-2-Innes_TEM1331_theedgemarkets.jpg)
 
 Silver prices are not anticipated to grow more than 5% to 10% before hitting their upside limit, says Innes
 

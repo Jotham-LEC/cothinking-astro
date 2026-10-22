@@ -15,7 +15,7 @@ This article first appeared in Digital Edge, The Edge Malaysia Weekly on Novembe
 
 When it comes to the state of open government data in Malaysia, there is plenty of room for improvement, says Kuek Ser Kuang Keng, data journalist and founder of Data-N, a data journalism training programme for newsrooms.
 
-![Tech Talk: Much room for improvement in open data policy](/media/the-edge/tech-talk-much-room-for-improvement-in-open-data-policy/DE10-A-tem1342_theedgemarkets.png)
+![Tech Talk: Much room for improvement in open data policy](../../assets/media/the-edge/tech-talk-much-room-for-improvement-in-open-data-policy/DE10-A-tem1342_theedgemarkets.png)
 
 “First, some of the important data is not timely. This means that the latest data you can obtain could be two to three years old. This data, such as that for crime and road accidents, is important to journalists and researchers, and can affect people’s everyday lives,” says Kuek, an open data advocate who has provided consultation to the Malaysian government on the implementation of its open data policy.
 
@@ -39,7 +39,7 @@ While a great deal of government data is available and published online, most of
 
 Ashraf published a discussion paper titled “Open Government Data: Principles, Benefits and Evaluations” on Sept 22 this year. He says to be considered open, data should fulfil a set of requirements: being complete, granular, timely, accessible, machine-processable and non-proprietary.
 
-![Tech Talk: Much room for improvement in open data policy](/media/the-edge/tech-talk-much-room-for-improvement-in-open-data-policy/DE10-B-tem1342_theedgemarkets.jpg)
+![Tech Talk: Much room for improvement in open data policy](../../assets/media/the-edge/tech-talk-much-room-for-improvement-in-open-data-policy/DE10-B-tem1342_theedgemarkets.jpg)
 
 “For example, a lot of annual report data is published in a PDF format. This means that the data is not machine-processable and is not downloadable in bulk,” he says.
 
@@ -63,7 +63,7 @@ One key issue surrounding Malaysian open data currently is that the datasets are
 
 “Without the most current information for us to utilise, data becomes obsolete and users risk their analytics results being no longer accurate or relevant. Without a reason to trust the open data, organisations are less likely to rely on open data, and that hinders its chances of bringing value,” says Gan.
 
-![Tech Talk: Much room for improvement in open data policy](/media/the-edge/tech-talk-much-room-for-improvement-in-open-data-policy/DE10-C-tem1342_theedgemarkets.png)
+![Tech Talk: Much room for improvement in open data policy](../../assets/media/the-edge/tech-talk-much-room-for-improvement-in-open-data-policy/DE10-C-tem1342_theedgemarkets.png)
 
 Fusionex is an international data technology provider that uses open government data, both foreign and domestic, as a reference point for its data analytics exercises. When used together with the company’s proprietary software systems, open data has helped the company gain a deeper understanding of local, regional and global business landscapes.
 
@@ -89,7 +89,7 @@ Red Angpow, a data analytics company, uses both local and international open dat
 
 However, co-founder Faizal Abd Kadir finds himself using more data from global providers, such as World Bank open data, compared with local ones owing to their better data structure, availability of historical data and granularity.
 
-![Tech Talk: Much room for improvement in open data policy](/media/the-edge/tech-talk-much-room-for-improvement-in-open-data-policy/DE10-D-tem1342_theedgemarkets.jpg)
+![Tech Talk: Much room for improvement in open data policy](../../assets/media/the-edge/tech-talk-much-room-for-improvement-in-open-data-policy/DE10-D-tem1342_theedgemarkets.jpg)
 
 He also prefers data obtained from private sources, such as property listing portals, associations and even social media and blogs, because many of them have better standards for collecting and publishing data compared with the ones adopted by those handling the official open data portal.
 

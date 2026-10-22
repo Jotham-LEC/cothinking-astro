@@ -2,10 +2,10 @@
 title: Writing Shorter
 date: 2023-02-18T00:00:00Z
 updated: 2026-10-03T16:17:26+00:00
-image: /media/notes/writing-shorter.webp
+image: ../../assets/media/notes/writing-shorter.webp
 type: text
 ---
-![](/media/notes/writing-shorter.webp)
+![](../../assets/media/notes/writing-shorter.webp)
 
 I have a bad habit of writing long form content.
 

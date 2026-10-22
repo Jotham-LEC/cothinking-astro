@@ -19,7 +19,7 @@ According to the information on the fund, InterPac Dynamic Equity seeks to maxim
 
 Nazri points out that one of the largest hurdles his team had to overcome last year was the uncertainty caused by the Covid-19 outbreak. “The CBOE Volatility Index (VIX) hit its historical high in 2020 — an indication that global market players were on hold, due to a fear of uncertainty. However, to us, we saw opportunities in the situation. We made the uncommon decision to be more proactive by allocating assets to technology, consumer and healthcare stocks,” he says.
 
-![Inter-Pacific Asset Management wins award for best mixed asset fund](/media/the-edge/inter-pacific-asset-management-wins-award-for-best-mixed-asset-fund/Interpac_lipper2021_table_theedgemarkets.jpg)
+![Inter-Pacific Asset Management wins award for best mixed asset fund](../../assets/media/the-edge/inter-pacific-asset-management-wins-award-for-best-mixed-asset-fund/Interpac_lipper2021_table_theedgemarkets.jpg)
 
 “Our major concern was to maintain our positive returns and retain investors. There were times when we faced difficulties as the market experienced minor corrections. However, it has not affected our overall strong performance as we have policies to minimise risks and secure early profits.”
 

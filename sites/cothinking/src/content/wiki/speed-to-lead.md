@@ -65,8 +65,8 @@ Within the hour, a person sends:
 
 That takes two minutes on a phone. The full quote can follow tomorrow.
 
-<img class="wiki-logo-light" src="/media/diagrams/speed-to-lead-first-reply.svg" alt="A new enquiry from the form, WhatsApp, or email lands in one inbox; the person on duty sends a first reply within the hour, then hands it to a salesperson who sends the quote on the promised day.">
-<img class="wiki-logo-dark" src="/media/diagrams/speed-to-lead-first-reply-dark.svg" alt="">
+<img class="wiki-logo-light" src="/media/diagrams/speed-to-lead-first-reply.svg" alt="A new enquiry from the form, WhatsApp, or email lands in one inbox; the person on duty sends a first reply within the hour, then hands it to a salesperson who sends the quote on the promised day." loading="lazy" decoding="async">
+<img class="wiki-logo-dark" src="/media/diagrams/speed-to-lead-first-reply-dark.svg" alt="" loading="lazy" decoding="async">
 
 ## A routine for a team of three to ten
 

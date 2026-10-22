@@ -2,10 +2,10 @@
 title: Why Everyone Should Learn Task Management
 date: 2023-10-30
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/why-everyone-should-learn-task-management/b6d6332d-6aca-43f2-ad57-43f9218a162e_2809x1580.webp
+image: ../../assets/media/essays/why-everyone-should-learn-task-management/b6d6332d-6aca-43f2-ad57-43f9218a162e_2809x1580.webp
 ---
 
-![](/media/essays/why-everyone-should-learn-task-management/b6d6332d-6aca-43f2-ad57-43f9218a162e_2809x1580.webp)Thanks to the availability of AI tools like ChatGPT, completing tasks is easier than ever before.
+![](../../assets/media/essays/why-everyone-should-learn-task-management/b6d6332d-6aca-43f2-ad57-43f9218a162e_2809x1580.webp)Thanks to the availability of AI tools like ChatGPT, completing tasks is easier than ever before.
 
 Work that once took hours can now be completed in mere minutes, which is a dream for any knowledge worker—whether you’re a student, professional, or even a homemaker.
 

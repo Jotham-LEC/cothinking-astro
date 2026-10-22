@@ -17,7 +17,7 @@ Global mobile commerce sales have also tripled in the past four years, from US$1
 
 Sales are expected to be worth US$3.56 trillion in 2021.
 
-![High growth for mobile shopping apps but Asia-Pacific has shopping fatigue](/media/the-edge/high-growth-for-mobile-shopping-apps-but-asia-pacific-has-shopping-fat/Liftoff-2020_PR_Shopping-Apps-Acquisition-Costs-YoY_EN.jpg)
+![High growth for mobile shopping apps but Asia-Pacific has shopping fatigue](../../assets/media/the-edge/high-growth-for-mobile-shopping-apps-but-asia-pacific-has-shopping-fat/Liftoff-2020_PR_Shopping-Apps-Acquisition-Costs-YoY_EN.jpg)
 
 The analysis shows that the cost of acquiring users that have completed their first purchase decreased by more than half year-on-year to US$19.47. Total user engagement has also grown by 40% year-on-year, while the purchasing rate has increased from 10.5% to 14.7% in 2020.
 

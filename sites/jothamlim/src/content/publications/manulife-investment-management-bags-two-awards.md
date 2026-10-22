@@ -19,7 +19,7 @@ CEO Jason Chong attributes the funds’ success to a dynamic investment team tha
 
 Chong describes 2020 as a tumultuous year in which they witnessed not only extreme swings in share prices but also investor sentiment and emotions as well. Remaining calm and rational was a challenge in a panicked market, particularly when dealing with multiple uncertainties due to the far-reaching impact of the pandemic, he says.
 
-![Manulife Investment Management bags two awards](/media/the-edge/manulife-investment-management-bags-two-awards/Manulife_lipper2021_table_theedgemarkets.jpg)
+![Manulife Investment Management bags two awards](../../assets/media/the-edge/manulife-investment-management-bags-two-awards/Manulife_lipper2021_table_theedgemarkets.jpg)
 
 To address this issue, the team had to be disciplined in adhering to their investment fundamentals and not let periods of extreme market sentiments affect their investment decisions. “When it became clearer that the pandemic was turning into a black swan event, we decided to drastically adjust our strategy — first by prioritising the return of capital,” says Chong.
 

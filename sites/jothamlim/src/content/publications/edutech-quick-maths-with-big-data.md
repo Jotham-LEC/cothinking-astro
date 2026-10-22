@@ -19,7 +19,7 @@ Its president Yasunobu Hashimoto tells Digital Edge that mental calculation is m
 
 “Perseverance and a growth mindset are important in cultivating a passion for learning. We do not expect students to [venture] into computer science or STEM [Science, Technology, Engineering and Mathematics] subjects, but the foundation SoroTouch builds can maximise their learning outcomes if they do. That is our mission.”
 
-![EduTech: Quick maths with big data](/media/the-edge/edutech-quick-maths-with-big-data/DE4-Hashimoto-tem1384_theedgemarkets.jpg)
+![EduTech: Quick maths with big data](../../assets/media/the-edge/edutech-quick-maths-with-big-data/DE4-Hashimoto-tem1384_theedgemarkets.jpg)
 
 SoroTouch’s methodology is based on soroban, the Japanese abacus, which was officially taught in Japanese public schools for more than 500 years. Modern calculators have relegated soroban mainly to private afterschool programmes as a form of mental arithmetic training, but it is still taught in elementary schools in Japan.
 
@@ -33,7 +33,7 @@ In fact, SoroTouch started out as a typical Japanese abacus school. It turned to
 
 “When we first taught using only the abacus, only 6% of students achieved the target level of mental calculation after four years of training. Maybe 15 years later, when they entered the workforce, they would probably never use the abacus again.
 
-![EduTech: Quick maths with big data](/media/the-edge/edutech-quick-maths-with-big-data/DE4-dictionary-tem1384_theedgemarkets.jpg)
+![EduTech: Quick maths with big data](../../assets/media/the-edge/edutech-quick-maths-with-big-data/DE4-dictionary-tem1384_theedgemarkets.jpg)
 
 “But abacus-based mental calculations are important in improving visuospatial working memory (VSWM). So, we worked on SoroTouch and improved it day by day. In 2018, 62% of students had achieved the same level of mental calculation [ability] in only two years. This is revolutionary — 10 times the effectiveness in half the duration.”
 

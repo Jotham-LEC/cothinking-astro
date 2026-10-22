@@ -19,13 +19,13 @@ As demand is expected to rise rapidly in the near future, more developers are in
 
 Dato Azmir Merican, group managing director of Sime Darby Property Bhd, says the developer’s multi-generational homes have received overwhelming support and seen outstanding take-up rates. He believes Malaysians are already leaning towards investing in properties that allow them to age in place.
 
-![Property developers\u2019 initiatives to help seniors age in place](/media/the-edge/property-developers-initiatives-to-help-seniors-age-in-place/Property-Developers_Community-Garden_theedgemarkets.jpg)
+![Property developers\u2019 initiatives to help seniors age in place](../../assets/media/the-edge/property-developers-initiatives-to-help-seniors-age-in-place/Property-Developers_Community-Garden_theedgemarkets.jpg)
 
 Community gardens and social activities are ways to keep the seniors active
 
 “The term ‘multi-generational’ is being used more often among property developers and as a marketing tool. Clearly, developers are taking their cue from the market, understanding that there is strong demand for residential properties that allow seniors to age in place,” he says.
 
-![Property developers\u2019 initiatives to help seniors age in place](/media/the-edge/property-developers-initiatives-to-help-seniors-age-in-place/Azmir_Property-Developers_theedgemarkets.jpg)
+![Property developers\u2019 initiatives to help seniors age in place](../../assets/media/the-edge/property-developers-initiatives-to-help-seniors-age-in-place/Azmir_Property-Developers_theedgemarkets.jpg)
 
 Developers are taking their cue from the market, understanding that there is strong demand for residential properties that allow seniors to age in place. - Azmir
 
@@ -37,7 +37,7 @@ He points out that a main challenge that comes with ageing is the loss of mobili
 
 “Therefore, we have incorporated these needs into our newer townships of the City of Elmina, Bandar Bukit Raja and Serenia City.”
 
-![Property developers\u2019 initiatives to help seniors age in place](/media/the-edge/property-developers-initiatives-to-help-seniors-age-in-place/Property-Developers_Elmina_theedgemarkets.jpg)
+![Property developers\u2019 initiatives to help seniors age in place](../../assets/media/the-edge/property-developers-initiatives-to-help-seniors-age-in-place/Property-Developers_Elmina_theedgemarkets.jpg)
 
 An artist’s impression of herb gardens at Ilham Residence in Sime Darby Property’s Elmina Grove
 
@@ -51,7 +51,7 @@ While some property developers have begun to focus on purpose-built housing for 
 
 Universal design generally refers to the design and composition of an environment, so that it can be accessed, understood and used by all people regardless of their age, size, ability or disability.
 
-![Property developers\u2019 initiatives to help seniors age in place](/media/the-edge/property-developers-initiatives-to-help-seniors-age-in-place/Lum_Property-Developers_theedgemarkets.jpg)
+![Property developers\u2019 initiatives to help seniors age in place](../../assets/media/the-edge/property-developers-initiatives-to-help-seniors-age-in-place/Lum_Property-Developers_theedgemarkets.jpg)
 
 One of our priorities is to ensure that all our townships and integrated developments have easy access to healthcare in case of emergencies. - Lum
 
@@ -83,7 +83,7 @@ Azmir explains that taking senior needs and wants into consideration is crucial 
 
 “Design parameters such as low hazards, minimum physical effort requirement, usage convenience, flexibility in use and a good line of sight are critical when it comes to designing a home to meet seniors’ daily needs,” he says.
 
-![Property developers\u2019 initiatives to help seniors age in place](/media/the-edge/property-developers-initiatives-to-help-seniors-age-in-place/Aw_Property-Developers_theedgemarkets.jpg)
+![Property developers\u2019 initiatives to help seniors age in place](../../assets/media/the-edge/property-developers-initiatives-to-help-seniors-age-in-place/Aw_Property-Developers_theedgemarkets.jpg)
 
 Research has shown that our seniors now live a more active lifestyle and have a more positive outlook on the quality of their life. - Aw
 

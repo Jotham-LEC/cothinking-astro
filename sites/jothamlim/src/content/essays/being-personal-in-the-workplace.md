@@ -2,10 +2,10 @@
 title: Being Personal in the Workplace
 date: 2023-01-18
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/being-personal-in-the-workplace/dc8546fb-aa09-4db9-b925-80c2a277de19_1237x696.webp
+image: ../../assets/media/essays/being-personal-in-the-workplace/dc8546fb-aa09-4db9-b925-80c2a277de19_1237x696.webp
 ---
 
-![](/media/essays/being-personal-in-the-workplace/dc8546fb-aa09-4db9-b925-80c2a277de19_1237x696.webp)*QUESTION*
+![](../../assets/media/essays/being-personal-in-the-workplace/dc8546fb-aa09-4db9-b925-80c2a277de19_1237x696.webp)*QUESTION*
 ----------
 
 Does a healthy working culture require employees to be personal with each other, beyond the confines of work?

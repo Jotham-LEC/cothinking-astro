@@ -1,73 +1,35 @@
 // The share card (App\Support\OgCard, drawn by simonhamp/the-og there): the
 // brand's dark palette with a yellow left edge, the section label up top,
 // the title and its opening words, the site's name along the bottom beside a
-// round portrait. satori lays it out, resvg rasterises it; the fonts are the
-// repo's Aporetic woff2 files decompressed to TTF (garden/assets/fonts/ttf).
-import fs from 'node:fs';
-import path from 'node:path';
+// round portrait. satori lays it out, resvg rasterises it. The fonts (the
+// Aporetic woff2 files as TTF, assets/fonts/ttf), the portrait and the
+// colours (styles/tokens.css) are inlined by Vite, so nothing is read by path.
 import { Resvg } from '@resvg/resvg-js';
 import satori from 'satori';
-import { gardenRoot } from './paths.ts';
+import bold from '../assets/fonts/ttf/aporetic-sans-bold.ttf?inline';
+import extrabold from '../assets/fonts/ttf/aporetic-sans-extrabold.ttf?inline';
+import regular from '../assets/fonts/ttf/aporetic-sans-regular.ttf?inline';
+import portrait from '../assets/portrait.jpg?inline';
+import tokens from '../styles/tokens.css?raw';
+import { paletteFrom } from './palette.ts';
 
 const CARD = { width: 1200, height: 630, border: 20, padding: 64 };
-/** config('site.og'): the tokens' dark values (tests in the Laravel repo kept them equal). */
-const PALETTE = { background: '#282828', heading: '#fbf1c7', muted: '#bdae93', accent: '#fad03a' };
+const PALETTE = paletteFrom(tokens);
 
-export type CardInput = {
-  label: string;
-  title: string;
-  description: string | null;
-  url: string;
-  portrait: string | null;
-};
+export type CardInput = { label: string; title: string; description: string | null; url: string };
 
-let fonts: { name: string; data: Buffer; weight: 400 | 700 | 800; style: 'normal' }[] | null = null;
-
-function loadFonts() {
-  const dir = path.join(gardenRoot, 'assets/fonts/ttf');
-  fonts ??= [
-    {
-      name: 'Aporetic Sans',
-      data: fs.readFileSync(path.join(dir, 'aporetic-sans-regular.ttf')),
-      weight: 400,
-      style: 'normal',
-    },
-    {
-      name: 'Aporetic Sans',
-      data: fs.readFileSync(path.join(dir, 'aporetic-sans-bold.ttf')),
-      weight: 700,
-      style: 'normal',
-    },
-    {
-      name: 'Aporetic Sans',
-      data: fs.readFileSync(path.join(dir, 'aporetic-sans-extrabold.ttf')),
-      weight: 800,
-      style: 'normal',
-    },
-  ];
-  return fonts;
-}
-
-const portraits = new Map<string, string | null>();
-function portraitDataUrl(root: string, file: string | null): string | null {
-  if (!file) return null;
-  if (!portraits.has(file)) {
-    const full = path.join(root, 'public', file);
-    portraits.set(
-      file,
-      fs.existsSync(full)
-        ? `data:image/${path.extname(full).slice(1).replace('jpg', 'jpeg')};base64,${fs.readFileSync(full).toString('base64')}`
-        : null,
-    );
-  }
-  return portraits.get(file) ?? null;
-}
+/** A `?inline` import is a data URL; satori wants the bytes. */
+const bytes = (dataUrl: string) => Buffer.from(dataUrl.slice(dataUrl.indexOf(',') + 1), 'base64');
+const FONTS = [
+  { name: 'Aporetic Sans', data: bytes(regular), weight: 400 as const, style: 'normal' as const },
+  { name: 'Aporetic Sans', data: bytes(bold), weight: 700 as const, style: 'normal' as const },
+  { name: 'Aporetic Sans', data: bytes(extrabold), weight: 800 as const, style: 'normal' as const },
+];
 
 const el = (type: string, style: Record<string, unknown>, children?: unknown) => ({ type, props: { style, children } });
 
-export async function renderCard(root: string, card: CardInput): Promise<Buffer> {
+export async function renderCard(card: CardInput): Promise<Buffer> {
   const width = CARD.width - CARD.border - CARD.padding * 2;
-  const portrait = portraitDataUrl(root, card.portrait);
   const tree = el(
     'div',
     {
@@ -129,21 +91,19 @@ export async function renderCard(root: string, card: CardInput): Promise<Buffer>
             { display: 'flex', height: 40, fontSize: 30, fontWeight: 700, color: PALETTE.muted, alignItems: 'center' },
             card.url,
           ),
-          portrait
-            ? {
-                type: 'img',
-                props: {
-                  src: portrait,
-                  width: 120,
-                  height: 120,
-                  style: { width: 120, height: 120, borderRadius: 60, objectFit: 'cover' },
-                },
-              }
-            : el('div', { display: 'flex' }),
+          {
+            type: 'img',
+            props: {
+              src: portrait,
+              width: 120,
+              height: 120,
+              style: { width: 120, height: 120, borderRadius: 60, objectFit: 'cover' },
+            },
+          },
         ],
       ),
     ],
   );
-  const svg = await satori(tree as never, { width: CARD.width, height: CARD.height, fonts: loadFonts() });
+  const svg = await satori(tree as never, { width: CARD.width, height: CARD.height, fonts: FONTS });
   return new Resvg(svg, { fitTo: { mode: 'width', value: CARD.width } }).render().asPng();
 }

@@ -21,7 +21,7 @@ The company expects domestic demand for its products to decline with the recent 
 
 The stock is trading at a price-earnings ratio of 15.95 times. It closed at RM30.78 on Aug 12, giving the company a market capitalisation of RM1.87 billion, according to Bloomberg.
 
-![Keeping Track](/media/the-edge/keeping-track/PW-Keeping-Track-Table_TEM1332l_theedgemarkets.jpg)
+![Keeping Track](../../assets/media/the-edge/keeping-track/PW-Keeping-Track-Table_TEM1332l_theedgemarkets.jpg)
 
 ## Heineken Malaysia Bhd
 

@@ -22,8 +22,8 @@ Hire a package shop for a small, standard site; a freelancer for a well-defined 
 
 The prices, with sources, are in [[How much does a website cost in Malaysia?]].
 
-<img class="wiki-logo-light" src="/media/diagrams/freelancer-agency-or-in-house.svg" alt="Decision tree: if the site changes weekly, consider someone in-house; otherwise, if it connects to other systems, an agency or senior freelancer, and if not, a package shop or freelancer. In every case, name an owner inside the company.">
-<img class="wiki-logo-dark" src="/media/diagrams/freelancer-agency-or-in-house-dark.svg" alt="">
+<img class="wiki-logo-light" src="/media/diagrams/freelancer-agency-or-in-house.svg" alt="Decision tree: if the site changes weekly, consider someone in-house; otherwise, if it connects to other systems, an agency or senior freelancer, and if not, a package shop or freelancer. In every case, name an owner inside the company." loading="lazy" decoding="async">
+<img class="wiki-logo-dark" src="/media/diagrams/freelancer-agency-or-in-house-dark.svg" alt="" loading="lazy" decoding="async">
 
 ## When a package shop fits
 

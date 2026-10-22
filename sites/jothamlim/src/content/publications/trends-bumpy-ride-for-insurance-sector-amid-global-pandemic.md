@@ -21,7 +21,7 @@ The Allianz report says the current slowdown in economic activity and the slump 
 
 It adds that mature markets with strict lockdowns during the Covid-19 pandemic will be hit the hardest in the P&C insurance segment. North America and Western Europe, two of the largest global markets, are expected to see their P&C premium income decline about 5% and 4.5% respectively, with global lost premiums amounting to about €109 billion.
 
-![Trends: Bumpy ride for insurance sector amid global pandemic](/media/the-edge/trends-bumpy-ride-for-insurance-sector-amid-global-pandemic/PW-8a-Chart_TEM1328_theedgemarkets.jpg)
+![Trends: Bumpy ride for insurance sector amid global pandemic](../../assets/media/the-edge/trends-bumpy-ride-for-insurance-sector-amid-global-pandemic/PW-8a-Chart_TEM1328_theedgemarkets.jpg)
 
 P&C insurance is an umbrella term used to describe coverage for property and personal liability. Such policies include liability insurance, auto insurance, business interruption insurance and malpractice insurance.
 
@@ -45,7 +45,7 @@ Asia is divided into two markets with varying speeds of growth, says the report.
 
 Market growth in Asia will be driven mainly by life insurance and savings products, which reflect the rapidly ageing populations in the region. China is set to be one of the region’s growth engines despite seeing one of the weakest first quarters in terms of insurance market growth in the last 20 years due to the Covid-19 lockdown.
 
-![Trends: Bumpy ride for insurance sector amid global pandemic](/media/the-edge/trends-bumpy-ride-for-insurance-sector-amid-global-pandemic/PW-8-Table_TEM1328_theedgemarkets.jpg)
+![Trends: Bumpy ride for insurance sector amid global pandemic](../../assets/media/the-edge/trends-bumpy-ride-for-insurance-sector-amid-global-pandemic/PW-8-Table_TEM1328_theedgemarkets.jpg)
 
 “The first quarter [in China this year] saw a fall of 0.7%, a far cry from the compound annual growth rate of 17.7% since the turn of the century. However, being the largest insurance market by premium income in Asia, we expect China to increase its market share in emerging Asia (ex-Japan) further, from 48% today to 55% in 2030,” says the report.
 

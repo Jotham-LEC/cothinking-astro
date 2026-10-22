@@ -19,7 +19,7 @@ This is in stark contrast to PwC’s previous Family Business Survey, in 2019, i
 
 “The pandemic was definitely a factor in accelerating digital transformation.  For many family businesses, digitalisation has always been at the back of their minds to begin with. Some already made plans for this, five to 10 years ago, but it is the speed of execution that will vary from business to business.”
 
-![Family Business: A shift in priorities](/media/the-edge/family-business-a-shift-in-priorities/DE8-Yap-tem1367_theedgemarkets.jpg)
+![Family Business: A shift in priorities](../../assets/media/the-edge/family-business-a-shift-in-priorities/DE8-Yap-tem1367_theedgemarkets.jpg)
 
 "Family businesses tend to be smaller, but they are also much more nimble. Once the family business management team is on the same page in terms of company vision and direction, digital adoption can be accelerated.” - Yap (Photo by PwC)
 
@@ -37,7 +37,7 @@ Compared with their global peers, Malaysian NextGens are much more proactively i
 
 At this inflection point, trust and communication between family members are key factors in driving the direction of the business. However, there are gaps within this space, as only 45% of survey respondents say that all family members involved in the business are on the same page in terms of company direction and priorities, and only 57% say that relevant business information is shared among family members in a transparent way.
 
-![Family Business: A shift in priorities](/media/the-edge/family-business-a-shift-in-priorities/DE8-Fung-tem1367_theedgemarkets.jpg)
+![Family Business: A shift in priorities](../../assets/media/the-edge/family-business-a-shift-in-priorities/DE8-Fung-tem1367_theedgemarkets.jpg)
 
 "The pandemic was definitely a factor in accelerating digital transformation. For many family businesses, digitalisation has always been at the back of their minds to begin with. Some already made plans for this, five to 10 years ago, but it is the speed of execution that will vary from business to business.” - Fung (Photo by PwC)
 
@@ -51,7 +51,7 @@ According to Fung, the pandemic era also marks another major shift within the mi
 
 “Sometimes, these leaders can be family members, but there are also times in which businesses need to source these leaders externally. This is where professional managers can help local businesses with their digital transformation objectives, and I notice that more and more family businesses are much more accepting of business professionalisation.”
 
-![Family Business: A shift in priorities](/media/the-edge/family-business-a-shift-in-priorities/DE8-charts-tem1367_theedgemarkets.jpg)
+![Family Business: A shift in priorities](../../assets/media/the-edge/family-business-a-shift-in-priorities/DE8-charts-tem1367_theedgemarkets.jpg)
 
 ### Bridging the digital gap
 

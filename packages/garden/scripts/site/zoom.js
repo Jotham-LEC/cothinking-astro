@@ -1,7 +1,8 @@
-// A zoomable image is a button: Enter or Space enlarges it, again or Escape
-// puts it back.
+// An image in the text (not one that is a link) is a button: a click, Enter
+// or Space enlarges it, again or Escape puts it back.
 export function initZoom() {
-  document.querySelectorAll('img.zoomable').forEach(function (img) {
+  document.querySelectorAll('.prose :not(a) > img').forEach(function (img) {
+    img.classList.add('zoomable');
     var alt = img.getAttribute('alt');
     img.tabIndex = 0;
     img.setAttribute('role', 'button');

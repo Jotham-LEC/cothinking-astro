@@ -25,7 +25,7 @@ Maran Virumandi, founder and man­aging director of DoctorOnCall, tells *Digital
 
 Amid the pandemic, DoctorOnCall managed to double its online medical consultations to more than 200,000 in October from about 100,000 in March. Its monthly page views have also more than quadrupled to 4.1 million throughout the same period.
 
-![DoctorOnCall: Championing digital healthcare during the pandemic](/media/the-edge/doctoroncall-championing-digital-healthcare-during-the-pandemic/DE15-DoctorOnCall-tem1351_theedgemarkets.jpg)
+![DoctorOnCall: Championing digital healthcare during the pandemic](../../assets/media/the-edge/doctoroncall-championing-digital-healthcare-during-the-pandemic/DE15-DoctorOnCall-tem1351_theedgemarkets.jpg)
 
 Maran says the contract awarded by the government only extends to the first wave of the pandemic and has come to an end, so the company is no longer the government’s official partner.
 
@@ -45,7 +45,7 @@ Maran adds that although 2020 has been mired in the pandemic, the platform is tr
 
 “Before the pandemic, the incumbent players were not convinced that healthcare could go digital. They thought it would be difficult for medication to be delivered and to have consultations and book services through a centralised online platform. But the pandemic has changed that perception.”
 
-![DoctorOnCall: Championing digital healthcare during the pandemic](/media/the-edge/doctoroncall-championing-digital-healthcare-during-the-pandemic/DE15-DoctorOnCall-box-tem1351_theedgemarkets.jpg)
+![DoctorOnCall: Championing digital healthcare during the pandemic](../../assets/media/the-edge/doctoroncall-championing-digital-healthcare-during-the-pandemic/DE15-DoctorOnCall-box-tem1351_theedgemarkets.jpg)
 
 “Clinics and hospitals are now starting to recognise that if they are not going to adapt to the digital age, they will have their business slashed, not just by DoctorOnCall, but also by the clinic or hospital next door that has gone digital.
 

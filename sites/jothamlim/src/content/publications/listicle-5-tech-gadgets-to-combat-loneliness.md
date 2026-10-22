@@ -11,7 +11,7 @@ This article first appeared in Digital Edge, The Edge Malaysia Weekly on Novembe
 
 Recent studies have shown that the Covid-19 pandemic has had an adverse impact on mental health, and created new challenges for people already suffering from mental illnesses. Stress and isolation have led to eating disorders, difficulty in sleeping and an increase in alcohol consumption and substance abuse. Thankfully, there are tech gadgets that can alleviate some of the loneliness, and add life and movement to the home.
 
-![Listicle: 5 tech gadgets to combat loneliness](/media/the-edge/listicle-5-tech-gadgets-to-combat-loneliness/DE2-Hexa-Robot-Planter-tem1347_theedgemarkets.jpg)
+![Listicle: 5 tech gadgets to combat loneliness](../../assets/media/the-edge/listicle-5-tech-gadgets-to-combat-loneliness/DE2-Hexa-Robot-Planter-tem1347_theedgemarkets.jpg)
 
 ## 1  Hexa Robot Planter
 
@@ -23,7 +23,7 @@ Using its six nimble legs, the Hexa can move in any direction and around objects
 
 https://www.vincross.com/en/hexa
 
-![Listicle: 5 tech gadgets to combat loneliness](/media/the-edge/listicle-5-tech-gadgets-to-combat-loneliness/DE2-Bond-Touch-Bracelet-tem1347_theedgemarkets.jpg)
+![Listicle: 5 tech gadgets to combat loneliness](../../assets/media/the-edge/listicle-5-tech-gadgets-to-combat-loneliness/DE2-Bond-Touch-Bracelet-tem1347_theedgemarkets.jpg)
 
 ## 2  Bond Touch Bracelet
 
@@ -35,7 +35,7 @@ The bracelet is waterproof for up to one metre underwater and has a battery life
 
 https://www.bond-touch.com/
 
-![Listicle: 5 tech gadgets to combat loneliness](/media/the-edge/listicle-5-tech-gadgets-to-combat-loneliness/DE2-HB-ring-tem1347_theedgemarkets.jpg)
+![Listicle: 5 tech gadgets to combat loneliness](../../assets/media/the-edge/listicle-5-tech-gadgets-to-combat-loneliness/DE2-HB-ring-tem1347_theedgemarkets.jpg)
 
 ## 3  HB Ring
 
@@ -45,7 +45,7 @@ If the HB ring is taken off and the real-time heartbeat is unavailable, it will 
 
 https://thetouchx.com/index.html
 
-![Listicle: 5 tech gadgets to combat loneliness](/media/the-edge/listicle-5-tech-gadgets-to-combat-loneliness/DE2-Friendship-Lamp-tem1347_theedgemarkets.jpg)
+![Listicle: 5 tech gadgets to combat loneliness](../../assets/media/the-edge/listicle-5-tech-gadgets-to-combat-loneliness/DE2-Friendship-Lamp-tem1347_theedgemarkets.jpg)
 
 ## 4  Friendship Lamp
 
@@ -53,7 +53,7 @@ Although simple in concept, the Friendship Lamp can change the way friends and c
 
 https://www.friendlamps.com/
 
-![Listicle: 5 tech gadgets to combat loneliness](/media/the-edge/listicle-5-tech-gadgets-to-combat-loneliness/DE2-Spherot-tem1347_theedgemarkets.jpg)
+![Listicle: 5 tech gadgets to combat loneliness](../../assets/media/the-edge/listicle-5-tech-gadgets-to-combat-loneliness/DE2-Spherot-tem1347_theedgemarkets.jpg)
 
 ## 5  Robotic pets
 
@@ -61,7 +61,7 @@ Do not let their plastic and metal exteriors fool you. Robotic technology has pr
 
 Some pets, such as Sony’s Aibo robot dog, are built to replicate a live pet’s movements and behaviour. Aibo’s expressions and array of movements can be surprisingly lifelike, offering the warmth and companionship needed without the baggage associated with being a pet owner, such as feeding and cleaning up after them.
 
-![Listicle: 5 tech gadgets to combat loneliness](/media/the-edge/listicle-5-tech-gadgets-to-combat-loneliness/DE2-Robot-dog-tem1347_theedgemarkets.jpg)
+![Listicle: 5 tech gadgets to combat loneliness](../../assets/media/the-edge/listicle-5-tech-gadgets-to-combat-loneliness/DE2-Robot-dog-tem1347_theedgemarkets.jpg)
 
 Others, such as Sphero’s BB-8 droid, have embraced their robotic identity and are modelled after the actual BB-8 droid seen in the Disney Star Wars films. It may not have Aibo’s advanced features and artificial intelligence, but having a ball of cuteness patrolling your home on autopilot adds a lot of movement to the static atmosphere of those who live alone.
 

@@ -47,8 +47,8 @@ Three rules sit behind the table:
 
 Everything else depends on the domain, and it is the one thing you can't replace: it carries your email addresses, the links in old proposals, and your search history.
 
-<img class="wiki-logo-light" src="/media/diagrams/website-ownership-checklist-domain.svg" alt="The domain's DNS points to the website and the email, and verifies Search Console, so whoever holds the domain controls all three">
-<img class="wiki-logo-dark" src="/media/diagrams/website-ownership-checklist-domain-dark.svg" alt="">
+<img class="wiki-logo-light" src="/media/diagrams/website-ownership-checklist-domain.svg" alt="The domain's DNS points to the website and the email, and verifies Search Console, so whoever holds the domain controls all three" loading="lazy" decoding="async">
+<img class="wiki-logo-dark" src="/media/diagrams/website-ownership-checklist-domain-dark.svg" alt="" loading="lazy" decoding="async">
 
 For a `.com.my`, MYNIC asks organisations for their SSM registration documents, so the registrant should be your company's exact legal name ([MYNIC's FAQ](https://mynic.my/faq)). If your registrar shows the vendor's company or an individual, ask for it to be changed. Check the renewal date too, and turn on auto-renew.
 

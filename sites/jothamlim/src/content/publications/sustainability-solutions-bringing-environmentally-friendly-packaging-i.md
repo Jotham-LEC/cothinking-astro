@@ -19,7 +19,7 @@ While pressure is mounting on these manufacturers to make the switch, many obsta
 
 Instead of the availability of sustainable packaging options, it is rather the logistics and cost benefits that hinder most manufacturers from making the transition. However, Tiviti says that product lifecycle management (PLM) solutions can whittle down many of these barriers, especially when used in combination with advanced technology such as predictive analysis.
 
-![Sustainability Solutions: Bringing environmentally-friendly packaging into the mainstream](/media/the-edge/sustainability-solutions-bringing-environmentally-friendly-packaging-i/DE9-Charts-tem1371_theedgemarkets.jpg)
+![Sustainability Solutions: Bringing environmentally-friendly packaging into the mainstream](../../assets/media/the-edge/sustainability-solutions-bringing-environmentally-friendly-packaging-i/DE9-Charts-tem1371_theedgemarkets.jpg)
 
 ## From dust to dust
 

@@ -65,8 +65,8 @@ A good SLA also varies the times by priority, says when the clock runs (8am to 6
 
 ## Your company should hold the admin accounts
 
-<img class="wiki-logo-light" src="/media/diagrams/how-to-choose-an-it-support-provider-admin-accounts.svg" alt="Your company owns the top-level admin accounts and pays for the licences; the provider works through its own named admin accounts, which you grant and can remove.">
-<img class="wiki-logo-dark" src="/media/diagrams/how-to-choose-an-it-support-provider-admin-accounts-dark.svg" alt="">
+<img class="wiki-logo-light" src="/media/diagrams/how-to-choose-an-it-support-provider-admin-accounts.svg" alt="Your company owns the top-level admin accounts and pays for the licences; the provider works through its own named admin accounts, which you grant and can remove." loading="lazy" decoding="async">
+<img class="wiki-logo-dark" src="/media/diagrams/how-to-choose-an-it-support-provider-admin-accounts-dark.svg" alt="" loading="lazy" decoding="async">
 
 - **Yours:** the Google Workspace super admin or Microsoft 365 Global Administrator, the domain registrar, the firewall, and the backup service. Microsoft recommends fewer than five Global Administrators and two emergency "break glass" accounts ([Microsoft](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/best-practices)).
 - **The provider's:** its own named admin accounts, which you can remove. A Microsoft partner should use GDAP, "granular and time-bound access" that you "must explicitly grant" ([Microsoft](https://learn.microsoft.com/en-us/partner-center/customers/gdap-introduction)).

@@ -21,7 +21,7 @@ Photobook Malaysia has embraced and adopted mass product customisation as part o
 
 Leow points out that personalisation and custom­isation are not limited to physical products but includes services as well. He cites the examples of nutritionists crafting custom recipes for a balanced diet and travel agencies coming up with personalised travel plans and having their customers’ names printed on products as well as packaging or marketing materials.
 
-![Cover Story: Getting personal](/media/the-edge/cover-story-getting-personal/ENT_6-2.jpg)
+![Cover Story: Getting personal](../../assets/media/the-edge/cover-story-getting-personal/ENT_6-2.jpg)
 
 “Now, you can even customise the car you want to buy. You can select the colour of the car and seat belt, which in itself is a form of personalisation. Fifty years ago, a car was seen as a mass-market product and every single car looked exactly the same. But today, the cars that are being churned out do not look the same, inside and out,” says Leow.
 
@@ -39,7 +39,7 @@ As e-commerce grew in the US, the personalised product industry expanded as well
 
 “China is arguably one of the more mature e-com­merce markets right now and we have definitely seen a huge uptick there. Many players are looking at Asia as a new area of growth, simply because we have a young middle-income population who loves these unique, personalised products,” says Leow.
 
-![Cover Story: Getting personal](/media/the-edge/cover-story-getting-personal/ENT_6-3.jpg)
+![Cover Story: Getting personal](../../assets/media/the-edge/cover-story-getting-personal/ENT_6-3.jpg)
 
 **Balancing physical and digital**
 
@@ -51,7 +51,7 @@ ana tomy is famous for its customisable journals, which can be fitted as planner
 
 “That is why you do not see us opening more physical stores. That is also why we want to grow online.”
 
-![Cover Story: Getting personal](/media/the-edge/cover-story-getting-personal/ENT_6-4.jpg)
+![Cover Story: Getting personal](../../assets/media/the-edge/cover-story-getting-personal/ENT_6-4.jpg)
 
 In addition to expanding its business online, ana tomy is looking to grow its product line to include more gift items such as wallets and apparel. Cliff Leong, operation director of ana tomy, says the company has observed its customers buying products in batches, likely for family, friends, employees or brand partners.
 
@@ -71,7 +71,7 @@ Leong points out that many customers do not realise that ana tomy journals are m
 
 Brands such as ana tomy are not the only players that place a heavy emphasis on manufacturing speed. Christy Ng, founder of shoe retailer and manufacturer Christy Ng Sdn Bhd, attributes much of her company’s success to automation and the fact that it controls the entire manufacturing process, which translates into cost savings and faster turnaround times for customers.
 
-![Cover Story: Getting personal](/media/the-edge/cover-story-getting-personal/ENT_6-5.jpg)
+![Cover Story: Getting personal](../../assets/media/the-edge/cover-story-getting-personal/ENT_6-5.jpg)
 
 Christy Ng is a local shoe brand that specialises in women’s fashion footwear and is known for its custom-made shoes. It ships its products internationally and customers are able to customise their shoes from scratch, from the colour and shape of the shoe to the height of the heel.
 
@@ -99,7 +99,7 @@ Christy highlights that ready-made shoes are a central part of its business as w
 
 “This is because there are a lot of brides who are about to get married and are unable to wait four weeks to receive their shoes. Many customers need the shoes at the very last minute. That is why we came up with this business model — so we can meet their demands within a week or, sometimes, provide the shoes on the spot.”
 
-![Cover Story: Getting personal](/media/the-edge/cover-story-getting-personal/ENT_6-6.jpg)
+![Cover Story: Getting personal](../../assets/media/the-edge/cover-story-getting-personal/ENT_6-6.jpg)
 
 **Attention to detail**
 

@@ -25,7 +25,7 @@ This was the year that cloud solutions such as Google Docs began to rise in popu
 
 “When my partner and I saw how cloud-based solutions were going to be the future, we wanted to be part of it. But we are talking about a small company with very few people, trying to develop a solution that can replace existing software made by large companies. We had a lot of reservations, and the engineering challenge was high,” says Yip.
 
-![Software: Malaysian firm develops world\u2019s first cloud-based electrical CAD software](/media/the-edge/software-malaysian-firm-develops-world-s-first-cloud-based-electrical/DE10-screenshot-tem1346_theedgemarkets.jpg)
+![Software: Malaysian firm develops world\u2019s first cloud-based electrical CAD software](../../assets/media/the-edge/software-malaysian-firm-develops-world-s-first-cloud-based-electrical/DE10-screenshot-tem1346_theedgemarkets.jpg)
 
 A screenshot of the UI/UX elements of Electra Cloud
 
@@ -41,7 +41,7 @@ Having full web browser support has enabled engineers to modify and edit schemat
 
 In addition to being more accessible to engineers, Yip points out that companies can also easily share the electrical schematics with vendors and customers and modify them on the spot. Just like Google Docs, Yip says the files have customisable file-sharing permissions to allow certain users to only view the files and not be able to modify them.
 
-![Software: Malaysian firm develops world\u2019s first cloud-based electrical CAD software](/media/the-edge/software-malaysian-firm-develops-world-s-first-cloud-based-electrical/DE10-Yip-tem1346_theedgemarkets.jpg)
+![Software: Malaysian firm develops world\u2019s first cloud-based electrical CAD software](../../assets/media/the-edge/software-malaysian-firm-develops-world-s-first-cloud-based-electrical/DE10-Yip-tem1346_theedgemarkets.jpg)
 
 The software also includes many features that are aimed at increasing productivity, such as automatically wiring and tagging symbols and wires, and allowing the users to copy and reuse commonly used circuit diagrams easily.
 

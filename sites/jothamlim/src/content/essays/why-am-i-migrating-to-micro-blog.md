@@ -2,10 +2,10 @@
 title: Why Am I Migrating to Micro.Blog?
 date: 2024-02-04
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/why-am-i-migrating-to-micro-blog/026ec42c-bbd7-44e1-9588-9f7d6dded037_1977x1112.webp
+image: ../../assets/media/essays/why-am-i-migrating-to-micro-blog/026ec42c-bbd7-44e1-9588-9f7d6dded037_1977x1112.webp
 ---
 
-![](/media/essays/why-am-i-migrating-to-micro-blog/026ec42c-bbd7-44e1-9588-9f7d6dded037_1977x1112.webp)This is my 7th blog migration now—away from WordPress, [[Building a Personal Website — Why I Chose Obsidian Publish|Obsidian Publish]], [Super.so](https://super.so/), Ghost, Substack &amp; [[Why I Chose Hugo for My Personal Website|Hugo]].
+![](../../assets/media/essays/why-am-i-migrating-to-micro-blog/026ec42c-bbd7-44e1-9588-9f7d6dded037_1977x1112.webp)This is my 7th blog migration now—away from WordPress, [[Building a Personal Website — Why I Chose Obsidian Publish|Obsidian Publish]], [Super.so](https://super.so/), Ghost, Substack &amp; [[Why I Chose Hugo for My Personal Website|Hugo]].
 
 Admittedly, it’s a form of procrastination. Spending more time messing around with websites means less time producing content.
 

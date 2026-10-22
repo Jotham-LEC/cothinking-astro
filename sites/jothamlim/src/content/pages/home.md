@@ -9,7 +9,7 @@ seo:
   og_type: profile
 ---
 
-<p><img class="wiki-portrait" src="/media/profile-400.jpg" alt="Jotham Lim" width="160" height="160"></p>
+<p><img class="wiki-portrait" src="/media/profile-400.jpg" alt="Jotham Lim" width="160" height="160" decoding="async"></p>
 
 
 ## Profile

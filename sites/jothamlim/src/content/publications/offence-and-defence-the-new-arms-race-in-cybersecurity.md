@@ -9,7 +9,7 @@ seo:
 
 This article first appeared in Forum, The Edge Malaysia Weekly on December 30, 2024 - January 12, 2025
 
-![Offence And Defence: The new arms race in cybersecurity](/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241223122306_PayNet-Strip2-IMG_20241223122306_IMG.jpg)
+![Offence And Defence: The new arms race in cybersecurity](../../assets/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241223122306_PayNet-Strip2-IMG_20241223122306_IMG.jpg)
 
 The rise of artificial intelligence (AI) has resulted in more frequent cybersecurity attacks, forcing cybersecurity solution providers to react by implementing AI solutions of their own.
 
@@ -21,7 +21,7 @@ However, this same information is open to bad actors as well. By feeding CVE inf
 
 A 2024 report by Cloud Security Alliance highlights that AI-powered tools can achieve an 87% success rate in autonomously exploiting one-day vulnerabilities.
 
-[![Ken Yon of PayNet, quoted: AI-powered attacks are outpacing traditional security measures.](/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212324_DE10-Yon-TEM1556-theedgemalaysia_20241219212324_theedgemalaysia.png)](/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212324_DE10-Yon-TEM1556-theedgemalaysia_20241219212324_theedgemalaysia.png)
+![Ken Yon of PayNet, quoted: AI-powered attacks are outpacing traditional security measures.](../../assets/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212324_DE10-Yon-TEM1556-theedgemalaysia_20241219212324_theedgemalaysia.png)
 
 “Publicly available tools, like ChatGPT or Gemini, have mechanisms in place to ensure the ethical use of AI,” says Hon Fun Ping, managing director at NetAssist Group.
 
@@ -73,7 +73,7 @@ The X-PHY SSD’s effectiveness stems from its unique architecture and AI implem
 
 Unlike conventional SSDs that may have multiple data access points, X-PHY employs a “One Door Access PCIe/NVMe” approach, forcing all data requests through a single, highly monitored pathway.
 
-[![Camellia Chan of Flexxon, quoted: both sides use AI, but attackers need to succeed once and defenders every time.](/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212822_DE10-Chan-TEM1556-theedgemalaysia_20241219212822_theedgemalaysia.png)](/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212822_DE10-Chan-TEM1556-theedgemalaysia_20241219212822_theedgemalaysia.png)
+![Camellia Chan of Flexxon, quoted: both sides use AI, but attackers need to succeed once and defenders every time.](../../assets/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212822_DE10-Chan-TEM1556-theedgemalaysia_20241219212822_theedgemalaysia.png)
 
 This is similar to having a single, well-guarded entrance instead of multiple potential entry points that can be compromised.
 
@@ -95,7 +95,7 @@ Flexxon has been granted 40 patents for its technology, and was one of 13 global
 
 X-PHY was initially built to serve niche customers in the industrial, medical, military, automotive and aerospace sectors, but Chan hopes that such technologies will become more mainstream.
 
-[![Law Tien Soon of Innov8tif, quoted on the ways attackers fake faces: AI face swaps, synthetic faces, 3D models and edits.](/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212905_DE10-Law-TEM1556-theedgemalaysia_20241219212905_theedgemalaysia.png)](/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212905_DE10-Law-TEM1556-theedgemalaysia_20241219212905_theedgemalaysia.png)
+![Law Tien Soon of Innov8tif, quoted on the ways attackers fake faces: AI face swaps, synthetic faces, 3D models and edits.](../../assets/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212905_DE10-Law-TEM1556-theedgemalaysia_20241219212905_theedgemalaysia.png)
 
 ## Countering deepfake and Gen AI attacks
 
@@ -117,7 +117,7 @@ Second is anti-injection technology. Because deepfakes are software-generated, m
 
 While the technology is ready, Law says many enterprise clients are still unaware that such solutions exist at a production-ready scale. The company is currently in the process of deploying these systems and working with enterprises to upgrade their existing security infrastructure.
 
-[![Hon Fun Ping of NetAssist, quoted: hiring now asks whether candidates use AI, not only which certificates they hold.](/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212700_DE10-Hon-TEM1556-theedgemalaysia_20241219212700_theedgemalaysia.png)](/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212700_DE10-Hon-TEM1556-theedgemalaysia_20241219212700_theedgemalaysia.png)
+![Hon Fun Ping of NetAssist, quoted: hiring now asks whether candidates use AI, not only which certificates they hold.](../../assets/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212700_DE10-Hon-TEM1556-theedgemalaysia_20241219212700_theedgemalaysia.png)
 
 ## Shifting human resource and regulatory requirements
 
@@ -139,7 +139,7 @@ The innovative nature of these new solutions adds another layer of complexity to
 
 As AI becomes more integral to cybersecurity solutions, regulatory frameworks worldwide are struggling to keep pace with technological advancement. According to Adrian Hia, managing director for Asia Pacific at Kaspersky, there is still no clear consensus on the best approach.
 
-[![Adrian Hia of Kaspersky, quoted: many countries have drafted AI rules, but no single approach stands out yet.](/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212949_DE10-Hia-TEM1556-theedgemalaysia_20241219212949_theedgemalaysia.png)](/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212949_DE10-Hia-TEM1556-theedgemalaysia_20241219212949_theedgemalaysia.png)
+![Adrian Hia of Kaspersky, quoted: many countries have drafted AI rules, but no single approach stands out yet.](../../assets/media/the-edge/offence-and-defence-the-new-arms-race-in-cybersecurity/20241219212949_DE10-Hia-TEM1556-theedgemalaysia_20241219212949_theedgemalaysia.png)
 
 Hia has interest in how the regulatory space impacts both innovation and security, as Kaspersky itself has integrated AI across its cybersecurity infrastructure. For instance, its products have machine learning capabilities to detect suspicious activities and a detection and response platform that employs the help of an AI-based auto-analyst.
 

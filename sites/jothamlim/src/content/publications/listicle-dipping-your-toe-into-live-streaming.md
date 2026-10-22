@@ -13,7 +13,7 @@ Live streaming offers a viewing experience that regular videos can never provide
 
 For small business owners looking to enter the scene, it can be tempting to position themselves in every one of them. But do not be fooled — each live streaming platform has its own unique quirks and they need to think carefully about what would suit them best.
 
-![Listicle: Dipping your toe into live streaming](/media/the-edge/listicle-dipping-your-toe-into-live-streaming/DE12-youtube-tem1385_theedgemarkets.jpg)
+![Listicle: Dipping your toe into live streaming](../../assets/media/the-edge/listicle-dipping-your-toe-into-live-streaming/DE12-youtube-tem1385_theedgemarkets.jpg)
 
 ## 1  YouTube Live
 
@@ -37,7 +37,7 @@ If your brand strategy involves producing videos on a consistent basis while fre
 
 • Initial restrictions, including a 24-hour wait and subscriber limits
 
-![Listicle: Dipping your toe into live streaming](/media/the-edge/listicle-dipping-your-toe-into-live-streaming/DE12-facebook-tem1385_theedgemarkets.jpg)
+![Listicle: Dipping your toe into live streaming](../../assets/media/the-edge/listicle-dipping-your-toe-into-live-streaming/DE12-facebook-tem1385_theedgemarkets.jpg)
 
 ## 2  Facebook Live
 
@@ -61,7 +61,7 @@ However, it lacks the personal touch and intimacy offered on platforms such as Y
 
 • Relatively harder to search for
 
-![Listicle: Dipping your toe into live streaming](/media/the-edge/listicle-dipping-your-toe-into-live-streaming/DE12-Instagram-tem1385_theedgemarkets.jpg)
+![Listicle: Dipping your toe into live streaming](../../assets/media/the-edge/listicle-dipping-your-toe-into-live-streaming/DE12-Instagram-tem1385_theedgemarkets.jpg)
 
 ## 3  Instagram Live
 
@@ -87,7 +87,7 @@ Instagram Live is certainly a great platform for freelancers and micro-businesse
 
 • Videos are removed after 24 hours
 
-![Listicle: Dipping your toe into live streaming](/media/the-edge/listicle-dipping-your-toe-into-live-streaming/DE12-Vimeo-tem1385_theedgemarkets.jpg)
+![Listicle: Dipping your toe into live streaming](../../assets/media/the-edge/listicle-dipping-your-toe-into-live-streaming/DE12-Vimeo-tem1385_theedgemarkets.jpg)
 
 ## 4  Vimeo Livestream
 

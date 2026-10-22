@@ -2,10 +2,10 @@
 title: Building a Personal Website — Why I Chose Obsidian Publish
 date: 2023-09-18
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/building-a-personal-website-why-i-chose-obsidian-publish/898350b0-b013-4094-b7d5-44aae5bd5b78_2603x1464.webp
+image: ../../assets/media/essays/building-a-personal-website-why-i-chose-obsidian-publish/898350b0-b013-4094-b7d5-44aae5bd5b78_2603x1464.webp
 ---
 
-![](/media/essays/building-a-personal-website-why-i-chose-obsidian-publish/898350b0-b013-4094-b7d5-44aae5bd5b78_2603x1464.webp)> Note: I have since moved to Substack for several reasons, but the points here still apply.
+![](../../assets/media/essays/building-a-personal-website-why-i-chose-obsidian-publish/898350b0-b013-4094-b7d5-44aae5bd5b78_2603x1464.webp)> Note: I have since moved to Substack for several reasons, but the points here still apply.
 
 Why I Need a Personal Website
 -----------------------------

@@ -2,10 +2,10 @@
 title: "Guide: Publishing to Hugo/Jekyll Remotely via IOS"
 date: 2024-02-25
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/guide-publishing-to-hugo-jekyll-remotely-via-ios/aa27f9ee-c065-4d44-b792-2effe6c43b9e_1963x1104.webp
+image: ../../assets/media/essays/guide-publishing-to-hugo-jekyll-remotely-via-ios/aa27f9ee-c065-4d44-b792-2effe6c43b9e_1963x1104.webp
 ---
 
-![The Hugo logo, an iPhone editing HTML in Textastic, and the Working Copy app icon.](/media/essays/guide-publishing-to-hugo-jekyll-remotely-via-ios/aa27f9ee-c065-4d44-b792-2effe6c43b9e_1963x1104.webp)
+![The Hugo logo, an iPhone editing HTML in Textastic, and the Working Copy app icon.](../../assets/media/essays/guide-publishing-to-hugo-jekyll-remotely-via-ios/aa27f9ee-c065-4d44-b792-2effe6c43b9e_1963x1104.webp)
 
 Hugo excels at desktop publishing. I can create files using CLIs or markdown editors, then publish to a Github repository. This directly reflects on the website through Netlify, Cloudflare Pages or Vercel.
 

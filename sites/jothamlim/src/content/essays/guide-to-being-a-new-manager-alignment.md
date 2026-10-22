@@ -2,10 +2,10 @@
 title: Guide to Being a New Manager — Alignment
 date: 2023-10-15
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/guide-to-being-a-new-manager-alignment/fa04b8ad-406f-4217-9f75-8fdadf21835e_2354x1324.webp
+image: ../../assets/media/essays/guide-to-being-a-new-manager-alignment/fa04b8ad-406f-4217-9f75-8fdadf21835e_2354x1324.webp
 ---
 
-![](/media/essays/guide-to-being-a-new-manager-alignment/fa04b8ad-406f-4217-9f75-8fdadf21835e_2354x1324.webp)Being recruited as a first-time manager can be both exciting yet uncomfortable.
+![](../../assets/media/essays/guide-to-being-a-new-manager-alignment/fa04b8ad-406f-4217-9f75-8fdadf21835e_2354x1324.webp)Being recruited as a first-time manager can be both exciting yet uncomfortable.
 
 The prospects of higher pay and benefits come at the expense of more responsibilities and an extended notice period. But the real challenge lies in managing higher expectations from your employers, new colleagues, and mainly yourself.
 

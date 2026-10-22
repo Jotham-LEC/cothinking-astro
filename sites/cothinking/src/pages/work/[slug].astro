@@ -1,12 +1,12 @@
 ---
 // A client's case study, as a room: the eyebrow, title, screenshot (1280px
 // wide at most) and numbers, the write-up, the live site and the closing panel.
+import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import { garden } from '@garden/lib/load.ts';
 import Layout from '@garden/layouts/Layout.astro';
 import PageHeader from '@garden/components/PageHeader.astro';
 import Prose from '@garden/components/Prose.astro';
-import { mediaImage } from '@site/lib/images.ts';
 import NextStep from '@site/components/NextStep.astro';
 import WorkStats from '@site/components/WorkStats.astro';
 
@@ -19,7 +19,6 @@ const g = await garden();
 const page = g.entry(entry);
 const { Content } = await render(entry);
 const eyebrow = entry.data.eyebrow || [entry.data.year, entry.data.kind].filter(Boolean).join(' · ');
-const shot = entry.data.image ? await mediaImage(entry.data.image, { width: 1280, quality: 80 }) : null;
 const website = entry.data.website ?? null;
 ---
 
@@ -27,12 +26,13 @@ const website = entry.data.website ?? null;
   <article class="mx-auto max-w-[72ch]">
     <PageHeader title={page.title} eyebrow={eyebrow} />
 
-    {shot && (
-      <img
-        src={shot.src}
+    {entry.data.image && (
+      <Image
+        src={entry.data.image}
         alt={`${page.title}’s website`}
-        width={shot.attributes.width}
-        height={shot.attributes.height}
+        width={Math.min(1280, entry.data.image.width)}
+        quality={80}
+        loading="eager"
         fetchpriority="high"
         class="rounded-site border-rule w-full border"
       />

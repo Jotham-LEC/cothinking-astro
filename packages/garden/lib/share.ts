@@ -1,13 +1,10 @@
 // What a page's generated share card says: the section it sits in (or the
 // site's host for a root page) as the label, its title, its description, the
-// site's name, and the author's portrait.
+// site's name (the portrait is the card's own).
 import { isChild, type SiteEntry } from './entry.ts';
 import type { Garden } from './load.ts';
 import type { CardInput } from './ogCard.ts';
 import { description, ogTitle } from './seo.ts';
-
-/** The author's portrait on every card, on both sites. */
-const PORTRAIT = '/media/profile-400.jpg';
 
 export function cardFor(page: SiteEntry, g: Garden): CardInput {
   const { site } = g;
@@ -18,6 +15,5 @@ export function cardFor(page: SiteEntry, g: Garden): CardInput {
     title: ogTitle(input),
     description: description(input),
     url: site.name,
-    portrait: PORTRAIT,
   };
 }

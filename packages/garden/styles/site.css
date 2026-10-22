@@ -19,58 +19,6 @@
 @import './tokens.css';
 @import './components.css';
 
-/* Aporetic (SIL OFL, garden/assets/fonts/LICENSE.md), self-hosted and
-   subset to Latin: Sans for everything (in 400 and 700 with italics, and an
-   800 for headings, built from Aporetic's own Iosevka plan with that one
-   weight added), Sans Mono for code. */
-@font-face {
-  font-family: 'Aporetic Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../assets/fonts/aporetic-sans-regular.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Aporetic Sans';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../assets/fonts/aporetic-sans-italic.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Aporetic Sans';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../assets/fonts/aporetic-sans-bold.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Aporetic Sans';
-  font-style: italic;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../assets/fonts/aporetic-sans-bold-italic.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Aporetic Sans';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url('../assets/fonts/aporetic-sans-extrabold.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Aporetic Sans Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../assets/fonts/aporetic-sans-mono-regular.woff2') format('woff2');
-}
-
 /* No stock palette: a view can only use the site's own colours. */
 @theme {
   --color-*: initial;
@@ -131,10 +79,11 @@
   --color-button-fg: var(--site-button-fg);
   --color-danger: var(--site-danger);
 
-  --font-sans: var(--site-sans);
-  --font-heading: var(--site-heading-font);
-  --font-prose: var(--site-prose);
-  --font-mono: var(--site-mono);
+  /* Aporetic (garden/config.mjs `fonts`): Sans for everything, Sans Mono for code. Headings and prose keep roles of their own, so either can change here alone. */
+  --font-sans: var(--font-aporetic-sans);
+  --font-heading: var(--font-aporetic-sans);
+  --font-prose: var(--font-aporetic-sans);
+  --font-mono: var(--font-aporetic-mono);
   --radius-site: var(--site-radius);
 }
 

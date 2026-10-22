@@ -2,10 +2,10 @@
 title: greyline
 date: 2026-09-10
 updated: 2026-10-03T16:29:26+00:00
-image: /media/projects/greyline/hero.png
+image: ../../assets/media/projects/greyline/hero.png
 ---
 
-![greyline on a dark theme: a world map with city clocks and a day/night terminator](/media/projects/greyline/hero.png)
+![greyline on a dark theme: a world map with city clocks and a day/night terminator](../../assets/media/projects/greyline/hero.png)
 
 A live world-time wallpaper for Wayland and X11: a world map, clocks for your cities, your home city marked, and a day/night terminator that tracks the sun. It recreates the IBM ThinkPad "World Time" Active Desktop for the Linux desktops I use now.
 

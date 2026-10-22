@@ -19,7 +19,7 @@ THE WHAT
 
 Rhetoric is basically the art of using words to convince someone of something. This study dates back to the time of Aristotle, the Greek philosopher who divided rhetoric into three modes — ethos, logos and pathos — or the appeal to ethics, emotion and logic.
 
-![Listicle: 4 easy skills for entrepreneurs to pick up](/media/the-edge/listicle-4-easy-skills-for-entrepreneurs-to-pick-up/DE12-rhetoric-tem1349_theedgemarkets.jpg)
+![Listicle: 4 easy skills for entrepreneurs to pick up](../../assets/media/the-edge/listicle-4-easy-skills-for-entrepreneurs-to-pick-up/DE12-rhetoric-tem1349_theedgemarkets.jpg)
 
 THE WHY
 
@@ -61,7 +61,7 @@ Python is a programming language commonly used by programmers and data scientist
 
 It can be used on most personal computer (PC) devices, including Windows, Mac, Linux and Raspberry Pi. The programming language has become increasingly popular in recent years due to its readability and the fact that it is easy to learn and pick up.
 
-![Listicle: 4 easy skills for entrepreneurs to pick up](/media/the-edge/listicle-4-easy-skills-for-entrepreneurs-to-pick-up/DE12-phthon_tem1349_theedgemarkets.jpg)
+![Listicle: 4 easy skills for entrepreneurs to pick up](../../assets/media/the-edge/listicle-4-easy-skills-for-entrepreneurs-to-pick-up/DE12-phthon_tem1349_theedgemarkets.jpg)
 
 THE WHY
 
@@ -91,7 +91,7 @@ THE WHAT
 
 Product photography is the art of presenting your product in the best possible light, both figuratively and literally. Great photos can even be taken using a smartphone, without the need for a DSLR (digital single lens reflex), expensive lighting equipment or large space.
 
-![Listicle: 4 easy skills for entrepreneurs to pick up](/media/the-edge/listicle-4-easy-skills-for-entrepreneurs-to-pick-up/DE12-photographer-tem1349_theedgemarkets.jpg)
+![Listicle: 4 easy skills for entrepreneurs to pick up](../../assets/media/the-edge/listicle-4-easy-skills-for-entrepreneurs-to-pick-up/DE12-photographer-tem1349_theedgemarkets.jpg)
 
 THE WHY
 
@@ -121,7 +121,7 @@ THE WHAT
 
 Financial literacy is the understanding and effective use of various financial skills, including business financial management, budgeting and investing. It also extends to the understanding of financial terms and documents, such as profit loss statements and compound annual growth rate.
 
-![Listicle: 4 easy skills for entrepreneurs to pick up](/media/the-edge/listicle-4-easy-skills-for-entrepreneurs-to-pick-up/DE12-cash-tem1349_theedgemarkets.jpg)
+![Listicle: 4 easy skills for entrepreneurs to pick up](../../assets/media/the-edge/listicle-4-easy-skills-for-entrepreneurs-to-pick-up/DE12-cash-tem1349_theedgemarkets.jpg)
 
 THE WHY
 

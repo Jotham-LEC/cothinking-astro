@@ -5,7 +5,6 @@
 import { breadcrumbs } from './breadcrumbs.ts';
 import { atom } from './dates.ts';
 import { byUrl, type SiteEntry } from './entry.ts';
-import { measure } from './markdown/rehype-images.ts';
 import { absolute, cardUrl, type SiteConfig } from './site.ts';
 
 const TITLE_MAX = 60;
@@ -23,8 +22,6 @@ export type HeadInput = {
   site: SiteConfig;
   /** The published entries, for the breadcrumbs and the home page's card. */
   live: SiteEntry[];
-  /** Where the public files are, to measure a share image. */
-  publicDir?: string;
   overrides?: { title?: string | null; description?: string | null; noindex?: boolean; ogType?: string | null };
   status?: number;
 };
@@ -127,17 +124,10 @@ export function ogType(input: HeadInput): string {
 
 /** The share image: the entry's `image`, else the generated card; a listing without an entry shares the home page's. */
 export function image(input: HeadInput): ShareImage | null {
-  const { page, site, live, publicDir, status } = input;
+  const { page, site, live, status } = input;
   if ((status ?? 200) >= 400) return null;
-  if (page?.image) {
-    const size = publicDir ? measure(publicDir, page.image) : null;
-    return {
-      url: absolute(site.url, page.image),
-      width: size?.width ?? IMAGE_WIDTH,
-      height: size?.height ?? IMAGE_HEIGHT,
-      alt: null,
-    };
-  }
+  if (page?.image)
+    return { url: absolute(site.url, page.image.src), width: page.image.width, height: page.image.height, alt: null };
   const subject = page ?? byUrl(live).get('/') ?? null;
   if (!subject) return null;
   return { url: absolute(site.url, cardUrl(subject.url)), width: IMAGE_WIDTH, height: IMAGE_HEIGHT, alt: subject.title };

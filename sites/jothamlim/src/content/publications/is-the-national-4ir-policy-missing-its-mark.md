@@ -7,7 +7,7 @@ seo:
   canonical: https://theedgemalaysia.com/node/574926
 ---
 
-![Is the National 4IR Policy missing its mark?](/media/the-edge/is-the-national-4ir-policy-missing-its-mark/Faizal-Ali-CEO-and-Founder-Vectolabs-pixfrmJothamLim-JennJacobs-Fri02072021.jpg)
+![Is the National 4IR Policy missing its mark?](../../assets/media/the-edge/is-the-national-4ir-policy-missing-its-mark/Faizal-Ali-CEO-and-Founder-Vectolabs-pixfrmJothamLim-JennJacobs-Fri02072021.jpg)
 
 CEO and founder of Vectolabs Technologies Faizal Ali. Photo credit: Vectolabs Technologies
 
@@ -25,7 +25,7 @@ He fears that the E&E sector will start to shrink as companies move to lower-cos
 
 Everpeaks CEO Joachim Sebastian describes the National 4IR policy as putting the cart before the horse, as there are unresolved fundamental issues that can derail or compromise the execution of the national 4IR agenda, such as the lack of proficiency in the English language.
 
-![Is the National 4IR Policy missing its mark?](/media/the-edge/is-the-national-4ir-policy-missing-its-mark/Joachim-Sebastian-Everpeaks-CEO-pixfrmJothamLim-JennJacobs-Fri02072021.jpg)
+![Is the National 4IR Policy missing its mark?](../../assets/media/the-edge/is-the-national-4ir-policy-missing-its-mark/Joachim-Sebastian-Everpeaks-CEO-pixfrmJothamLim-JennJacobs-Fri02072021.jpg)
 
 Everpeaks CEO Joachim Sebastian. Photo credit: Everpeaks
 
@@ -39,7 +39,7 @@ From initial impressions, Sebastian says that the policy document is impressive 
 
 “We have to incentivize the implementation of 4IR beyond a reasonable doubt, so that it will be a no-brainer for any company to implement this, because the alternative will not be feasible in terms of manpower costs, market adoption and industry expectations.”
 
-![Is the National 4IR Policy missing its mark?](/media/the-edge/is-the-national-4ir-policy-missing-its-mark/Aaron-Sarma-General-Partner-of-ScaleUp-Malaysia-pixfrmJothamLim-JennJacobs-Fri02072021.jpg)
+![Is the National 4IR Policy missing its mark?](../../assets/media/the-edge/is-the-national-4ir-policy-missing-its-mark/Aaron-Sarma-General-Partner-of-ScaleUp-Malaysia-pixfrmJothamLim-JennJacobs-Fri02072021.jpg)
 
 Aaron Sarma, general partner at ScaleUp Malaysia. Photo credit: Scaleup Malaysia
 
@@ -55,7 +55,7 @@ Sarma is also concerned that the policy document is trying to address every sing
 
 He points towards the success of several growing companies, such as Aerodyne in the drone ecosystem, and recommends the government pick two to three key industries and technologies and double down there instead.
 
-![Is the National 4IR Policy missing its mark?](/media/the-edge/is-the-national-4ir-policy-missing-its-mark/Fadzli-Shah-MD-Awesome-Digital-Assets-pixfrmJothamLim-JennJacobs-Fri02072021.png)
+![Is the National 4IR Policy missing its mark?](../../assets/media/the-edge/is-the-national-4ir-policy-missing-its-mark/Fadzli-Shah-MD-Awesome-Digital-Assets-pixfrmJothamLim-JennJacobs-Fri02072021.png)
 
 Datuk Fadzli Shah Anuar, MD of Awesome Digital Assets & ex-chief strategy officer of MDEC. Photo credit: Awesome Digital Assets
 

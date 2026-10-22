@@ -2,10 +2,10 @@
 title: Omnifocus Is Not a TODO App, It’s a CAN DO App
 date: 2024-02-11T00:00:00Z
 updated: 2024-02-11T00:00:00+00:00
-image: /media/notes/omnifocus-is-not-a-todo-app-its-a-can-do-app.webp
+image: ../../assets/media/notes/omnifocus-is-not-a-todo-app-its-a-can-do-app.webp
 type: text
 ---
-![](/media/notes/omnifocus-is-not-a-todo-app-its-a-can-do-app.webp)
+![](../../assets/media/notes/omnifocus-is-not-a-todo-app-its-a-can-do-app.webp)
 
 I made the switch from Things (my main app for 3 years) to OF4 after learning about [David Sparks](https://www.youtube.com/watch?v=vUUaQF3_Pyo) and [CGP Grey’s](https://www.relay.fm/cortex/142) approach to task management.
 

@@ -3,10 +3,10 @@ title: An Entrepreneur’s Guide to Effective Time-Tracking
 description: I've tried out several time-tracking tools and strategies — here's what I've learned about boosting productivity and finding the right tools for the job.
 date: 2024-08-08
 updated: 2026-10-15T01:20:18+00:00
-image: /media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/ab14cbbb-0c9a-4830-821f-b3f0dca48185_1200x620.jpeg
+image: ../../assets/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/ab14cbbb-0c9a-4830-821f-b3f0dca48185_1200x620.jpeg
 ---
 
-![A puzzled figure in a suit beside two blurred phone screens and the question “Best time tracking app?”](/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/ab14cbbb-0c9a-4830-821f-b3f0dca48185_1200x620.jpeg)
+![A puzzled figure in a suit beside two blurred phone screens and the question “Best time tracking app?”](../../assets/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/ab14cbbb-0c9a-4830-821f-b3f0dca48185_1200x620.jpeg)
 
 A good tool improves the way you work. A great tool improves the way you think.
 
@@ -74,7 +74,7 @@ This is where time-tracking comes into play — it provides an objective metric 
 **Why Time Tracking is Difficult**
 ----------------------------------
 
-![](/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/acb5d1ff-67bc-404a-813c-7f0f808a9bdc_1200x600.png)
+![](../../assets/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/acb5d1ff-67bc-404a-813c-7f0f808a9bdc_1200x600.png)
 
 Time tracking is a notoriously hard habit to cultivate. I have personally tried my hand at it several times, jumping between various solutions before I settled on a system that works consistently.
 
@@ -107,7 +107,7 @@ Additionally, there’s a lack of immediate benefits — trend data becomes mean
 **Tools for Time-Tracking**
 ---------------------------
 
-![ATracker on two iPhones, a list of the day’s timers and a pie chart report, beside the app’s logo.](/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/abc39aca-8738-47f2-9b54-3c47b8db5f0d_1292x915.png)
+![ATracker on two iPhones, a list of the day’s timers and a pie chart report, beside the app’s logo.](../../assets/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/abc39aca-8738-47f2-9b54-3c47b8db5f0d_1292x915.png)
 
 *ATracker — De-code's time tracker of choice*
 
@@ -121,7 +121,7 @@ I wear my Apple Watch frequently throughout the day, making timer switching less
 
 #### **Always in View**
 
-![A running ATracker timer shown on the iPhone lock screen, an Apple Watch face and the Dynamic Island.](/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/3b14a486-4958-49bd-81e2-349e3575ac62_1292x668.jpeg)
+![A running ATracker timer shown on the iPhone lock screen, an Apple Watch face and the Dynamic Island.](../../assets/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/3b14a486-4958-49bd-81e2-349e3575ac62_1292x668.jpeg)
 
 *Time tracked is always up-to-date &amp; visible*
 
@@ -131,7 +131,7 @@ ATracker also has great "Live Activities" and "Dynamic Island" functionality, wh
 
 #### **Its Speed is Unmatched**
 
-![Screen recording of switching timers: Timery stalls on a spinning wheel, while ATracker switches at once.](/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/7df0d4e3-e779-4db9-833b-b0f6275ea27a_800x450.gif)
+![Screen recording of switching timers: Timery stalls on a spinning wheel, while ATracker switches at once.](../../assets/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/7df0d4e3-e779-4db9-833b-b0f6275ea27a_800x450.gif)
 
 *Comparing TImery/Toggl with ATracker*
 
@@ -139,7 +139,7 @@ ATracker uses a local-first-then-sync methodology — this means that switching 
 
 Because ATracker is local-first, I am also extremely confident that the timer displayed on the widgets, Live Activities, and Dynamic Island are all up to date — in contrast to internet-reliant options where these displays only refresh every 15 minutes to conserve battery life.
 
-![ATracker’s time editor, with buttons to shift a time by 5, 15 or 30 minutes, and Last, Now and Fill gap.](/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/f3eccb20-7ece-4e82-8e3d-d454780dcd17_591x526.jpeg)
+![ATracker’s time editor, with buttons to shift a time by 5, 15 or 30 minutes, and Last, Now and Fill gap.](../../assets/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/f3eccb20-7ece-4e82-8e3d-d454780dcd17_591x526.jpeg)
 
 *ATracker's Entry Editing Screen*
 
@@ -147,7 +147,7 @@ I also like how incredibly easy it is to adjust start and end times using time i
 
 #### **I Like Their Monetisation Policies**
 
-![ATracker’s Free, Pro and Premium tiers compared: Pro adds unlimited tasks, data export and no ads.](/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/83465573-198d-4931-97de-c86f713f14b7_576x806.jpeg)
+![ATracker’s Free, Pro and Premium tiers compared: Pro adds unlimited tasks, data export and no ads.](../../assets/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/83465573-198d-4931-97de-c86f713f14b7_576x806.jpeg)
 
 *ATracker Pricing Tiers*
 
@@ -161,13 +161,13 @@ There is a subscription tier that I find unnecessary for my use case. It syncs y
 
 The app comes with a great tagging and goal system, which replaces the "client" and "habits" available in other apps, both of which are trackable within the reports tab.
 
-![The same day in ATracker as a calendar and as time blocks, with hours down the side and minutes across.](/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/5547f797-0b8d-4b47-8f39-6f5fba3db67b_1202x1281.jpeg)
+![The same day in ATracker as a calendar and as time blocks, with hours down the side and minutes across.](../../assets/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/5547f797-0b8d-4b47-8f39-6f5fba3db67b_1202x1281.jpeg)
 
 *Comparisons between Calendar and Time Blocks*
 
 It is also the only app I've found so far that makes full use of the horizontal and vertical rows of my phone screen space — with the vertical axis being the hours and the horizontal axis being the minutes in said hour. A quick glance at the colours on screen is a good way of telling how much time is spent on a given day. This is different from a typical calendar, where a short 15-minute duration is just a tiny slither on screen.
 
-![Screen recording of ATracker’s reports: a week of stacked daily bars by task, with the day’s entries below.](/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/2b619031-5416-468a-b82b-7ef0e68b8328_480x1040.gif)
+![Screen recording of ATracker’s reports: a week of stacked daily bars by task, with the day’s entries below.](../../assets/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/2b619031-5416-468a-b82b-7ef0e68b8328_480x1040.gif)
 
 In fact, I find ATracker's report functionality relatively more robust than other tools I found — you can easily filter reports by duration, date, tasks, tags, and goals. Another cool feature I rarely find elsewhere is the ability to track occurrences in addition to duration captured — which is great for users who want to track, say, how many times they spent reviewing emails a day.
 
@@ -175,11 +175,11 @@ In fact, I find ATracker's report functionality relatively more robust than othe
 
 The homescreen widget is, albeit ugly, functional and straightforward to use. But it could make better use of the dead space, and the design feels somewhat underdeveloped.
 
-![Screen recording of ATracker’s home screen widget: tapping a timer opens the app instead of switching to it.](/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/5bd39b0d-bd46-464c-8431-914ef2340a2c_800x1422.gif)
+![Screen recording of ATracker’s home screen widget: tapping a timer opens the app instead of switching to it.](../../assets/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/5bd39b0d-bd46-464c-8431-914ef2340a2c_800x1422.gif)
 
 I also dislike how clicking on the widget doesn't change timers immediately and instead opens up the app. It doesn't even automatically direct you to the "Today" tab if you were on another tab previously.
 
-![ATracker’s widget and the Dynamic Island, which shows the running Creator timer only as an icon and “Cr”.](/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/10897587-f169-4ca4-b0ee-faa69cd13512_591x674.jpeg)*Live activities are unclear and confusing*
+![ATracker’s widget and the Dynamic Island, which shows the running Creator timer only as an icon and “Cr”.](../../assets/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/10897587-f169-4ca4-b0ee-faa69cd13512_591x674.jpeg)*Live activities are unclear and confusing*
 
 Additionally, I feel that the Dynamic Island is too narrow to include the full task name, and it could make do with a coloured icon rather than a white one.
 
@@ -225,7 +225,7 @@ For freelancers, it makes sense to track only working hours and segregate them b
 
 Personally, the way I time-track is inspired by [David Sparks](https://www.macsparky.com/?ref=de-code.my&utm_source=www.de-code.my&utm_medium=referral&utm_campaign=an-entrepreneur-s-guide-to-effective-time-tracking) from MacSparky and the [Mac Power Users](https://www.relay.fm/mpu?ref=de-code.my&utm_source=www.de-code.my&utm_medium=referral&utm_campaign=an-entrepreneur-s-guide-to-effective-time-tracking) podcast. He builds his to-do list system around the idea of *arete*, an ancient Greek term describing excellence within purpose and function. In non-fancy terms, it means separating tasks based on roles in life, and I adopted his methodology for time-tracking instead.
 
-![My ATracker tasks, each a role such as Manager, Creator or Partner, tagged Work, Myself, Others, Commute or Death.](/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/93ebe705-c5f7-41c3-b140-5ac1e152152e_554x978.jpeg)*My personal time-tracking categories*
+![My ATracker tasks, each a role such as Manager, Creator or Partner, tagged Work, Myself, Others, Commute or Death.](../../assets/media/essays/an-entrepreneur-s-guide-to-effective-time-tracking/93ebe705-c5f7-41c3-b140-5ac1e152152e_554x978.jpeg)*My personal time-tracking categories*
 
 Each task in ATracker is named after a role I adopt in life — such as being a department manager, creator of this newsletter, or becoming a HealthyGamer coach. I bundle all daily upkeep activities such as eating, bathing, and cleaning the house under maintenance. Transition refers to dead time between two tasks, such as grabbing coffee or a bathroom break. The rest is pretty self-explanatory.
 

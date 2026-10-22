@@ -11,7 +11,7 @@ This article first appeared in Digital Edge, The Edge Malaysia Weekly on May 31,
 
 We are now lockdown veterans and many of us reach for our trusty laptop or phone to order just about everything we want online. Some may have developed a taste for the more esoteric items in the wilderness of e-commerce platforms. Here are a few of the stranger things that Digital Edge has managed to unearth.
 
-![Listicle: 5 Bizarre things you can buy online](/media/the-edge/listicle-5-bizarre-things-you-can-buy-online/DE12-Fried-chicken-tem1372_theedgemarkets.jpg)
+![Listicle: 5 Bizarre things you can buy online](../../assets/media/the-edge/listicle-5-bizarre-things-you-can-buy-online/DE12-Fried-chicken-tem1372_theedgemarkets.jpg)
 
 ## 1  Fried chicken phone case
 
@@ -21,7 +21,7 @@ The chicken is made of durable soft silicone and is embedded into the phone case
 
 ***https://bit.ly/32O7Tzu***
 
-![Listicle: 5 Bizarre things you can buy online](/media/the-edge/listicle-5-bizarre-things-you-can-buy-online/DE12-Squeeze-toy-tem1372_theedgemarkets.jpg)
+![Listicle: 5 Bizarre things you can buy online](../../assets/media/the-edge/listicle-5-bizarre-things-you-can-buy-online/DE12-Squeeze-toy-tem1372_theedgemarkets.jpg)
 
 ## 2  Squeeze acne toy/pimple popper
 
@@ -33,7 +33,7 @@ Some horrified readers may wince at the idea of popping zits for fun. Still, thi
 
 ***https://bit.ly/32NgiDb***
 
-![Listicle: 5 Bizarre things you can buy online](/media/the-edge/listicle-5-bizarre-things-you-can-buy-online/DE12-Bluetooth-gloves-tem1372_theedgemarkets.jpg)
+![Listicle: 5 Bizarre things you can buy online](../../assets/media/the-edge/listicle-5-bizarre-things-you-can-buy-online/DE12-Bluetooth-gloves-tem1372_theedgemarkets.jpg)
 
 ## 3  Bluetooth gloves
 
@@ -45,7 +45,7 @@ It may seem gimmicky, but the technology that goes into this glove is pretty hea
 
 ***https://bit.ly/3vwVjB9***
 
-![Listicle: 5 Bizarre things you can buy online](/media/the-edge/listicle-5-bizarre-things-you-can-buy-online/DE12-toilet-light-tem1372_theedgemarkets.jpg)
+![Listicle: 5 Bizarre things you can buy online](../../assets/media/the-edge/listicle-5-bizarre-things-you-can-buy-online/DE12-toilet-light-tem1372_theedgemarkets.jpg)
 
 ## 4  Toilet night light
 
@@ -57,7 +57,7 @@ The light is in the bowl. Which means you can see where you are going, what you 
 
 ***https://bit.ly/3sPyYgb***
 
-![Listicle: 5 Bizarre things you can buy online](/media/the-edge/listicle-5-bizarre-things-you-can-buy-online/DE12-Enter-tem1372_theedgemarkets.jpg)
+![Listicle: 5 Bizarre things you can buy online](../../assets/media/the-edge/listicle-5-bizarre-things-you-can-buy-online/DE12-Enter-tem1372_theedgemarkets.jpg)
 
 ## 5  ‘Enter’ key pillow
 

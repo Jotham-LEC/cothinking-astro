@@ -21,7 +21,7 @@ Although there are overlapping jurisdictions, our data privacy is primarily dete
 
 However, a 2018 academic paper released by Taylor’s University Malaysia points out that the PDPA only applies to personal data used in commercial transactions — unrelated to the protection of an individual’s personal data. This is unlike the legal perspective in the UK where citizens’ general right to privacy is viewed as a fundamental human right.
 
-![Cover Story: Is our data truly safe?](/media/the-edge/cover-story-is-our-data-truly-safe/DE6-Farlina-tem1375_theedgemarkets.jpg)
+![Cover Story: Is our data truly safe?](../../assets/media/the-edge/cover-story-is-our-data-truly-safe/DE6-Farlina-tem1375_theedgemarkets.jpg)
 
 “When we use our smart devices and watches, we are sending this data to the cloud, but we do not know whether the data sits in Malaysia or somewhere else,” says Thillai Raj, senior technological adviser at Wise AI Sdn Bhd. “This is a matter of some concern because the current PDPA policies only apply to commercial transactions and do not apply to personal data that is processed outside of Malaysia.
 
@@ -33,7 +33,7 @@ For reference, he points towards the General Data Protection Regulation (GDPR) a
 
 “For example, if a European citizen’s data is being kept on Malaysian shores and he demands that his data be removed, the company is obliged to do so,” says Thillai. “California issued the California Consumer Privacy Act (CCPA) in 2018, which contains similar regulations, but the fines are significantly smaller.”
 
-![Cover Story: Is our data truly safe?](/media/the-edge/cover-story-is-our-data-truly-safe/DE6-Thillai-tem1375_theedgemarkets.jpg)
+![Cover Story: Is our data truly safe?](../../assets/media/the-edge/cover-story-is-our-data-truly-safe/DE6-Thillai-tem1375_theedgemarkets.jpg)
 
 When updating our current data privacy policies, it must also open up channels for citizens to claim recuperation in the event of a data compromise, says Farlina Said, an analyst with the Institute of Strategic and International Studies (ISIS) Malaysia. “Citizens should have the right to go to the government and ask for protection because that is technically how things should work,” she adds.
 
@@ -45,7 +45,7 @@ For years, our data practices in both the public and private sectors have been s
 
 “For us to achieve high-income nation status, our country’s trajectory points towards building a data-fuelled economy, encompassing artificial intelligence, cloud computing and so on. From a national security perspective, we need to have the capacity and the aptitude to protect our data and understand data governance,” she says.
 
-![Cover Story: Is our data truly safe?](/media/the-edge/cover-story-is-our-data-truly-safe/DE6-Satya-tem1375_theedgemarkets.jpg)
+![Cover Story: Is our data truly safe?](../../assets/media/the-edge/cover-story-is-our-data-truly-safe/DE6-Satya-tem1375_theedgemarkets.jpg)
 
 “That is why current laws need to be reviewed for enforcement agencies, be it by policing authorities or related ministries, to be held responsible for protecting these systems in the first place. Conversations around data protection need to happen, before we can dive deeper into protecting individual user privacy and related matters.”
 
@@ -55,7 +55,7 @@ On the other hand, there is the matter of enforcing the existing policies, says�
 
 He uses the example of oil and gas players that conduct maritime subsurface scanning. The data collected is highly sensitive, with an impact on national security. However, such data is exported out of the country to be processed because the technology for this is still not available in Malaysia.
 
-![Cover Story: Is our data truly safe?](/media/the-edge/cover-story-is-our-data-truly-safe/DE6-Sunli-tem1375_theedgemarkets.jpg)
+![Cover Story: Is our data truly safe?](../../assets/media/the-edge/cover-story-is-our-data-truly-safe/DE6-Sunli-tem1375_theedgemarkets.jpg)
 
 “There needs to be ways for local authorities to identify companies that are placing data outside the borders of our country, which means employing the right experts that can trace how data is transferred from one enterprise to another. This is something we lack, and we currently do not have the capacity to do that,” says Satya.
 
@@ -69,7 +69,7 @@ ACASIA fills this gap by serving as a one-stop centre and a regional ICT solutio
 
 “Moving forward, I believe the Malaysian government is taking the right steps by providing conditional approvals to Big Tech companies and Telekom Malaysia to build hyperscale data centres. However, to establish a cohesive digital economy, we will need more local data centre players to come on board,” says Satya.
 
-![Cover Story: Is our data truly safe?](/media/the-edge/cover-story-is-our-data-truly-safe/DE6-dictionary-TEM1375_theedgemarkets.jpg)
+![Cover Story: Is our data truly safe?](../../assets/media/the-edge/cover-story-is-our-data-truly-safe/DE6-dictionary-TEM1375_theedgemarkets.jpg)
 
 ### The inevitability of the issue
 
@@ -85,7 +85,7 @@ Thus, he believes that organisations should be proactive rather than reactive wh
 
 “There is no time like now for businesses to have a complete, updated overview of their data. Ideally, issues pertaining to data sovereignty should be dealt with at every stage of organisational growth, and incorporated into data management strategies from the bottom up.”
 
-![Cover Story: Is our data truly safe?](/media/the-edge/cover-story-is-our-data-truly-safe/DE6-data-table-tem1375_theedgemarkets.jpg)
+![Cover Story: Is our data truly safe?](../../assets/media/the-edge/cover-story-is-our-data-truly-safe/DE6-data-table-tem1375_theedgemarkets.jpg)
 
 ## What can be done today?
 

@@ -19,7 +19,7 @@ CEO Ahmad Najib Nazlan says making contrarian calls in its investment strategy e
 
 Ahmad Najib points to the investment team’s agility, teamwork and leadership as being key contributors to the success of the two funds. He says that from the onset of the pandemic and lockdowns, the team mobilised daily virtual meetings to discuss and plan their fund management strategies, which allowed them to look at opportunities in dislocated markets.
 
-![Two awards for Maybank Asset Management](/media/the-edge/two-awards-for-maybank-asset-management/Maybank_lipper2021_table_theedgemarkets.jpg)
+![Two awards for Maybank Asset Management](../../assets/media/the-edge/two-awards-for-maybank-asset-management/Maybank_lipper2021_table_theedgemarkets.jpg)
 
 “Due to our proactive engagements, we were able to turn ‘defensive’ early on. When the markets were dislocated, we were ready to go on the offensive and capitalise on those opportunities at attractive valuations,” he adds.
 

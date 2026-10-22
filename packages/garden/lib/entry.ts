@@ -23,8 +23,8 @@ export type SiteEntry = {
   url: string;
   title: string;
   description: string | null;
-  /** A public path, for the share image. */
-  image: string | null;
+  /** The page's picture (Astro's image metadata), for the share image. */
+  image: { src: string; width: number; height: number } | null;
   date: Date | null;
   updated: Date | null;
   draft: boolean;
@@ -66,6 +66,12 @@ const asDate = (value: unknown): Date | null => {
 };
 const asString = (value: unknown): string | null => (typeof value === 'string' && value !== '' ? value : null);
 const asNumber = (value: unknown): number | null => (typeof value === 'number' ? value : null);
+const asImage = (value: unknown): SiteEntry['image'] => {
+  const v = value as { src?: unknown; width?: unknown; height?: unknown } | null;
+  return v && typeof v === 'object' && typeof v.src === 'string' && typeof v.width === 'number' && typeof v.height === 'number'
+    ? { src: v.src, width: v.width, height: v.height }
+    : null;
+};
 
 export function toSiteEntry({ collection, id, data: d, body, rendered }: RawEntry, urlOf: UrlOf): SiteEntry {
   const paragraphs = (rendered?.metadata?.frontmatter as Record<string, unknown> | undefined)?.paragraphs;
@@ -75,7 +81,7 @@ export function toSiteEntry({ collection, id, data: d, body, rendered }: RawEntr
     url: urlOf(collection, id),
     title: String(d.title ?? id),
     description: asString(d.description),
-    image: asString(d.image),
+    image: asImage(d.image),
     date: asDate(d.date),
     updated: asDate(d.updated),
     draft: d.draft === true,

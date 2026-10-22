@@ -35,7 +35,7 @@ Lim Chun Zhe, another graduate student on the AVMS development team, explains th
 
 “The system also detects non-painted lane markers such as road shoulders. So, it can differentiate between hard road surfaces and off-road surfaces such as grass.”
 
-![AI: Keep your eyes on the road](/media/the-edge/ai-keep-your-eyes-on-the-road/DE4-Pang-tem1345_theedgemarkets.jpg)
+![AI: Keep your eyes on the road](../../assets/media/the-edge/ai-keep-your-eyes-on-the-road/DE4-Pang-tem1345_theedgemarkets.jpg)
 
 Pang with the components of the AVMS
 

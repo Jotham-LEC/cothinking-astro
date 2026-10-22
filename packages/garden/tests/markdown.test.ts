@@ -1,19 +1,17 @@
 // The Markdown pipeline: Astro's own remark/rehype processor with the garden's plugins.
-import path from 'node:path';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { wikiRehypePlugins, wikiRemarkPlugins } from '../lib/markdown/index.ts';
 import { codeBlock } from '../lib/markdown/shiki-code-block.ts';
 
 const titles = { 'older essay': '/essays/older-essay', cothinking: 'https://cothink.ing/' };
-const publicDir = path.resolve(__dirname, '../../../sites/jothamlim/public');
 let processor: Awaited<ReturnType<typeof createMarkdownProcessor>>;
 let render: (md: string) => Promise<string>;
 
 beforeAll(async () => {
   processor = await createMarkdownProcessor({
     remarkPlugins: wikiRemarkPlugins({ titles: () => titles, siteUrl: 'https://jothamlim.com' }),
-    rehypePlugins: wikiRehypePlugins({ siteUrl: 'https://jothamlim.com', publicDir }),
+    rehypePlugins: wikiRehypePlugins({ siteUrl: 'https://jothamlim.com' }),
     gfm: true,
     smartypants: false,
     syntaxHighlight: { type: 'shiki' },
@@ -110,21 +108,6 @@ describe('links, images and plain text', () => {
     expect(html.split('external-link').length - 1).toBe(1); // the raw-HTML button is left alone
   });
 
-  it('loads the first image eagerly and the rest lazily, makes a titled lone image a figure, and measures media images', async () => {
-    const html = await render('![Alt](/media/a.png "A caption")\n\nThen ![inline](/media/b.png "Kept") in text.');
-    expect(html).toContain('loading="eager" fetchpriority="high"');
-    expect(html).toContain('<figure class="figure">');
-    expect(html).toContain('<figcaption>A caption</figcaption>');
-    expect(html).toMatch(/<p>Then <img src="\/media\/b.png" alt="inline" title="Kept" loading="lazy"/);
-    expect(html).not.toContain('<p><figure');
-    const measured = await render('![](/media/profile-400.jpg)');
-    expect(measured).toContain('width="400" height="400"');
-    expect(measured).toContain('loading="eager"');
-    const linked = await render('[![a](/media/profile-400.jpg)](/essays/older-essay)');
-    expect(linked).not.toContain('zoomable');
-    expect(await render('![x](/media/profile-400.jpg)')).toContain('class="zoomable"');
-  });
-
   it('leaves Antlers-looking text, dollar amounts, dashes and quotes alone', async () => {
     expect(await render('Write `{{ title }}` and {{ title }}.')).toContain('{{ title }}');
     expect(await render('Worth US$3.8 billion, rising to US$35.8 billion.')).toContain(
@@ -133,13 +116,13 @@ describe('links, images and plain text', () => {
     expect(await render('Leads -- "quoted" and more...')).toContain('Leads -- "quoted" and more...');
   });
 
-  it('keeps raw HTML, and highlights a code block in both themes inside its chrome', async () => {
+  it('keeps raw HTML and Markdown images as they are, and highlights a code block in both themes inside its chrome', async () => {
     const html = await render(
-      '<figure class="wiki-pdf"><a class="wiki-pdf-preview" href="/x.pdf"><img src="/media/profile-400.jpg" alt="p" width="884" height="1200" /></a></figure>\n\n```sh\nls\n```\n\n```\nplain\n```',
+      '<figure class="wiki-pdf"><a class="wiki-pdf-preview" href="/x.pdf"><img src="/media/p.jpg" alt="p" width="884" height="1200" loading="lazy" /></a></figure>\n\n![A photo](../../assets/media/a.png)\n\n```sh\nls\n```\n\n```\nplain\n```',
     );
     expect(html).toContain('<figure class="wiki-pdf">');
-    expect(html).toContain('width="884" height="1200"');
-    expect(html).not.toContain('zoomable');
+    expect(html).toContain('width="884" height="1200" loading="lazy"');
+    expect(html).toContain('<img src="../../assets/media/a.png" alt="A photo">');
     expect(html).toMatch(
       /<div class="code-block"><div class="code-block-header"><span class="code-block-lang">sh<\/span><button [^>]*class="code-block-copy"[^>]*>Copy<\/button><\/div><pre class="astro-code astro-code-themes gruvbox-light-soft gruvbox-dark-soft" style="--shiki-light:/,
     );

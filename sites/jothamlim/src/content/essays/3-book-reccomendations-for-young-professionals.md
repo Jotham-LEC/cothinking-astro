@@ -2,10 +2,10 @@
 title: 3 Book Recommendations for Young Professionals
 date: 2023-04-30
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/3-book-reccomendations-for-young-professionals/37201cf9-6d27-484f-b57b-1e8319a941cd_1094x615.webp
+image: ../../assets/media/essays/3-book-reccomendations-for-young-professionals/37201cf9-6d27-484f-b57b-1e8319a941cd_1094x615.webp
 ---
 
-![](/media/essays/3-book-reccomendations-for-young-professionals/37201cf9-6d27-484f-b57b-1e8319a941cd_1094x615.webp)Of all the habits I’ve built up in recent years, consistent reading is the one that has helped me the most. It formed the foundation of my personal productivity system, forced me to reflect on my existing bad habits, and even shaped my belief system.
+![](../../assets/media/essays/3-book-reccomendations-for-young-professionals/37201cf9-6d27-484f-b57b-1e8319a941cd_1094x615.webp)Of all the habits I’ve built up in recent years, consistent reading is the one that has helped me the most. It formed the foundation of my personal productivity system, forced me to reflect on my existing bad habits, and even shaped my belief system.
 
 However, it wasn’t the easiest habit to build up. Books can be long-winded and slow to go through if you read line by line. YouTube videos and Reddit posts are more engaging, shorter and dense with information.
 

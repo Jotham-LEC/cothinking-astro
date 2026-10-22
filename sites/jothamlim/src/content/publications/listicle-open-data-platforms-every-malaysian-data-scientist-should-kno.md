@@ -17,7 +17,7 @@ Unfortunately, Malaysia holds one of the lowest ranks in the Global Open Data In
 
 To take advantage of the nascent open data landscape in Malaysia, here is a compilation of open data portals available to any data enthusiast. This is by no means an exhaustive list. For a more comprehensive list of all the available open data portals globally, readers may visit the Open Data Inception website (opendatainception.io).
 
-![Listicle: Open data platforms every Malaysian data scientist should know](/media/the-edge/listicle-open-data-platforms-every-malaysian-data-scientist-should-kno/DE16-data-tem1393_theedgemarkets.jpg)
+![Listicle: Open data platforms every Malaysian data scientist should know](../../assets/media/the-edge/listicle-open-data-platforms-every-malaysian-data-scientist-should-kno/DE16-data-tem1393_theedgemarkets.jpg)
 
 ## 1  Malaysia Open Data Portal
 
@@ -29,7 +29,7 @@ The site is being managed by the Malaysian Administrative Modernisation and Mana
 
 The datasets stored on the website leave much room for improvement, especially when it comes to standardisation. The language may be in either English or Bahasa Malaysia, and some of the data may be duplicated or outdated. Still, it is currently the most comprehensive open government data platform that we have.
 
-![Listicle: Open data platforms every Malaysian data scientist should know](/media/the-edge/listicle-open-data-platforms-every-malaysian-data-scientist-should-kno/DE16-kaggle-tem1393_theedgemarkets.jpg)
+![Listicle: Open data platforms every Malaysian data scientist should know](../../assets/media/the-edge/listicle-open-data-platforms-every-malaysian-data-scientist-should-kno/DE16-kaggle-tem1393_theedgemarkets.jpg)
 
 ## 2  Kaggle
 
@@ -43,7 +43,7 @@ At the time of writing, the competition with the largest prize pool, of US$100,0
 
 Kaggle’s inClass competition programme is also free for universities and is being used by institutions such as Harvard, Stanford and Oxford Universities. Students can even use existing codes provided by the Kaggle community and repurpose them for their personal projects.
 
-![Listicle: Open data platforms every Malaysian data scientist should know](/media/the-edge/listicle-open-data-platforms-every-malaysian-data-scientist-should-kno/DE16-oecd-tem1393_theedgemarkets.jpg)
+![Listicle: Open data platforms every Malaysian data scientist should know](../../assets/media/the-edge/listicle-open-data-platforms-every-malaysian-data-scientist-should-kno/DE16-oecd-tem1393_theedgemarkets.jpg)
 
 ## 3  OECD iLibrary
 
@@ -55,7 +55,7 @@ In addition to economic indicators, the site also contains datasets ranging from
 
 Many of the datasets go as far back as 1998, giving data scientists plenty of wiggle room to conduct any time-series or historical analysis. Even without the raw datasets on the site, the OECD publishes between 300 and 500 books annually — a repository of information useful for any knowledge analysis beyond pure data and should be part of any data scientist’s toolkit.
 
-![Listicle: Open data platforms every Malaysian data scientist should know](/media/the-edge/listicle-open-data-platforms-every-malaysian-data-scientist-should-kno/DE16-napic-tem1393_theedgemarkets.jpg)
+![Listicle: Open data platforms every Malaysian data scientist should know](../../assets/media/the-edge/listicle-open-data-platforms-every-malaysian-data-scientist-should-kno/DE16-napic-tem1393_theedgemarkets.jpg)
 
 ## 4  National Property Information Centre
 
@@ -69,7 +69,7 @@ To obtain more granular data that might involve individual sales transactions, t
 
 Currently, these unpublished databases are available only to nationally recognised and registered property valuers and real estate agents, and it is uncertain whether the service will be available to the general public. Parts of the transaction database can be found on the official government portal, but it contains data for only up to 2018 at the time of writing.
 
-![Listicle: Open data platforms every Malaysian data scientist should know](/media/the-edge/listicle-open-data-platforms-every-malaysian-data-scientist-should-kno/DE16-dataportal-tem1393_theedgemarkets.jpg)
+![Listicle: Open data platforms every Malaysian data scientist should know](../../assets/media/the-edge/listicle-open-data-platforms-every-malaysian-data-scientist-should-kno/DE16-dataportal-tem1393_theedgemarkets.jpg)
 
 ## 5  Asia Open Data Portal
 

@@ -2,10 +2,10 @@
 title: Boosting Team Productivity — What We Can Learn From University Projects
 date: 2023-02-10
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/boosting-team-productivity-what-we-can-learn-from-university-projects/a4308e5b-cb5b-4206-a4a8-5d7c57203219_1403x789.webp
+image: ../../assets/media/essays/boosting-team-productivity-what-we-can-learn-from-university-projects/a4308e5b-cb5b-4206-a4a8-5d7c57203219_1403x789.webp
 ---
 
-![](/media/essays/boosting-team-productivity-what-we-can-learn-from-university-projects/a4308e5b-cb5b-4206-a4a8-5d7c57203219_1403x789.webp)What makes an unsustainable, inefficient, and selfish department? For that, we can look towards a scenario that many of you might be all too familiar with: College group assignments, especially during the pandemic.
+![](../../assets/media/essays/boosting-team-productivity-what-we-can-learn-from-university-projects/a4308e5b-cb5b-4206-a4a8-5d7c57203219_1403x789.webp)What makes an unsustainable, inefficient, and selfish department? For that, we can look towards a scenario that many of you might be all too familiar with: College group assignments, especially during the pandemic.
 
 Hitting your KPIs; strong interpersonal skills; the ability to manage both upwards and downwards—these are some of the many skills I assume a “good” B2B manager should have.
 

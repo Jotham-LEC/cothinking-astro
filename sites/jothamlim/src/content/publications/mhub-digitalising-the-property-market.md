@@ -19,7 +19,7 @@ Not only does the process involve multiple parties from different industries, th
 
 MHub’s suite of apps was developed to address these inefficiencies, with the goal of speeding up and simplifying the sale process. Ong says it has helped property developers reduce the time taken to complete sales transactions down to one month while also making the process more transparent for all parties.
 
-![MHUB: Digitalising the property market](/media/the-edge/mhub-digitalising-the-property-market/DE8-MHub-Ong-tem1351_theedgemarkets.jpg)
+![MHUB: Digitalising the property market](../../assets/media/the-edge/mhub-digitalising-the-property-market/DE8-MHub-Ong-tem1351_theedgemarkets.jpg)
 
 The suite consists of 10 apps dedicated to lawyers, bankers, prospective homebuyers, existing homebuyers, property agents and more. Pegasuswork, for example, assists homebuyers in the vacant possession process, managing and cataloguing property defects after they have received their keys.
 
@@ -35,7 +35,7 @@ Property buyers are now less inclined to leave their homes to visit property sho
 
 When Ong and his team first assessed the possible impact of the pandemic on the real estate industry, they discussed meaningful ways in which they could help clients prepare for the situation.
 
-![MHUB: Digitalising the property market](/media/the-edge/mhub-digitalising-the-property-market/DE8-MHub3-box-tem1351_theedgemarkets.jpg)
+![MHUB: Digitalising the property market](../../assets/media/the-edge/mhub-digitalising-the-property-market/DE8-MHub3-box-tem1351_theedgemarkets.jpg)
 
 The result was the launch of the “Showroom for Buyer” app, a self-service solution for homebuyers to view and select property units, register their bookings and make their booking payments from the comfort of their own homes while practising social distancing.
 
@@ -51,7 +51,7 @@ MHub’s pivotal changes to its 2020 roadmap have proven effective, enabling it 
 
 It also more than doubled the number of banks and real estate agents using its platform to about 2,500 and 4,500 respectively. In addition, the number of registered users shot up to 10,000 within the same period.
 
-![MHUB: Digitalising the property market](/media/the-edge/mhub-digitalising-the-property-market/DE8-MHub-graphic2-tem1351_theedgemarkets.jpg)
+![MHUB: Digitalising the property market](../../assets/media/the-edge/mhub-digitalising-the-property-market/DE8-MHub-graphic2-tem1351_theedgemarkets.jpg)
 
 Despite the growth witnessed this year, Ong explains that more needs to be done to accelerate the digital transformation process within the real estate industry. He says even though the drive for digital adoption has intensified due to Covid-19, many players still prefer to not make investments during uncertain times.
 

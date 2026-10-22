@@ -2,10 +2,10 @@
 title: After 18 Months — Being a Marketing Manager
 date: 2024-01-21
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/after-18-months-being-a-marketing-manager/3a30e3a0-c9cf-4f4c-a65d-03449b03108c_2354x1324.webp
+image: ../../assets/media/essays/after-18-months-being-a-marketing-manager/3a30e3a0-c9cf-4f4c-a65d-03449b03108c_2354x1324.webp
 ---
 
-![](/media/essays/after-18-months-being-a-marketing-manager/3a30e3a0-c9cf-4f4c-a65d-03449b03108c_2354x1324.webp)I lead a small team of three. Though small, this department is an important one and has an undeniable impact on the company and the industry.
+![](../../assets/media/essays/after-18-months-being-a-marketing-manager/3a30e3a0-c9cf-4f4c-a65d-03449b03108c_2354x1324.webp)I lead a small team of three. Though small, this department is an important one and has an undeniable impact on the company and the industry.
 
 We are marketers on paper but also organisers, data analysts, salesmen, IT experts, culture builders, content creators and even automation engineers.
 

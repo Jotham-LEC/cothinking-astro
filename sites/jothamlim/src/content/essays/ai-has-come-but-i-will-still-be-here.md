@@ -2,10 +2,10 @@
 title: AI Has Come, but I Will Still Be Here
 date: 2023-05-15
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/ai-has-come-but-i-will-still-be-here/b9edca6c-0fa4-4eea-bddf-a517af16196e_1844x1037.webp
+image: ../../assets/media/essays/ai-has-come-but-i-will-still-be-here/b9edca6c-0fa4-4eea-bddf-a517af16196e_1844x1037.webp
 ---
 
-![](/media/essays/ai-has-come-but-i-will-still-be-here/b9edca6c-0fa4-4eea-bddf-a517af16196e_1844x1037.webp)AI is set to disrupt most if not all, sorts of knowledge work. But disruption shouldn’t be mistaken as a replacement.
+![](../../assets/media/essays/ai-has-come-but-i-will-still-be-here/b9edca6c-0fa4-4eea-bddf-a517af16196e_1844x1037.webp)AI is set to disrupt most if not all, sorts of knowledge work. But disruption shouldn’t be mistaken as a replacement.
 
 I’ve been using AI and automation tools for personal productivity for quite some time now—and frankly, it’s not as scary as it seems. In fact, I wish they had come along sooner.
 

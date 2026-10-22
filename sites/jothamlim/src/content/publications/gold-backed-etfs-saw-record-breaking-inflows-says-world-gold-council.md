@@ -23,7 +23,7 @@ It further explains that concerted expansionary policy measures and asset purcha
 
 In general, gold generated a gain of 17% in the first half of the year, even after factoring in the sharp retracement witnessed in March, when many investors were forced to sell their holdings for liquidity, according to the report. “The gold price against the US dollar rose to its highest in the past eight years, even reaching record highs in some currencies, and has attracted momentum-driven inflows on the back of these gains, which in turn contributed to the continued price strength. Momentum is one of the key tactical drivers that help explain gold’s recent performance, and has been supportive of the high investment demand in 2020 to date,” it says.
 
-![Gold-backed ETFs saw record-breaking inflows, says World Gold Council](/media/the-edge/gold-backed-etfs-saw-record-breaking-inflows-says-world-gold-council/PW-3_TEM1331_theedgemarkets.jpg)
+![Gold-backed ETFs saw record-breaking inflows, says World Gold Council](../../assets/media/the-edge/gold-backed-etfs-saw-record-breaking-inflows-says-world-gold-council/PW-3_TEM1331_theedgemarkets.jpg)
 
 Although all regions saw consistent monthly inflows throughout 2Q2020, North American-listed funds were by far the largest beneficiaries, attracting more than 75% of the global volume inflows.
 

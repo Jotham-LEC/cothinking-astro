@@ -115,7 +115,7 @@ APAM general manager Nor Daliya Mohd Daud says its PRS funds performed relativel
 
 **Financial planners offer their views**
 
-![Funds: PRS providers welcome liberalisation measures](/media/the-edge/funds-prs-providers-welcome-liberalisation-measures/PW8_TEM1316_theedgemarkets.jpg)
+![Funds: PRS providers welcome liberalisation measures](../../assets/media/the-edge/funds-prs-providers-welcome-liberalisation-measures/PW8_TEM1316_theedgemarkets.jpg)
 
 While there is a widespread view that Private Retirement Schemes (PRS) funds should be used solely for retirement purposes, financial planners say these funds can serve other financial objectives depending on how they are structured.
 

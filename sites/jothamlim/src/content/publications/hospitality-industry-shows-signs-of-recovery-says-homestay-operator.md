@@ -19,7 +19,7 @@ Tham also foresees the domestic tourism industry growing stronger in the near fu
 
 However, Wong Chea Hao, director of VH Premier Sdn Bhd, highlights that different locations are recovering at varying rates due to the different customer demographics. He explains destinations such as Malacca are mainly supported by domestic and Singaporean tourists. Thus occupancy rates have rebounded back to pre-Covid levels of about 50-70%.
 
-![Hospitality industry shows signs of recovery, says homestay operator](/media/the-edge/hospitality-industry-shows-signs-of-recovery-says-homestay-operator/Wong-Chea-Hao-29062020.jpg)
+![Hospitality industry shows signs of recovery, says homestay operator](../../assets/media/the-edge/hospitality-industry-shows-signs-of-recovery-says-homestay-operator/Wong-Chea-Hao-29062020.jpg)
 
 Wong Chea Hao, director of VH Premier Sdn Bhd.
 

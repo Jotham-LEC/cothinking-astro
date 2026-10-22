@@ -21,7 +21,7 @@ McDonnell explains that there are broadly two types of fraud — consumer fraud,
 
 McDonnell says the combination of consumer and corporate fraud accounts for about 70% of all economic crimes in Malaysia. “While fraud is growing rapidly, organisations are collecting more data than ever, which serves as the perfect foundation for analytics [to combat these crimes].”
 
-![AI: Using analytics to stem the rising tide of corporate fraud in Malaysia](/media/the-edge/ai-using-analytics-to-stem-the-rising-tide-of-corporate-fraud-in-malay/DE3-McDonnell-2-tem1364_theedgemarkets.jpg)
+![AI: Using analytics to stem the rising tide of corporate fraud in Malaysia](../../assets/media/the-edge/ai-using-analytics-to-stem-the-rising-tide-of-corporate-fraud-in-malay/DE3-McDonnell-2-tem1364_theedgemarkets.jpg)
 
 This niche industry — fraud analytics — has been growing steadily as a result. With fraudulent tactics constantly evolving at an ever-increasing rate, the traditional “rule-based” system to detect fraud has become less effective. While having a set of rules and regulations can do a good job in covering familiar types of fraud, they are not effective against unfamiliar types of fraud schemes or adapting to new fraud patterns.
 
@@ -41,7 +41,7 @@ The second major hurdle is a lack of trust. “Corporations still do not trust t
 
 The final challenge is choosing the right service provider for fraud analytics, he says. There are several veteran solution providers with decades of experience, but the industry has also seen the rise of new tech start-ups in this space. With the growing number of service providers, organisations may find it difficult to find one that is the right fit.
 
-![AI: Using analytics to stem the rising tide of corporate fraud in Malaysia](/media/the-edge/ai-using-analytics-to-stem-the-rising-tide-of-corporate-fraud-in-malay/DE3-Tan-tem1364_theedgemarkets.jpg)
+![AI: Using analytics to stem the rising tide of corporate fraud in Malaysia](../../assets/media/the-edge/ai-using-analytics-to-stem-the-rising-tide-of-corporate-fraud-in-malay/DE3-Tan-tem1364_theedgemarkets.jpg)
 
 ## Malaysian companies urged to take action
 

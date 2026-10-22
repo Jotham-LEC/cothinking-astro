@@ -2,10 +2,10 @@
 title: Doom Emacs – a Text Editing Playground I Didn’t Know I Needed
 date: 2024-03-22
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/doom-emacs-a-text-editing-playground-i-didnt-know-i-needed/8da9e6f1-43a1-48e3-9542-e7b8284dd5ef_5003x2814.webp
+image: ../../assets/media/essays/doom-emacs-a-text-editing-playground-i-didnt-know-i-needed/8da9e6f1-43a1-48e3-9542-e7b8284dd5ef_5003x2814.webp
 ---
 
-![Doom Emacs, with its start screen on the left and my Org-mode config file open on the right.](/media/essays/doom-emacs-a-text-editing-playground-i-didnt-know-i-needed/8da9e6f1-43a1-48e3-9542-e7b8284dd5ef_5003x2814.webp)
+![Doom Emacs, with its start screen on the left and my Org-mode config file open on the right.](../../assets/media/essays/doom-emacs-a-text-editing-playground-i-didnt-know-i-needed/8da9e6f1-43a1-48e3-9542-e7b8284dd5ef_5003x2814.webp)
 
 After migrating my notes to Notion, the names Emacs and Org-mode appeared constantly in threads, podcasts, and forums.
 

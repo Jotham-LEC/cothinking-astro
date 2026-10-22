@@ -40,8 +40,8 @@ These were already in the [Personal Data Protection Act 2010](https://www.pdp.go
 
 Section 12B requires you to notify the Commissioner "as soon as practicable", and to tell affected people without unnecessary delay if the breach is likely to cause them significant harm. The Commissioner's [Data Breach Notification Guideline](https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DBN_ENG.pdf) (25 February 2025) sets the numbers:
 
-<img class="wiki-logo-light" src="/media/diagrams/pdpa-for-marketing-and-sales-breach.svg" alt="A breach is reported to the Commissioner within 72 hours, affected people are told within seven days of that, and every breach stays in the register for two years">
-<img class="wiki-logo-dark" src="/media/diagrams/pdpa-for-marketing-and-sales-breach-dark.svg" alt="">
+<img class="wiki-logo-light" src="/media/diagrams/pdpa-for-marketing-and-sales-breach.svg" alt="A breach is reported to the Commissioner within 72 hours, affected people are told within seven days of that, and every breach stays in the register for two years" loading="lazy" decoding="async">
+<img class="wiki-logo-dark" src="/media/diagrams/pdpa-for-marketing-and-sales-breach-dark.svg" alt="" loading="lazy" decoding="async">
 
 - **72 hours** from the breach to notify the Commissioner, through the [online form](https://www.pdp.gov.my/ppdpv1/en/report-dbn/). If you are late, explain why in writing.
 - **Seven days** after that to tell the affected people.

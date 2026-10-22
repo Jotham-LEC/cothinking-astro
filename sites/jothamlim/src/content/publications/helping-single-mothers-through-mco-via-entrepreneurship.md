@@ -25,7 +25,7 @@ Ibupreneur is a social enterprise e-commerce platform specifically for financial
 
 "For Carousell, there will be an advertising banner on the website and app homepage, where customers are able to buy products from IbuPJ. We are also partnering with a local telco provider which will provide them with free internet connectivity throughout the four-week training programme," says Ellis Azhar, vice project director of IbuPJ.
 
-![Helping single mothers through MCO via entrepreneurship](/media/the-edge/helping-single-mothers-through-mco-via-entrepreneurship/ellis-29062020.jpg)
+![Helping single mothers through MCO via entrepreneurship](../../assets/media/the-edge/helping-single-mothers-through-mco-via-entrepreneurship/ellis-29062020.jpg)
 
 Ellis Azhar, vice project director of IbuPJ
 
@@ -33,7 +33,7 @@ According to Ellis, the four-week programme is limited to only 10 participants, 
 
 "According to our own research, the type of work suitable for single mothers include baking, or any form of home-cooked food. Some services are popular as well, such as babysitting, house cleaning, or postnatal massages," says Wong Kang Yao, chief technology officer of IbuPJ.
 
-![Helping single mothers through MCO via entrepreneurship](/media/the-edge/helping-single-mothers-through-mco-via-entrepreneurship/Matthew-Wong-Kang-Yao_29062020.jpg)
+![Helping single mothers through MCO via entrepreneurship](../../assets/media/the-edge/helping-single-mothers-through-mco-via-entrepreneurship/Matthew-Wong-Kang-Yao_29062020.jpg)
 
 Wong Kang Yao, chief technology officer of IbuPJ
 

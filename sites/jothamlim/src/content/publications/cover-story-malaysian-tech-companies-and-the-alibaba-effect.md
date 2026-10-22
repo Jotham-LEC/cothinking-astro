@@ -19,7 +19,7 @@ The “Chinese Warren Buffet” Guo Guangchang, founder and chairman of Fosun In
 
 In March last year, real estate mogul Ren Zhiqiang went missing after publishing an online essay criticising the Chinese government’s handling of the Covid-19 pandemic. He has since been expelled from the ruling Chinese Communist Party (CCP) and sentenced to 18 years in prison for taking bribes and misusing power. His supporters claim he was punished for speaking out against the CCP.
 
-![Cover Story: Malaysian tech companies and the Alibaba effect](/media/the-edge/cover-story-malaysian-tech-companies-and-the-alibaba-effect/DE6-woo-tem1369_theedgemarkets.jpg)
+![Cover Story: Malaysian tech companies and the Alibaba effect](../../assets/media/the-edge/cover-story-malaysian-tech-companies-and-the-alibaba-effect/DE6-woo-tem1369_theedgemarkets.jpg)
 
 At around the same time as the anti-trust crackdowns on Alibaba, other technology companies such as Tencent Holdings Ltd and Didi Chuxing Technology Co were fined for violating anti-monopoly rules as well.
 
@@ -35,7 +35,7 @@ For the past few decades, this requirement for CCP cells to be established has n
 
 On Sept 15 last year, the General Office of the Central Committee of the CCP issued an opinion piece calling on the nation’s United Front Work Departments (UFWDs) to increase CCP ideological work and influence in the private sector. UFWD is an intelligence department that gathers information, manages relations and attempts to influence elite individuals and organisations inside and outside China.
 
-![Cover Story: Malaysian tech companies and the Alibaba effect](/media/the-edge/cover-story-malaysian-tech-companies-and-the-alibaba-effect/DE6-ng-tem1369_theedgemarkets.jpg)
+![Cover Story: Malaysian tech companies and the Alibaba effect](../../assets/media/the-edge/cover-story-malaysian-tech-companies-and-the-alibaba-effect/DE6-ng-tem1369_theedgemarkets.jpg)
 
 All of this is relevant to businesses here as China has been Malaysia’s largest trading partner for the past 12 years, according to the Ministry of International Trade and Industry (Miti). Exports to China represented 16.2% of Malaysia’s total exports in 2020 and had risen by 12.5% year on year.
 
@@ -65,7 +65,7 @@ Regarding the tussle between the US and China, Ng believes there is little point
 
 “The more I researched China, the more business opportunities I found. China imports about US$300 billion of semiconductor chips and US$210 billion of them will be replaced by domestic manufacturing due to the Made in China 2025 initiative.
 
-![Cover Story: Malaysian tech companies and the Alibaba effect](/media/the-edge/cover-story-malaysian-tech-companies-and-the-alibaba-effect/DE6-CCP-tem1369_theedgemarkets.jpg)
+![Cover Story: Malaysian tech companies and the Alibaba effect](../../assets/media/the-edge/cover-story-malaysian-tech-companies-and-the-alibaba-effect/DE6-CCP-tem1369_theedgemarkets.jpg)
 
 Woo: In a way, the Chinese Communist Party wants to have a standard template for all companies to have CCP cells, regardless of ownership (Photo by Bloomberg)
 
@@ -131,7 +131,7 @@ While Asean member states are slow to sign on and follow through on the Paris Ag
 
 “While the world is racing towards zero emissions, our attitude in Asean is to brace for zero emissions. In terms of pursuing sustainability, we have no choice in this manner. If we continue not being sustainable, we can expect to see trade tariffs or green tariffs.”
 
-![Cover Story: Malaysian tech companies and the Alibaba effect](/media/the-edge/cover-story-malaysian-tech-companies-and-the-alibaba-effect/DE6-alibaba-2-tem1369_theedgemarkets.jpg)
+![Cover Story: Malaysian tech companies and the Alibaba effect](../../assets/media/the-edge/cover-story-malaysian-tech-companies-and-the-alibaba-effect/DE6-alibaba-2-tem1369_theedgemarkets.jpg)
 
 ## Business as usual
 
@@ -145,7 +145,7 @@ Panpages has been Alibaba’s official channel partner for more than 10 years, o
 
 “We wanted to partner with Alibaba because we would be able to leverage each other’s strengths. Alibaba was very successful in China and excelled in building the platform and creating a unique user experience. However, it was inexperienced [at operating] outside of China due to differences in work culture.
 
-![Cover Story: Malaysian tech companies and the Alibaba effect](/media/the-edge/cover-story-malaysian-tech-companies-and-the-alibaba-effect/DE6-Sidebar-ng-tem1369_theedgemarkets.png)
+![Cover Story: Malaysian tech companies and the Alibaba effect](../../assets/media/the-edge/cover-story-malaysian-tech-companies-and-the-alibaba-effect/DE6-Sidebar-ng-tem1369_theedgemarkets.png)
 
 “Being the publisher of yellow pages at the time, one of our key strengths was client reach. We had a lot of customers listed in the yellow pages, so we partnered to offer e-commerce solutions to small and medium enterprises (SMEs). We were more of a sales and customer relationship sort of company and wanted to learn from a technology player. Hence, we were able to get along well with each other.”
 

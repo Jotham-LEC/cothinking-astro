@@ -59,11 +59,11 @@ Many small businesses want to depend less on outside contractors, and I would ra
 
 Below is a preview. Each content type has a blueprint: a set of fields that staff fill in to produce a page.
 
-![The fields behind a landing page](/media/essays/blast-stack/01-blueprint.png)
+![The fields behind a landing page](../../assets/media/essays/blast-stack/01-blueprint.png)
 
-![The page being edited](/media/essays/blast-stack/02-entry-edit.png)
+![The page being edited](../../assets/media/essays/blast-stack/02-entry-edit.png)
 
-![The same page on cothink.ing](/media/essays/blast-stack/03-live-page.png)
+![The same page on cothink.ing](../../assets/media/essays/blast-stack/03-live-page.png)
 
 When the business needs a new kind of content, such as case studies or job openings, it can add a new collection with its own blueprint in the control panel and start adding entries straight away, without any deployment step. Someone with a little technical confidence can do it without a developer.
 
@@ -155,9 +155,9 @@ If you want to try it, start with Statamic itself and its documentation. For the
 - **[Penang](https://statamic.com/starter-kits/jothamlec/penang)**, a starter kit on the Statamic Marketplace (USD 99 per site, one-time). It runs on the free edition and gives editors a page builder with twenty sections, five themes, products with links to Shopee and Lazada, a blog, a team page, an enquiry form and WhatsApp buttons, in English, Malay and Chinese.
 - **[Marketing Toolkit](https://statamic.com/addons/jothamlec/marketing-toolkit)**, free and open source. It handles page titles and descriptions with a search preview, sitemaps, redirects that are added when a page moves, a log of missing pages, SEO reports and Google Tag Manager, all edited by the marketing team, not the developer.
 
-![Penang's sample site](/media/essays/blast-stack/06-penang-home.png)
+![Penang's sample site](../../assets/media/essays/blast-stack/06-penang-home.png)
 
-![Marketing Toolkit's overview](/media/essays/blast-stack/04-marketing-overview.png)
+![Marketing Toolkit's overview](../../assets/media/essays/blast-stack/04-marketing-overview.png)
 
 And if you would rather have the site built for you, that is what I do at [CoThinking](https://cothink.ing).
 

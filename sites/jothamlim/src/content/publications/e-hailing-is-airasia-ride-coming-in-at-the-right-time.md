@@ -19,7 +19,7 @@ Timing plays a significant role in this equation, says AirAsia Ride CEO Lim Chie
 
 With much of the competition out of the way and the rules of the game in place, the folks behind AirAsia Ride believed that it was the right time to enter the market. The parent company had planned to include e-hailing as part of the AirAsia super app from the get-go, but they had to postpone the launch to early this year due to Covid-19 restrictions and efforts to vaccinate the drivers.
 
-![E-hailing: Is AirAsia Ride coming in at the right time?](/media/the-edge/e-hailing-is-airasia-ride-coming-in-at-the-right-time/DE4-Lim-tem1396_theedgemarkets.jpg)
+![E-hailing: Is AirAsia Ride coming in at the right time?](../../assets/media/the-edge/e-hailing-is-airasia-ride-coming-in-at-the-right-time/DE4-Lim-tem1396_theedgemarkets.jpg)
 
 "We are focusing our attention on not only making sure our drivers are qualified, but also happy. The industry is gearing towards making sure the drivers are satisfied, which in turn translates into happy customers.” - Lim
 
@@ -49,7 +49,7 @@ Allowing drivers to reject rides comes with a compromise — longer passenger wa
 
 The first wants a ride as quickly as possible and is willing to fork out a premium to do so. The second type of customer values savings and does not mind waiting longer, who are usually daily commuters. In typical AirAsia fashion, it opts to target the latter.
 
-![E-hailing: Is AirAsia Ride coming in at the right time?](/media/the-edge/e-hailing-is-airasia-ride-coming-in-at-the-right-time/DE4-Apps-tem1396_theedgemarkets.jpg)
+![E-hailing: Is AirAsia Ride coming in at the right time?](../../assets/media/the-edge/e-hailing-is-airasia-ride-coming-in-at-the-right-time/DE4-Apps-tem1396_theedgemarkets.jpg)
 
 “Our prices are competitive, but it doesn’t mean that they are cheap. We had to constantly analyse how much the customer is willing to pay, and how high it must be for the drivers to willingly accept the fare. Factor in the time of day and traffic conditions … and it is a tough balancing act,” says Lim.
 

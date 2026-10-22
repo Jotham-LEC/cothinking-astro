@@ -21,7 +21,7 @@ However, business owners and IT departments are currently facing the daunting ch
 
 Lok points out that preparing non-corporate-owned devices for work use involves many steps, including installing security features, updates and patches, as well as establishing remote endpoints to allow employees to connect to company servers remotely.
 
-![WFH: Implementing the right infrastructure for remote working](/media/the-edge/wfh-implementing-the-right-infrastructure-for-remote-working/DE4-tommy-tem1365_theedgemarkets.jpg)
+![WFH: Implementing the right infrastructure for remote working](../../assets/media/the-edge/wfh-implementing-the-right-infrastructure-for-remote-working/DE4-tommy-tem1365_theedgemarkets.jpg)
 
 “The typical home networking infrastructure is not designed for everyone in the household to be at home at the same time. When family members are streaming videos or children are playing online games, the home network’s bandwidth may get overloaded, causing connectivity issues for employees trying to join virtual meetings.” - Lok (Photo by Paessler)
 

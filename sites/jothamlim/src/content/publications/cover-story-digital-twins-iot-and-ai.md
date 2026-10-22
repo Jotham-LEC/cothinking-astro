@@ -19,7 +19,7 @@ Three years ago, research and advisory company Gartner named digital twin techno
 
 In fact, the Pan Borneo Highway is the only widely publicised case study of digital twin technology being used by the public sector in Malaysia at the time of writing. A quick search on Google Trends finds that the technology has not received the same level of attention and publicity in Malaysia as other IR4.0 initiatives such as artificial intelligence (AI) and the Internet of Things (IoT).
 
-![Cover Story: Digital twins IoT and AI?](/media/the-edge/cover-story-digital-twins-iot-and-ai/DE6-ngo-tem1358_theedgemarkets.jpg)
+![Cover Story: Digital twins IoT and AI?](../../assets/media/the-edge/cover-story-digital-twins-iot-and-ai/DE6-ngo-tem1358_theedgemarkets.jpg)
 
 Yet, the technology has been widely used and adopted by major companies worldwide. Well-known digital twin solution vendors include Microsoft, Siemens, General Electric, Cisco, IBM and Bosch. According to Deloitte’s Tech Trends 2020 report, the global digital twin solution market was worth US$3.8 billion in 2019 and is projected to reach US$35.8 billion in value by 2025, representing a compound annual growth rate of more than 45%.
 
@@ -47,7 +47,7 @@ Ryan Sim, a partner at the consulting arm of Ernst & Young Advisory Services Sdn
 
 “Next is the component twin, where engineers design a new component to reach a certain optimal output, such as rotary blades for aerodynamics. Finally, there is the asset twin, where you gather data points on the assets or machinery, such as the sound or rumblings, and pair them with the environmental parameters to predict how the asset is going to perform.”
 
-![Cover Story: Digital twins IoT and AI?](/media/the-edge/cover-story-digital-twins-iot-and-ai/DE6-sim-tem1358_theedgemarkets.jpg)
+![Cover Story: Digital twins IoT and AI?](../../assets/media/the-edge/cover-story-digital-twins-iot-and-ai/DE6-sim-tem1358_theedgemarkets.jpg)
 
 ### Digital twin market in Malaysia
 
@@ -81,7 +81,7 @@ A common misconception that clients have, Ngo points out, is that vendors are ab
 
 “Digital twin solutions are not like an app that you can download on your phone and expect to run smoothly. Although we do have a generic principle model for clients to start with, it needs to be tweaked to the client’s usage because the operation methodology may differ from plant to plant.”
 
-![Cover Story: Digital twins IoT and AI?](/media/the-edge/cover-story-digital-twins-iot-and-ai/DE6-chart-tem1358_theedgemarkets.jpg)
+![Cover Story: Digital twins IoT and AI?](../../assets/media/the-edge/cover-story-digital-twins-iot-and-ai/DE6-chart-tem1358_theedgemarkets.jpg)
 
 In terms of pricing and feasibility, Ngo says digital twin technology is actually accessible to medium-size companies, and its implementation is mainly determined by the level of fidelity the client wishes to incorporate in its digital twin model.
 
@@ -109,7 +109,7 @@ A control tower monitors the flow of inbound and outbound goods to maintain time
 
 Justin Baird, the head of DHL’s Asia-Pacific innovation centre, tells Digital Edge that digital twin technology is still emerging and there is some distance to go before a fully realised digital twin system can be built. However, he has already seen how the additional layer of data visibility has increased the company’s productivity and improved safety levels within the warehouse’s operations.
 
-![Cover Story: Digital twins IoT and AI?](/media/the-edge/cover-story-digital-twins-iot-and-ai/DE6-baird-tem1358_theedgemarkets.png)
+![Cover Story: Digital twins IoT and AI?](../../assets/media/the-edge/cover-story-digital-twins-iot-and-ai/DE6-baird-tem1358_theedgemarkets.png)
 
 “The company looks into trends that could affect and transform the logistics industry, and digital twin technology first appeared on our radar as a potentially transformative technology that was closely related to developments in virtual reality,” he says.
 

@@ -47,7 +47,7 @@ At the time, Mercedes-Benz’s brand philosophy was “nothing but the best”, 
 
 The key to her career advancement, she says, has been having confidence and taking more risks. According to the latest LinkedIn Gender Insights Report published in 2019, women are more selective or hesitant when applying for jobs, being 16% less likely than men to apply for a job after viewing it.
 
-![IWD: Gender gap: Why flexible working arrangements are important](/media/the-edge/iwd-gender-gap-why-flexible-working-arrangements-are-important/DE9-Graphic-tem1361_theedgemarkets.jpg)
+![IWD: Gender gap: Why flexible working arrangements are important](../../assets/media/the-edge/iwd-gender-gap-why-flexible-working-arrangements-are-important/DE9-Graphic-tem1361_theedgemarkets.jpg)
 
 In Anamika’s career development, each new role that she took on has been completely different from the one before, other than her current role as managing director. She was once part of the business strategy department but had the task of leading an insurance team in the US with zero background in insurance.
 

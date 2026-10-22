@@ -1,7 +1,9 @@
 ---
 // My photo and bio (home and How I work), the page's slot, then a link to my
 // career on jothamlim.com.
+import { Image } from 'astro:assets';
 import Prose from '@garden/components/Prose.astro';
+import portrait from '@garden/assets/portrait.jpg';
 import { site } from '@site/site.config.ts';
 type Props = { heading: string; id: string; class?: string };
 const { heading, id, class: className } = Astro.props;
@@ -9,14 +11,7 @@ const jothamlim = site.otherSite.url;
 ---
 
 <section class:list={['flex max-w-3xl flex-col gap-5 sm:flex-row sm:items-start', className]} aria-labelledby={id}>
-  <img
-    src="/media/profile-400.jpg"
-    alt=""
-    width="400"
-    height="400"
-    loading="lazy"
-    class="size-20 shrink-0 rounded-full"
-  />
+  <Image src={portrait} alt="" width={160} height={160} class="size-20 shrink-0 rounded-full" />
   <div>
     <h2 id={id} class="text-heading font-heading text-xl font-extrabold">
       {heading}

@@ -2,10 +2,10 @@
 title: Changing Jobs for the Eighth Time
 date: 2024-02-15T00:00:00Z
 updated: 2026-10-03T16:17:26+00:00
-image: /media/notes/changing-jobs-for-the-eighth-time.webp
+image: ../../assets/media/notes/changing-jobs-for-the-eighth-time.webp
 type: text
 ---
-![](/media/notes/changing-jobs-for-the-eighth-time.webp)
+![](../../assets/media/notes/changing-jobs-for-the-eighth-time.webp)
 
 *Where Am I Heading?*
 

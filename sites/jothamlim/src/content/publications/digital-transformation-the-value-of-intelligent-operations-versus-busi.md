@@ -47,7 +47,7 @@ Despite Accenture having multiple centres across the world, Pankaj says Malaysia
 
 “Finally, the government has made conscious efforts to establish the country as an information technology hub. Intelligent operations are powered by digital technology, and we believe that there is the necessary usage, knowledge and adoption of the space to serve as an attractive regional hub.”
 
-![Digital Transformation: The value of intelligent operations versus business process outsourcing](/media/the-edge/digital-transformation-the-value-of-intelligent-operations-versus-busi/DE11-table-tem1370_theedgemarkets.jpg)
+![Digital Transformation: The value of intelligent operations versus business process outsourcing](../../assets/media/the-edge/digital-transformation-the-value-of-intelligent-operations-versus-busi/DE11-table-tem1370_theedgemarkets.jpg)
 
 ## LIXIL locates intelligent operations hub in Malaysia
 

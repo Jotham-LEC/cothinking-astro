@@ -15,7 +15,7 @@ Businesses in Malaysia have been encouraged to adopt aggressive digitalisation m
 
 Prior to the pandemic, Poptron was run by a team of five, led by its CEO and founder, Brian Johnson Lowe. During the Movement Control Order (MCO), the company tripled its workforce to 15 staff members. However, Lowe says it was especially difficult to source high-quality talent in the current environment.
 
-![TechTalk: Hiring digital talent during MCO 2.0](/media/the-edge/techtalk-hiring-digital-talent-during-mco-2-0/DE8-1-tem1359_theedgemarkets.png)
+![TechTalk: Hiring digital talent during MCO 2.0](../../assets/media/the-edge/techtalk-hiring-digital-talent-during-mco-2-0/DE8-1-tem1359_theedgemarkets.png)
 
 Poptron is a lifestyle e-commerce website focusing on improving the accessibility of micro and emerging brands from pop-up bazaars via a single platform. The company recently secured US$1 million (RM4.04 million) in funding, which is enabling it to expand its team and scale up operations in Singapore by this quarter.
 
@@ -45,7 +45,7 @@ WorkSmartly founder Victor Phang tells *Digital Edge* that, although it is activ
 
 WorkSmartly is a tech company that provides an end-to-end cloud-based human resources management system, covering the entire workforce lifecycle from recruitment and payroll to analytics and business strategising. It has eight offices in Southeast Asia, and provides services to organisations such as Malaysia Digital Economy Corporation (MDEC), BP Healthcare, Sony and several Fortune 500 companies.
 
-![TechTalk: Hiring digital talent during MCO 2.0](/media/the-edge/techtalk-hiring-digital-talent-during-mco-2-0/DE8-2-tem1359_theedgemarkets.png)
+![TechTalk: Hiring digital talent during MCO 2.0](../../assets/media/the-edge/techtalk-hiring-digital-talent-during-mco-2-0/DE8-2-tem1359_theedgemarkets.png)
 
 Last year, the company managed to increase its staff count by 10% to about 120 employees. According to Phang, it was one of the outliers in the industry — actively recruiting talent when its industry peers were more cautious about hiring.
 
@@ -73,7 +73,7 @@ With multiple offices in Southeast Asia, Phang believes that Malaysia’s digita
 
 Despite the movement restrictions imposed during the pandemic, RPG Commerce Sdn Bhd has managed to quadruple its employee count from 20 staff members in January 2020 to 80 in January 2021. Founder and CEO Melvin Chee says most of its recent hires are designers, developers and data analysts, and it is hoping to reach 200 staff members by the end of this year.
 
-![TechTalk: Hiring digital talent during MCO 2.0](/media/the-edge/techtalk-hiring-digital-talent-during-mco-2-0/DE8-3-tem1359_theedgemarkets.png)
+![TechTalk: Hiring digital talent during MCO 2.0](../../assets/media/the-edge/techtalk-hiring-digital-talent-during-mco-2-0/DE8-3-tem1359_theedgemarkets.png)
 
 RPG Commerce is an e-commerce company that has several direct-to-consumer brands under its portfolio, such as Eubi and Thousand Miles. Originally established in 2017 in Melbourne, the company has expanded its presence with offices in Singapore and Malaysia.
 

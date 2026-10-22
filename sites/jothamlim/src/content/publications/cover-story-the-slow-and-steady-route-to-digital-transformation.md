@@ -19,7 +19,7 @@ Global demand for rubber gloves is set to hit 420 billion pieces in 2021, about 
 
 Malaysia was already satisfying almost 70% of the entire world’s demand for rubber gloves before the pandemic. With the spike in global demand, MARGMA expects the global shortage of rubber gloves to last beyond the first quarter of next year. All eyes are now on how the glove industry will cope with these large orders, as well as on the technologies that enable the companies to do so.
 
-![Cover Story: The slow and steady route to digital transformation](/media/the-edge/cover-story-the-slow-and-steady-route-to-digital-transformation/DE6-Latex-mixing-tem1363_theedgemarkets.jpg)
+![Cover Story: The slow and steady route to digital transformation](../../assets/media/the-edge/cover-story-the-slow-and-steady-route-to-digital-transformation/DE6-Latex-mixing-tem1363_theedgemarkets.jpg)
 
 Latex-mixing equipment used in glove manufacturing
 
@@ -35,7 +35,7 @@ At this point in time, Kossan’s glove manufacturing process has yet to achieve
 
 These improvements in production efficiency are attributed to the new array of equipment used to automate parts of the glove manufacturing process in the facility. For example, all of Kossan’s production dipping lines for gloves are designed with an automated stripping system, to automatically reverse and remove the gloves from the formers (moulds in the shape of hands) once they have completed the dipping process.
 
-![Cover Story: The slow and steady route to digital transformation](/media/the-edge/cover-story-the-slow-and-steady-route-to-digital-transformation/DE6-Latex-dipping-tem1363_theedgemarkets.jpg)
+![Cover Story: The slow and steady route to digital transformation](../../assets/media/the-edge/cover-story-the-slow-and-steady-route-to-digital-transformation/DE6-Latex-dipping-tem1363_theedgemarkets.jpg)
 
 The latex dipping process
 
@@ -51,7 +51,7 @@ Lim says the company has been placing emphasis on reducing its reliance on unski
 
 “We believe there is no room for labour-intensive businesses in Malaysia. This may not have been an issue 10 years ago, but the quality requirements for gloves have become stringent and automation plays an important role in doing away with a lot of the human errors found in the production process.”
 
-![Cover Story: The slow and steady route to digital transformation](/media/the-edge/cover-story-the-slow-and-steady-route-to-digital-transformation/DE6-Manufacturing-tem1363_theedgemarkets.jpg)
+![Cover Story: The slow and steady route to digital transformation](../../assets/media/the-edge/cover-story-the-slow-and-steady-route-to-digital-transformation/DE6-Manufacturing-tem1363_theedgemarkets.jpg)
 
 Kossan’s glove manu­facturing plant
 
@@ -67,7 +67,7 @@ While the demand for low-quality labour is diminishing, the industry is facing a
 
 Lim tells *Digital Edge* that automating the business is a very difficult process because it is hard to find local expertise to help guide them through the process. Thus, the automation systems Kossan has employed were mostly designed in-house, and it outsourced the software development only to a German partner.
 
-![Cover Story: The slow and steady route to digital transformation](/media/the-edge/cover-story-the-slow-and-steady-route-to-digital-transformation/DE6-Monita-tem1363_theedgemarkets.jpg)
+![Cover Story: The slow and steady route to digital transformation](../../assets/media/the-edge/cover-story-the-slow-and-steady-route-to-digital-transformation/DE6-Monita-tem1363_theedgemarkets.jpg)
 
 Kossan’s digital transformation has enabled operators to easily monitor the plant’s manufacturing process
 

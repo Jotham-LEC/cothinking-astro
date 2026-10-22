@@ -18,8 +18,8 @@ DMARC is a TXT record in your domain's DNS that tells receiving servers what to 
 
 That match is called alignment. A scammer can pass SPF and DKIM on a domain of their own; alignment ties the check to the address your customer reads.
 
-<img class="wiki-logo-light" src="/media/diagrams/email-authentication.svg" alt="A receiving server checks SPF and DKIM, then DMARC asks whether a passing check matches the From domain: if yes the email goes to the inbox, if no your policy decides">
-<img class="wiki-logo-dark" src="/media/diagrams/email-authentication-dark.svg" alt="">
+<img class="wiki-logo-light" src="/media/diagrams/email-authentication.svg" alt="A receiving server checks SPF and DKIM, then DMARC asks whether a passing check matches the From domain: if yes the email goes to the inbox, if no your policy decides" loading="lazy" decoding="async">
+<img class="wiki-logo-dark" src="/media/diagrams/email-authentication-dark.svg" alt="" loading="lazy" decoding="async">
 
 ## What the record looks like
 

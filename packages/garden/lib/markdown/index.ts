@@ -4,7 +4,6 @@
 import type { RehypePlugins, RemarkPlugin, RemarkPlugins } from '@astrojs/markdown-remark';
 import type { Element } from 'hast';
 import rehypeExternalLinks from 'rehype-external-links';
-import rehypeRaw from 'rehype-raw';
 import wikiLinkPlugin from 'remark-wiki-link';
 import { isExternal } from '../site.ts';
 import type { TitleIndex } from '../titles.ts';
@@ -12,10 +11,9 @@ import rehypeCallouts from './rehype-callouts.ts';
 import rehypeExcerpt from './rehype-excerpt.ts';
 import rehypeHeadingAnchors from './rehype-heading-anchors.ts';
 import rehypeHeadingIds from './rehype-heading-ids.ts';
-import rehypeImages from './rehype-images.ts';
 import remarkWikiLinks from './remark-wiki-links.ts';
 
-type PipelineOptions = { titles: () => TitleIndex; siteUrl: string; publicDir: string };
+type PipelineOptions = { titles: () => TitleIndex; siteUrl: string };
 
 /** remark-wiki-link, parsing only: remark-wiki-links resolves the nodes. */
 export const wikiLinkSyntax = (): [RemarkPlugin, unknown][] => [
@@ -31,7 +29,7 @@ export function wikiRemarkPlugins({ titles, siteUrl }: Pick<PipelineOptions, 'ti
 
 /**
  * Markdown links that leave the site get `class="external-link"`, no rel, no
- * target. It runs before rehype-raw, so raw HTML anchors in the content are
+ * target. Raw HTML anchors in the content are still raw here, so they are
  * left alone.
  */
 export const externalLinks = (siteUrl: string): RehypePlugins => [
@@ -50,21 +48,11 @@ export const externalLinks = (siteUrl: string): RehypePlugins => [
 ];
 
 /**
- * The rehype plugins: external links; raw HTML into the tree; heading ids
- * (GitHub-style, which Astro's own pass keeps, so `headings` and the anchors
- * agree); callouts; the excerpt; images; then each heading made a link to itself.
+ * The rehype plugins: external links; heading ids (GitHub-style, which
+ * Astro's own pass keeps, so `headings` and the anchors agree); callouts; the
+ * excerpt; then each heading made a link to itself. Astro parses the raw HTML
+ * and optimises the images after these.
  */
-export function wikiRehypePlugins({
-  siteUrl,
-  publicDir,
-}: Pick<PipelineOptions, 'siteUrl' | 'publicDir'>): RehypePlugins {
-  return [
-    ...externalLinks(siteUrl),
-    rehypeRaw,
-    rehypeHeadingIds,
-    rehypeCallouts,
-    rehypeExcerpt,
-    [rehypeImages, { publicDir }],
-    rehypeHeadingAnchors,
-  ];
+export function wikiRehypePlugins({ siteUrl }: Pick<PipelineOptions, 'siteUrl'>): RehypePlugins {
+  return [...externalLinks(siteUrl), rehypeHeadingIds, rehypeCallouts, rehypeExcerpt, rehypeHeadingAnchors];
 }

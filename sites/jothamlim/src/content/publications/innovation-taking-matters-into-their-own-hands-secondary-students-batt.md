@@ -19,7 +19,7 @@ A group of students from SMK Seksyen 10 Kota Damansara decided that enough was e
 
 Team A.I.R comprises Hafiy, Nur Auni Faqihah Fakhrurrazi and Ayuni Azmy, and was guided by teacher Noraini Mohd Zain.
 
-![Innovation: Taking matters into their own hands: Secondary students battle water disruption](/media/the-edge/innovation-taking-matters-into-their-own-hands-secondary-students-batt/DE11-quote-tem1359_theedgemarkets.jpg)
+![Innovation: Taking matters into their own hands: Secondary students battle water disruption](../../assets/media/the-edge/innovation-taking-matters-into-their-own-hands-secondary-students-batt/DE11-quote-tem1359_theedgemarkets.jpg)
 
 According to Hafiy, the core issue involves sensors currently used by water operators to detect preliminary signs of pollution in rivers. These sensors are submerged in the river water, which damages them over time and increases maintenance costs.
 
@@ -29,7 +29,7 @@ Hafiy explains to *Digital Edge* that a small container containing a sensor is p
 
 The sensor and water pumps are connected to Arduino hardware that transmits the sensor’s data wirelessly and allows users to control the water pumps. The students also developed a dashboard that displays the data received from the sensor.
 
-![Innovation: Taking matters into their own hands: Secondary students battle water disruption](/media/the-edge/innovation-taking-matters-into-their-own-hands-secondary-students-batt/DE11-video-tem1359_theedgemarkets.jpg)
+![Innovation: Taking matters into their own hands: Secondary students battle water disruption](../../assets/media/the-edge/innovation-taking-matters-into-their-own-hands-secondary-students-batt/DE11-video-tem1359_theedgemarkets.jpg)
 
 Winners of the Samsung Solve for Tomorrow Competition 2020
 
@@ -43,7 +43,7 @@ He also mentions the challenges of communicating and working together with his t
 
 To prepare for the competition, Hafiy and his team joined both online sessions and normal classes that teach programming skills as well as the use of basic open-source hardware and software such as Arduino. They also spoke to their mentors, teachers and parents to learn more about the issues surrounding the water disruptions in the Klang Valley.
 
-![Innovation: Taking matters into their own hands: Secondary students battle water disruption](/media/the-edge/innovation-taking-matters-into-their-own-hands-secondary-students-batt/DE11-ar-tem1359_theedgemarkets.jpg)
+![Innovation: Taking matters into their own hands: Secondary students battle water disruption](../../assets/media/the-edge/innovation-taking-matters-into-their-own-hands-secondary-students-batt/DE11-ar-tem1359_theedgemarkets.jpg)
 
 One of the competition judges, Dr Mas Sahidayana Mohktar, head of University of Malaya’s STEM Centre, says the students were given a choice of four themes — health, education, environmental and social issues — when coming up with ideas for possible solutions. Most of the participants chose environmental issues as these had the most impact on them and their communities.
 

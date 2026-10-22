@@ -2,7 +2,7 @@
 title: Ultimate Circle
 description: For a distributor of commercial kitchen equipment, I took the accounts back from the old vendor, moved both brands onto one server and built a catalogue of about 400 products.
 updated: 2026-10-15T09:03:14+00:00
-image: /media/cothinking/portfolio/ultimate-circle.webp
+image: ../../assets/media/cothinking/portfolio/ultimate-circle.webp
 order: 0
 website: https://ultimatecircle.com.my
 year: 2026

@@ -13,7 +13,7 @@ This article first appeared in Personal Wealth, The Edge Malaysia Weekly on Sept
 
 Basic income (BI), also widely known as universal basic income (UBI), is a governmental public programme whereby a periodic cash payment is unconditionally delivered to all individuals without needing to assess their means or requiring work, according to The Basic Income Earth Network (BIEN), one of the world’s leading networks of academics and activists on this subject matter.
 
-![InTheKnow: What is basic income?](/media/the-edge/intheknow-what-is-basic-income/PW5-dollars_TEM1336_theedgemarkets.jpg)
+![InTheKnow: What is basic income?](../../assets/media/the-edge/intheknow-what-is-basic-income/PW5-dollars_TEM1336_theedgemarkets.jpg)
 
 The purpose of BI is to allow all individuals to have a fair chance at an adequate quality of life. It also serves as a way to combat income inequality and ensure that each citizen has the necessary resources to continue living.
 
@@ -27,7 +27,7 @@ According to analytics provided by Google Trends, global search queries for BI s
 
 For example, the United Nations Development Programme (UNDP) released a report on July 23, stating that a temporary BI programme could mitigate the worst immediate effects of the Covid-19 crisis on poor and near-poor households that do not currently have access to social assistance or insurance protection.
 
-![InTheKnow: What is basic income?](/media/the-edge/intheknow-what-is-basic-income/PW5-basicIncome_TEM1336_theedgemarkets.jpg)
+![InTheKnow: What is basic income?](../../assets/media/the-edge/intheknow-what-is-basic-income/PW5-basicIncome_TEM1336_theedgemarkets.jpg)
 
 The report estimated that it would cost US$199 billion (RM828.8 billion) a month to provide a temporary BI programme to 2.7 billion people living below or at the poverty line in 132 developing countries, and that it was sufficient to provide them with the means to buy food and pay for healthcare and education expenses.
 
@@ -49,7 +49,7 @@ On Aug 20, Germany launched a three-year study on how BI will affect the local e
 
 Current BI initiatives include Macau’s Wealth Partaking Scheme, implemented in 2008, where its permanent residents and non-permanent residents were initially entitled to receive a small annual unconditional basic income of 5,000 patacas and 3,000 patacas respectively. The amount of cash distributed has steadily increased over the years, with the latest figure being an annual cash payment of 10,000 patacas (RM5,215) for permanent residents and 6,000 patacas (RM3,129) for non-permanent residents.
 
-![InTheKnow: What is basic income?](/media/the-edge/intheknow-what-is-basic-income/PW5-Macau_TEM1336_theedgemarkets.jpg)
+![InTheKnow: What is basic income?](../../assets/media/the-edge/intheknow-what-is-basic-income/PW5-Macau_TEM1336_theedgemarkets.jpg)
 
 The purpose of the scheme is to share the results of Macau’s economic development with its people and help mitigate the effects of inflation, which reached an annual rate of 9.49% in 2008.
 

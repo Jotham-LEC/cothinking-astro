@@ -34,8 +34,8 @@ Decide this before the software:
 
 ## Which password manager to use
 
-<img class="wiki-logo-light" src="/media/diagrams/boring-office-passwords.svg" alt="Decision tree: one person uses 1Password Individual. A team uses the 1Password Teams Starter Pack, unless cost decides the matter, in which case it runs Vaultwarden on a VPS.">
-<img class="wiki-logo-dark" src="/media/diagrams/boring-office-passwords-dark.svg" alt="">
+<img class="wiki-logo-light" src="/media/diagrams/boring-office-passwords.svg" alt="Decision tree: one person uses 1Password Individual. A team uses the 1Password Teams Starter Pack, unless cost decides the matter, in which case it runs Vaultwarden on a VPS." loading="lazy" decoding="async">
+<img class="wiki-logo-dark" src="/media/diagrams/boring-office-passwords-dark.svg" alt="" loading="lazy" decoding="async">
 
 - **One person: 1Password Individual.** Mature, easy to use, and useful with no setup.
 - **A team of up to 10: the 1Password Teams Starter Pack.** A flat monthly price covers 10 people.

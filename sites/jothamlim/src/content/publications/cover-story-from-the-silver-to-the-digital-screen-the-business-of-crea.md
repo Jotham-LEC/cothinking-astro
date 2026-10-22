@@ -25,7 +25,7 @@ Before the pandemic, gross ticket sales from local feature films were RM170.4 mi
 
 “This is a workflow problem. The process usually starts with someone having a great movie idea and they look for investors willing to provide the funds to do it. What many of them do not prioritise is the commercialisation of their films. This is because they operate from a marketing point of view,” says Tan.
 
-![Cover Story: From the silver to the digital screen: the business of creativity](/media/the-edge/cover-story-from-the-silver-to-the-digital-screen-the-business-of-crea/DE6-dictionary-tem1389_theedgemarkets.jpg)
+![Cover Story: From the silver to the digital screen: the business of creativity](../../assets/media/the-edge/cover-story-from-the-silver-to-the-digital-screen-the-business-of-crea/DE6-dictionary-tem1389_theedgemarkets.jpg)
 
 “Before the pandemic, their biggest concern was whether the theatres would screen their movie or not, and work backwards from there. This is very different from overseas, where they guarantee the distribution first before production.”
 
@@ -39,7 +39,7 @@ Yet, the strong emphasis on the local market can also be explained by the lack o
 
 “Before international players came in, the main outlets where filmmakers could distribute their films were only Astro, RTM, Media Prima and local theatres,” says Tan.
 
-[![Dianne Tan, quoted: commercialising films can grow the creative industry and help filmmakers earn a better living.](/media/the-edge/cover-story-from-the-silver-to-the-digital-screen-the-business-of-crea/0ha2ywz.png)](/media/the-edge/cover-story-from-the-silver-to-the-digital-screen-the-business-of-crea/0ha2ywz.png)
+![Dianne Tan, quoted: commercialising films can grow the creative industry and help filmmakers earn a better living.](../../assets/media/the-edge/cover-story-from-the-silver-to-the-digital-screen-the-business-of-crea/0ha2ywz.png)
 
 ## Internationalising Malaysian content
 
@@ -77,7 +77,7 @@ Phase two involves launching cross-channel social media campaigns. Social media 
 
 This represents a pivot from how the local show business operates from a commercial point of view. It is now increasingly difficult for feature films to exist as a standalone medium. Instead, they are being broken down into pure content not too different from TikTok shorts and YouTube videos. For films to be commercially successful, their associated film stars, partnering brands and the show itself need to have a strong social media presence and marketability as well.
 
-![Cover Story: From the silver to the digital screen: the business of creativity](/media/the-edge/cover-story-from-the-silver-to-the-digital-screen-the-business-of-crea/DE6-TVecommerce-tem1389_theedgemarkets.jpg)
+![Cover Story: From the silver to the digital screen: the business of creativity](../../assets/media/the-edge/cover-story-from-the-silver-to-the-digital-screen-the-business-of-crea/DE6-TVecommerce-tem1389_theedgemarkets.jpg)
 
 With films being reduced to pure forms of digital content, it is now easier for viewer metrics from the different platforms to be identified and quantified, be it social media or OTT. This makes it possible to collect big data and incorporate advanced technologies such as artificial intelligence (AI) into the mix.
 

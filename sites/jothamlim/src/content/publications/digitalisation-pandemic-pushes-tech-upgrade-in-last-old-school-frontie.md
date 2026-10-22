@@ -19,7 +19,7 @@ This is in stark contrast to the FIFA World Cup football season, where all eight
 
 From his observation, most players in this industry lost 80% to 90% of their sales during the MCO period. For mamak restaurants that offered delivery services, he estimates that they would have recovered 10% to 15% of their sales, but would still have seen their sales being slashed by more than half compared with before the MCO.
 
-![Digitalisation: Pandemic pushes tech upgrade in last old-school frontier](/media/the-edge/digitalisation-pandemic-pushes-tech-upgrade-in-last-old-school-frontie/DE5-chin-tem1354_theedgemarkets.jpg)
+![Digitalisation: Pandemic pushes tech upgrade in last old-school frontier](../../assets/media/the-edge/digitalisation-pandemic-pushes-tech-upgrade-in-last-old-school-frontie/DE5-chin-tem1354_theedgemarkets.jpg)
 
 "The goal is first to get merchants on board and make them comfortable with digitalisation, and then slowly help them incorporate more digital initiatives.” - Chin
 
@@ -37,7 +37,7 @@ By combining QR codes, digital and mobile app payments, smart terminals and appl
 
 Revenue Monster also assists merchants in setting up loyalty programmes through social media platforms. Instead of developing a standalone app, it uses WeChat Official Accounts and Facebook Messenger to enable digital memberships, loyalty points, vouchers and even prepaid cards with the help of QR codes.
 
-![Digitalisation: Pandemic pushes tech upgrade in last old-school frontier](/media/the-edge/digitalisation-pandemic-pushes-tech-upgrade-in-last-old-school-frontie/DE5-Zainal-tem1354_theedgemarkets.jpg)
+![Digitalisation: Pandemic pushes tech upgrade in last old-school frontier](../../assets/media/the-edge/digitalisation-pandemic-pushes-tech-upgrade-in-last-old-school-frontie/DE5-Zainal-tem1354_theedgemarkets.jpg)
 
 "The most difficult part of adopting new digital solutions is to change the mindset of staff and customers.” - Zainal
 
@@ -49,7 +49,7 @@ Revenue Monster CEO Amanda Chin tells *Digital Edge* that different businesses a
 
 Other than providing an open logistic infrastructure, payments platforms and loyalty programmes, à la carte also allows merchants to set up a digital store, where customers can browse and order menu items online. It helps expand the merchant’s sales channels to include walk-ins, pick-ups, drive-throughs and deliveries.
 
-![Digitalisation: Pandemic pushes tech upgrade in last old-school frontier](/media/the-edge/digitalisation-pandemic-pushes-tech-upgrade-in-last-old-school-frontie/DE5-Manu-tem1354_theedgemarkets.jpg)
+![Digitalisation: Pandemic pushes tech upgrade in last old-school frontier](../../assets/media/the-edge/digitalisation-pandemic-pushes-tech-upgrade-in-last-old-school-frontie/DE5-Manu-tem1354_theedgemarkets.jpg)
 
 With the drive-through feature, for example, the customer only needs to key in their number plate, and the merchant will facilitate the drop-off directly to the vehicle once it has arrived. As for delivery options, Revenue Monster has partnered with third-party last-mile providers GrabExpress and MrSpeedy.
 

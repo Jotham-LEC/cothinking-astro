@@ -63,8 +63,8 @@ Follow one test enquiry:
 3. Set **Reply-To** to the visitor's email field, so replying still reaches them.
 4. Send a test from the plugin, then a real one through the form.
 
-<img class="wiki-logo-light" src="/media/diagrams/website-form-not-sending-emails-sender.svg" alt="A visitor fills in the form, the website saves a copy, and a mail service sends it from your domain with the visitor in Reply-To, so it reaches your inbox">
-<img class="wiki-logo-dark" src="/media/diagrams/website-form-not-sending-emails-sender-dark.svg" alt="">
+<img class="wiki-logo-light" src="/media/diagrams/website-form-not-sending-emails-sender.svg" alt="A visitor fills in the form, the website saves a copy, and a mail service sends it from your domain with the visitor in Reply-To, so it reaches your inbox" loading="lazy" decoding="async">
+<img class="wiki-logo-dark" src="/media/diagrams/website-form-not-sending-emails-sender-dark.svg" alt="" loading="lazy" decoding="async">
 
 #### 3. Let the mail service send as your domain
 

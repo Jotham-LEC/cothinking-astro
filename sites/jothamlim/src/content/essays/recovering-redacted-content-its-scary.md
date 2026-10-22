@@ -3,10 +3,10 @@ title: "Recovering Redacted Content: It's Scary How Easy It Is"
 description: Common redaction methods are more ineffective than you think — from black-box censorship to even blurred photos. What better way to protect yourself than to understand the methods attackers would use?
 date: 2024-08-13
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/recovering-redacted-content-its-scary/24d1ab57-c439-4006-bfb4-40cb33200d5f_1200x620.jpeg
+image: ../../assets/media/essays/recovering-redacted-content-its-scary/24d1ab57-c439-4006-bfb4-40cb33200d5f_1200x620.jpeg
 ---
 
-![A frustrated figure beside a leaked email list with badly hidden addresses, asking “What kind of censorship is this?”](/media/essays/recovering-redacted-content-its-scary/24d1ab57-c439-4006-bfb4-40cb33200d5f_1200x620.jpeg)
+![A frustrated figure beside a leaked email list with badly hidden addresses, asking “What kind of censorship is this?”](../../assets/media/essays/recovering-redacted-content-its-scary/24d1ab57-c439-4006-bfb4-40cb33200d5f_1200x620.jpeg)
 
 - ***Blurred and pixelated images can often be reverse-engineered** to reveal censored details, making them unreliable for secure redaction.*
 - ***Black bar redaction in digital documents are not foolproof** despite being industry standard; hidden text can be retrieved using simple software tools.*
@@ -23,7 +23,7 @@ This sent me down a deep rabbit hole of the (lack of) security — of **not just
 Non-destructive Editing — Images and Text
 -----------------------------------------
 
-![Christopher Paul Neil’s face hidden by a swirl, beside the same photo with the swirl reversed.](/media/essays/recovering-redacted-content-its-scary/8d7d7488-af5e-438c-891d-9471bc673f37_976x649.jpeg)
+![Christopher Paul Neil’s face hidden by a swirl, beside the same photo with the swirl reversed.](../../assets/media/essays/recovering-redacted-content-its-scary/8d7d7488-af5e-438c-891d-9471bc673f37_976x649.jpeg)
 
 *Mr Swirl Face. Source: BBC*
 
@@ -48,7 +48,7 @@ For text-blurring reversal, there are two tools that I came across — [BishopFo
 4. These blurred texts are then compared to the censored text, character by character.
 5. If the generated blurred text looks strikingly similar to the censored text, it becomes easy to decipher the original characters.
 
-![Unredacter guessing pixelated text letter by letter, and Depix recovering “Hello from the other side”.](/media/essays/recovering-redacted-content-its-scary/9ce7c0d5-c1e3-4561-bd6d-214a96cfb353_480x515.gif)
+![Unredacter guessing pixelated text letter by letter, and Depix recovering “Hello from the other side”.](../../assets/media/essays/recovering-redacted-content-its-scary/9ce7c0d5-c1e3-4561-bd6d-214a96cfb353_480x515.gif)
 
 *Reverse engineering text redaction. Source: [Unredactor](https://github.com/BishopFox/unredacter?utm_source=www.de-code.my&utm_medium=referral&utm_campaign=recovering-redacted-content-it-s-scary-how-easy-it-is) &amp; [Depix](https://github.com/spipm/Depix?utm_source=www.de-code.my&utm_medium=referral&utm_campaign=recovering-redacted-content-it-s-scary-how-easy-it-is)*
 
@@ -67,7 +67,7 @@ On the flip side, this deciphering method is versatile in theory — allowing us
 
 ### Image De-blurring
 
-![Three 8×8 pixel faces, the 32×32 faces Google Brain’s model made from them, and the original photos.](/media/essays/recovering-redacted-content-its-scary/12304b3a-cddb-4ad5-bb13-364d4ed224d3_762x814.jpeg)
+![Three 8×8 pixel faces, the 32×32 faces Google Brain’s model made from them, and the original photos.](../../assets/media/essays/recovering-redacted-content-its-scary/12304b3a-cddb-4ad5-bb13-364d4ed224d3_762x814.jpeg)
 
 *Face de-pixelation demonstration. Source: Google Brain*
 
@@ -81,7 +81,7 @@ I’ve found a [GitHub repo](https://github.com/subeeshvasu/awesome-deblurring?r
 
 But for pixelated images, the technology essentially involves deep learning (DL) techniques and non-deep learning (non-DL) techniques.
 
-![A video of a hand with a mosaic added on one side and the mosaic removed again on the other.](/media/essays/recovering-redacted-content-its-scary/cc6832e9-3561-47df-aa89-d3494d9af4bc_800x263.gif)
+![A video of a hand with a mosaic added on one side and the mosaic removed again on the other.](../../assets/media/essays/recovering-redacted-content-its-scary/cc6832e9-3561-47df-aa89-d3494d9af4bc_800x263.gif)
 
 *It even works with Video. Source: Github*
 
@@ -101,7 +101,7 @@ But for pixelated images, the technology essentially involves deep learning (DL)
 
 I can’t find any case studies on image de-blurring being used to reverse censorship, but it is certainly being used by police authorities.
 
-![Blurred CCTV stills sharpened by three de-blurring methods: Wiener, Lucy–Richardson and blind deconvolution.](/media/essays/recovering-redacted-content-its-scary/1c4785d4-d088-4b66-bb4f-c4830fd53090_1292x1016.jpeg)
+![Blurred CCTV stills sharpened by three de-blurring methods: Wiener, Lucy–Richardson and blind deconvolution.](../../assets/media/essays/recovering-redacted-content-its-scary/1c4785d4-d088-4b66-bb4f-c4830fd53090_1292x1016.jpeg)
 
 *Different de-blurring algorithms. Source: Journal of Physics*
 
@@ -112,7 +112,7 @@ You can even try out de-blurring for free through Github projects like [DeepMosa
 Black Bar Redaction
 -------------------
 
-![Google image results for “document redaction”, nearly all of them pages blacked out with black bars.](/media/essays/recovering-redacted-content-its-scary/7642aa13-565e-4d52-9342-59b8b94e3927_1292x757.jpeg)
+![Google image results for “document redaction”, nearly all of them pages blacked out with black bars.](../../assets/media/essays/recovering-redacted-content-its-scary/7642aa13-565e-4d52-9342-59b8b94e3927_1292x757.jpeg)
 
 *Google search results for “Document Redaction”*
 
@@ -122,19 +122,19 @@ Even then, the adage still rings true — if it’s not destructive, it’s like
 
 - An example would be **black highlights**, which is different from a proper redaction feature. Here's a [Reddit post](https://www.reddit.com/r/wellthatsucks/comments/i1cdpl/the_difference_between_redacting_and_just/?ref=de-code.my&utm_source=www.de-code.my&utm_medium=referral&utm_campaign=recovering-redacted-content-it-s-scary-how-easy-it-is) of a user copying redacted text into a clipboard by simply highlighting the redacted areas.
 
-![A court filing redacted with black bars on a phone, whose hidden text is selected and copied out.](/media/essays/recovering-redacted-content-its-scary/ba88209f-c09f-468c-be21-1cd39d1d0e21_480x1040.gif)
+![A court filing redacted with black bars on a phone, whose hidden text is selected and copied out.](../../assets/media/essays/recovering-redacted-content-its-scary/ba88209f-c09f-468c-be21-1cd39d1d0e21_480x1040.gif)
 
 *Redacted text being bypassed with a simple highlight + copy &amp; paste. Source: [Reddit](https://www.reddit.com/r/wellthatsucks/comments/i1cdpl/the_difference_between_redacting_and_just/?utm_source=www.de-code.my&utm_medium=referral&utm_campaign=recovering-redacted-content-it-s-scary-how-easy-it-is)*
 
 - This also applies to covering the target text with black boxes. If saved improperly, users can simply remove the box layer in Adobe Illustrator or any PDF editor.
 
-![A black box over text in a PDF being dragged aside in a PDF editor, uncovering the text beneath.](/media/essays/recovering-redacted-content-its-scary/2cbac22d-f5c8-4296-9451-973383ca444a_800x451.gif)
+![A black box over text in a PDF being dragged aside in a PDF editor, uncovering the text beneath.](../../assets/media/essays/recovering-redacted-content-its-scary/2cbac22d-f5c8-4296-9451-973383ca444a_800x451.gif)
 
 *Removing black boxes by simply moving them using PDF tools*
 
 - Sensitive information may also exist within the PDF's raw data. It could easily be extracted simply by converting the PDF into text, or for the more technically competent, digging through the source code.
 
-![A redacted PDF converted to text, in which the hidden line “THIS IS A SECRET” appears.](/media/essays/recovering-redacted-content-its-scary/4b9fa78d-bcea-454f-983b-11fd00fdd7c8_1292x999.jpeg)
+![A redacted PDF converted to text, in which the hidden line “THIS IS A SECRET” appears.](../../assets/media/essays/recovering-redacted-content-its-scary/4b9fa78d-bcea-454f-983b-11fd00fdd7c8_1292x999.jpeg)
 
 *Extracting hidden text by converting PDFs into TXT files*
 
@@ -143,13 +143,13 @@ Obfuscating Passwords Using Asterisks
 
 A quick note regarding asterisk obfuscation: it’s crucial that you complete your login process and not leave it unattended halfway — don’t assume it’s safe just because the password is censored.
 
-![Editing one line of HTML in the browser’s developer tools reveals the hidden password on the KWSP i-Akaun login.](/media/essays/recovering-redacted-content-its-scary/4c3d6af3-4b8b-490d-a1a1-21d358e7c675_800x442.gif)
+![Editing one line of HTML in the browser’s developer tools reveals the hidden password on the KWSP i-Akaun login.](../../assets/media/essays/recovering-redacted-content-its-scary/4c3d6af3-4b8b-490d-a1a1-21d358e7c675_800x442.gif)
 
 *Revealing password is as simple as editing HTML code in client browser*
 
 I’ve managed to find this flaw in KWSP’s EPF login page — bypassing the censorship by simply editing a simple HTML line. There are also times when I can retrieve censored passwords by simply copying them to my clipboard and pasting them somewhere else
 
-![Maybank’s login in the developer tools, where the password field is a text input with a random ID.](/media/essays/recovering-redacted-content-its-scary/7f73e925-50a9-49ce-991d-41c3d56b20d5_800x347.gif)
+![Maybank’s login in the developer tools, where the password field is a text input with a random ID.](../../assets/media/essays/recovering-redacted-content-its-scary/7f73e925-50a9-49ce-991d-41c3d56b20d5_800x347.gif)
 
 *Maybank's login system is harder to bypass*
 
@@ -162,7 +162,7 @@ Recovering Cropped Screenshots
 
 Another form of censorship is to remove entire sections by simply cropping the image. This, unfortunately, is not entirely safe either.
 
-![RainBolt widening the crop of a RAW photo of a cocktail, revealing more of the restaurant around it.](/media/essays/recovering-redacted-content-its-scary/ed81ec22-c146-43da-9e66-6e89246b2d6f_1292x681.jpeg)
+![RainBolt widening the crop of a RAW photo of a cocktail, revealing more of the restaurant around it.](../../assets/media/essays/recovering-redacted-content-its-scary/ed81ec22-c146-43da-9e66-6e89246b2d6f_1292x681.jpeg)
 
 *Pro geo-guesser discovers more un-cropped image data in RAW file. Source: RainBolt*
 
@@ -190,7 +190,7 @@ Personally, I think the best resources come from the [Legal &amp; Defence sector
 
 But here are some key ideas I’ve managed to capture:
 
-![A prospectus paragraph with each sensitive figure replaced by the word “\[REDACTED\]”.](/media/essays/recovering-redacted-content-its-scary/e526dfc3-a66f-4881-a8e5-f6414ff82e00_1254x238.jpeg)
+![A prospectus paragraph with each sensitive figure replaced by the word “\[REDACTED\]”.](../../assets/media/essays/recovering-redacted-content-its-scary/e526dfc3-a66f-4881-a8e5-f6414ff82e00_1254x238.jpeg)
 
 *Sample of proper redaction techniques*
 

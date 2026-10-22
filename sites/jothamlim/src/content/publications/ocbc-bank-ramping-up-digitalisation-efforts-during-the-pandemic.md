@@ -19,7 +19,7 @@ According to Chong Lee Ying, OCBC’s head of global transaction banking, these 
 
 “Furthermore, businesses that embrace digital solutions are much more resilient to stiff market competition. These solutions streamline many of their day-to-day operations, resulting in greater speed, better time management and, more importantly, the ability to allocate more human resources to revenue-generating activities.”
 
-![OCBC Bank ramping up digitalisation efforts during the pandemic](/media/the-edge/ocbc-bank-ramping-up-digitalisation-efforts-during-the-pandemic/ocbc-chong-tem1372_theedgemarkets.jpg)
+![OCBC Bank ramping up digitalisation efforts during the pandemic](../../assets/media/the-edge/ocbc-bank-ramping-up-digitalisation-efforts-during-the-pandemic/ocbc-chong-tem1372_theedgemarkets.jpg)
 
 Chong further points out that OCBC Bank’s recent investments in technology have enabled local businesses, especially the retail sector, to continue operating as usual, and also conduct contactless payments and payment collections during the pandemic.
 
@@ -53,7 +53,7 @@ Chong says OCBC’s status as a foreign bank with a strong regional footprint ha
 
 “Despite the achievements, there is still a bit of catching up to do to improve on the end-to-end application proposition for all types of banking services, especially for SMEs. Our customers can rest assured that we will continue to invest in digitalisation and they can expect more improvements to come.”
 
-![OCBC Bank ramping up digitalisation efforts during the pandemic](/media/the-edge/ocbc-bank-ramping-up-digitalisation-efforts-during-the-pandemic/ocbc-table-tem1372_theedgemarkets.jpg)
+![OCBC Bank ramping up digitalisation efforts during the pandemic](../../assets/media/the-edge/ocbc-bank-ramping-up-digitalisation-efforts-during-the-pandemic/ocbc-table-tem1372_theedgemarkets.jpg)
 
 ## Digital adoption road bumps
 

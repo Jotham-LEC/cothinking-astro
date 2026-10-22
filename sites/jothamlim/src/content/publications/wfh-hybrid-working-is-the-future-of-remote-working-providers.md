@@ -15,7 +15,7 @@ However, with vaccination programmes being rolled out in several major countries
 
 What does the future of work look like, and how will remote working solution providers adapt to this second shift?
 
-![WFH: Hybrid working is the future of remote working providers](/media/the-edge/wfh-hybrid-working-is-the-future-of-remote-working-providers/DE8-smithy-tem1362_theedgemarkets.jpg)
+![WFH: Hybrid working is the future of remote working providers](../../assets/media/the-edge/wfh-hybrid-working-is-the-future-of-remote-working-providers/DE8-smithy-tem1362_theedgemarkets.jpg)
 
 "Many companies foresee flexible working becoming a permanent fixture, and many have come forward to show their support for a hybrid model of work, where video-conferencing lies at the core.” - Smith
 
@@ -51,7 +51,7 @@ Many businesses may still be doubtful about adopting a hybrid working model for 
 
 “We also rolled out solutions like Zoom Webinars that came packed with features you would find at regular webinars, such as registration options with reminders and follow-up emails, reporting, Q&A sessions, polling, the raise hand feature, MP4/M4A recording with transcripts and added streaming capabilities.”
 
-![WFH: Hybrid working is the future of remote working providers](/media/the-edge/wfh-hybrid-working-is-the-future-of-remote-working-providers/DE8-woo-tem1362_theedgemarkets.jpg)
+![WFH: Hybrid working is the future of remote working providers](../../assets/media/the-edge/wfh-hybrid-working-is-the-future-of-remote-working-providers/DE8-woo-tem1362_theedgemarkets.jpg)
 
 "To really drive both options — working from home and at the office — employers need to provide both financial and cultural support.” - Woo
 
@@ -81,7 +81,7 @@ Hence, the company held meaningful virtual engagements and fun activities to hel
 
 “With video conferencing, this is even more pronounced now because there will be only one person talking in a virtual meeting, and people are more conscious that everyone needs to have a voice in these new mediums as well. It is not just a trend because we also noticed that diversity and inclusions lead to better employee productivity and overall business performance.”
 
-![WFH: Hybrid working is the future of remote working providers](/media/the-edge/wfh-hybrid-working-is-the-future-of-remote-working-providers/DE8-chang-tem1362_theedgemarkets.jpg)
+![WFH: Hybrid working is the future of remote working providers](../../assets/media/the-edge/wfh-hybrid-working-is-the-future-of-remote-working-providers/DE8-chang-tem1362_theedgemarkets.jpg)
 
 "The companies that have survived the pandemic are the ones that have accelerated their growth as much as they can. They tend to be aggressive, fast to enter the market and are prudent in terms of costs.” - Chong
 
@@ -95,7 +95,7 @@ Although its communication solutions were one of the company’s more popular so
 
 “For the better part of the last decade, we have been helping customers virtualise their infrastructure and improve employee productivity. In the past, you could only access your work documents via a desktop or laptop. But today, you can access your work applications via your smartphones through the cloud,” he says.
 
-![WFH: Hybrid working is the future of remote working providers](/media/the-edge/wfh-hybrid-working-is-the-future-of-remote-working-providers/DE8-charts-tem1362_theedgemarkets.jpg)
+![WFH: Hybrid working is the future of remote working providers](../../assets/media/the-edge/wfh-hybrid-working-is-the-future-of-remote-working-providers/DE8-charts-tem1362_theedgemarkets.jpg)
 
 “That is why we provide services such as migrating applications to the cloud, and to do so securely. From the way we look at it, organisations had already started this digitalisation process way before the pandemic, and those who had done so were more resilient during the pandemic.”
 

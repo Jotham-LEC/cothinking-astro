@@ -5,7 +5,6 @@ import type { APIRoute, GetStaticPaths } from 'astro';
 import { garden } from '@garden/lib/load.ts';
 import { cardFor } from '@garden/lib/share.ts';
 import { renderCard } from '@garden/lib/ogCard.ts';
-import { projectRoot } from '@garden/lib/paths.ts';
 
 export const getStaticPaths = (async () => {
   const g = await garden();
@@ -14,6 +13,6 @@ export const getStaticPaths = (async () => {
 
 export const GET: APIRoute = async ({ props }) => {
   const g = await garden();
-  const png = await renderCard(projectRoot, cardFor(props.page, g));
+  const png = await renderCard(cardFor(props.page, g));
   return new Response(new Uint8Array(png), { headers: { 'Content-Type': 'image/png' } });
 };

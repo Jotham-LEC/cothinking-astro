@@ -1,24 +1,22 @@
 ---
 // Who gave a testimonial (`client`, a Work entry): a square photo when the
 // entry has one (`quote_photo`, cropped to 96px), then the name and the role.
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import { mediaImage } from '@site/lib/images.ts';
 type Props = { client: CollectionEntry<'work'>; class?: string };
 const { client, class: className } = Astro.props;
-const photo = client.data.quote_photo
-  ? await mediaImage(client.data.quote_photo, { width: 96, height: 96, crop: 'center', quality: 80 })
-  : null;
+const photo = client.data.quote_photo ?? null;
 ---
 
 <figcaption class:list={['text-muted flex items-center gap-3 font-sans text-sm', className]}>
   {photo && (
-    <img
-      src={photo.src}
+    <Image
+      src={photo}
       alt=""
-      width="48"
-      height="48"
-      loading="lazy"
-      decoding="async"
+      width={96}
+      height={96}
+      fit="cover"
+      quality={80}
       class="rounded-site border-rule size-12 shrink-0 border object-cover"
     />
   )}

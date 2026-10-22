@@ -2,10 +2,10 @@
 title: Why I Chose Hugo for My Personal Website
 date: 2024-01-22
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/why-i-chose-hugo-for-my-personal-website/5051263d-0072-40ce-8505-f8e51376a265_1880x1058.webp
+image: ../../assets/media/essays/why-i-chose-hugo-for-my-personal-website/5051263d-0072-40ce-8505-f8e51376a265_1880x1058.webp
 ---
 
-![](/media/essays/why-i-chose-hugo-for-my-personal-website/5051263d-0072-40ce-8505-f8e51376a265_1880x1058.webp)Having my own website is essential to me.
+![](../../assets/media/essays/why-i-chose-hugo-for-my-personal-website/5051263d-0072-40ce-8505-f8e51376a265_1880x1058.webp)Having my own website is essential to me.
 
 Being an online lurker for so long, I have often regretted not contributing more to the internet space rather than just passive consumption . However, I disliked the idea of posting on social media and contributing towards data-hungry big tech corporations.
 

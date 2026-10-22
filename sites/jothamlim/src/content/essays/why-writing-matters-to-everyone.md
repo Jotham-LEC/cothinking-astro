@@ -2,10 +2,10 @@
 title: Why Writing Matters to Everyone
 date: 2023-01-18
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/why-writing-matters-to-everyone/fbd6c828-0245-480c-86a7-830a2e6e4f7e_1456x819.webp
+image: ../../assets/media/essays/why-writing-matters-to-everyone/fbd6c828-0245-480c-86a7-830a2e6e4f7e_1456x819.webp
 ---
 
-![](/media/essays/why-writing-matters-to-everyone/fbd6c828-0245-480c-86a7-830a2e6e4f7e_1456x819.webp)Is long-form writing dead?
+![](../../assets/media/essays/why-writing-matters-to-everyone/fbd6c828-0245-480c-86a7-830a2e6e4f7e_1456x819.webp)Is long-form writing dead?
 
 Part of me believes it is—mainly because other forms of content out there are more interesting and have a larger audience. Why write for a “stagnant” industry when people are just not incentivised to read as much anymore?
 

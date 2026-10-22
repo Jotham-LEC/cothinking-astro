@@ -1,8 +1,7 @@
 // @ts-check
 // The Astro config every site shares; each site's astro.config.mjs calls
 // `gardenConfig({ root, site, urlOf, otherSite, redirects })`.
-import { fileURLToPath } from 'node:url';
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
 import pagefind from 'astro-pagefind';
 import sitemap from '@astrojs/sitemap';
@@ -12,7 +11,14 @@ import { codeBlock } from './lib/markdown/shiki-code-block.ts';
 import { lazyTitles, scanEntries } from './lib/scan.ts';
 import { sitemapOptions } from './lib/sitemap.ts';
 
-const gardenRoot = fileURLToPath(new URL('.', import.meta.url));
+/**
+ * One Aporetic face (SIL OFL, assets/fonts/LICENSE.md), self-hosted and subset to Latin.
+ * @param {string} file
+ * @param {number} weight
+ * @param {'normal' | 'italic'} style
+ * @returns {{ weight: number, style: 'normal' | 'italic', src: [URL] }}
+ */
+const font = (file, weight, style) => ({ weight, style, src: [new URL(`./assets/fonts/${file}.woff2`, import.meta.url)] });
 
 /**
  * @param {object} options
@@ -23,7 +29,6 @@ const gardenRoot = fileURLToPath(new URL('.', import.meta.url));
  * @param {Record<string, string>} [options.redirects] old addresses and where they go
  */
 export function gardenConfig({ root: rootUrl, site, urlOf, otherSite, redirects = {} }) {
-  const root = fileURLToPath(rootUrl);
   // The `[[wiki link]]` title index, from both sites' content on disk: read once in a build, on every render in dev.
   const titles = lazyTitles({ root: rootUrl, urlOf }, { ...otherSite, url: site.otherSite.url });
 
@@ -39,7 +44,7 @@ export function gardenConfig({ root: rootUrl, site, urlOf, otherSite, redirects 
         // `--`, `...` and straight quotes stay as typed.
         smartypants: false,
         remarkPlugins: wikiRemarkPlugins({ titles, siteUrl: site.url }),
-        rehypePlugins: wikiRehypePlugins({ siteUrl: site.url, publicDir: root + 'public' }),
+        rehypePlugins: wikiRehypePlugins({ siteUrl: site.url }),
       }),
       // Shiki in both modes (styles/site.css picks the colour by light-dark()), each block in its chrome.
       syntaxHighlight: { type: 'shiki' },
@@ -50,14 +55,32 @@ export function gardenConfig({ root: rootUrl, site, urlOf, otherSite, redirects 
       },
     },
     integrations: [sitemap(sitemapOptions(scanEntries(rootUrl, urlOf), site)), pagefind()],
-    vite: {
-      plugins: [tailwindcss()],
-      // garden/lib/paths.ts: bundled code's import.meta.url points into dist/, so the folders come from here.
-      define: {
-        'import.meta.env.PROJECT_ROOT': JSON.stringify(root),
-        'import.meta.env.GARDEN_ROOT': JSON.stringify(gardenRoot),
+    vite: { plugins: [tailwindcss()] },
+    // Sans for everything (400 and 700 with italics, 800 for headings), Sans Mono for code; layouts/Layout.astro loads them.
+    fonts: [
+      {
+        provider: fontProviders.local(),
+        name: 'Aporetic Sans',
+        cssVariable: '--font-aporetic-sans',
+        fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+        options: {
+          variants: [
+            font('aporetic-sans-regular', 400, 'normal'),
+            font('aporetic-sans-italic', 400, 'italic'),
+            font('aporetic-sans-bold', 700, 'normal'),
+            font('aporetic-sans-bold-italic', 700, 'italic'),
+            font('aporetic-sans-extrabold', 800, 'normal'),
+          ],
+        },
       },
-    },
+      {
+        provider: fontProviders.local(),
+        name: 'Aporetic Sans Mono',
+        cssVariable: '--font-aporetic-mono',
+        fallbacks: ['ui-monospace', 'monospace'],
+        options: { variants: [font('aporetic-sans-mono-regular', 400, 'normal')] },
+      },
+    ],
     redirects,
   });
 }

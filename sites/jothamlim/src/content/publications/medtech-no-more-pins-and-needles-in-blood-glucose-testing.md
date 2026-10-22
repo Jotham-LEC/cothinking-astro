@@ -27,7 +27,7 @@ Instead of enzymes, Hyzan explains that Glucosenz detects the glucose content th
 
 The light then passes through various filters designed only to isolate the glucose content. This spectrum of infrared light can penetrate human skin, eliminating the need to draw blood. Users only need to place their thumb on the reader for 30 seconds, and the result is calculated and displayed on the screen of the device.
 
-![Medtech: No more pins and needles in blood glucose testing](/media/the-edge/medtech-no-more-pins-and-needles-in-blood-glucose-testing/DE8-Hyzan-tem1379_theedgemarkets.jpg)
+![Medtech: No more pins and needles in blood glucose testing](../../assets/media/the-edge/medtech-no-more-pins-and-needles-in-blood-glucose-testing/DE8-Hyzan-tem1379_theedgemarkets.jpg)
 
 “Currently, spectrometers [used in NIRS] are expensive, so we plan on having Glucosenz primarily placed in clinics and hospitals as a monitoring device. It is not meant to diagnose [diabetes]. For that, you have to visit a doctor,” Hyzan stresses.
 

@@ -2,10 +2,10 @@
 title: Side Projects Within the Workplace
 date: 2023-06-18
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/side-projects-within-the-workplace/2888b7e8-23fa-43de-baa1-85db223766a0_4480x2520.webp
+image: ../../assets/media/essays/side-projects-within-the-workplace/2888b7e8-23fa-43de-baa1-85db223766a0_4480x2520.webp
 ---
 
-![](/media/essays/side-projects-within-the-workplace/2888b7e8-23fa-43de-baa1-85db223766a0_4480x2520.webp)Isn’t it ironic?
+![](../../assets/media/essays/side-projects-within-the-workplace/2888b7e8-23fa-43de-baa1-85db223766a0_4480x2520.webp)Isn’t it ironic?
 
 Many companies preach the values of creativity and innovation within the workplace, but don’t provide the breathing space to do so (Thankfully, mine is a rare few who does).
 

@@ -72,8 +72,6 @@ export function check({ root, site, urlOf, raws, other }: CheckInput): string[] 
         problems.push(`${where(page)}: ${p} is not a page.`);
       }
     }
-    if (page.image && !inPublic(page.image))
-      problems.push(`${where(page)}: its image ${page.image} is missing from public/.`);
     if (page.title.startsWith('Sample:')) problems.push(`${where(page)}: a sample page is still here.`);
   }
 

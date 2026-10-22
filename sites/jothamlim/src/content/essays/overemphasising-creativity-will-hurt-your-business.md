@@ -2,10 +2,10 @@
 title: Overemphasising Creativity Will Hurt Your Business
 date: 2023-01-18
 updated: 2026-10-03T16:29:26+00:00
-image: /media/essays/overemphasising-creativity-will-hurt-your-business/2d2c605e-a71d-4791-b7eb-dd91744b23c8_984x554.webp
+image: ../../assets/media/essays/overemphasising-creativity-will-hurt-your-business/2d2c605e-a71d-4791-b7eb-dd91744b23c8_984x554.webp
 ---
 
-![](/media/essays/overemphasising-creativity-will-hurt-your-business/2d2c605e-a71d-4791-b7eb-dd91744b23c8_984x554.webp)I believe that ideas are often overrated, and undeserving of the pedestal companies place them upon.
+![](../../assets/media/essays/overemphasising-creativity-will-hurt-your-business/2d2c605e-a71d-4791-b7eb-dd91744b23c8_984x554.webp)I believe that ideas are often overrated, and undeserving of the pedestal companies place them upon.
 
 - A person’s creativity is evaluated during recruitment, especially for product development and marketing positions.
 - CEOs cycle through numerous headcounts, hoping to find talents that are equally creative as they are competent.

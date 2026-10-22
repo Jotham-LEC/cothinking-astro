@@ -19,7 +19,7 @@ Prashant Bhayani, Asia chief investment officer at BNP Paribas Wealth Management
 
 “In the long term, better and faster computer and mobile phone connectivity, integrated smart warehouses for just-in-time delivery and economies of scale will help deliver lower product prices and increase the penetration rate of e-commerce. Furthermore, we live in an era in which many working people, including millennials, value their free time pursuing outdoor sports and social activities. Therefore, they can reduce the time spent on shopping to just a few clicks.
 
-![Investing Idea: Adding e-commerce stocks to your cart](/media/the-edge/investing-idea-adding-e-commerce-stocks-to-your-cart/PW4-Lim_TEM1334_theedgemarkets.jpg)
+![Investing Idea: Adding e-commerce stocks to your cart](../../assets/media/the-edge/investing-idea-adding-e-commerce-stocks-to-your-cart/PW4-Lim_TEM1334_theedgemarkets.jpg)
 
 “Finally, online deliveries are speeding up from less than a week to same-day deliveries, increasing e-commerce’s market potential and competitiveness versus physical retailers.”
 
@@ -33,7 +33,7 @@ Lim Suet Ling, CEO of UOB Asset Management (M) Bhd, says the market has pivoted 
 
 “The Covid-19 pandemic has accelerated the adoption of the online shopping trend. E-commerce as a percentage of total retail sales has been growing for many years, but the pandemic has brought forward several years of growth. Lockdown orders around the world have meant that consumers are unable or unwilling to visit crowded shopping areas,” says Lim.
 
-![Investing Idea: Adding e-commerce stocks to your cart](/media/the-edge/investing-idea-adding-e-commerce-stocks-to-your-cart/PW4-Munirah_TEM1334_theedgemarkets.jpg)
+![Investing Idea: Adding e-commerce stocks to your cart](../../assets/media/the-edge/investing-idea-adding-e-commerce-stocks-to-your-cart/PW4-Munirah_TEM1334_theedgemarkets.jpg)
 
 Photo by Sam Fong/The Edge
 
@@ -51,7 +51,7 @@ Another metric that investors should pay attention to is the company’s balance
 
 Munirah points out that while the valuations of these e-commerce counters have become frothy, any share price correction is an opportunity to collect more shares. “We feel that e-commerce stocks are actually meant for the long term, so you cannot not have these in your portfolio. It is a blue-chip sector in the US. So, if an investor does not have exposure to these stocks, they will be missing out,” she adds.
 
-![Investing Idea: Adding e-commerce stocks to your cart](/media/the-edge/investing-idea-adding-e-commerce-stocks-to-your-cart/PW4-Bhayani_theedgemarkets.jpg)
+![Investing Idea: Adding e-commerce stocks to your cart](../../assets/media/the-edge/investing-idea-adding-e-commerce-stocks-to-your-cart/PW4-Bhayani_theedgemarkets.jpg)
 
 As the US-China trade war is still going on, Munirah highlights that it is strategically advantageous to have positions in both markets. “The level of technology spend in the US is high and these Western e-commerce counters will only grow stronger and better. These companies — Facebook, Netflix, Spotify — have already become part of our daily lives, so you need to have these [in your portfolio].
 
@@ -63,7 +63,7 @@ Bhayani does not see the US-China trade war as a zero-sum game and thinks that e
 
 “However, the early movers in the US and China continue to expand and already have a foothold in parts of Asia. This can take place in the form of local partnerships, thus reducing the local government’s concerns about company ownership.”
 
-![Investing Idea: Adding e-commerce stocks to your cart](/media/the-edge/investing-idea-adding-e-commerce-stocks-to-your-cart/PW4-Table_TEM1334_theedgemarkets.jpg)
+![Investing Idea: Adding e-commerce stocks to your cart](../../assets/media/the-edge/investing-idea-adding-e-commerce-stocks-to-your-cart/PW4-Table_TEM1334_theedgemarkets.jpg)
 
 ## Short-term headwinds
 

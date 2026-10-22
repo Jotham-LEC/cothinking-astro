@@ -55,8 +55,8 @@ Use the words of your `utm_source` and `utm_campaign` values, so the WhatsApp an
 
 ## Three ways to get the chat into the CRM
 
-<img class="wiki-logo-light" src="/media/diagrams/whatsapp-to-crm-routes.svg" alt="A tagged WhatsApp button leads to a chat; with the Business app someone labels it and logs it in the CRM daily; with the API, a messaging tool or your own integration creates the CRM lead automatically.">
-<img class="wiki-logo-dark" src="/media/diagrams/whatsapp-to-crm-routes-dark.svg" alt="">
+<img class="wiki-logo-light" src="/media/diagrams/whatsapp-to-crm-routes.svg" alt="A tagged WhatsApp button leads to a chat; with the Business app someone labels it and logs it in the CRM daily; with the API, a messaging tool or your own integration creates the CRM lead automatically." loading="lazy" decoding="async">
+<img class="wiki-logo-dark" src="/media/diagrams/whatsapp-to-crm-routes-dark.svg" alt="" loading="lazy" decoding="async">
 
 1. **By hand, with the Business app.** Label each new chat ("New enquiry", "Quoted", "Won", "Lost"). At the end of each day, one named person creates a CRM record for every chat still labelled "New enquiry" and copies the reference code into the lead source field.
 2. **A messaging tool on the API.** Most CRMs sold in Malaysia have a WhatsApp integration or work with a shared-inbox tool that does. A new chat creates or matches a contact, the conversation sits on the record, and leads are assigned by rule.

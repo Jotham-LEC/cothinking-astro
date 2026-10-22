@@ -17,7 +17,7 @@ One of the blueprint initiatives involves improving the current data-sharing env
 
 The Malaysian Government Central Data Exchange (MyGDX) will expand its service catalogues to include all ministries and government agencies to facilitate more data sharing. Ministries and agencies are required to produce their own open Application Programming Interface (API) to share real-time and aggregated data.
 
-![Malaysia Digital Economy Blueprint: Still many gaps in open data policy](/media/the-edge/malaysia-digital-economy-blueprint-still-many-gaps-in-open-data-policy/MYDigital_Ashraf_TEM1358_theedgemarkets.jpg)
+![Malaysia Digital Economy Blueprint: Still many gaps in open data policy](../../assets/media/the-edge/malaysia-digital-economy-blueprint-still-many-gaps-in-open-data-policy/MYDigital_Ashraf_TEM1358_theedgemarkets.jpg)
 
 The authorities are targeting 50% of the data shared to be machine-readable and accessible through APIs, and for all ministries and agencies to use MyGDX by 2025. Through improved data sharing, authorities can incorporate more data in their analysis and development of future policies.
 
@@ -33,7 +33,7 @@ The blueprint also highlights initiatives to increase data sharing and usage amo
 
 ## Does the blueprint address real open data challenges?
 
-![Malaysia Digital Economy Blueprint: Still many gaps in open data policy](/media/the-edge/malaysia-digital-economy-blueprint-still-many-gaps-in-open-data-policy/MYDigital_Nurazam_TEM1358_theedgemarkets.jpg)
+![Malaysia Digital Economy Blueprint: Still many gaps in open data policy](../../assets/media/the-edge/malaysia-digital-economy-blueprint-still-many-gaps-in-open-data-policy/MYDigital_Nurazam_TEM1358_theedgemarkets.jpg)
 
 Ashraf Shaharudin, a research associate at Khazanah Research Institute (KRI), welcomes the initiative to grant Mampu a greater mandate for enforcement. However, he is keen to know the form and extent of the mandate when it comes to open government data.
 
@@ -53,7 +53,7 @@ Nurazam Malim, Twistcode Technologies Sdn Bhd CEO, voices his concerns about the
 
 “That means the government needs to develop the back-end processes internally with the help of Mampu. Mampu would then need to train people to facilitate the process. But as we have seen from many government agencies, once they are properly trained, many will resign and work for the private sector.”
 
-![Malaysia Digital Economy Blueprint: Still many gaps in open data policy](/media/the-edge/malaysia-digital-economy-blueprint-still-many-gaps-in-open-data-policy/MYDigital_Reza_TEM1358_theedgemarkets.jpg)
+![Malaysia Digital Economy Blueprint: Still many gaps in open data policy](../../assets/media/the-edge/malaysia-digital-economy-blueprint-still-many-gaps-in-open-data-policy/MYDigital_Reza_TEM1358_theedgemarkets.jpg)
 
 Nurazam recommends that Mampu work with government-linked companies (GLCs) alongside agencies and ministries to create open GLC data. Doing so will allow Mampu to set up infrastructure and back-end processes that are aligned with market needs and, more importantly, provide talent with the motivation and incentives to continue working for the public sector.
 
