@@ -8,7 +8,7 @@ import { toString } from 'hast-util-to-string';
 import { h } from 'hastscript';
 import { visit } from 'unist-util-visit';
 
-export const CALLOUT_TYPES = ['note', 'info', 'tip', 'important', 'warning', 'danger', 'caution'];
+const CALLOUT_TYPES = ['note', 'info', 'tip', 'important', 'warning', 'danger', 'caution'];
 
 const MARKER = /^\s*\[!(\w+)\]/;
 

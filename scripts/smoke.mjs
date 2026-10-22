@@ -32,8 +32,14 @@ check(
   (await page.locator('[data-rail] [data-toc] a').count()) >= 2,
   `${await page.locator('[data-rail] [data-toc] a').count()} links`,
 );
-check('code-block chrome', (await page.locator('.code-block-copy').count()) >= 0);
 check('statusline read time', (await page.locator('[data-status-scroll]').textContent())?.trim() === 'Top');
+
+// Code-block chrome, on an essay with fenced code
+await page.goto(`${BASE}/essays/guide-publishing-to-hugo-jekyll-remotely-via-ios`, { waitUntil: 'networkidle' });
+const blocks = await page.locator('main pre').count();
+const copies = await page.locator('main .code-block-copy').count();
+check('code blocks get a copy button', blocks > 0 && copies === blocks, `${copies} of ${blocks}`);
+await page.goto(`${BASE}/essays/being-personal-in-the-workplace`, { waitUntil: 'networkidle' });
 
 // Theme
 await page.click('[data-theme-toggle]');

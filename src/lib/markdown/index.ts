@@ -13,7 +13,7 @@ import rehypeHeadingIds from './rehype-heading-ids.ts';
 import rehypeImages from './rehype-images.ts';
 import remarkWikiLinks from './remark-wiki-links.ts';
 
-export type PipelineOptions = { titles: TitleIndex; siteUrl: string; publicDir: string };
+type PipelineOptions = { titles: TitleIndex; siteUrl: string; publicDir: string };
 
 /** remark-wiki-link, parsing only: remark-wiki-links resolves the nodes. */
 export const wikiLinkSyntax = (): [RemarkPlugin, unknown][] => [
@@ -21,7 +21,7 @@ export const wikiLinkSyntax = (): [RemarkPlugin, unknown][] => [
 ];
 
 /** Raw HTML in the content becomes part of the tree before any plugin looks at it; MDX's own nodes pass through. */
-export const rawHtml = (): RehypePlugins => [
+const rawHtml = (): RehypePlugins => [
   [
     rehypeRaw,
     { passThrough: ['mdxjsEsm', 'mdxJsxFlowElement', 'mdxJsxTextElement', 'mdxFlowExpression', 'mdxTextExpression'] },

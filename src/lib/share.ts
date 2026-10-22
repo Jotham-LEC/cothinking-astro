@@ -20,6 +20,3 @@ export async function cardFor(page: Page, w: Wiki): Promise<CardInput> {
     portrait: site.attributes.logo ?? null,
   };
 }
-
-/** The card's address: /og.png for the home page, /og/{path}.png for the rest. */
-export const cardUrl = (page: Page): string => (page.url === '/' ? '/og.png' : `/og${page.url}.png`);

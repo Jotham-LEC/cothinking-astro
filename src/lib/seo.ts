@@ -6,15 +6,15 @@ import { breadcrumbs } from './breadcrumbs.ts';
 import { atom } from './dates.ts';
 import { plainText } from './markdown/feed.ts';
 import { measure } from './markdown/rehype-images.ts';
-import { byUrl, isChild } from './pages.ts';
+import { byUrl } from './pages.ts';
 import type { Collections, Page, SiteConfig } from './types.ts';
-import { absolute } from './urls.ts';
+import { absolute, cardUrl } from './urls.ts';
 
-export const TITLE_MAX = 60;
-export const DESCRIPTION_MAX = 160;
-export const ROBOTS_DEFAULT = 'max-snippet:-1, max-image-preview:large, max-video-preview:-1';
-export const IMAGE_WIDTH = 1200;
-export const IMAGE_HEIGHT = 630;
+const TITLE_MAX = 60;
+const DESCRIPTION_MAX = 160;
+const ROBOTS_DEFAULT = 'max-snippet:-1, max-image-preview:large, max-video-preview:-1';
+const IMAGE_WIDTH = 1200;
+const IMAGE_HEIGHT = 630;
 const CREDIT_LINE = 'This article first appeared';
 
 export type HeadInput = {
@@ -32,7 +32,7 @@ export type HeadInput = {
   status?: number;
 };
 
-export type ShareImage = { url: string; width: number; height: number; alt: string | null };
+type ShareImage = { url: string; width: number; height: number; alt: string | null };
 export type Head = {
   title: string;
   description: string | null;
@@ -65,14 +65,6 @@ export function limit(text: string, length: number): string {
   const cut = [...text].slice(0, length - 1).join('');
   const space = cut.lastIndexOf(' ');
   return (space > 0 ? cut.slice(0, space) : cut).replace(/[ ,.;:–—-]+$/, '') + '…';
-}
-
-export function firstParagraph(html: string): string | null {
-  for (const m of html.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)) {
-    const text = plainText(m[1]!);
-    if (text !== '') return text;
-  }
-  return null;
 }
 
 const home = (site: SiteConfig) => `${site.url.replace(/\/$/, '')}/`;
@@ -171,14 +163,14 @@ export function image(input: HeadInput): ShareImage | null {
   const subject = page ?? byUrl(pages).get('/') ?? null;
   if (!subject?.url) return null;
   return {
-    url: absolute(site.url, subject.url === '/' ? '/og.png' : `/og${subject.url}.png`),
+    url: absolute(site.url, cardUrl(subject.url)),
     width: IMAGE_WIDTH,
     height: IMAGE_HEIGHT,
     alt: subject.seo.og_title ?? subject.title,
   };
 }
 
-export function websiteNode(site: SiteConfig) {
+function websiteNode(site: SiteConfig) {
   return clean({
     '@type': 'WebSite',
     '@id': websiteId(site),
@@ -190,7 +182,7 @@ export function websiteNode(site: SiteConfig) {
 }
 
 /** Who is behind the site: a Person, with the organisations they work for (the settings' employer and the other sites). */
-export function publisherNode(site: SiteConfig) {
+function publisherNode(site: SiteConfig) {
   const seo = site.seo;
   const types = list(seo.publisher_type).length ? list(seo.publisher_type) : ['Person'];
   const portrait = str(seo.publisher_logo) ?? str(site.attributes.logo);
@@ -216,7 +208,7 @@ export function publisherNode(site: SiteConfig) {
   });
 }
 
-export function webPageNode(
+function webPageNode(
   input: HeadInput,
   head: { description: string | null; image: ShareImage | null; ogTitle: string; ogType: string },
 ) {
@@ -238,7 +230,7 @@ export function webPageNode(
   });
 }
 
-export function breadcrumbNode(input: HeadInput) {
+function breadcrumbNode(input: HeadInput) {
   const { page, site, pages } = input;
   if (!page || isHome(input) || !page.url) return null;
   const trail = breadcrumbs(page.url, pages).map((c, i) => ({
@@ -252,7 +244,7 @@ export function breadcrumbNode(input: HeadInput) {
   };
 }
 
-export function articleNode(
+function articleNode(
   input: HeadInput,
   head: { description: string | null; image: ShareImage | null; canonical: string | null },
 ) {
@@ -274,7 +266,7 @@ export function articleNode(
 }
 
 /** The editors' nodes from the SEO tab's "Extra JSON-LD" field: an object or a list of objects; anything else is ignored. */
-export function customNodes(page: Page | null): Record<string, unknown>[] {
+function customNodes(page: Page | null): Record<string, unknown>[] {
   if (!page?.seo.json_ld) return [];
   try {
     const decoded = JSON.parse(page.seo.json_ld);
@@ -338,5 +330,3 @@ export function inSitemap(page: Page, site: SiteConfig): boolean {
   const canonical = page.seo.canonical?.replace(/\/$/, '');
   return !canonical || canonical === absolute(site.url, page.url).replace(/\/$/, '');
 }
-
-export { isChild };

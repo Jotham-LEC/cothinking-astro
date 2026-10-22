@@ -5,12 +5,12 @@
 // a captioned figure.
 import fs from 'node:fs';
 import path from 'node:path';
-import type { Element, Root } from 'hast';
+import type { Root } from 'hast';
 import { h } from 'hastscript';
 import { imageSize } from 'image-size';
 import { visit } from 'unist-util-visit';
 
-export type ImagesOptions = { publicDir: string; mediaUrl?: string };
+type ImagesOptions = { publicDir: string };
 
 const sizes = new Map<string, { width: number; height: number } | null>();
 
@@ -29,10 +29,9 @@ export function measure(publicDir: string, src: string): { width: number; height
   return sizes.get(file) ?? null;
 }
 
-export default function rehypeImages({ publicDir, mediaUrl = '/media/' }: ImagesOptions) {
+export default function rehypeImages({ publicDir }: ImagesOptions) {
   return (tree: Root) => {
     let first = true;
-    const ancestors: Element[] = [];
     visit(
       tree,
       'element',
@@ -44,7 +43,7 @@ export default function rehypeImages({ publicDir, mediaUrl = '/media/' }: Images
         first = false;
 
         const src = String(props.src ?? '');
-        if (props.width === undefined && src.startsWith(mediaUrl)) {
+        if (props.width === undefined && src.startsWith('/media/')) {
           const size = measure(publicDir, src);
           if (size) {
             props.width = size.width;
@@ -53,9 +52,8 @@ export default function rehypeImages({ publicDir, mediaUrl = '/media/' }: Images
         }
         props.decoding = 'async';
 
-        const insideLink =
-          ancestors.some((a) => a.tagName === 'a') || (parent.type === 'element' && parent.tagName === 'a');
-        if (!insideLink) {
+        // A link's direct image is caught here; one deeper in a link, by the second pass below.
+        if (!(parent.type === 'element' && parent.tagName === 'a')) {
           const className: unknown = props.className;
           const classes = Array.isArray(className)
             ? className.map(String)

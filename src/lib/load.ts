@@ -10,9 +10,6 @@ import { published, toPages } from './pages.ts';
 import type { TitleIndex } from './titles.ts';
 import type { Collections, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
 
-/** The data collections, as opposed to the content ones a Page comes from. */
-const DATA_COLLECTIONS = ['site', 'collectionsConfig', 'navigation', 'redirects'];
-
 export type Wiki = {
   site: SiteConfig;
   collections: Collections;
@@ -45,7 +42,7 @@ export function wiki(): Promise<Wiki> {
 
     const raws: RawEntry[] = [];
     const entries = new Map<string, CollectionEntry<CollectionKey>>();
-    for (const collection of Object.keys(collections).filter((c) => !DATA_COLLECTIONS.includes(c)) as CollectionKey[]) {
+    for (const collection of Object.keys(collections) as CollectionKey[]) {
       for (const entry of await getCollection(collection)) {
         raws.push({ collection, slug: entry.id, data: entry.data as Record<string, unknown>, body: entry.body ?? '' });
         entries.set(`${collection}/${entry.id}`, entry);

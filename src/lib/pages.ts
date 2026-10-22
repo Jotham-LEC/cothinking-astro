@@ -1,7 +1,6 @@
 // The page model: entries from any loader (Astro's collections at build time,
 // the files on disk for `npm run check` and the tests) become Pages with
 // their addresses, and the helpers every other module shares.
-import { naturalCompare } from './natural.ts';
 import { resolveUrls } from './urls.ts';
 import type { Collections, Page, RawEntry, Seo } from './types.ts';
 
@@ -88,10 +87,6 @@ export function childrenOf(handle: string, pages: Page[], collections: Collectio
   const own = published(pages).filter((p) => p.collection === handle);
   return collections[handle]?.orderable ? [...own].sort((a, b) => (a.order ?? 0) - (b.order ?? 0)) : byDateDesc(own);
 }
-
-/** Natural, case-insensitive title order (PHP's SORT_NATURAL | SORT_FLAG_CASE). */
-export const naturalTitle = { compare: naturalCompare };
-export const byTitle = (pages: Page[]): Page[] => [...pages].sort((a, b) => naturalTitle.compare(a.title, b.title));
 
 /** The home page: the root of the site's pages tree. */
 export const home = (pages: Page[]): Page | null => pages.find((p) => p.url === '/') ?? null;

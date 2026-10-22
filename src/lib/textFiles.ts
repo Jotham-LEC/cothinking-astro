@@ -5,17 +5,18 @@
 // page that is its own canonical address, with its last change (the XML itself is
 // @astrojs/sitemap's: src/lib/sitemap.ts).
 import { atom } from './dates.ts';
-import { naturalTitle, published } from './pages.ts';
+import { naturalCompare } from './natural.ts';
+import { published } from './pages.ts';
 import { contentDescription, inSitemap, limit } from './seo.ts';
 import { plainText } from './markdown/feed.ts';
 import type { Collections, Page, SiteConfig } from './types.ts';
 import { absolute } from './urls.ts';
 
 /** Where @astrojs/sitemap writes the index (src/lib/sitemap.ts). */
-export const SITEMAP_PATH = '/sitemap-index.xml';
+const SITEMAP_PATH = '/sitemap-index.xml';
 
-export const AI_TRAINING_AGENTS = ['GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended', 'CCBot'];
-export const AI_SEARCH_AGENTS = ['OAI-SearchBot', 'Claude-SearchBot', 'PerplexityBot'];
+const AI_TRAINING_AGENTS = ['GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended', 'CCBot'];
+const AI_SEARCH_AGENTS = ['OAI-SearchBot', 'Claude-SearchBot', 'PerplexityBot'];
 
 const list = (v: unknown): string[] =>
   Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string' && x !== '') : [];
@@ -58,7 +59,7 @@ export async function llmsTxt(
     const entries = live
       .filter((p) => p.collection === handle)
       .sort(
-        (a, b) => (b.updated?.getTime() ?? 0) - (a.updated?.getTime() ?? 0) || naturalTitle.compare(a.title, b.title),
+        (a, b) => (b.updated?.getTime() ?? 0) - (a.updated?.getTime() ?? 0) || naturalCompare(a.title, b.title),
       )
       .slice(0, perCollection);
     if (entries.length === 0) continue;

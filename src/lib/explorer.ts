@@ -4,7 +4,7 @@
 // group per year). At each level single pages come before folders; text-only
 // items holding nothing are dropped, so are drafts. Also the header, drawer
 // and footer links (App\Tags\Wiki).
-import { childrenOf, isChild, mountedOn, naturalTitle, pageByKey, published } from './pages.ts';
+import { childrenOf, mountedOn, pageByKey, published } from './pages.ts';
 import type { Collections, NavItem, Page, SiteConfig } from './types.ts';
 import { pathOf } from './urls.ts';
 import { byYear } from './years.ts';
@@ -21,7 +21,7 @@ export type Row = {
 
 export type Site = { pages: Page[]; collections: Collections; navigation: Record<string, NavItem[]>; site: SiteConfig };
 
-export const keyOf = (page: Page) => `${page.collection}/${page.slug}`;
+const keyOf = (page: Page) => `${page.collection}/${page.slug}`;
 
 const row = (page: Page | null, title?: string): Row => ({
   id: page ? keyOf(page) : null,
@@ -143,9 +143,3 @@ export function footerColumns({
     }),
   }));
 }
-
-/** Natural title order, for lists of pages. */
-export const sortByTitle = <T extends { title: string }>(items: T[]) =>
-  [...items].sort((a, b) => naturalTitle.compare(a.title, b.title));
-
-export { isChild };

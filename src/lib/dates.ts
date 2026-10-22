@@ -1,7 +1,7 @@
 // Every printed date goes through here. Statamic stores dates in UTC and prints
 // them in its display timezone (Asia/Kuala_Lumpur), so the archive rows, eyebrows,
 // note badges and year groups all format in that zone.
-export const DISPLAY_TIMEZONE = 'Asia/Kuala_Lumpur';
+const DISPLAY_TIMEZONE = 'Asia/Kuala_Lumpur';
 
 const read = (date: Date, options: Intl.DateTimeFormatOptions): Record<string, string> => {
   const out: Record<string, string> = {};
@@ -52,11 +52,6 @@ export const day = (date: Date) => formatDate(date, 'Y-m-d');
 
 /** The year in the display timezone (the publications archive's groups). */
 export const year = (date: Date) => formatDate(date, 'Y');
-
-/** RFC 2822 in UTC, as Carbon prints a stored date for `<pubDate>`. */
-export function rfc2822(date: Date): string {
-  return formatDate(date, 'D, d M Y H:i:s', 'UTC') + ' +0000';
-}
 
 /** Atom/ISO 8601 in UTC with a `+00:00` offset, as Carbon's toAtomString. */
 export function atom(date: Date): string {

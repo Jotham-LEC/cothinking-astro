@@ -7,7 +7,6 @@ import { formatDate } from '../../lib/dates.ts';
 import type { Page } from '../../lib/types.ts';
 import Prose from '../garden/Prose.astro';
 import Icon from './Icon.astro';
-import Text from './types/Text.astro';
 import Photo from './types/Photo.astro';
 import Link from './types/Link.astro';
 import Quote from './types/Quote.astro';
@@ -19,7 +18,8 @@ const type = note.type ?? 'text';
 const typeTitle = w.collections.notes?.types?.find((t) => t.handle === type)?.title ?? type;
 const posted = note.date!;
 const { Content } = await render(w.entryOf(note));
-const Post = { text: Text, photo: Photo, link: Link, quote: Quote, video: Video }[type] ?? Text;
+// A text note is all body; the other types draw their post above it.
+const Post = { photo: Photo, link: Link, quote: Quote, video: Video }[type as 'photo' | 'link' | 'quote' | 'video'];
 const hasContent = note.body.trim() !== '';
 ---
 
@@ -44,7 +44,7 @@ const hasContent = note.body.trim() !== '';
     </a>
   </div>
   <div class="rounded-site border-rule bg-bg-elev overflow-hidden border">
-    <Post note={note} />
+    {Post && <Post note={note} />}
     {(type === 'text' || hasContent) && (
       <div class="px-6 py-5">
         {type === 'text' && (

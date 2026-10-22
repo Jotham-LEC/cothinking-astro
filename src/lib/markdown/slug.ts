@@ -49,7 +49,7 @@ const PUNCTUATION: Record<string, string> = {
 };
 
 /** portable-ascii's `to_ascii` for the characters this content uses. */
-export function toAscii(text: string): string {
+function toAscii(text: string): string {
   const mapped = text.replace(/[^\x00-\x7f]/gu, (ch) => PUNCTUATION[ch] ?? ch);
   // Decompose accented letters, then drop the marks and whatever is still outside ASCII (emoji, symbols).
   return mapped

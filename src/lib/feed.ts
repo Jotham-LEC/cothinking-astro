@@ -10,7 +10,7 @@ import type { Collections, Page, SiteConfig } from './types.ts';
 import { absolute } from './urls.ts';
 import type { TitleIndex } from './titles.ts';
 
-export type FeedContext = {
+type FeedContext = {
   site: SiteConfig;
   collections: Collections;
   pages: Page[];
@@ -22,7 +22,7 @@ const escapeHtml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /** A feed item's body: a note's post (quote, photos, link, video) then its text; any other page's text. */
-export async function feedBody(page: Page, { titles, site, publicDir }: FeedContext): Promise<string> {
+async function feedBody(page: Page, { titles, site, publicDir }: FeedContext): Promise<string> {
   if (page.collection !== 'notes') return fullUrls(await renderFeed(page.body.trim(), titles), site.url);
   const parts: string[] = [];
   const type = page.type ?? 'text';

@@ -8,9 +8,9 @@ import path from 'node:path';
 import { Resvg } from '@resvg/resvg-js';
 import satori from 'satori';
 
-export const CARD = { width: 1200, height: 630, border: 20, padding: 64 };
+const CARD = { width: 1200, height: 630, border: 20, padding: 64 };
 /** config('site.og'): the tokens' dark values (tests in the Laravel repo kept them equal). */
-export const PALETTE = { background: '#282828', heading: '#fbf1c7', muted: '#bdae93', accent: '#fad03a' };
+const PALETTE = { background: '#282828', heading: '#fbf1c7', muted: '#bdae93', accent: '#fad03a' };
 
 export type CardInput = {
   label: string;

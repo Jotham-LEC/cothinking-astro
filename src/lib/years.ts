@@ -15,7 +15,7 @@ export function byYear(pieces: Page[]): [string, Page[]][] {
   return [...groups.entries()];
 }
 
-export type Piece = { date: Date | null; url: string; title: string; outlet: string | null };
+type Piece = { date: Date | null; url: string; title: string; outlet: string | null };
 
 export function years(page: Page, pages: Page[], collections: Collections): { year: string; pieces: Piece[] }[] {
   const section = mountedOn(page, collections);

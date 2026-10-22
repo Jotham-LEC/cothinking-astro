@@ -4,7 +4,7 @@ import { noteTypesInUse } from './explorer.ts';
 import { published } from './pages.ts';
 import type { Collections, Page } from './types.ts';
 
-export type NoteType = { handle: string; title: string; seoTitle: string; seoDescription: string };
+type NoteType = { handle: string; title: string; seoTitle: string; seoDescription: string };
 
 export function noteTypes(pages: Page[], collections: Collections, collection = 'notes'): NoteType[] {
   const types = collections[collection]?.types ?? [];

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { atom, day, formatDate, rfc2822, year } from '../src/lib/dates.ts';
+import { atom, day, formatDate, year } from '../src/lib/dates.ts';
 import { byDateDesc, childrenOf, mountedOn, sectionOf, toPages } from '../src/lib/pages.ts';
 import { readTime, wordCount } from '../src/lib/readTime.ts';
 import { titleIndex, resolveTitle } from '../src/lib/titles.ts';
@@ -88,13 +88,12 @@ describe('pages', () => {
 });
 
 describe('dates', () => {
-  it('print in Kuala Lumpur, feeds in UTC', () => {
+  it('print in Kuala Lumpur, Atom dates in UTC', () => {
     const late = new Date('2026-10-07T17:30:00Z'); // 01:30 the next day in KL
     expect(day(late)).toBe('2026-10-08');
     expect(year(new Date('2020-12-31T18:00:00Z'))).toBe('2021');
     expect(formatDate(late, 'j F Y')).toBe('8 October 2026');
     expect(formatDate(late, 'M')).toBe('Oct');
-    expect(rfc2822(new Date('2026-10-15T06:38:00Z'))).toBe('Thu, 15 Oct 2026 06:38:00 +0000');
     expect(atom(new Date('2023-01-18T00:00:00Z'))).toBe('2023-01-18T00:00:00+00:00');
   });
 });

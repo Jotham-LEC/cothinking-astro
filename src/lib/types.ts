@@ -41,7 +41,7 @@ export type Page = {
 };
 
 /** What the import reads off a collection's YAML and blueprints. */
-export type CollectionConfig = {
+type CollectionConfig = {
   title: string;
   route: string;
   dated: boolean;

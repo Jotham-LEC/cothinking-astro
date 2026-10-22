@@ -4,7 +4,7 @@
 // entry of a structured collection that is not in its tree has no address.
 import type { Collections } from './types.ts';
 
-export type Locatable = { collection: string; slug: string; order: number | null; parent: string | null };
+type Locatable = { collection: string; slug: string; order: number | null; parent: string | null };
 
 export function resolveUrls<T extends Locatable>(items: T[], collections: Collections): Map<T, string | null> {
   const byKey = new Map(items.map((item) => [`${item.collection}/${item.slug}`, item]));
@@ -57,6 +57,9 @@ export function pathOf(url: string): string {
   const path = url.startsWith('http') ? new URL(url).pathname : url.split(/[?#]/)[0]!;
   return path.replace(/\/$/, '') || '/';
 }
+
+/** A page's share card (og.png.ts, og/[...uri].png.ts): /og.png for the home page, /og/{path}.png for the rest. */
+export const cardUrl = (path: string): string => (path === '/' ? '/og.png' : `/og${path}.png`);
 
 /** The absolute address of a path on a site; the home page is the bare site URL, as Statamic prints it. */
 export function absolute(siteUrl: string, path: string): string {

@@ -3,7 +3,7 @@
 import { byUrl } from './pages.ts';
 import type { Page } from './types.ts';
 
-export type Crumb = { title: string; url: string };
+type Crumb = { title: string; url: string };
 
 export function breadcrumbs(url: string, pages: Page[]): Crumb[] {
   const urls = byUrl(pages);

@@ -13,7 +13,7 @@ import { wikiLinkSyntax } from './index.ts';
 import rehypeCallouts from './rehype-callouts.ts';
 import remarkWikiLinks from './remark-wiki-links.ts';
 
-export function feedProcessor(titles: TitleIndex, { breaks = false, callouts = false } = {}) {
+function feedProcessor(titles: TitleIndex, { breaks = false, callouts = false } = {}) {
   const processor = unified().use(remarkParse).use(remarkGfm).use(wikiLinkSyntax()).use(remarkWikiLinks, { titles });
   if (breaks) processor.use(remarkBreaks);
   const html = processor.use(remarkRehype, { allowDangerousHtml: true }).use(rehypeRaw);

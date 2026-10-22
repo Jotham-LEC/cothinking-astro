@@ -2,7 +2,8 @@
 // Markdown link from one body to another page an edge. /graph.json and the
 // rail's "Linked from" both read it, so they always agree.
 import { linkedPages } from './links.ts';
-import { byUrl, isChild, naturalTitle, published } from './pages.ts';
+import { naturalCompare } from './natural.ts';
+import { byUrl, isChild, published } from './pages.ts';
 import type { Collections, Page } from './types.ts';
 import type { TitleIndex } from './titles.ts';
 
@@ -40,5 +41,5 @@ export function buildGraph(pages: Page[], collections: Collections, titles: Titl
 export function backlinks(graph: Graph, page: Page): GraphNode[] {
   const id = idOf(page);
   const sources = new Set(graph.links.filter((l) => l.target === id).map((l) => l.source));
-  return graph.nodes.filter((n) => sources.has(n.id)).sort((a, b) => naturalTitle.compare(a.title, b.title));
+  return graph.nodes.filter((n) => sources.has(n.id)).sort((a, b) => naturalCompare(a.title, b.title));
 }
