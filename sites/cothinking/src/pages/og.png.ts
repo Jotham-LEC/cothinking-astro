@@ -10,6 +10,6 @@ export const GET: APIRoute = async () => {
   const g = await garden();
   const page = home(g.live);
   if (!page) return new Response(null, { status: 404 });
-  const png = await renderCard(projectRoot, await cardFor(page, g));
+  const png = await renderCard(projectRoot, cardFor(page, g));
   return new Response(new Uint8Array(png), { headers: { 'Content-Type': 'image/png' } });
 };

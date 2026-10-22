@@ -5,7 +5,6 @@
 import { breadcrumbs } from './breadcrumbs.ts';
 import { atom } from './dates.ts';
 import { byUrl, type SiteEntry } from './entry.ts';
-import { plainText } from './markdown/feed.ts';
 import { measure } from './markdown/rehype-images.ts';
 import { absolute, cardUrl, type SiteConfig } from './site.ts';
 
@@ -24,8 +23,6 @@ export type HeadInput = {
   site: SiteConfig;
   /** The published entries, for the breadcrumbs and the home page's card. */
   live: SiteEntry[];
-  /** The rendered body, for a description from its first paragraph. */
-  html?: string;
   /** Where the public files are, to measure a share image. */
   publicDir?: string;
   overrides?: { title?: string | null; description?: string | null; noindex?: boolean; ogType?: string | null };
@@ -87,13 +84,10 @@ export function ogTitle({ page, site, overrides }: HeadInput): string {
 }
 
 /** The content's own description: its `description`, a quote note's quote, else the body's first paragraph (skipping a column's credit line). */
-export function contentDescription(page: SiteEntry, html?: string, { skipCreditLine = true } = {}): string | null {
+export function contentDescription(page: SiteEntry, { skipCreditLine = true } = {}): string | null {
   if (page.description) return page.description;
-  if (page.quote) return plainText(page.quote);
-  if (!html) return null;
-  const paragraphs = [...html.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)]
-    .map((m) => plainText(m[1]!))
-    .filter((p) => p !== '');
+  if (page.quote) return page.quote;
+  const { paragraphs } = page;
   const first = paragraphs[0] ?? null;
   // A republished column opens with its credit line, which describes the outlet: the head skips it, llms.txt does not.
   if (skipCreditLine && first !== null && first.startsWith(CREDIT_LINE))
@@ -102,14 +96,14 @@ export function contentDescription(page: SiteEntry, html?: string, { skipCreditL
 }
 
 export function description(input: HeadInput): string | null {
-  const { page, site, html, overrides } = input;
+  const { page, site, overrides } = input;
   const text =
-    overrides?.description ??
-    page?.seo.description ??
-    (page ? contentDescription(page, html) : null) ??
-    site.seo.defaultDescription;
-  return limit(plainText(text), DESCRIPTION_MAX);
+    overrides?.description ?? page?.seo.description ?? (page ? contentDescription(page) : null) ?? site.seo.defaultDescription;
+  return limit(squish(text), DESCRIPTION_MAX);
 }
+
+/** One line: whitespace collapsed. */
+export const squish = (text: string): string => text.replace(/\s+/g, ' ').trim();
 
 export const url = ({ site, path }: HeadInput): string => absolute(site.url, path);
 

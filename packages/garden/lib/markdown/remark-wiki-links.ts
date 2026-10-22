@@ -8,7 +8,6 @@ import type { Root } from 'mdast';
 import { visit } from 'unist-util-visit';
 import { resolveTitle, type TitleIndex } from '../titles.ts';
 import { isExternal } from '../site.ts';
-import { named } from './named.ts';
 
 type WikiLinkNode = {
   type: 'wikiLink';
@@ -17,7 +16,7 @@ type WikiLinkNode = {
 };
 
 export default function remarkWikiLinks({ titles, siteUrl }: { titles: () => TitleIndex; siteUrl?: string }) {
-  return named('remark-wiki-links', (tree: Root) => {
+  return (tree: Root) => {
     const index = titles();
     visit(tree as unknown as import('unist').Node, 'wikiLink', (node: unknown) => {
       const link = node as WikiLinkNode;
@@ -30,5 +29,5 @@ export default function remarkWikiLinks({ titles, siteUrl }: { titles: () => Tit
         : { className: ['wiki-link-missing'], dataTitle: title };
       link.data.hChildren = [{ type: 'text', value: text }];
     });
-  });
+  };
 }

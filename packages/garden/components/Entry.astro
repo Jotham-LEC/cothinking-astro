@@ -28,8 +28,6 @@ const { headings = [], extraHeadings = [] } = Astro.props;
 const g = await garden();
 const page = g.entry(Astro.props.entry);
 const path = Astro.props.path ?? page.url;
-// The body as plain HTML, for a description from its first paragraph.
-const html = await g.htmlOf(page);
 const info = pageInfo(page, g.site);
 const entries = toc(headings, extraHeadings);
 const neighbours = pager(page, g.live);
@@ -38,7 +36,7 @@ const updated = page.updated ?? page.date;
 const section = info.section ? (g.site.collections[info.section]?.title ?? info.section) : null;
 ---
 
-<Layout page={page} info={info} path={path} html={html} statusline={info.readTime ? `${info.readTime} min read` : null}>
+<Layout page={page} info={info} path={path} statusline={info.readTime ? `${info.readTime} min read` : null}>
   <slot name="head" slot="head" />
   {!info.isHome && <Breadcrumbs url={path} live={g.live} />}
 

@@ -29,6 +29,8 @@ export type SiteEntry = {
   updated: Date | null;
   draft: boolean;
   body: string;
+  /** The opening paragraphs, as plain text (rehype-excerpt): a description when the page has none. */
+  paragraphs: string[];
   seo: Seo;
   order: number | null;
   /** A note's post type. */
@@ -45,7 +47,14 @@ export type SiteEntry = {
 /** A site's rule for an entry's address: `urlOf(collection, id)` (sites/<site>/src/lib/urls.ts). */
 export type UrlOf = (collection: string, id: string) => string;
 
-export type RawEntry = { collection: string; id: string; data: Record<string, unknown>; body?: string };
+export type RawEntry = {
+  collection: string;
+  id: string;
+  data: Record<string, unknown>;
+  body?: string;
+  /** What Astro's loader rendered (its metadata holds the plugins' front matter); the scan has none. */
+  rendered?: { metadata?: Record<string, unknown> };
+};
 
 const asDate = (value: unknown): Date | null => {
   if (value instanceof Date) return value;
@@ -58,7 +67,8 @@ const asDate = (value: unknown): Date | null => {
 const asString = (value: unknown): string | null => (typeof value === 'string' && value !== '' ? value : null);
 const asNumber = (value: unknown): number | null => (typeof value === 'number' ? value : null);
 
-export function toSiteEntry({ collection, id, data: d, body }: RawEntry, urlOf: UrlOf): SiteEntry {
+export function toSiteEntry({ collection, id, data: d, body, rendered }: RawEntry, urlOf: UrlOf): SiteEntry {
+  const paragraphs = (rendered?.metadata?.frontmatter as Record<string, unknown> | undefined)?.paragraphs;
   return {
     collection,
     id,
@@ -70,6 +80,7 @@ export function toSiteEntry({ collection, id, data: d, body }: RawEntry, urlOf: 
     updated: asDate(d.updated),
     draft: d.draft === true,
     body: body ?? '',
+    paragraphs: Array.isArray(paragraphs) ? paragraphs.map(String) : [],
     seo: d.seo && typeof d.seo === 'object' ? (d.seo as Seo) : {},
     order: asNumber(d.order),
     type: collection === 'notes' ? (asString(d.type) ?? 'text') : null,

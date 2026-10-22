@@ -30,7 +30,6 @@ type Props = {
   seoDescription?: string | null;
   seoStatus?: number;
   statusline?: string | null;
-  html?: string;
 };
 const {
   page = null,
@@ -41,7 +40,6 @@ const {
   seoDescription = null,
   seoStatus = 200,
   statusline = null,
-  html,
 } = Astro.props;
 const g = await garden();
 const { site, live } = g;
@@ -79,7 +77,6 @@ const gtmId = import.meta.env.PROD ? (site.marketing.gtmId ?? null) : null;
         path,
         site,
         live,
-        html,
         publicDir,
         overrides: { title: seoTitle, description: seoDescription },
         status: seoStatus,

@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "check": "astro sync && astro check",
     "smoke": "node tests/smoke.mjs",
-    "deploy": "npm run build && op run --env-file=cloudflare.env -- wrangler deploy"
+    "deploy": "astro build --force && op run --env-file=cloudflare.env -- wrangler deploy"
   },
   "dependencies": {
     "@cothinking/garden": "*"

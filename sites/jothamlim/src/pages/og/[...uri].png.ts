@@ -14,6 +14,6 @@ export const getStaticPaths = (async () => {
 
 export const GET: APIRoute = async ({ props }) => {
   const g = await garden();
-  const png = await renderCard(projectRoot, await cardFor(props.page, g));
+  const png = await renderCard(projectRoot, cardFor(props.page, g));
   return new Response(new Uint8Array(png), { headers: { 'Content-Type': 'image/png' } });
 };

@@ -6,9 +6,8 @@
 // @astrojs/sitemap's: sitemap.ts).
 import { atom } from './dates.ts';
 import { published, type SiteEntry } from './entry.ts';
-import { plainText } from './markdown/feed.ts';
 import { naturalCompare } from './natural.ts';
-import { contentDescription, inSitemap, limit } from './seo.ts';
+import { contentDescription, inSitemap, limit, squish } from './seo.ts';
 import { absolute, type SiteConfig } from './site.ts';
 
 /** Where @astrojs/sitemap writes the index (sitemap.ts). */
@@ -34,14 +33,9 @@ export function sitemapEntries(entries: SiteEntry[], site: SiteConfig): { loc: s
     .sort((a, b) => a.loc.localeCompare(b.loc));
 }
 
-export async function llmsTxt(
-  live: SiteEntry[],
-  site: SiteConfig,
-  htmlOf: (page: SiteEntry) => Promise<string>,
-  perCollection = 100,
-): Promise<string> {
+export function llmsTxt(live: SiteEntry[], site: SiteConfig, perCollection = 100): string {
   const lines = [`# ${site.name}`, ''];
-  lines.push(`> ${plainText(site.seo.defaultDescription)}`, '');
+  lines.push(`> ${squish(site.seo.defaultDescription)}`, '');
   const listed = live.filter((p) => inSitemap(p, site));
   const handles = Object.keys(site.collections).sort((a, b) =>
     site.collections[a]!.title.localeCompare(site.collections[b]!.title),
@@ -54,8 +48,8 @@ export async function llmsTxt(
     if (entries.length === 0) continue;
     lines.push(`## ${site.collections[handle]!.title}`, '');
     for (const page of entries) {
-      const text = page.seo.description ?? contentDescription(page, await htmlOf(page), { skipCreditLine: false });
-      const description = text ? limit(plainText(text), 200) : null;
+      const text = page.seo.description ?? contentDescription(page, { skipCreditLine: false });
+      const description = text ? limit(squish(text), 200) : null;
       lines.push(
         `- [${page.title.replace(/\[/g, '(').replace(/\]/g, ')')}](${absolute(site.url, page.url)})${description ? `: ${description}` : ''}`,
       );

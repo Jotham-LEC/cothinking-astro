@@ -1,13 +1,15 @@
-// The site's Markdown pipeline, for garden/config.mjs (and the tests): the
-// remark and rehype plugins in the order the HTML depends on.
+// The Markdown pipeline, for garden/config.mjs (and the tests): the remark
+// and rehype plugins in the order the HTML depends on, around Astro's own
+// processor (GFM, Shiki, raw HTML, images, headings).
 import type { RehypePlugins, RemarkPlugin, RemarkPlugins } from '@astrojs/markdown-remark';
 import type { Element } from 'hast';
 import rehypeExternalLinks from 'rehype-external-links';
 import rehypeRaw from 'rehype-raw';
 import wikiLinkPlugin from 'remark-wiki-link';
-import type { TitleIndex } from '../titles.ts';
 import { isExternal } from '../site.ts';
+import type { TitleIndex } from '../titles.ts';
 import rehypeCallouts from './rehype-callouts.ts';
+import rehypeExcerpt from './rehype-excerpt.ts';
 import rehypeHeadingAnchors from './rehype-heading-anchors.ts';
 import rehypeHeadingIds from './rehype-heading-ids.ts';
 import rehypeImages from './rehype-images.ts';
@@ -23,15 +25,14 @@ export const wikiLinkSyntax = (): [RemarkPlugin, unknown][] => [
   ],
 ];
 
-
 export function wikiRemarkPlugins({ titles, siteUrl }: Pick<PipelineOptions, 'titles' | 'siteUrl'>): RemarkPlugins {
   return [...wikiLinkSyntax(), [remarkWikiLinks, { titles, siteUrl }]];
 }
 
 /**
  * Markdown links that leave the site get `class="external-link"`, no rel, no
- * target, as CommonMark's ExternalLinkExtension marked them. It runs before
- * rehype-raw, so raw HTML anchors in the content are left alone, as they were.
+ * target. It runs before rehype-raw, so raw HTML anchors in the content are
+ * left alone.
  */
 export const externalLinks = (siteUrl: string): RehypePlugins => [
   [
@@ -48,16 +49,21 @@ export const externalLinks = (siteUrl: string): RehypePlugins => [
   ],
 ];
 
+/**
+ * The rehype plugins: external links; raw HTML into the tree; heading ids
+ * (GitHub-style, which Astro's own pass keeps, so `headings` and the anchors
+ * agree); callouts; the excerpt; images; then each heading made a link to itself.
+ */
 export function wikiRehypePlugins({
   siteUrl,
   publicDir,
 }: Pick<PipelineOptions, 'siteUrl' | 'publicDir'>): RehypePlugins {
   return [
     ...externalLinks(siteUrl),
-    // Raw HTML in the content becomes part of the tree before any plugin looks at it.
     rehypeRaw,
     rehypeHeadingIds,
     rehypeCallouts,
+    rehypeExcerpt,
     [rehypeImages, { publicDir }],
     rehypeHeadingAnchors,
   ];

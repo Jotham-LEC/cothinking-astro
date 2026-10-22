@@ -4,9 +4,10 @@
 // children. The `tree` lines are CSS, so a wrapped title keeps them whole;
 // the JS marks a closed folder `is-collapsed`.
 import type { Row } from '../lib/explorer.ts';
-import { laravelSlug } from '../lib/markdown/slug.ts';
+import GithubSlugger from 'github-slugger';
 type Props = { rows: Row[]; depth: number };
 const { rows, depth } = Astro.props;
+const slug = (title: string) => new GithubSlugger().slug(title);
 ---
 
 <ul
@@ -20,7 +21,7 @@ const { rows, depth } = Astro.props;
   {rows.map((row) => (
     <li
       class:list={['group/folder', { 'is-collapsed': row.children.length > 0 && !row.isOpen }]}
-      data-path={row.url ?? `#${laravelSlug(row.title)}`}
+      data-path={row.url ?? `#${slug(row.title)}`}
     >
       <div class="flex items-center gap-1">
         {row.url && (

@@ -9,7 +9,6 @@ import type { Root } from 'hast';
 import { h } from 'hastscript';
 import { imageSize } from 'image-size';
 import { visit } from 'unist-util-visit';
-import { named } from './named.ts';
 
 type ImagesOptions = { publicDir: string };
 
@@ -31,7 +30,7 @@ export function measure(publicDir: string, src: string): { width: number; height
 }
 
 export default function rehypeImages({ publicDir }: ImagesOptions) {
-  return named('rehype-images', (tree: Root) => {
+  return (tree: Root) => {
     let first = true;
     visit(
       tree,
@@ -89,5 +88,5 @@ export default function rehypeImages({ publicDir }: ImagesOptions) {
         if (child.properties.className.length === 0) delete child.properties.className;
       });
     });
-  });
+  };
 }

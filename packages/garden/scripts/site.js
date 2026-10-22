@@ -3,7 +3,7 @@
 // once the page has loaded.
 import { initTheme } from './site/theme';
 import { initPanels } from './site/panels';
-import { initCodeBlocks } from './site/code-blocks';
+import { initCodeCopy } from './site/code-copy';
 import { initDrawer } from './site/drawer';
 import { initScrollSpy } from './site/scroll-spy';
 import { initProgress } from './site/progress';
@@ -17,7 +17,7 @@ import { initHeadingLinks } from './site/heading-links';
 function boot() {
   initTheme();
   initPanels();
-  initCodeBlocks();
+  initCodeCopy();
   const closeDrawer = initDrawer();
   initScrollSpy();
   initProgress();

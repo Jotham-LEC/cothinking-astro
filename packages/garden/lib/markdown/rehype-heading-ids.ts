@@ -1,23 +1,23 @@
-// Gives every heading an id from its text (slug.ts), before Astro collects
-// `headings`: Astro keeps an id that is already there. Ids the document
-// already has (raw HTML) are reserved first, so no two elements share one.
+// Gives every heading a GitHub-style id (github-slugger, as Astro's own
+// pass would), with emoji left out of the text it slugs and every kind of
+// space treated as one, so a heading that opens with an emoji or holds a
+// non-breaking space gets a clean id. Astro's pass keeps the id and
+// collects the headings, so the outline and the anchors agree.
+import GithubSlugger from 'github-slugger';
 import type { Root } from 'hast';
 import { toString } from 'hast-util-to-string';
 import { visit } from 'unist-util-visit';
-import { uniqueSlugs } from './slug.ts';
-import { named } from './named.ts';
+
+const EMOJI = /[\p{Extended_Pictographic}️‍]/gu;
 
 export default function rehypeHeadingIds() {
-  return named('rehype-heading-ids', (tree: Root) => {
-    const taken: string[] = [];
-    visit(tree, 'element', (node) => {
-      if (typeof node.properties?.id === 'string' && node.properties.id !== '') taken.push(node.properties.id);
-    });
-    const slug = uniqueSlugs(undefined, taken);
+  return (tree: Root) => {
+    const slugger = new GithubSlugger();
     visit(tree, 'element', (node) => {
       if (!/^h[1-6]$/.test(node.tagName)) return;
       node.properties ??= {};
-      if (node.properties.id === undefined || node.properties.id === '') node.properties.id = slug(toString(node));
+      if (typeof node.properties.id !== 'string')
+        node.properties.id = slugger.slug(toString(node).replace(EMOJI, '').replace(/\s+/g, ' ').trim());
     });
-  });
+  };
 }

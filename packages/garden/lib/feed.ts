@@ -1,26 +1,30 @@
 // RSS 2.0 feeds: the whole site (every dated collection) or one section, 20
-// newest first, each item's body through the `feed` parser with absolute
+// newest first, each item's body as the page renders it, with absolute
 // URLs. @astrojs/rss writes the XML.
 import type { RSSOptions } from '@astrojs/rss';
 import { byDateDesc, type SiteEntry } from './entry.ts';
 import { feedOf } from './info.ts';
-import { fullUrls, renderFeed } from './markdown/feed.ts';
 import { absolute, type SiteConfig } from './site.ts';
-import type { TitleIndex } from './titles.ts';
 
-type FeedContext = { site: SiteConfig; live: SiteEntry[]; titles: TitleIndex };
+type FeedContext = { site: SiteConfig; live: SiteEntry[]; htmlOf: (entry: SiteEntry) => Promise<string> };
 
 const escapeHtml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+/** Site-relative `href`/`src` made absolute. */
+export function fullUrls(html: string, siteUrl: string): string {
+  const base = siteUrl.replace(/\/$/, '');
+  return html.replace(/(href|src)="\/(?!\/)/g, `$1="${base}/`);
+}
+
 /** A feed item's body: a quote note's quote, then the page's text. */
-async function feedBody(page: SiteEntry, { titles, site }: FeedContext): Promise<string> {
+async function feedBody(page: SiteEntry, { htmlOf, site }: FeedContext): Promise<string> {
   const parts: string[] = [];
   if (page.quote) {
     const cite = page.cite ? `<p>— ${escapeHtml(page.cite)}</p>` : '';
-    parts.push(`<blockquote>\n${await renderFeed(page.quote, titles, { breaks: true })}${cite}\n</blockquote>`);
+    parts.push(`<blockquote>\n<p>${escapeHtml(page.quote)}</p>${cite}\n</blockquote>`);
   }
-  parts.push(await renderFeed(page.body.trim(), titles));
+  parts.push(await htmlOf(page));
   return fullUrls(parts.join('\n'), site.url);
 }
 

@@ -3,12 +3,13 @@
 // and the graph, each worked out once per build. `garden()` is the one
 // thing a component awaits; the three `@site` imports (here and in
 // layouts/Layout.astro) are the whole contract between a site and the garden.
+import { getEntry, render, type CollectionKey } from 'astro:content';
+import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { site } from '@site/site.config.ts';
 import { loadEntries, otherEntries } from '@site/lib/entries.ts';
 import { byUrl, keyOf, published, type SiteEntry } from './entry.ts';
 import { explorerRows, type Row } from './explorer.ts';
 import { buildGraph, type Graph } from './graph.ts';
-import { renderFeed } from './markdown/feed.ts';
 import type { SiteConfig } from './site.ts';
 import { titleIndex, type TitleIndex } from './titles.ts';
 
@@ -24,7 +25,7 @@ export type Garden = {
   titles: TitleIndex;
   explorer: Row[];
   graph: Graph;
-  /** An entry's body as plain HTML (the feed parser, callouts rendered), for descriptions; rendered once per entry. */
+  /** An entry's body as the page renders it (the feeds); rendered once per entry. */
   htmlOf: (entry: SiteEntry) => Promise<string>;
 };
 
@@ -37,6 +38,7 @@ export function garden(): Promise<Garden> {
     const byId = new Map(entries.map((e) => [keyOf(e), e]));
     const titles = titleIndex(live, otherEntries(), site.otherSite.url);
     const html = new Map<string, Promise<string>>();
+    let container: Promise<AstroContainer> | null = null;
     return {
       site,
       entries,
@@ -52,7 +54,15 @@ export function garden(): Promise<Garden> {
       graph: buildGraph(live, site, titles),
       htmlOf: (entry) => {
         const key = keyOf(entry);
-        if (!html.has(key)) html.set(key, renderFeed(entry.body, titles, { callouts: true }));
+        if (!html.has(key))
+          html.set(
+            key,
+            (async () => {
+              const { Content } = await render((await getEntry(entry.collection as CollectionKey, entry.id))!);
+              container ??= AstroContainer.create();
+              return (await container).renderToString(Content);
+            })(),
+          );
         return html.get(key)!;
       },
     };

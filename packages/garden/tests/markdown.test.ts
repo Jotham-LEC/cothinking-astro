@@ -2,41 +2,41 @@
 import path from 'node:path';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { renderFeed } from '../lib/markdown/feed.ts';
-import { named } from '../lib/markdown/named.ts';
 import { wikiRehypePlugins, wikiRemarkPlugins } from '../lib/markdown/index.ts';
+import { codeBlock } from '../lib/markdown/shiki-code-block.ts';
 
 const titles = { 'older essay': '/essays/older-essay', cothinking: 'https://cothink.ing/' };
 const publicDir = path.resolve(__dirname, '../../../sites/jothamlim/public');
+let processor: Awaited<ReturnType<typeof createMarkdownProcessor>>;
 let render: (md: string) => Promise<string>;
 
 beforeAll(async () => {
-  const processor = await createMarkdownProcessor({
+  processor = await createMarkdownProcessor({
     remarkPlugins: wikiRemarkPlugins({ titles: () => titles, siteUrl: 'https://jothamlim.com' }),
     rehypePlugins: wikiRehypePlugins({ siteUrl: 'https://jothamlim.com', publicDir }),
     gfm: true,
     smartypants: false,
-    syntaxHighlight: false,
+    syntaxHighlight: { type: 'shiki' },
+    shikiConfig: { themes: { light: 'gruvbox-light-soft', dark: 'gruvbox-dark-soft' }, defaultColor: false, transformers: [codeBlock()] },
   });
   render = async (md) => (await processor.render(md)).code;
 });
 
 describe('headings and callouts', () => {
-  it('gives a heading a unique id and makes it a link to itself with a link icon', async () => {
-    const html = await render('## 10. The pride & joy\n\n## Notes\n\n## Notes\n\n### See [the docs](/docs)');
+  it('gives a heading a unique GitHub-style id and makes it a link to itself', async () => {
+    const html = await render('## 10. The pride & joy\n\n## Notes\n\n## Notes\n\n### See [the docs](/docs)\n\n## 🚀 Launch');
+    expect(html).toContain('<h2 id="10-the-pride--joy"><a href="#10-the-pride--joy" class="anchor">10. The pride &#x26; joy</a></h2>');
     expect(html).toContain(
-      '<h2 id="10-the-pride-joy"><a href="#10-the-pride-joy" class="anchor">10. The pride &#x26; joy<svg class="anchor-icon" aria-hidden="true"',
-    );
-    expect(html).toContain(
-      'See <a href="/docs">the docs</a><a href="#see-the-docs" class="anchor" aria-label="Link to this section: See the docs"><svg',
+      'See <a href="/docs">the docs</a><a href="#see-the-docs" class="anchor" aria-label="Link to this section: See the docs"></a>',
     );
     expect(html).toContain('id="notes"');
     expect(html).toContain('id="notes-1"');
+    expect(html).toContain('<h2 id="launch">');
   });
 
-  it('never gives a heading an id the document already has', async () => {
-    const html = await render('## Notes\n\n<h2 id="notes-1">Raw</h2>\n\n## Notes');
-    expect([...html.matchAll(/<h2 id="([^"]+)"/g)].map((m) => m[1])).toEqual(['notes', 'notes-1', 'notes-2']);
+  it('collects the opening paragraphs as the excerpt', async () => {
+    const { metadata } = await processor.render('> [!NOTE]\n> First.\n\nSecond **bold**.\n\n```\ncode\n```\n\nThird.\n\nFourth.');
+    expect(metadata.frontmatter.paragraphs).toEqual(['First.', 'Second bold.', 'Third.']);
   });
 
   it('turns GitHub-style alerts into callouts', async () => {
@@ -133,39 +133,19 @@ describe('links, images and plain text', () => {
     expect(await render('Leads -- "quoted" and more...')).toContain('Leads -- "quoted" and more...');
   });
 
-  it('keeps raw HTML and gives a bare code block its language class', async () => {
+  it('keeps raw HTML, and highlights a code block in both themes inside its chrome', async () => {
     const html = await render(
-      '<figure class="wiki-pdf"><a class="wiki-pdf-preview" href="/x.pdf"><img src="/media/profile-400.jpg" alt="p" width="884" height="1200" /></a></figure>\n\n```sh\nls\n```',
+      '<figure class="wiki-pdf"><a class="wiki-pdf-preview" href="/x.pdf"><img src="/media/profile-400.jpg" alt="p" width="884" height="1200" /></a></figure>\n\n```sh\nls\n```\n\n```\nplain\n```',
     );
     expect(html).toContain('<figure class="wiki-pdf">');
     expect(html).toContain('width="884" height="1200"');
     expect(html).not.toContain('zoomable');
-    expect(html).toContain('<pre><code class="language-sh">ls\n</code></pre>');
+    expect(html).toMatch(
+      /<div class="code-block"><div class="code-block-header"><span class="code-block-lang">sh<\/span><button [^>]*class="code-block-copy"[^>]*>Copy<\/button><\/div><pre class="astro-code astro-code-themes gruvbox-light-soft gruvbox-dark-soft" style="--shiki-light:/,
+    );
+    expect(html).toContain('<span class="code-block-lang">code</span>');
+    expect(html).toContain('--shiki-dark:');
   });
 });
 
-describe('plugin errors', () => {
-  it('name the plugin and the file', () => {
-    const failing = named('rehype-example', () => {
-      throw new Error('boom');
-    });
-    expect(() => failing({}, { path: 'src/content/essays/x.md' })).toThrow(
-      '[rehype-example] src/content/essays/x.md: boom',
-    );
-  });
-});
 
-describe('feed parser', () => {
-  it('resolves wiki links but adds no anchors, marks or callouts, and breaks lines only when asked', async () => {
-    const essay = await renderFeed(
-      '## One\n\nSee [[Older Essay]] and [x](https://example.com).\n\n> [!NOTE]\n> n',
-      titles,
-    );
-    expect(essay).toContain('<h2>One</h2>');
-    expect(essay).toContain('<a class="wiki-link" href="/essays/older-essay">Older Essay</a>');
-    expect(essay).not.toContain('anchor');
-    expect(essay).not.toContain('external-link');
-    expect(essay).toContain('<blockquote>');
-    expect(await renderFeed('Begin\ndoing.', titles, { breaks: true })).toContain('Begin<br>\ndoing.');
-  });
-});

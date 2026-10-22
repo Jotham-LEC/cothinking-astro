@@ -14,7 +14,7 @@ const page = g.entry(entry);
 const { Content } = await render(entry);
 ---
 
-<Layout page={page} path={page.url} html={await g.htmlOf(page)} room>
+<Layout page={page} path={page.url} room>
   <article class="mx-auto max-w-[72ch]">
     <PageHeader title={page.title} />
     <Prose data-popover>

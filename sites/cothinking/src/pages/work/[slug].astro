@@ -23,7 +23,7 @@ const shot = entry.data.image ? await mediaImage(entry.data.image, { width: 1280
 const website = entry.data.website ?? null;
 ---
 
-<Layout page={page} path={page.url} html={await g.htmlOf(page)} room>
+<Layout page={page} path={page.url} room>
   <article class="mx-auto max-w-[72ch]">
     <PageHeader title={page.title} eyebrow={eyebrow} />
 

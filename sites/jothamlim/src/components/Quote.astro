@@ -1,13 +1,11 @@
 ---
-// The quote, large; the rule under it separates it from the note's text, when there is any.
-import { renderFeed } from '@garden/lib/markdown/feed.ts';
-import { garden } from '@garden/lib/load.ts';
+// The quote, large, as plain text; the rule under it separates it from the
+// note's text, when there is any.
 type Props = { quote: string; cite?: string | null };
 const { quote, cite = null } = Astro.props;
-const html = await renderFeed(quote, (await garden()).titles, { breaks: true });
 ---
 
 <blockquote class="border-rule text-fg font-prose m-0 border-0 border-b px-6 py-7 text-2xl leading-snug font-bold italic last:border-b-0">
-  <Fragment set:html={html} />
+  <p>{quote}</p>
   {cite && <cite class="text-muted mt-3 block font-sans text-base font-medium not-italic">— {cite}</cite>}
 </blockquote>

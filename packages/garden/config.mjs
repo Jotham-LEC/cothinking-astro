@@ -8,6 +8,7 @@ import pagefind from 'astro-pagefind';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { wikiRehypePlugins, wikiRemarkPlugins } from './lib/markdown/index.ts';
+import { codeBlock } from './lib/markdown/shiki-code-block.ts';
 import { lazyTitles, scanEntries } from './lib/scan.ts';
 import { sitemapOptions } from './lib/sitemap.ts';
 
@@ -40,8 +41,13 @@ export function gardenConfig({ root: rootUrl, site, urlOf, otherSite, redirects 
         remarkPlugins: wikiRemarkPlugins({ titles, siteUrl: site.url }),
         rehypePlugins: wikiRehypePlugins({ siteUrl: site.url, publicDir: root + 'public' }),
       }),
-      // No highlighter: code-blocks.js draws the chrome in the browser.
-      syntaxHighlight: false,
+      // Shiki in both modes (styles/site.css picks the colour by light-dark()), each block in its chrome.
+      syntaxHighlight: { type: 'shiki' },
+      shikiConfig: {
+        themes: { light: 'gruvbox-light-soft', dark: 'gruvbox-dark-soft' },
+        defaultColor: false,
+        transformers: [codeBlock()],
+      },
     },
     integrations: [sitemap(sitemapOptions(scanEntries(rootUrl, urlOf), site)), pagefind()],
     vite: {

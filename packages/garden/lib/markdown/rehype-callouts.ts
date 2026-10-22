@@ -6,7 +6,6 @@ import type { Element, ElementContent, Root, Text } from 'hast';
 import { toString } from 'hast-util-to-string';
 import { h } from 'hastscript';
 import { visit } from 'unist-util-visit';
-import { named } from './named.ts';
 
 const CALLOUT_TYPES = ['note', 'info', 'tip', 'important', 'warning', 'danger', 'caution'];
 
@@ -48,7 +47,7 @@ function trimEnds(nodes: ElementContent[]): ElementContent[] {
 }
 
 export default function rehypeCallouts() {
-  return named('rehype-callouts', (tree: Root) => {
+  return (tree: Root) => {
     visit(tree, 'element', (node, index, parent) => {
       if (node.tagName !== 'blockquote' || !parent || index === undefined) return;
       const at = node.children.findIndex((child) => !blank(child));
@@ -72,5 +71,5 @@ export default function rehypeCallouts() {
         h('div', { className: ['callout-body'] }, body),
       ]);
     });
-  });
+  };
 }

@@ -12,29 +12,34 @@
 @layer components {
   /* ── Prose extras the typography plugin does not do ─────────────── */
 
-  /* A heading is a link to itself (App\Markdown\HeadingAnchors,
-       components/section-heading): its own colour and weight, no underline
+  /* A heading is a link to itself (lib/markdown/rehype-heading-anchors.ts,
+       components/HeadingLink.astro): its own colour and weight, no underline
        (important: the typography plugin styles links from the utilities
-       layer), and a
-       link icon after it that shows under the pointer or on keyboard focus.
-       A click copies the address (site.js), confirmed for a moment. */
+       layer), and a link icon after it (a mask over the text colour) that
+       shows under the pointer or on keyboard focus. A click copies the
+       address (scripts/site/heading-links.js), confirmed for a moment in
+       the icon's place. */
   .anchor {
     @apply text-inherit! no-underline!;
     font-weight: inherit !important;
   }
 
-  .anchor-icon {
-    @apply text-subtle ml-[0.3em] inline-block size-[0.6em] align-baseline opacity-0 transition-opacity;
+  .anchor::after {
+    @apply bg-subtle ml-[0.3em] inline-block size-[0.6em] align-baseline opacity-0 transition-opacity;
+    content: '';
+    mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244'/></svg>")
+      center / contain no-repeat;
   }
 
-  .anchor:hover .anchor-icon,
-  .anchor:focus-visible .anchor-icon {
-    @apply text-accent opacity-100;
+  .anchor:hover::after,
+  .anchor:focus-visible::after {
+    @apply bg-accent opacity-100;
   }
 
   .anchor[data-copied]::after {
-    @apply text-muted ml-2 align-middle font-sans text-xs font-normal tracking-normal;
+    @apply text-muted ml-2 size-auto bg-transparent align-middle font-sans text-xs font-normal tracking-normal opacity-100;
     content: 'Link copied';
+    mask: none;
   }
 
   .prose :where(code):not(pre code) {
@@ -94,7 +99,7 @@
     display: block;
   }
 
-  /* ── Code blocks: language label and copy button (site.js) ─────── */
+  /* ── Code blocks: the chrome lib/markdown/shiki-code-block.ts draws ── */
 
   .code-block {
     @apply rounded-site border-rule bg-code-bg my-6 overflow-hidden border;
@@ -113,7 +118,13 @@
   }
 
   .code-block pre {
-    @apply m-0 overflow-x-auto rounded-none border-0 bg-transparent px-4 py-4 text-sm leading-relaxed;
+    @apply m-0 overflow-x-auto rounded-none border-0 bg-transparent! px-4 py-4 text-sm leading-relaxed;
+  }
+
+  /* Shiki sets both themes' colours as variables; the mode picks one. */
+  .astro-code,
+  .astro-code span {
+    color: light-dark(var(--shiki-light), var(--shiki-dark));
   }
 
   /* ── Callouts: > [!NOTE] … ─────────────────────────────────────── */
