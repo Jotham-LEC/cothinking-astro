@@ -4,7 +4,7 @@
 {
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "cothinking",
-  // The owner's account (the key also reaches clients' accounts, so never leave this out).
+  // The owner's account: wrangler deploys here, whatever other accounts a token can reach.
   "account_id": "f89b94f04c7ad8999c9dcc3afea694eb",
   "compatibility_date": "2026-10-22",
   // Served at cothink.ing (a Custom Domain: Cloudflare keeps its DNS record and certificate).

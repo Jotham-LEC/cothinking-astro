@@ -2,7 +2,7 @@
 // block, the loader) from garden/content.ts; the enums from site.config.ts.
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { base, dated, enumOf, loader } from '../../../packages/garden/content.ts';
+import { base, dated, enumOf, loader } from '@garden/content.ts';
 import { outlets, site } from './site.config.ts';
 
 const pages = defineCollection({

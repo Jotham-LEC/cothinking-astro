@@ -13,7 +13,7 @@ is what Astro ships; the custom parts are listed under "What is custom".
 package.json           workspaces: packages/garden, sites/*; root scripts run both sites
 packages/garden/       @cothinking/garden: the shared code and its runtime dependencies (no site's name in it)
   config.mjs           gardenConfig({ root, site, urlOf, otherSite }): the Astro config both sites use
-  content.ts           the schema pieces: base(image), seo, dated, enumOf, loader
+  content.ts           the schema pieces: base(image), seo, dated, enumOf, loader (content.config.ts imports it as @garden/content.ts)
   lib/                 the garden layer, plain TypeScript (tests cover it): see "How a page is built"
   lib/markdown/        the remark/rehype plugins and the Shiki transformer
   components/          22 .astro components; layouts/Layout.astro is the shell
@@ -76,6 +76,14 @@ from `lib/seo.ts`.
   room is `.shell[data-room]` (its whole `<main>` is in the search index, as
   no `<Entry>` marks it); the status line's mode is CSS (READER from
   `html[data-hide-explorer]`, SEARCH from `body:has(#palette[open])`).
+- **Aliases and processor.** `@site/*` and `@garden/*` come from each
+  site's `tsconfig.json` `paths` (`@site/*` → that site's `src/*`,
+  `@garden/*` → `packages/garden/*`), which Astro turns into Vite aliases
+  (https://docs.astro.build/en/guides/imports/#aliases). So one garden file
+  imports whichever site is being built, and `content.config.ts` can import
+  `@garden/content.ts`. `config.mjs` sets `markdown.processor: unified()`
+  instead of Astro 7's default Sätteri, because the plugins above are remark
+  and rehype plugins.
 - **Never use `Astro.url`** for a page's address: `build.format: 'file'`
   makes it `/x.html`. Pass `path`.
 
@@ -117,21 +125,30 @@ build). The share cards read their four colours off `tokens.css`
 - **A collection**: a schema in `content.config.ts`, its line in
   `loadEntries()`, its address in `urls.ts`, its entry in
   `site.config.ts` `collections`, a landing page and its `explorer` item, a
-  page file for its route.
+  page file for its route (`src/pages/<landing>/[slug].astro`), and the
+  landing's own view (`src/pages/<landing>/index.astro`) with its id in
+  `[slug].astro`'s `OWN` list. Its graph colour is `graphColour`, one of the
+  `--site-graph-*` tokens; a new colour is a token in `styles/tokens.css`,
+  its `--color-graph-*` line in `styles/site.css` and its class in
+  `scripts/graph.ts` `COLOURS`.
 - **A behaviour**: a `scripts/<name>.ts` exporting `init<Name>()`, imported
   by a `<script>` in the component that owns the markup. Talk to another
   component through the platform (`showModal()`, `hidePopover()`).
 - **A site**: `sites/<name>/` with `astro.config.mjs`, `tsconfig.json`,
   `wrangler.jsonc`, `cloudflare.env`, `package.json`, `src/site.config.ts`,
   `src/lib/{urls,entries}.ts`, `src/content.config.ts`, `src/styles/site.css`,
-  `src/pages/`; name it in the other site's `entries.ts` and `astro.config.mjs`.
+  `src/pages/`; name it in the other site's `entries.ts` and `astro.config.mjs`,
+  and in the other site's `site.config.ts` `otherSite`. Give it a dev and a
+  preview port in the root `package.json` `dev` and `preview` scripts, and
+  the preview port as `PREVIEW_URL`'s default in its `tests/smoke.mjs`.
 
 ## Commands
 
 ```sh
 npm run check         # both sites: astro sync, astro check (0 errors expected)
 npm test              # vitest: the markdown pipeline, the lib, both sites' content, navigation and redirects (check.ts), tokens, and dist/ when built
-npm run build         # both sites, each into sites/<site>/dist; `-- --force` after changing a Markdown plugin (see Verify)
+npm run build         # both sites, each into sites/<site>/dist
+npm run build:force   # the same, with Astro's content cache cleared: after changing a Markdown plugin (see Verify)
 npm run dev           # both sites' astro dev in the background: jothamlim :4321, cothinking :4322
 npm run preview       # both sites' last build: jothamlim :4331, cothinking :4332
 npm run stop          # stops every dev and preview server
@@ -141,18 +158,25 @@ npm run <dev|build|preview|check|smoke|deploy> -w sites/<site>   # one site
 
 ## Verify
 
-`npm run check && npm test && npm run build`, then `npm run preview` and
+`npm run check && npm test && npm run build:force`, then `npm run preview` and
 `PLAYWRIGHT_BROWSERS_PATH=$(cat DEV_FILES/<site>/playwright-browsers-path)
 npm run smoke -w sites/<site>` (Playwright against the preview; the browsers
-are nixpkgs', never `npx playwright install`). For a refactor:
+are nixpkgs', never `npx playwright install`). The path file is local
+(`DEV_FILES/` is gitignored): write it once with
+`nix build --no-link --print-out-paths nixpkgs#playwright-driver.browsers >
+DEV_FILES/<site>/playwright-browsers-path`, from a nixpkgs whose Playwright
+matches the `playwright` pin in `package.json`. For a refactor:
 `node scripts/snapshot.mjs <site> before.json`, change, build,
 `node scripts/snapshot.mjs <site> after.json`, then
 `node scripts/diff-snapshot.mjs before.json after.json --allow allow.txt`
-(`<url-glob> <field>` lines; `files`, `feeds`, `graph`, `llms`… whole).
+(`<url-glob> <field>` lines, the fields including `head` (every `<meta>`),
+`jsonld` and `body` (the text of `<main>`); `files`, `feeds`, `graph`,
+`llms`… whole).
 
 Two Astro behaviours to know: rendered Markdown is cached until the file or
-the config changes, so after changing a plugin build with `--force` (deploys
-always do); and a page's `[[wiki link]]` to a renamed page refreshes in dev
+the config changes, so after changing a plugin run `npm run build:force`
+(`npm run build -- --force` does not work: npm keeps the flag; deploys always
+force); and a page's `[[wiki link]]` to a renamed page refreshes in dev
 when that page is next saved (or on restart), as its render is cached too.
 
 ## Deploy
@@ -166,8 +190,25 @@ the site's build tests, then `wrangler deploy`, with the repository secret
 `CLOUDFLARE_API_TOKEN`, a token scoped to Workers Scripts and the two zones;
 pull requests only build). `npm run deploy -w sites/<site>` is the manual
 fallback: it builds with `--force` and runs `wrangler deploy` through
-`op run --env-file=cloudflare.env` (1Password references only). `/_astro/*` is cached a year by `public/_headers`;
+`op run --env-file=cloudflare.env`, whose one line is the 1Password
+reference of a scoped token (`CLOUDFLARE_API_TOKEN=op://CoThinking/Cloudflare/CF Workers API`),
+never a value. `/_astro/*` is cached a year by `public/_headers`;
 pages are revalidated. Locally, `wrangler dev` needs `steam-run` on NixOS.
+
+## Glossary
+
+| Term | Meaning |
+| --- | --- |
+| **SiteEntry** | The garden's own shape for any entry of either site: address, title, dates, body, opening paragraphs and the fields the garden reads (`lib/entry.ts`). |
+| **`garden()`** | The one thing a component awaits: the entries, the title index, the Explorer and the graph, built once per build (`lib/load.ts`). |
+| **`live`** | `garden().live`: the published entries (no `draft: true`), the ones a reader can see. |
+| **Landing page** | The `pages` entry a section hangs under (`/essays` for the essays); a collection's `landing` in `site.config.ts` names it. |
+| **Section** | A collection with a landing page: its pages are children in breadcrumbs, the Explorer and the graph. |
+| **Room** | A full-width page with no Explorer column and no rail (`<Layout room>`): cothink.ing's home, privacy page and case studies. |
+| **Rail** | The right-hand column about the current page: graph, outline, "Linked from" (`components/Rail.astro`). |
+| **Explorer** | The site as one tree on the left, from `navigation.explorer` plus each section's pages (`lib/explorer.ts`). |
+| **Title index** | Lower-cased title → address over both sites' published pages: what `[[Title]]` resolves against (`lib/titles.ts`). |
+| **`OWN`** | The list in a site's `src/pages/[slug].astro` of the `pages` entries with a view of their own file (the home page, the landings); `[slug].astro` builds the rest. |
 
 ## What is custom, and deviations
 

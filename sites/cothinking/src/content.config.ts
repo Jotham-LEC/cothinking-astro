@@ -4,7 +4,7 @@
 // check says when it names no page).
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { base, dated, enumOf, loader } from '../../../packages/garden/content.ts';
+import { base, dated, enumOf, loader } from '@garden/content.ts';
 import { site } from './site.config.ts';
 
 const reference = z.string().regex(/^[a-z_]+\/[\w-]+$/);
