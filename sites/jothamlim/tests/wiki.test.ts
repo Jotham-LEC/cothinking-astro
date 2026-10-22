@@ -16,7 +16,6 @@ import { breadcrumbs } from '../../../packages/garden/lib/breadcrumbs.ts';
 import { pageInfo } from '../../../packages/garden/lib/entry.ts';
 import { linkedPages, localTargets, wikiLinksIn } from '../../../packages/garden/lib/links.ts';
 import { byUrl, published, toPages } from '../../../packages/garden/lib/pages.ts';
-import { redirectsFor } from '../../../packages/garden/lib/redirects.ts';
 import { titleIndex } from '../../../packages/garden/lib/titles.ts';
 import { head, inSitemap } from '../../../packages/garden/lib/seo.ts';
 import { toc } from '../../../packages/garden/lib/toc.ts';
@@ -148,34 +147,6 @@ describe.skipIf(!present)('content check', () => {
     const index = loadProject(root).titles;
     expect(index['writing shorter']).toBe('/notes/writing-shorter');
     expect(titleIndex(published(renamed), project.otherSiteTitles)['write less']).toBe('/notes/writing-shorter');
-  });
-});
-
-describe.skipIf(!present)('redirects', () => {
-  const fixture = (data: Record<string, unknown>, body = '') =>
-    toPages(
-      [
-        { collection: 'pages', slug: 'essays', data: { title: 'Essays', order: 1 }, body: '' },
-        { collection: 'essays', slug: 'x', data: { title: 'X', date: new Date(), ...data }, body },
-      ],
-      collections,
-    );
-  const blog = (pages: ReturnType<typeof fixture>) =>
-    redirectsFor({ ...project, redirects: [], pages })['/blog/x'] ?? null;
-  it('sends /blog/{slug} to a published page by its front matter, not by a line in its body', () => {
-    expect(blog(fixture({}, '```yaml\ndraft: true\n```'))).toBe('/essays/x');
-    expect(blog(fixture({ draft: true }))).toBeNull();
-  });
-  it('drops (and names) a redirect from a file address', () => {
-    const out = redirectsFor({
-      ...project,
-      pages: [],
-      redirects: [
-        { source: '/a.pdf', target: '/b.pdf' },
-        { source: '/a', target: '/b' },
-      ],
-    });
-    expect(out).toEqual({ '/a': '/b' });
   });
 });
 

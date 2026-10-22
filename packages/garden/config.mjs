@@ -1,6 +1,6 @@
 // @ts-check
 // The Astro config every site shares; each site's astro.config.mjs is
-// `export default gardenConfig({ root: new URL('.', import.meta.url) })`.
+// `export default gardenConfig({ root: new URL('.', import.meta.url), redirects })`.
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
@@ -9,17 +9,20 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { loadProject } from './lib/files.ts';
 import { wikiRehypePlugins, wikiRemarkPlugins } from './lib/markdown/index.ts';
-import { redirectsFor } from './lib/redirects.ts';
 import { sitemapOptions } from './lib/sitemap.ts';
 
 const gardenRoot = fileURLToPath(new URL('.', import.meta.url));
 
-/** @param {{ root: URL }} options the site's folder (sites/<site>/) */
-export function gardenConfig({ root: rootUrl }) {
+/**
+ * @param {object} options
+ * @param {URL} options.root the site's folder (sites/<site>/)
+ * @param {Record<string, string>} [options.redirects] old addresses and where they go
+ */
+export function gardenConfig({ root: rootUrl, redirects = {} }) {
   const root = fileURLToPath(rootUrl);
   // The content and data from disk, for what config needs before Astro loads its
   // collections: the [[wiki link]] title index (read once: restart `astro dev`
-  // after renaming a page), the sitemap's entries and the redirects.
+  // after renaming a page) and the sitemap's entries.
   const project = loadProject(root);
   const { site, titles } = project;
 
@@ -47,6 +50,6 @@ export function gardenConfig({ root: rootUrl }) {
         'import.meta.env.GARDEN_ROOT': JSON.stringify(gardenRoot),
       },
     },
-    redirects: redirectsFor(project),
+    redirects,
   });
 }

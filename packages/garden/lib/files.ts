@@ -1,6 +1,6 @@
 // Loads the project's content and data from disk, for everything that runs
-// outside Astro (`npm run check:<site>`, the tests, garden/config.mjs: the
-// Markdown pipeline's title index, the sitemap, the redirects). Astro's own
+// outside Astro (`npm run check`, the tests, garden/config.mjs: the
+// Markdown pipeline's title index, the sitemap). Astro's own
 // loader (load.ts) builds the same model from its collections.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -18,7 +18,6 @@ export type Project = {
   navigation: Record<string, NavItem[]>;
   /** Who writes the articles (src/data/authors.yaml, when the site has any). */
   authors: Author[];
-  redirects: { source: string; target: string }[];
   /** The other site's titles (src/data/other-site-titles.json). */
   otherSiteTitles: TitleIndex;
   /** The [[wiki link]] index: this site's published pages over the other site's titles. */
@@ -59,7 +58,6 @@ export function loadProject(root: string): Project {
     pages,
     navigation,
     authors: readYaml<Author[]>(data('authors.yaml'), []),
-    redirects: readYaml(data('redirects.yaml'), []),
     otherSiteTitles,
     titles: titleIndex(published(pages), otherSiteTitles),
   };

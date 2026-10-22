@@ -1,0 +1,14 @@
+---
+// /blog/{slug}: the old blog's address for every essay, note and publication,
+// each a redirect page to where the piece lives now.
+import { wiki } from '@garden/lib/load.ts';
+
+export async function getStaticPaths() {
+  const w = await wiki();
+  return w.live
+    .filter((p) => ['essays', 'notes', 'publications'].includes(p.collection))
+    .map((p) => ({ params: { slug: p.slug }, props: { url: p.url } }));
+}
+
+return Astro.redirect(Astro.props.url, 301);
+---

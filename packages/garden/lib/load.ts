@@ -21,7 +21,6 @@ export type Wiki = {
   /** Published pages with an address. */
   live: LivePage[];
   navigation: Record<string, NavItem[]>;
-  redirects: { source: string; target: string }[];
   authors: Author[];
   titles: TitleIndex;
   explorer: Row[];
@@ -43,7 +42,6 @@ export function wiki(): Promise<Wiki> {
     const navigation = Object.fromEntries(
       (await getCollection('navigation')).map((n) => [n.id, n.data.items as NavItem[]]),
     );
-    const redirects = (await getCollection('redirects')).map((r) => r.data);
     const authors = hasAuthors
       ? (await getCollection('authors' as CollectionKey)).map((a) => a.data as unknown as Author)
       : [];
@@ -63,7 +61,6 @@ export function wiki(): Promise<Wiki> {
     return {
       ...partial,
       live: published(pages),
-      redirects,
       authors,
       titles,
       explorer: explorerRows(partial),

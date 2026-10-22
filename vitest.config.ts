@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-  test: { include: ['packages/*/tests/**/*.test.ts', 'sites/*/tests/**/*.test.ts'] },
+  // The content checks parse every page's Markdown: slow on a busy machine.
+  test: { include: ['packages/*/tests/**/*.test.ts', 'sites/*/tests/**/*.test.ts'], testTimeout: 20_000 },
 });

@@ -1,8 +1,8 @@
 // The schema pieces every site's src/content.config.ts shares: the `seo`
 // block and the base fields of a page, the loader for a content collection,
 // and the data collections the import writes to src/data (the site, the
-// collections' model, the navigations, the redirects, and the authors on a
-// site that has any). A site calls `garden(new URL('.', import.meta.url))`
+// collections' model, the navigations, and the authors on a site that has
+// any). A site calls `garden(new URL('.', import.meta.url))`
 // with its src/ folder, as the checks look in its public/.
 import fs from 'node:fs';
 import { defineCollection } from 'astro:content';
@@ -130,15 +130,6 @@ export function garden(src: URL) {
     schema: z.object({ items: z.array(navItem) }).strict(),
   });
 
-  /** Old addresses and where they go; garden/config.mjs turns them into Astro redirects. */
-  const redirects = defineCollection({
-    loader: file('src/data/redirects.yaml', {
-      parser: (text) => (YAML.parse(text) as { source: string; target: string }[]).map((r) => ({ id: r.source, ...r })),
-    }),
-    // The parser adds `id` (the source) for the loader; zod drops it from the data.
-    schema: z.object({ source: z.string(), target: z.string() }),
-  });
-
   /** Who wrote an entry (an `author` field): Statamic's users, by slug. The import writes the file only when there are any. */
   const authors = defineCollection({
     loader: file('src/data/authors.yaml'),
@@ -151,7 +142,6 @@ export function garden(src: URL) {
     site,
     collectionsConfig,
     navigation,
-    redirects,
     ...(fs.existsSync(authorsFile) ? { authors } : {}),
   };
 
