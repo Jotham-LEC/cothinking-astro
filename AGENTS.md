@@ -59,8 +59,13 @@ from `lib/seo.ts`.
 - **Addresses** come from `urlFor(site)` (`lib/entry.ts`): `pages/home` is
   `/`, a page is `/<id>`, any other entry `<path>/<id>`. It is pure, so the
   Astro config and the tests use it too. `[[wiki links]]` resolve against a title
-  index scanned off both sites' `src/content` with Astro's own front-matter
-  reader (`lib/scan.ts`): once per build, on every render in `astro dev`.
+  index (`lib/titles.ts` `titleIndex`: lower-cased title → path on this
+  site, full address on the other) scanned off both sites' `src/content`
+  with Astro's own front-matter reader (`lib/scan.ts` `lazyTitles`): once per
+  build, on every render in `astro dev`. `garden()` builds the graph from
+  this site's own titles, which resolve the same; the content check builds
+  its own from the raw files. The sitemap lists what `inSitemap` (`seo.ts`)
+  allows, as llms.txt does.
 - **The Markdown pipeline** (`lib/markdown/index.ts`, in `config.mjs`): remark
   `wiki-links`; rehype `external-links`, `heading-ids` (GitHub-style, emoji
   cleaned; Astro keeps them), `callouts`, `excerpt` (the first paragraphs, for
@@ -217,7 +222,7 @@ pages are revalidated. Locally, `wrangler dev` needs `steam-run` on NixOS.
 | Term | Meaning |
 | --- | --- |
 | **SiteEntry** | The garden's own shape for any entry of either site: address, title, dates, body, opening paragraphs and the fields the garden reads (`lib/entry.ts`). |
-| **`garden()`** | The one thing a component awaits: the entries, the title index, the Explorer and the graph, built once per build (`lib/load.ts`). |
+| **`garden()`** | The one thing a component awaits: the published entries, the Explorer and the graph, built once per build (`lib/load.ts`). |
 | **`live`** | `garden().live`: the published entries (no `draft: true`), the ones a reader can see. |
 | **Landing page** | The `pages` entry a section hangs under (`/essays` for the essays); a collection's `landing` in `site.config.ts` names it. |
 | **Section** | A collection with a landing page: its pages are children in breadcrumbs, the Explorer and the graph. |

@@ -23,8 +23,9 @@ import { linkedPages, localTargets, wikiLinksIn } from '../lib/links.ts';
 import { pager } from '../lib/pager.ts';
 import { readTime, wordCount } from '../lib/readTime.ts';
 import { head, inSitemap } from '../lib/seo.ts';
-import type { SiteConfig } from '../lib/site.ts';
-import { robotsTxt, sitemapEntries } from '../lib/textFiles.ts';
+import { absolute, type SiteConfig } from '../lib/site.ts';
+import { sitemapOptions } from '../lib/sitemap.ts';
+import { robotsTxt } from '../lib/textFiles.ts';
 import { resolveTitle, titleIndex } from '../lib/titles.ts';
 import { toc } from '../lib/toc.ts';
 
@@ -318,7 +319,13 @@ describe('head and generated files', () => {
   });
   it('lists only canonical, indexable pages in the sitemap, and writes robots.txt', () => {
     expect(inSitemap(at('/essays/newer'), site)).toBe(false);
-    expect(sitemapEntries(entries, site).map((e) => e.loc)).toEqual([
+    const listed = sitemapOptions(entries, site)?.filter ?? (() => false);
+    expect(
+      entries
+        .map((e) => absolute(site.url, e.url))
+        .filter((u) => listed(u))
+        .sort(),
+    ).toEqual([
       'https://garden.test',
       'https://garden.test/about',
       'https://garden.test/essays',
