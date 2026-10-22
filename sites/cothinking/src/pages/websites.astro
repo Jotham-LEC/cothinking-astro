@@ -1,7 +1,7 @@
 ---
-// The Websites page (`cothinking/websites`): its copy is this view, in Entry's
-// `body` slot; the prices come from the settings global.
-import type { CollectionEntry } from 'astro:content';
+// /websites: its copy is this file, in Entry's `body` slot; the prices come
+// from site.config.ts.
+import { getEntry } from 'astro:content';
 import { garden } from '@garden/lib/load.ts';
 import Entry from '@garden/components/Entry.astro';
 import Prose from '@garden/components/Prose.astro';
@@ -10,13 +10,12 @@ import { emailHref, price } from '@site/lib/contact.ts';
 import { relatedPages } from '@site/lib/related.ts';
 import { workEntries } from '@site/lib/work.ts';
 import { prices } from '@site/site.config.ts';
-import Email from '@site/components/cothinking/Email.astro';
-import Enquiry from '@site/components/cothinking/Enquiry.astro';
-import Related from '@site/components/cothinking/Related.astro';
-import Timeline from '@site/components/cothinking/Timeline.astro';
-import WorkTiles from '@site/components/cothinking/WorkTiles.astro';
-type Props = { entry: CollectionEntry<'pages'> };
-const { entry } = Astro.props;
+import Email from '@site/components/Email.astro';
+import Enquiry from '@site/components/Enquiry.astro';
+import Related from '@site/components/Related.astro';
+import Timeline from '@site/components/Timeline.astro';
+import WorkTiles from '@site/components/WorkTiles.astro';
+const entry = (await getEntry('pages', 'websites'))!;
 const g = await garden();
 const clients = (await workEntries()).slice(0, 3);
 // The outline: the view's own h2s (Blade read them off the rendered body).

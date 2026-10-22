@@ -1,14 +1,13 @@
 ---
-// The Work page (`cothinking/work`): its introduction, written here, then the
-// work collection as tiles in its order.
-import type { CollectionEntry } from 'astro:content';
+// /work: its introduction, written here, then the work collection as tiles
+// in its order.
+import { getEntry } from 'astro:content';
 import Entry from '@garden/components/Entry.astro';
 import Prose from '@garden/components/Prose.astro';
-import NextStep from '@site/components/cothinking/NextStep.astro';
-import WorkTiles from '@site/components/cothinking/WorkTiles.astro';
+import NextStep from '@site/components/NextStep.astro';
+import WorkTiles from '@site/components/WorkTiles.astro';
 import { workEntries } from '@site/lib/work.ts';
-type Props = { entry: CollectionEntry<'pages'> };
-const { entry } = Astro.props;
+const entry = (await getEntry('pages', 'work'))!;
 ---
 
 <Entry entry={entry}>

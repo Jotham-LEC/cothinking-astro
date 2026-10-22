@@ -1,13 +1,60 @@
 ---
-// An entry of the work collection: the CaseStudy view (src/components/templates).
-import { getCollection } from 'astro:content';
-import CaseStudy from '@site/components/templates/CaseStudy.astro';
+// A client's case study, as a room: the eyebrow, title, screenshot (1280px
+// wide at most) and numbers, the write-up, the live site and the closing panel.
+import { getCollection, render } from 'astro:content';
+import { garden } from '@garden/lib/load.ts';
+import Layout from '@garden/layouts/Layout.astro';
+import PageHeader from '@garden/components/PageHeader.astro';
+import Prose from '@garden/components/Prose.astro';
+import { mediaImage } from '@site/lib/images.ts';
+import NextStep from '@site/components/NextStep.astro';
+import WorkStats from '@site/components/WorkStats.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('work', (e) => !e.data.draft);
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 const { entry } = Astro.props;
+const g = await garden();
+const page = g.entry(entry);
+const { Content } = await render(entry);
+const eyebrow = entry.data.eyebrow || [entry.data.year, entry.data.kind].filter(Boolean).join(' · ');
+const shot = entry.data.image ? await mediaImage(entry.data.image, { width: 1280, quality: 80 }) : null;
+const website = entry.data.website ?? null;
 ---
 
-<CaseStudy entry={entry} />
+<Layout page={page} path={page.url} html={await g.htmlOf(page)} room>
+  <article class="mx-auto max-w-[72ch]">
+    <PageHeader title={page.title} eyebrow={eyebrow} />
+
+    {shot && (
+      <img
+        src={shot.src}
+        alt={`${page.title}’s website`}
+        width={shot.attributes.width}
+        height={shot.attributes.height}
+        fetchpriority="high"
+        class="rounded-site border-rule w-full border"
+      />
+    )}
+
+    <WorkStats stats={entry.data.stats} />
+
+    <Prose class="mt-10" data-popover>
+      <Content />
+    </Prose>
+
+    <p class="border-rule text-muted mt-10 flex flex-wrap gap-x-6 gap-y-2 border-t pt-5 font-sans text-sm">
+      {website && (
+        <a class="text-accent" href={website}>
+          Visit the live site ↗
+        </a>
+      )}
+      <a class="text-accent" href="/work">
+        More work →
+      </a>
+    </p>
+
+    <NextStep about={page.title} />
+  </article>
+</Layout>

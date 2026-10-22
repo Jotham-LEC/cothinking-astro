@@ -1,12 +1,12 @@
 ---
-// /notes (template `notes/index`) and /notes/2, /notes/3…: the landing page's
+// /notes and /notes/2, /notes/3…: the landing page's
 // text, then the stream, 20 to a page, newest first.
 import { getEntry, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import { garden } from '@garden/lib/load.ts';
 import { byDateDesc } from '@garden/lib/entry.ts';
 import Entry from '@garden/components/Entry.astro';
-import Stream from '@site/components/notes/Stream.astro';
+import Stream from '@site/components/Stream.astro';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const g = await garden();

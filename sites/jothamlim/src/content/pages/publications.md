@@ -2,7 +2,6 @@
 title: Publications
 description: My journalism archive.
 updated: 2026-10-06T08:01:30+00:00
-template: publications
 order: 5
 ---
 

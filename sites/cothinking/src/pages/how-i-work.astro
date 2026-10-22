@@ -1,6 +1,7 @@
 ---
-// The How I work page (`cothinking/how-i-work`): its copy is this view, in Entry's `body` slot.
-import type { CollectionEntry } from 'astro:content';
+// /how-i-work: its copy is this file, in Entry's `body` slot; the landing
+// entry gives the title and the head.
+import { getEntry } from 'astro:content';
 import { garden } from '@garden/lib/load.ts';
 import Entry from '@garden/components/Entry.astro';
 import Prose from '@garden/components/Prose.astro';
@@ -9,15 +10,14 @@ import { price, whatsappHref } from '@site/lib/contact.ts';
 import { relatedPages } from '@site/lib/related.ts';
 import { testimonialOf, workEntries } from '@site/lib/work.ts';
 import { contact, prices, terms } from '@site/site.config.ts';
-import AboutMe from '@site/components/cothinking/AboutMe.astro';
-import Email from '@site/components/cothinking/Email.astro';
-import Enquiry from '@site/components/cothinking/Enquiry.astro';
-import Prices from '@site/components/cothinking/Prices.astro';
-import QuoteBy from '@site/components/cothinking/QuoteBy.astro';
-import Related from '@site/components/cothinking/Related.astro';
-import Timeline from '@site/components/cothinking/Timeline.astro';
-type Props = { entry: CollectionEntry<'pages'> };
-const { entry } = Astro.props;
+import AboutMe from '@site/components/AboutMe.astro';
+import Email from '@site/components/Email.astro';
+import Enquiry from '@site/components/Enquiry.astro';
+import Prices from '@site/components/Prices.astro';
+import QuoteBy from '@site/components/QuoteBy.astro';
+import Related from '@site/components/Related.astro';
+import Timeline from '@site/components/Timeline.astro';
+const entry = (await getEntry('pages', 'how-i-work'))!;
 const g = await garden();
 const page = g.entry(entry);
 const testimonial = testimonialOf(await workEntries());

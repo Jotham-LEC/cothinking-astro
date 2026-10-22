@@ -1,0 +1,19 @@
+---
+// The site's plain pages (privacy) and the problems I fix, which live at the
+// top level too. A page with a view of its own (OWN) has its own file:
+// index.astro, problem-statements.astro… Listing one here too would build two
+// files for one address, which fails the build (prerenderConflictBehavior).
+import { getCollection } from 'astro:content';
+import Page from '@site/components/Page.astro';
+import Problem from '@site/components/Problem.astro';
+
+export async function getStaticPaths() {
+  const OWN = ['home', 'problem-statements', 'how-i-work', 'websites', 'work', 'wiki'];
+  const pages = await getCollection('pages', (p) => !p.data.draft && !OWN.includes(p.id));
+  const problems = await getCollection('problems', (p) => !p.data.draft);
+  return [...pages, ...problems].map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+---
+
+{entry.collection === 'problems' ? <Problem entry={entry} /> : <Page entry={entry} />}

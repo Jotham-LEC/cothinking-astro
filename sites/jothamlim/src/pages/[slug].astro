@@ -1,0 +1,20 @@
+---
+// The pages that are nothing but their text (career, cv, sports). A page with
+// a view of its own (OWN) has its own file: index.astro, essays/index.astro…
+// Listing one here too would build two files for one address, which fails
+// the build (prerenderConflictBehavior).
+import { getCollection, render } from 'astro:content';
+import Entry from '@garden/components/Entry.astro';
+
+export async function getStaticPaths() {
+  const OWN = ['home', 'essays', 'notes', 'projects', 'publications'];
+  const pages = await getCollection('pages', (p) => !p.data.draft && !OWN.includes(p.id));
+  return pages.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+---
+
+<Entry entry={entry} headings={headings}>
+  <Content />
+</Entry>

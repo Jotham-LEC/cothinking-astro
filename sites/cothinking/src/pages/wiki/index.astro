@@ -1,15 +1,14 @@
 ---
-// The Wiki page (`cothinking/wiki`): its text, then every wiki entry under its
-// category, A to Z (the Explorer's grouping, `group_by: category`).
-import { render, type CollectionEntry } from 'astro:content';
+// /wiki: the landing page's text, then every wiki entry under its category,
+// A to Z (the Explorer's grouping, `groupBy: 'category'`).
+import { getEntry, render } from 'astro:content';
 import { garden } from '@garden/lib/load.ts';
 import { byCategory } from '@garden/lib/explorer.ts';
 import { childrenOf } from '@garden/lib/entry.ts';
 import Entry from '@garden/components/Entry.astro';
 import HeadingLink from '@garden/components/HeadingLink.astro';
-import NextStep from '@site/components/cothinking/NextStep.astro';
-type Props = { entry: CollectionEntry<'pages'> };
-const { entry } = Astro.props;
+import NextStep from '@site/components/NextStep.astro';
+const entry = (await getEntry('pages', 'wiki'))!;
 const g = await garden();
 const { Content, headings } = await render(entry);
 const categories = byCategory(childrenOf('wiki', g.live, g.site), g.site.collections.wiki.categories ?? {});

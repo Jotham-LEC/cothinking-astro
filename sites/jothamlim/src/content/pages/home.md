@@ -2,7 +2,6 @@
 title: Jotham Lim
 description: I lead global marketing for a China-based market-intelligence company and run CoThinking, my web, IT and marketing practice for small businesses in Malaysia.
 updated: 2026-10-15T09:03:14+00:00
-template: home
 order: 0
 seo:
   title: Jotham Lim

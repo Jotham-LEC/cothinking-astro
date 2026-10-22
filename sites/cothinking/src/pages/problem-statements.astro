@@ -1,12 +1,11 @@
 ---
-// The Problems I fix page (`cothinking/problems`): its text, then every
-// problem in the tree's order with its `what_i_do`.
-import { getCollection, render, type CollectionEntry } from 'astro:content';
+// /problem-statements: the landing page's text, then every problem in the
+// tree's order with its `what_i_do`.
+import { getCollection, getEntry, render } from 'astro:content';
 import Entry from '@garden/components/Entry.astro';
-import NextStep from '@site/components/cothinking/NextStep.astro';
-import ProblemList from '@site/components/cothinking/ProblemList.astro';
-type Props = { entry: CollectionEntry<'pages'> };
-const { entry } = Astro.props;
+import NextStep from '@site/components/NextStep.astro';
+import ProblemList from '@site/components/ProblemList.astro';
+const entry = (await getEntry('pages', 'problem-statements'))!;
 const { Content, headings } = await render(entry);
 const problems = (await getCollection('problems', (p) => !p.data.draft)).sort((a, b) => a.data.order - b.data.order);
 ---

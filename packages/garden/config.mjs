@@ -30,6 +30,8 @@ export function gardenConfig({ root: rootUrl, site, urlOf, otherSite, redirects 
     site: site.url,
     trailingSlash: 'never',
     build: { format: 'file' },
+    // Two page files for one address (a page in [slug].astro's list that has its own file too) fail the build.
+    prerenderConflictBehavior: 'error',
     markdown: {
       processor: unified({
         gfm: true,

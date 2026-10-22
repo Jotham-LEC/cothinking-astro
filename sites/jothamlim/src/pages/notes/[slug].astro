@@ -4,7 +4,7 @@
 // collides with /notes/2.
 import { getCollection, render } from 'astro:content';
 import Entry from '@garden/components/Entry.astro';
-import Quote from '@site/components/notes/Quote.astro';
+import Quote from '@site/components/Quote.astro';
 
 export async function getStaticPaths() {
   const notes = await getCollection('notes', (n) => !n.data.draft);

@@ -12,7 +12,6 @@ const pages = defineCollection({
   schema: z
     .object({
       ...base,
-      template: z.enum(['default', 'home', 'section', 'notes/index', 'publications']).default('default'),
       order: z.number().int(),
     })
     .strict(),

@@ -12,24 +12,13 @@ const { base, media, loader } = garden(new URL('.', import.meta.url));
 const reference = z.string().regex(/^[a-z_]+\/[\w-]+$/);
 const ordered = { order: z.number().int() };
 
-/** The site's own pages; `template` picks the view (src/pages/[...slug].astro). */
+/** The site's own pages: each has a file in src/pages (or [slug].astro for the plain ones). */
 const pages = defineCollection({
   loader: loader('pages'),
   schema: z
     .object({
       ...base,
       ...ordered,
-      template: z
-        .enum([
-          'cothinking/home',
-          'cothinking/page',
-          'cothinking/problems',
-          'cothinking/wiki',
-          'cothinking/work',
-          'cothinking/how-i-work',
-          'cothinking/websites',
-        ])
-        .default('cothinking/page'),
       related_wiki: z.array(reference).optional(),
     })
     .strict(),

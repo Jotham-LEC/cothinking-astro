@@ -2,7 +2,6 @@
 title: Privacy
 description: What I collect when you contact me through cothink.ing, why I use it, who else handles it, how long I keep it, and how to see or correct it.
 updated: 2026-10-15T08:30:50+00:00
-template: cothinking/page
 order: 6
 ---
 This notice explains how I handle personal data on cothink.ing, under the Personal Data Protection Act 2010.

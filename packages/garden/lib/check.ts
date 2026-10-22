@@ -85,7 +85,6 @@ export function check({ root, site, urlOf, raws, other }: CheckInput): string[] 
     if (/[[\]|]/.test(page.title))
       problems.push(`${where(page)}: its title "${page.title}" has [, ] or |, so [[wiki links]] cannot name it.`);
     for (const [field, value] of Object.entries(raw.data)) {
-      if (field === 'template') continue;
       for (const key of [value].flat()) {
         if (typeof key !== 'string') continue;
         const m = REFERENCE.exec(key);
