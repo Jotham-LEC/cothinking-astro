@@ -254,10 +254,12 @@ Each site is a Worker of static assets (`sites/<site>/wrangler.jsonc`:
 "drop-trailing-slash"`), named `jothamlim` and `cothinking`. `npm run
 deploy:<site>` builds and deploys it; wrangler signs in with the Global API
 key through `op run --env-file=cloudflare.env`, which holds only 1Password
-references, so the key is never in a file or a log. The custom domains
-(`jothamlim.com`, `cothink.ing`) replace the DNS records that point at the
-VPS: attaching them is the cutover and waits for the owner. `www.cothink.ing`,
-`coach.*`, `dev.*`, `blog.*` and the Laravel CP stay on the VPS.
+references, so the key is never in a file or a log. Since 2026-10-22 the
+sites are live at `jothamlim.com` and `cothink.ing`, each a Custom Domain on
+its Worker (`routes` in `wrangler.jsonc`); the A records that pointed at the
+VPS were removed (their values: `DEV_FILES/cloudflare-dns-before-cutover.json`).
+With a route, the `*.workers.dev` addresses are off. `www.cothink.ing`,
+`coach.*`, `dev.*`, `blog.*` and the MX/TXT records were not touched.
 
 Locally, `wrangler dev` (in `sites/<site>`) needs `steam-run` on NixOS
 (`steam-run npx wrangler dev`): workerd is a generic Linux binary.
