@@ -1,6 +1,7 @@
+// /llms.txt: the site for language models (lib/textFiles.ts).
 import type { APIRoute } from 'astro';
-import { garden } from '@garden/lib/load.ts';
-import { llmsTxt } from '@garden/lib/textFiles.ts';
+import { garden } from '../lib/load.ts';
+import { llmsTxt } from '../lib/textFiles.ts';
 
 export const GET: APIRoute = async () => {
   const { live, site } = await garden();

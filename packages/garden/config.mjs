@@ -25,6 +25,31 @@ const font = (file, weight, style) => ({
 });
 
 /**
+ * The routes every site has, from routes/: Astro adds each to the site's own src/pages.
+ * @type {[pattern: string, file: string][]}
+ */
+const ROUTES = [
+  ['/404', '404.astro'],
+  ['/feed.xml', 'feed.xml.ts'],
+  ['/graph.json', 'graph.json.ts'],
+  ['/llms.txt', 'llms.txt.ts'],
+  ['/og.png', 'og.png.ts'],
+  ['/og/[...uri].png', 'og/[...uri].png.ts'],
+  ['/robots.txt', 'robots.txt.ts'],
+];
+
+/** @type {import('astro').AstroIntegration} */
+const sharedRoutes = {
+  name: 'garden-routes',
+  hooks: {
+    'astro:config:setup': ({ injectRoute }) => {
+      for (const [pattern, file] of ROUTES)
+        injectRoute({ pattern, entrypoint: new URL(`./routes/${file}`, import.meta.url) });
+    },
+  },
+};
+
+/**
  * @param {object} options
  * @param {URL} options.root the site's folder (sites/<site>/)
  * @param {import('./lib/site.ts').SiteConfig} options.site the site's config (src/site.config.ts)
@@ -57,7 +82,7 @@ export function gardenConfig({ root: rootUrl, site, urlOf, otherSite }) {
         transformers: [codeBlock()],
       },
     },
-    integrations: [sitemap(sitemapOptions(scanEntries(rootUrl, urlOf), site)), pagefind()],
+    integrations: [sharedRoutes, sitemap(sitemapOptions(scanEntries(rootUrl, urlOf), site)), pagefind()],
     vite: { plugins: [tailwindcss()] },
     // Sans for everything (400 and 700 with italics, 800 for headings), Sans Mono for code; layouts/Layout.astro loads them.
     fonts: [

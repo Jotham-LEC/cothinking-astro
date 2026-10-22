@@ -2,9 +2,9 @@
 // drawn at build time for pages without an image of their own, and for the
 // rest too, so a page that drops its image keeps a card.
 import type { APIRoute, GetStaticPaths } from 'astro';
-import { garden } from '@garden/lib/load.ts';
-import { cardFor } from '@garden/lib/share.ts';
-import { renderCard } from '@garden/lib/ogCard.ts';
+import { garden } from '../../lib/load.ts';
+import { cardFor } from '../../lib/share.ts';
+import { renderCard } from '../../lib/ogCard.ts';
 
 export const getStaticPaths = (async () => {
   const g = await garden();
