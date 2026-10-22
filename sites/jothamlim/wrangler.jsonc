@@ -4,6 +4,8 @@
 {
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "jothamlim",
+  // The owner's account (the key also reaches clients' accounts, so never leave this out).
+  "account_id": "f89b94f04c7ad8999c9dcc3afea694eb",
   "compatibility_date": "2026-10-22",
   "assets": {
     "directory": "./dist",
