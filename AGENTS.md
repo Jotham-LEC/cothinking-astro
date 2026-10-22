@@ -36,8 +36,9 @@ How a page is built:
    Settings globals, `feeds`, `other_sites`), `collections.yaml` (each content
    collection's title, route, mount, note types, select options, whether its
    pages are articles), `navigation.yaml` (explorer, header, footer trees),
-   `redirects.yaml`, and `titles.json` (lower-cased title → address, this
-   site's and cothink.ing's: the `[[wiki link]]` index, a plain JSON import).
+   `redirects.yaml`, and `other-site-titles.json` (cothink.ing's titles →
+   addresses, from the import; the `[[wiki link]]` index adds this site's
+   published pages at build time, `src/lib/titles.ts`).
    `.astro/` is Astro's generated cache of all this (git-ignored): the source
    is always the Markdown and YAML.
 2. **The wiki layer** (`src/lib/`, no Astro imports except `load.ts`) turns
@@ -50,10 +51,10 @@ How a page is built:
    eyebrow/feed/source (`entry.ts`), the head model (`seo.ts`), the feeds'
    items (`feed.ts`, for `@astrojs/rss`), robots/llms and the sitemap's
    entries (`textFiles.ts`, fed to `@astrojs/sitemap` by `sitemap.ts`), the
-   redirects (`redirects.ts`), the share card (`ogCard.ts`, `share.ts`) and
-   the content check (`check.ts`). `load.ts` is the one Astro-side entry:
+   redirects (`redirects.ts`) and the share card (`ogCard.ts`, `share.ts`).
+   `load.ts` is the one Astro-side entry:
    `await wiki()` gives everything, computed once per build. `files.ts` loads
-   the same model from disk for `npm run check:content`, the tests and
+   the same model from disk for `scripts/check-content.ts`, the tests and
    `astro.config.mjs`.
 3. **The Markdown pipeline** (`src/lib/markdown/`, wired in
    `astro.config.mjs` through `@astrojs/markdown-remark`'s `unified()`
@@ -102,7 +103,7 @@ in plain Node), not `import.meta.url`, which points into `dist/` once bundled.
 
 ```sh
 npm run check            # check:content then check:types
-npm run check:content    # the content rules (wiki links, media, routes, front matter, unique titles); rewrites src/data/titles.json
+npm run check:content    # astro sync (every file against its schema), then scripts/check-content.ts: wiki links, media, routes, trees, linkable and unique titles
 npm run check:types      # astro check: TypeScript in .ts and .astro files (0 errors, 0 warnings expected)
 npm run build && npm run preview   # a background server (`astro preview status` / `stop`); :4321, or the next free port
 npm run dev              # astro dev (http://localhost:4321); search and the 404's suggestions use the last build's /pagefind, so build once first
@@ -135,9 +136,10 @@ warning) without it. The migration scripts (`import-content.mjs`,
   (`\|` in a table cell); a Markdown link to `/path` counts too. Both feed
   the graph and "Linked from". A title that no published page has renders
   as `wiki-link-missing`; `npm run check:content` reports it.
-- **Renaming a page or adding one changes the title index**: run
-  `npm run check:content` (it rewrites `src/data/titles.json`) and restart
-  `astro dev` or rebuild. cothink.ing's titles stay in that file from the import.
+- **Renaming a page or adding one changes the title index**, which
+  `astro.config.mjs` reads once: restart `astro dev` (a build always has the
+  current titles). A title can't hold `[`, `]` or `|` (a wiki link couldn't
+  name it); `npm run check:content` says so.
 - Raw HTML is allowed (`wiki-logo-light`/`-dark`, `wiki-portrait`,
   `<figure class="wiki-pdf">`, `<a class="button">`). Callouts:
   `> [!NOTE] Title` with note, info, tip, important, warning, danger, caution.
@@ -149,7 +151,8 @@ warning) without it. The migration scripts (`import-content.mjs`,
 ## Recipes
 
 - **A front-matter field**: add it to the collection's schema in
-  `src/content.config.ts`; templates read it from `page.data`. Only a field
+  `src/content.config.ts` (the one place it is validated); templates read it
+  from `page.data`. Only a field
   every page has (like `description`) also goes into the `Page` type
   (`src/lib/types.ts`) and `toPages` (`src/lib/pages.ts`).
 - **A collection**: a schema and a `loader('name')` line in

@@ -12,7 +12,7 @@
     "astro": "astro",
     "import": "node scripts/import-content.mjs",
     "check": "npm run check:content && npm run check:types",
-    "check:content": "node src/lib/check.ts",
+    "check:content": "astro sync && node scripts/check-content.ts",
     "check:types": "astro check",
     "golden": "node scripts/golden.mjs",
     "compare": "node scripts/compare.mjs",

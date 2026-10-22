@@ -4,6 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { check } from '../scripts/check-content.ts';
 import { loadProject } from '../src/lib/files.ts';
 import { explorerRows, markCurrent, menu, urlsIn } from '../src/lib/explorer.ts';
 import { backlinks, buildGraph } from '../src/lib/graph.ts';
@@ -15,6 +16,7 @@ import { pageInfo } from '../src/lib/entry.ts';
 import { linkedPages, localTargets, wikiLinksIn } from '../src/lib/links.ts';
 import { byUrl, published, toPages } from '../src/lib/pages.ts';
 import { redirectsFor } from '../src/lib/redirects.ts';
+import { titleIndex } from '../src/lib/titles.ts';
 import { head, inSitemap } from '../src/lib/seo.ts';
 import { toc } from '../src/lib/toc.ts';
 import { robotsTxt, sitemapEntries } from '../src/lib/textFiles.ts';
@@ -113,6 +115,35 @@ describe('links read off the Markdown', () => {
       '/media/a.png',
       '/media/b.png',
     ]);
+  });
+});
+
+describe('content check', () => {
+  it('passes the content as it is', () => {
+    expect(check(project)).toEqual([]);
+  });
+  it('flags a title [[wiki links]] cannot name, and a link to a missing page, but not one in code', () => {
+    const [essay] = toPages(
+      [
+        {
+          collection: 'essays',
+          slug: 'x',
+          data: { title: 'A [bracketed] title', date: new Date() },
+          body: '[[No Such Page]]\n\n~~~\n[[Also Missing]]\n~~~',
+        },
+      ],
+      collections,
+    );
+    const problems = check({ ...project, pages: [...pages, essay!] });
+    expect(problems).toContainEqual(expect.stringContaining('has [, ] or |'));
+    expect(problems).toContainEqual(expect.stringContaining('[[No Such Page]] names no published page'));
+    expect(problems.join('\n')).not.toContain('Also Missing');
+  });
+  it('indexes a renamed page by its new title without any extra step', () => {
+    const renamed = pages.map((p) => (p.url === '/notes/writing-shorter' ? { ...p, title: 'Write Less' } : p));
+    const index = loadProject(root).titles;
+    expect(index['writing shorter']).toBe('/notes/writing-shorter');
+    expect(titleIndex(published(renamed), project.otherSiteTitles)['write less']).toBe('/notes/writing-shorter');
   });
 });
 

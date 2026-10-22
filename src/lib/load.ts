@@ -2,12 +2,12 @@
 // src/content.config.ts) as Pages and settings, with the title index, the
 // Explorer and the graph, each worked out once per build.
 import { getCollection, getEntry, type CollectionEntry, type CollectionKey } from 'astro:content';
-import titlesJson from '../data/titles.json';
+import otherSiteTitles from '../data/other-site-titles.json';
 import { explorerRows, type Row } from './explorer.ts';
 import { buildGraph, type Graph } from './graph.ts';
 import { renderFeed } from './markdown/feed.ts';
 import { published, toPages } from './pages.ts';
-import type { TitleIndex } from './titles.ts';
+import { titleIndex, type TitleIndex } from './titles.ts';
 import type { Collections, LivePage, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
 
 export type Wiki = {
@@ -49,7 +49,7 @@ export function wiki(): Promise<Wiki> {
       }
     }
     const pages = toPages(raws, collections);
-    const titles = titlesJson as TitleIndex;
+    const titles = titleIndex(published(pages), otherSiteTitles as TitleIndex);
     const partial = { site, collections, pages, navigation };
     const html = new Map<string, Promise<string>>();
     return {

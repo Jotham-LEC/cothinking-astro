@@ -5,8 +5,8 @@
 // Imports jothamlim.com's content from the Laravel/Statamic repo, re-runnably:
 // entries → src/content/{collection}/{slug}.md (slugs instead of UUIDs, the
 // date in front matter, trees folded into `order`), navigations, globals,
-// redirects → src/data, both sites' titles → src/data/titles.json (the other
-// site's for the [[wiki links]] that point there), and with --media the
+// redirects → src/data, cothink.ing's titles → src/data/other-site-titles.json
+// (for the [[wiki links]] that point there), and with --media the
 // site's media folders → public/. Wipes src/content and src/data first.
 // LARAVEL comes from the environment.
 import fs from 'node:fs';
@@ -389,12 +389,14 @@ for (const name of ['all', SITE]) {
 writeYaml(path.join(ROOT, 'src/data/redirects.yaml'), redirects);
 
 // ------------------------------------------------------------ titles ----
+// The other site's published titles by address; this site's are worked out
+// from src/content at build time (src/lib/titles.ts).
 const titles = {};
 for (const entry of entries.values()) {
-  if (!entry.published || !entry.url) continue;
-  titles[String(entry.data.title).trim().toLowerCase()] = entry.site === SITE ? entry.url : absolute(entry);
+  if (entry.site === SITE || !entry.published || !entry.url) continue;
+  titles[String(entry.data.title).trim().toLowerCase()] = absolute(entry);
 }
-write(path.join(ROOT, 'src/data/titles.json'), JSON.stringify(titles, null, 2) + '\n');
+write(path.join(ROOT, 'src/data/other-site-titles.json'), JSON.stringify(titles, null, 2) + '\n');
 
 // ------------------------------------------------------------- media ----
 if (COPY_MEDIA) {

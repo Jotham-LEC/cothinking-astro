@@ -1,14 +1,14 @@
 // Loads the project's content and data from disk, for everything that runs
-// outside Astro (`npm run check`, the tests, the Markdown pipeline's title
-// index at config time). Astro's own loader (load.ts) builds the same model
-// from its collections.
+// outside Astro (`npm run check:content`, the tests, astro.config.mjs: the
+// Markdown pipeline's title index, the sitemap, the redirects). Astro's own
+// loader (load.ts) builds the same model from its collections.
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import YAML from 'yaml';
-import { toPages } from './pages.ts';
+import { published, toPages } from './pages.ts';
 import type { Collections, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
-import type { TitleIndex } from './titles.ts';
+import { titleIndex, type TitleIndex } from './titles.ts';
 
 export type Project = {
   root: string;
@@ -17,6 +17,9 @@ export type Project = {
   pages: Page[];
   navigation: Record<string, NavItem[]>;
   redirects: { source: string; target: string }[];
+  /** The other site's titles (src/data/other-site-titles.json). */
+  otherSiteTitles: TitleIndex;
+  /** The [[wiki link]] index: this site's published pages over the other site's titles. */
   titles: TitleIndex;
 };
 
@@ -43,13 +46,18 @@ export function loadProject(root: string): Project {
   const navigation: Record<string, NavItem[]> = {};
   for (const [name, nav] of Object.entries(readYaml<Record<string, { items: NavItem[] }>>(data('navigation.yaml'), {})))
     navigation[name] = nav.items ?? [];
+  const pages = toPages(raws, collections);
+  const otherSiteTitles: TitleIndex = fs.existsSync(data('other-site-titles.json'))
+    ? JSON.parse(fs.readFileSync(data('other-site-titles.json'), 'utf8'))
+    : {};
   return {
     root,
     site,
     collections,
-    pages: toPages(raws, collections),
+    pages,
     navigation,
     redirects: readYaml(data('redirects.yaml'), []),
-    titles: fs.existsSync(data('titles.json')) ? JSON.parse(fs.readFileSync(data('titles.json'), 'utf8')) : {},
+    otherSiteTitles,
+    titles: titleIndex(published(pages), otherSiteTitles),
   };
 }

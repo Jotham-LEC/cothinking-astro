@@ -1,5 +1,4 @@
 // @ts-check
-import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
@@ -13,11 +12,11 @@ import { redirectsFor } from './src/lib/redirects.ts';
 import { sitemapOptions } from './src/lib/sitemap.ts';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
-// The content and data from disk, for what config needs before Astro loads its collections.
+// The content and data from disk, for what config needs before Astro loads its
+// collections: the [[wiki link]] title index (read once: restart `astro dev`
+// after renaming a page), the sitemap's entries and the redirects.
 const project = loadProject(root);
-const { site } = project;
-// The title index behind [[wiki links]], written by `npm run import` and `npm run check`.
-const titles = JSON.parse(fs.readFileSync(new URL('./src/data/titles.json', import.meta.url), 'utf8'));
+const { site, titles } = project;
 
 export default defineConfig({
   site: site.url,
