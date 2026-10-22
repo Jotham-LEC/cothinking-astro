@@ -12,7 +12,9 @@ import { years } from '../src/lib/years.ts';
 import { noteType, noteTypes } from '../src/lib/noteTypes.ts';
 import { breadcrumbs } from '../src/lib/breadcrumbs.ts';
 import { pageInfo } from '../src/lib/entry.ts';
-import { byUrl, published } from '../src/lib/pages.ts';
+import { linkedPages, localTargets, wikiLinksIn } from '../src/lib/links.ts';
+import { byUrl, published, toPages } from '../src/lib/pages.ts';
+import { redirectsFor } from '../src/lib/redirects.ts';
 import { head, inSitemap } from '../src/lib/seo.ts';
 import { toc } from '../src/lib/toc.ts';
 import { robotsTxt, sitemapEntries } from '../src/lib/textFiles.ts';
@@ -86,6 +88,51 @@ describe('graph and backlinks', () => {
     const ids = Object.fromEntries(graph.nodes.map((n) => [n.id, n.url]));
     const ours = graph.links.map((l) => `${ids[l.source]} -> ${ids[l.target]}`).sort();
     expect(ours).toEqual(theirs);
+  });
+});
+
+describe('links read off the Markdown', () => {
+  it('finds wiki links and path links the page renders, and none in code, escapes or HTML blocks', () => {
+    expect(wikiLinksIn('See [[Writing Shorter]] and [[Writing Shorter|this]].')).toEqual([
+      'Writing Shorter',
+      'Writing Shorter',
+    ]);
+    expect(wikiLinksIn('~~~\n[[Writing Shorter]]\n~~~')).toEqual([]);
+    expect(wikiLinksIn('Code:\n\n    [[Writing Shorter]]\n')).toEqual([]);
+    expect(wikiLinksIn('```\n[[Writing Shorter]]\n```\n\nand `[[Writing Shorter]]`')).toEqual([]);
+    expect(wikiLinksIn('Write \\[\\[Writing Shorter\\]\\] to link.')).toEqual([]);
+    expect(wikiLinksIn('<div>\n[[Writing Shorter]]\n</div>')).toEqual([]);
+    expect(wikiLinksIn('| a |\n| - |\n| [[Writing Shorter\\|x]] |')).toEqual(['Writing Shorter\\']);
+    const titles = { 'writing shorter': '/notes/writing-shorter' };
+    expect(linkedPages('[[Writing Shorter]], [cv](/cv#top) and `[x](/sports)`', titles, urls).map((p) => p.url)).toEqual([
+      '/notes/writing-shorter',
+      '/cv',
+    ]);
+    expect(localTargets('![a](/media/a.png) <img src="/media/b.png">\n\n    [c](/media/c.png)')).toEqual([
+      '/media/a.png',
+      '/media/b.png',
+    ]);
+  });
+});
+
+describe('redirects', () => {
+  const fixture = (data: Record<string, unknown>, body = '') =>
+    toPages(
+      [
+        { collection: 'pages', slug: 'essays', data: { title: 'Essays', order: 1 }, body: '' },
+        { collection: 'essays', slug: 'x', data: { title: 'X', date: new Date(), ...data }, body },
+      ],
+      collections,
+    );
+  const blog = (pages: ReturnType<typeof fixture>) =>
+    redirectsFor({ ...project, redirects: [], pages })['/blog/x'] ?? null;
+  it('sends /blog/{slug} to a published page by its front matter, not by a line in its body', () => {
+    expect(blog(fixture({}, '```yaml\ndraft: true\n```'))).toBe('/essays/x');
+    expect(blog(fixture({ draft: true }))).toBeNull();
+  });
+  it('drops (and names) a redirect from a file address', () => {
+    const out = redirectsFor({ ...project, pages: [], redirects: [{ source: '/a.pdf', target: '/b.pdf' }, { source: '/a', target: '/b' }] });
+    expect(out).toEqual({ '/a': '/b' });
   });
 });
 
@@ -169,6 +216,10 @@ describe('head and generated files', () => {
       overrides: { title: 'Text notes', description: 'Every text note, newest first.' },
     });
     expect(listing.title).toBe('Text notes | Jotham Lim');
+    // A later page of a paginated listing is its own canonical address.
+    const second = head(input(page('/notes'), { path: '/notes/2' }));
+    expect(second.canonical).toBe('https://jothamlim.com/notes/2');
+    expect(second.url).toBe('https://jothamlim.com/notes/2');
     expect(listing.graph.map((n) => n['@type'])).toEqual(['WebSite', 'Person']);
     expect(head({ page: null, path: '/404', site, collections, pages: live, status: 404 })).toMatchObject({
       canonical: null,

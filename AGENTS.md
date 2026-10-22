@@ -128,10 +128,14 @@ Deviations from the Laravel site, by design (see `scripts/compare.mjs`):
 `/notes/2` instead of `?page=2`; `og:image` is a satori card (or the raw
 image, uncropped) rather than the-og/Glide output; Vite asset names; search is
 Pagefind (results come from the last build; result excerpts are Pagefind's);
-the old blog's PDF addresses (`/blog/storage/publications/*.pdf`) are not
-redirected; the sitemap is `@astrojs/sitemap`'s `/sitemap-index.xml` (named in
+no PDF redirects: the old blog's PDF addresses
+(`/blog/storage/publications/*.pdf`) and the old résumé address
+(`/media/career/jotham-lim-resume.pdf`, in `src/data/redirects.yaml`) are not
+redirected, and the build log names each one it drops; the sitemap is `@astrojs/sitemap`'s `/sitemap-index.xml` (named in
 robots.txt) rather than `/sitemap.xml`; the 404's host/path and suggestions
-are filled in by the browser.
+are filled in by the browser. Google Tag Manager (`site.yaml`
+`marketing.gtm_id`) is printed as the addon printed it, in production builds
+only (`astro dev` has none).
 
 ## Review routine
 

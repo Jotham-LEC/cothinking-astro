@@ -21,7 +21,7 @@ const w = await wiki();
 const { Content, headings } = await render(w.entryOf(landing));
 ---
 
-<Entry page={landing} headings={headings}>
+<Entry page={landing} path={page.url.current} headings={headings}>
   <Fragment slot="head">
     {page.url.prev && <link rel="prev" href={page.url.prev} />}
     {page.url.next && <link rel="next" href={page.url.next} />}

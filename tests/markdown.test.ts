@@ -3,7 +3,9 @@
 import path from 'node:path';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import { beforeAll, describe, expect, it } from 'vitest';
+import type { Root } from 'hast';
 import { renderFeed } from '../src/lib/markdown/feed.ts';
+import rehypeCallouts from '../src/lib/markdown/rehype-callouts.ts';
 import { wikiRehypePlugins, wikiRemarkPlugins } from '../src/lib/markdown/index.ts';
 
 const titles = { 'older essay': '/essays/older-essay', cothinking: 'https://cothink.ing/' };
@@ -34,6 +36,11 @@ describe('headings and callouts', () => {
     expect(html).toContain('id="notes-1"');
   });
 
+  it('never gives a heading an id the document already has', async () => {
+    const html = await render('## Notes\n\n<h2 id="notes-1">Raw</h2>\n\n## Notes');
+    expect([...html.matchAll(/<h2 id="([^"]+)"/g)].map((m) => m[1])).toEqual(['notes', 'notes-1', 'notes-2']);
+  });
+
   it('turns GitHub-style alerts into callouts', async () => {
     expect(await render('> [!NOTE]\n> Mind this.')).toContain(
       '<div class="callout callout-note" role="note"><div class="callout-title">Note</div><div class="callout-body"><p>Mind this.</p>',
@@ -51,6 +58,44 @@ describe('headings and callouts', () => {
     const quote = await render('> Just a quote.');
     expect(quote).toContain('<blockquote>');
     expect(quote).not.toContain('callout');
+    expect(await render('> [!UNKNOWN] Not a type\n> Body.')).toContain('<blockquote>');
+  });
+
+  it("keeps a callout's line break and later blocks, and finds one inside a list", async () => {
+    expect(await render('> [!NOTE] Title  \n> Body after a hard break.')).toContain(
+      '<div class="callout-title">Title</div><div class="callout-body"><p>Body after a hard break.</p>',
+    );
+    const blocks = await render('> [!IMPORTANT]\n> First.\n>\n> - a\n> - b');
+    expect(blocks).toContain('<div class="callout-body"><p>First.</p>\n<ul>');
+    expect(await render('- item\n\n  > [!TIP] In a list\n  > Body.')).toMatch(
+      /<li>[\s\S]*<div class="callout callout-tip" role="note"><div class="callout-title">In a list<\/div>/,
+    );
+  });
+
+  it('leaves MDX nodes in a blockquote alone (no serialising), and keeps them in a callout body', () => {
+    const expression = { type: 'mdxTextExpression', value: '1 + 1' };
+    const quote = (children: unknown[]) =>
+      ({
+        type: 'root',
+        children: [
+          {
+            type: 'element',
+            tagName: 'blockquote',
+            properties: {},
+            children: [{ type: 'element', tagName: 'p', properties: {}, children }],
+          },
+        ],
+      }) as unknown as Root;
+    const plain = quote([{ type: 'text', value: 'A quote with an expression: ' }, expression]);
+    rehypeCallouts()(plain);
+    expect((plain.children[0] as { tagName: string }).tagName).toBe('blockquote');
+    const leading = quote([expression, { type: 'text', value: ' first' }]);
+    rehypeCallouts()(leading);
+    expect((leading.children[0] as { tagName: string }).tagName).toBe('blockquote');
+    const callout = quote([{ type: 'text', value: '[!NOTE] Sum\nIt is ' }, expression]);
+    rehypeCallouts()(callout);
+    expect(JSON.stringify(callout)).toContain('"callout-title"');
+    expect(JSON.stringify(callout)).toContain('{"type":"mdxTextExpression","value":"1 + 1"}');
   });
 });
 

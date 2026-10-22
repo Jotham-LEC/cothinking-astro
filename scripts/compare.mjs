@@ -26,7 +26,6 @@ const verbose = process.argv.includes('--verbose');
 //  - Vite asset names: not compared
 //  - /search.json → Pagefind: not compared
 //  - GFM autolinks bare URLs: body links other than wiki links are not compared
-//  - every note card's first image is eager on /notes: image loading is not compared on the stream
 //  - 404 suggestions come from Pagefind in the browser: not compared; its og:url is the address asked for, which a static page cannot know
 //  - a reshare across sites: none on this site
 //  - feed bodies: Blade indented the CDATA, wrote `<img />` and escaped quotes and ampersands as &quot;/&amp; where rehype writes &#x26;; the HTML is the same
@@ -35,7 +34,6 @@ const verbose = process.argv.includes('--verbose');
 const EXPECTED = {
   skipMeta: /^(og:image|og:image:width|og:image:height|og:image:alt|twitter:image)$/,
   skipJsonLdKeys: ['image', 'primaryImageOfPage', 'thumbnailUrl'],
-  streamPages: /^\/notes(\/|$)/,
 };
 
 const normaliseHost = (s) =>
@@ -45,7 +43,7 @@ const normaliseHost = (s) =>
     .replace(/\?page=(\d+)/g, '/$1');
 const text = (el) => (el ? el.textContent.replace(/\s+/g, ' ').trim() : null);
 
-function extract(html, url) {
+function extract(html) {
   const root = parse(normaliseHost(html));
   const head = root.querySelector('head');
   const main = root.querySelector('main') ?? root;
@@ -75,7 +73,6 @@ function extract(html, url) {
     }
   }
   const article = main.querySelector('article') ?? main;
-  const stream = EXPECTED.streamPages.test(url);
   return {
     title: text(head?.querySelector('title')),
     canonical: head?.querySelector('link[rel="canonical"]')?.getAttribute('href') ?? null,
@@ -87,6 +84,14 @@ function extract(html, url) {
     ),
     metas,
     jsonld,
+    // Third-party tags: external scripts, tag ids in inline scripts (GTM's loader), <noscript> iframes.
+    tags: [
+      ...(head?.querySelectorAll('script[src^="http"]') ?? []).map((s) => `script ${s.getAttribute('src')}`),
+      ...root
+        .querySelectorAll('script:not([src])')
+        .flatMap((s) => [...s.textContent.matchAll(/\bGTM-[A-Z0-9]+\b/g)].map((m) => `tag ${m[0]}`)),
+      ...[...html.matchAll(/<noscript>\s*<iframe[^>]*\bsrc="([^"]+)"/g)].map((m) => `noscript ${m[1]}`),
+    ],
     h1: text(main.querySelector('h1')),
     eyebrow: text(main.querySelector('header p.text-accent')),
     source: text(main.querySelector('header p.text-muted')),
@@ -106,7 +111,7 @@ function extract(html, url) {
       .querySelectorAll('img')
       .map(
         (i) =>
-          `${i.getAttribute('src')} ${i.getAttribute('width')}x${i.getAttribute('height')} ${stream ? '' : i.getAttribute('loading')} ${(i.getAttribute('class') ?? '').includes('zoomable') ? 'zoomable' : ''} fig:${i.parentNode?.tagName === 'FIGURE' ? text(i.parentNode.querySelector('figcaption')) : '-'}`,
+          `${i.getAttribute('src')} ${i.getAttribute('width')}x${i.getAttribute('height')} ${i.getAttribute('loading')} ${i.getAttribute('fetchpriority') ?? ''} ${(i.getAttribute('class') ?? '').includes('zoomable') ? 'zoomable' : ''} fig:${i.parentNode?.tagName === 'FIGURE' ? text(i.parentNode.querySelector('figcaption')) : '-'}`,
       ),
     figures: article.querySelectorAll('figure.figure figcaption').map(text),
     breadcrumbs: text(main.querySelector('nav[aria-label="Breadcrumb"]')),
@@ -126,6 +131,9 @@ function extract(html, url) {
       .querySelectorAll('a[rel="prev"], a[rel="next"]')
       .map((a) => `${a.getAttribute('rel')} ${a.getAttribute('href')} ${text(a)}`),
     archive: main.querySelectorAll('[data-archive] li, .not-prose.list-none li').map(text),
+    streamImages: main
+      .querySelectorAll('[data-stream] img')
+      .map((i) => `${i.getAttribute('src')} ${i.getAttribute('loading')} ${i.getAttribute('fetchpriority') ?? ''}`),
     streamCards: main
       .querySelectorAll('[data-stream] article')
       .map(
@@ -281,8 +289,8 @@ for (const url of urls) {
   else if (url.endsWith('sitemap.xml')) differences = diff(sitemap(g), sitemap(d));
   else if (url.endsWith('.txt')) differences = textDiff(g, d);
   else {
-    const a = extract(g, url),
-      b = extract(d, url);
+    const a = extract(g),
+      b = extract(d);
     if (url === '/no-such-page') {
       for (const k of ['explorer', 'h1', 'canonical', 'palette', 'statusline']) {
         delete a[k];

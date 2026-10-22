@@ -70,9 +70,9 @@ export function laravelSlug(text: string, separator = '-'): string {
 
 export const headingSlug = (text: string): string => laravelSlug(text) || 'section';
 
-/** A per-document slugger: the same text twice gets `-1`, then `-2`. */
-export function uniqueSlugs(slug: (text: string) => string = headingSlug) {
-  const seen = new Map<string, number>();
+/** A per-document slugger: the same text twice gets `-1`, then `-2`. `reserved` ids (already in the document) are never handed out. */
+export function uniqueSlugs(slug: (text: string) => string = headingSlug, reserved: Iterable<string> = []) {
+  const seen = new Map<string, number>([...reserved].map((id) => [id, 0]));
   return (text: string): string => {
     const base = slug(text);
     const n = seen.get(base);

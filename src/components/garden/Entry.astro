@@ -2,8 +2,9 @@
 // An entry's page inside the site shell: breadcrumbs, title, body and the
 // rail. Slots: `before-body` and `after-body` (inside the text),
 // `after-article`, and `body`, markup in place of the Markdown body; the
-// default slot is the rendered body. `extraHeadings` are headings for the
-// outline that the body lacks (a view's own h2s).
+// default slot is the rendered body; `head` goes into the <head>.
+// `extraHeadings` are headings for the outline that the body lacks (a view's
+// own h2s). `path` is the address when it is not the entry's own (/notes/2).
 import { render } from 'astro:content';
 import { wiki } from '../../lib/load.ts';
 import { pageInfo } from '../../lib/entry.ts';
@@ -19,13 +20,13 @@ import PageHeader from './PageHeader.astro';
 import Prose from './Prose.astro';
 import Rail from './Rail.astro';
 
-type Props = { page: Page; headings?: Heading[]; extraHeadings?: TocEntry[] };
+type Props = { page: Page; path?: string; headings?: Heading[]; extraHeadings?: TocEntry[] };
 const { page, headings = [], extraHeadings = [] } = Astro.props;
+const path = Astro.props.path ?? page.url!;
 const w = await wiki();
 // The body as plain HTML, for a description from its first paragraph.
 const html = await renderFeed(page.body, w.titles, { callouts: true });
 const info = pageInfo(page, w.pages, w.collections, w.site);
-const path = page.url!;
 
 // A reshare shows the original's text after its own; its headings join the outline.
 const original = info.original ? await render(w.entryOf(info.original)) : null;
@@ -38,6 +39,7 @@ const section = info.section ? (w.collections[info.section]?.title ?? info.secti
 ---
 
 <Layout page={page} info={info} path={path} html={html} statusline={info.readTime ? `${info.readTime} min read` : null}>
+  <slot name="head" slot="head" />
   {!info.isHome && <Breadcrumbs url={path} pages={w.live} />}
 
   <div data-pagefind-body data-pagefind-meta={section ? `section:${section}` : undefined}>

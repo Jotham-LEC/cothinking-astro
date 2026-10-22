@@ -56,10 +56,11 @@ export default function rehypeImages({ publicDir, mediaUrl = '/media/' }: Images
         const insideLink =
           ancestors.some((a) => a.tagName === 'a') || (parent.type === 'element' && parent.tagName === 'a');
         if (!insideLink) {
-          const classes = Array.isArray(props.className)
-            ? props.className
-            : typeof props.className === 'string'
-              ? props.className.split(/\s+/)
+          const className: unknown = props.className;
+          const classes = Array.isArray(className)
+            ? className.map(String)
+            : typeof className === 'string'
+              ? className.split(/\s+/)
               : [];
           props.className = [...classes.filter(Boolean), 'zoomable'];
         }

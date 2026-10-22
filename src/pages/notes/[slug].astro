@@ -33,7 +33,7 @@ const Post = { photo: Photo, link: Link, quote: Quote, video: Video }[type as 'p
       class="not-prose rounded-site border-rule bg-bg-elev overflow-hidden border"
       data-type={type}
     >
-      <Post note={page} />
+      <Post note={page} eager />
     </div>
   )}
   <Content />

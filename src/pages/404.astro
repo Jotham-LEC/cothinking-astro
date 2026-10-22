@@ -89,7 +89,12 @@ const host = new URL(site.url).host;
     // The address that was asked for, and up to five pages whose text matches its last segment.
     const root = document.querySelector('[data-not-found]');
     if (root) {
-      const path = decodeURIComponent(location.pathname);
+      let path = location.pathname;
+      try {
+        path = decodeURIComponent(path);
+      } catch {
+        // A malformed escape (`/%E0%A4%A`): show the address as it came.
+      }
       root.querySelectorAll('[data-not-found-host]').forEach((el) => (el.textContent = location.host));
       root.querySelectorAll('[data-not-found-url]').forEach((el) => (el.textContent = location.origin + path));
       root.querySelectorAll('[data-not-found-path]').forEach((el) => (el.textContent = path));

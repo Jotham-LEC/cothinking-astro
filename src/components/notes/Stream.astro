@@ -1,15 +1,21 @@
 ---
-// One page of the stream: the cards, then newer/older links from Astro's paginate().
+// One page of the stream: the cards (one eager image among them), then
+// newer/older links from Astro's paginate().
 import type { Page as Paginated } from 'astro';
 import type { Page } from '../../lib/types.ts';
 import Card from './Card.astro';
+import OneEagerImage from './OneEagerImage.astro';
 type Props = { page: Paginated<Page> };
 const { page } = Astro.props;
 ---
 
 <div class="mt-8 flex flex-col gap-6" data-stream>
   {page.data.length > 0 ? (
-    page.data.map((note) => <Card note={note} />)
+    <OneEagerImage>
+      {page.data.map((note) => (
+        <Card note={note} />
+      ))}
+    </OneEagerImage>
   ) : (
     <p class="text-muted mt-6 text-sm">Nothing here yet.</p>
   )}

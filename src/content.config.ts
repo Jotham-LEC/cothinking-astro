@@ -1,5 +1,6 @@
 import fs from 'node:fs';
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { file, glob } from 'astro/loaders';
 import YAML from 'yaml';
 
@@ -21,7 +22,7 @@ const seo = z
   .object({
     title: z.string(),
     description: z.string(),
-    canonical: z.string().url(),
+    canonical: z.url(),
     og_type: z.string(),
     og_title: z.string(),
     og_description: z.string(),
@@ -78,10 +79,10 @@ const notes = defineCollection({
       photos: z
         .array(z.string().startsWith('/media/').refine(publicFile, { message: 'photo is not in public/media' }))
         .optional(),
-      link_url: z.string().url().optional(),
+      link_url: z.url().optional(),
       link_title: z.string().optional(),
       link_image: z.string().optional(),
-      video_url: z.string().url().optional(),
+      video_url: z.url().optional(),
     })
     .strict(),
 });
@@ -105,7 +106,7 @@ const site = defineCollection({
     .object({
       handle: z.string(),
       name: z.string(),
-      url: z.string().url(),
+      url: z.url(),
       locale: z.string(),
       lang: z.string(),
       attributes: z
@@ -117,14 +118,14 @@ const site = defineCollection({
           closed_panels: z.array(z.string()).optional(),
           pages: z.string().optional(),
         })
-        .passthrough(),
+        .loose(),
       feeds: z.array(z.string()).default([]),
-      other_sites: z.array(z.object({ handle: z.string(), name: z.string(), url: z.string().url() })).default([]),
-      settings: z.record(z.unknown()).default({}),
-      seo: z.record(z.unknown()).default({}),
-      marketing: z.record(z.unknown()).default({}),
+      other_sites: z.array(z.object({ handle: z.string(), name: z.string(), url: z.url() })).default([]),
+      settings: z.record(z.string(), z.unknown()).default({}),
+      seo: z.record(z.string(), z.unknown()).default({}),
+      marketing: z.record(z.string(), z.unknown()).default({}),
     })
-    .passthrough(),
+    .loose(),
 });
 
 /** Each content collection's model: title, route, mount, note types, select options, whether its pages are articles. Keyed by handle. */
@@ -142,12 +143,13 @@ const collectionsConfig = defineCollection({
       og_type: z.string().optional(),
       schema: z.string().optional(),
       types: z.array(z.object({ handle: z.string(), title: z.string() })).optional(),
-      options: z.record(z.record(z.string())).optional(),
+      options: z.record(z.string(), z.record(z.string(), z.string())).optional(),
     })
     .strict(),
 });
 
-const navItem: z.ZodType<{ title?: string; entry?: string; url?: string; children?: unknown[] }> = z.lazy(() =>
+type NavItemData = { title?: string; entry?: string; url?: string; children?: NavItemData[] };
+const navItem: z.ZodType<NavItemData> = z.lazy(() =>
   z
     .object({
       title: z.string().optional(),

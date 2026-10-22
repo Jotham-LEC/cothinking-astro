@@ -4,11 +4,10 @@
 // The integration writes /sitemap-index.xml and /sitemap-0.xml, which
 // robots.txt names.
 import type { SitemapOptions } from '@astrojs/sitemap';
-import { loadProject } from './files.ts';
+import type { Project } from './files.ts';
 import { sitemapEntries } from './textFiles.ts';
 
-export function sitemapOptions(root: string): SitemapOptions {
-  const { site, pages } = loadProject(root);
+export function sitemapOptions({ site, pages }: Project): SitemapOptions {
   const listed = new Map(sitemapEntries(pages, site).map((e) => [e.loc.replace(/\/$/, ''), e.lastmod]));
   const key = (url: string) => url.replace(/\/$/, '');
   return {

@@ -2,7 +2,7 @@
 // A call to action: the yellow button, or `secondary`, an outlined one. A link
 // with `href`, else a <button>. `not-prose` keeps its colours inside <Prose>;
 // Markdown writes `<a class="button">` instead.
-type Props = { href?: string; secondary?: boolean; type?: string; [key: string]: unknown };
+type Props = { href?: string; secondary?: boolean; type?: 'button' | 'submit' | 'reset'; [key: string]: unknown };
 const { href, secondary = false, type = 'submit', ...rest } = Astro.props;
 const classes = [
   'not-prose rounded-site inline-flex items-center gap-2 px-4 py-2.5 font-sans text-sm font-bold no-underline transition',
