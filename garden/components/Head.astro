@@ -1,0 +1,49 @@
+---
+// Title, meta tags and JSON-LD for a page (garden/lib/seo.ts), in the order the
+// Marketing Toolkit addon printed them.
+import { head, jsonLd, type HeadInput } from '@garden/lib/seo.ts';
+import type { PageInfo } from '@garden/lib/entry.ts';
+type Props = { input: HeadInput; info?: PageInfo | null };
+const { input, info } = Astro.props;
+const h = head(input);
+const { site } = input;
+const ld = jsonLd(h.graph);
+---
+
+<title>{h.title}</title>
+{h.description && <meta name="description" content={h.description} />}
+<meta name="robots" content={h.robots} />
+{h.canonical && <link rel="canonical" href={h.canonical} />}
+<meta property="og:type" content={h.ogType} />
+<meta property="og:title" content={h.ogTitle} />
+{h.description && <meta property="og:description" content={h.description} />}
+<meta property="og:url" content={h.url} />
+<meta property="og:site_name" content={h.siteName} />
+<meta property="og:locale" content={h.locale} />
+{h.image && (
+  <>
+    <meta property="og:image" content={h.image.url} />
+    <meta property="og:image:width" content={String(h.image.width)} />
+    <meta property="og:image:height" content={String(h.image.height)} />
+    {h.image.alt && <meta property="og:image:alt" content={h.image.alt} />}
+  </>
+)}
+{h.published && <meta property="article:published_time" content={h.published} />}
+{h.modified && <meta property="article:modified_time" content={h.modified} />}
+<meta name="twitter:card" content={h.image ? 'summary_large_image' : 'summary'} />
+{h.twitterSite && <meta name="twitter:site" content={h.twitterSite} />}
+<meta name="twitter:title" content={h.ogTitle} />
+{h.description && <meta name="twitter:description" content={h.description} />}
+{h.image && (
+  <>
+    <meta name="twitter:image" content={h.image.url} />
+    {h.image.alt && <meta name="twitter:image:alt" content={h.image.alt} />}
+  </>
+)}
+{ld && <script type="application/ld+json" set:html={ld} />}
+<meta name="author" content={site.name} />
+<link href={site.attributes.favicon} rel="icon" type="image/svg+xml" />
+<link rel="alternate" type="application/rss+xml" title={site.name} href={`${site.url}/feed.xml`} />
+{info?.feedUrl && (
+  <link rel="alternate" type="application/rss+xml" title={info.feedTitle} href={`${site.url}${info.feedUrl}`} />
+)}

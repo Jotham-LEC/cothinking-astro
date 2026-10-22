@@ -1,0 +1,64 @@
+---
+// One note in the stream: a date badge linking to the note, the type icon
+// linking to that type's listing, then the post.
+import { render } from 'astro:content';
+import { wiki } from '@garden/lib/load.ts';
+import { formatDate } from '@garden/lib/dates.ts';
+import type { Page } from '@garden/lib/types.ts';
+import Prose from '@garden/components/Prose.astro';
+import Icon from './Icon.astro';
+import Photo from './types/Photo.astro';
+import Link from './types/Link.astro';
+import Quote from './types/Quote.astro';
+import Video from './types/Video.astro';
+type Props = { note: Page };
+const { note } = Astro.props;
+const w = await wiki();
+const type = note.type ?? 'text';
+const typeTitle = w.collections.notes?.types?.find((t) => t.handle === type)?.title ?? type;
+const posted = note.date!;
+const { Content } = await render(w.entryOf(note));
+// A text note is all body; the other types draw their post above it.
+const Post = { photo: Photo, link: Link, quote: Quote, video: Video }[type as 'photo' | 'link' | 'quote' | 'video'];
+const hasContent = note.body.trim() !== '';
+---
+
+<article class="grid gap-4 sm:grid-cols-[3.5rem_minmax(0,1fr)]" data-type={type} aria-label={note.title}>
+  <div class="flex items-center justify-between sm:flex-col sm:justify-start sm:gap-3 sm:pt-2">
+    <a
+      class="text-fg hover:text-accent flex items-baseline gap-1.5 leading-none uppercase no-underline sm:flex-col sm:items-center sm:gap-0"
+      href={note.url}
+      aria-label={`${note.title}, ${formatDate(posted, 'j F Y')}`}
+    >
+      <span class="text-xs tracking-[0.12em]" data-month>
+        {formatDate(posted, 'M')}
+      </span>
+      <span class="text-base font-extrabold sm:text-3xl">{formatDate(posted, 'j')}</span>
+    </a>
+    <a
+      class="text-muted hover:text-accent block size-6"
+      href={`/notes/type/${type}`}
+      aria-label={`All ${typeTitle.toLowerCase()} notes`}
+    >
+      <Icon type={type} />
+    </a>
+  </div>
+  <div class="rounded-site border-rule bg-bg-elev overflow-hidden border">
+    {Post && <Post note={note} />}
+    {(type === 'text' || hasContent) && (
+      <div class="px-6 py-5">
+        {type === 'text' && (
+          <h2 class="text-heading font-heading mb-4 text-xl font-extrabold" data-note-title>
+            <a class="hover:text-accent no-underline" href={note.url}>
+              {note.title}
+            </a>
+          </h2>
+        )}
+        {/* A heading in a note stays under the card's title in size. */}
+        <Prose class="prose-h2:mt-7 prose-h2:text-xl">
+          <Content />
+        </Prose>
+      </div>
+    )}
+  </div>
+</article>

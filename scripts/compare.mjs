@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Migration only: delete once the Astro repo is the source.
 //
-// Compares the golden set (DEV_FILES/golden/pages, from the Laravel app) with
+// Compares the golden set (DEV_FILES/$SITE/golden/pages, from the Laravel app) with
 // the build (dist/), page by page: head tags, JSON-LD, h1, eyebrow, status
 // line, heading ids, wiki links, callouts, images, breadcrumbs, Explorer rows,
 // "Linked from", pager, archive rows, outline; feeds, graph (by url), llms,
@@ -9,13 +9,12 @@
 // below) are normalised away before comparing.
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { parse } from 'node-html-parser';
 import YAML from 'yaml';
 import { EXTRA_URLS, fileFor } from './golden.mjs';
+import { DEV, ROOT } from './site.mjs';
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const GOLDEN = path.join(ROOT, 'DEV_FILES/golden/pages');
+const GOLDEN = path.join(DEV, 'golden/pages');
 const DIST = path.join(ROOT, 'dist');
 // This project's address; the golden pages print both sites' local hosts, mapped back below.
 const SITE = YAML.parse(fs.readFileSync(path.join(ROOT, 'src/data/site.yaml'), 'utf8')).url;
@@ -271,7 +270,7 @@ function textDiff(a, b) {
   return out;
 }
 
-const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'DEV_FILES/manifest.json'), 'utf8'));
+const manifest = JSON.parse(fs.readFileSync(path.join(DEV, 'manifest.json'), 'utf8'));
 const urls = [...manifest.map((p) => p.url), ...EXTRA_URLS].filter(
   (u) => !only.length || only.some((o) => u.startsWith(o)),
 );

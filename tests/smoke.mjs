@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import { chromium } from 'playwright';
 
 const BASE = process.env.PREVIEW_URL ?? 'http://localhost:4321';
-const shots = 'DEV_FILES/screenshots';
+const shots = `DEV_FILES/${process.env.SITE ?? 'jothamlim'}/screenshots`;
 fs.mkdirSync(shots, { recursive: true });
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });

@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { atom, day, formatDate, year } from '../src/lib/dates.ts';
-import { byDateDesc, childrenOf, mountedOn, sectionOf, toPages } from '../src/lib/pages.ts';
-import { readTime, wordCount } from '../src/lib/readTime.ts';
-import { titleIndex, resolveTitle } from '../src/lib/titles.ts';
-import type { Collections } from '../src/lib/types.ts';
+import { atom, day, formatDate, year } from '../garden/lib/dates.ts';
+import { byDateDesc, childrenOf, mountedOn, sectionOf, toPages } from '../garden/lib/pages.ts';
+import { readTime, wordCount } from '../garden/lib/readTime.ts';
+import { titleIndex, resolveTitle } from '../garden/lib/titles.ts';
+import type { Collections } from '../garden/lib/types.ts';
 
 const collections: Collections = {
   pages: { title: 'Pages', route: '{parent_uri}/{slug}', dated: false, root: true, orderable: false },

@@ -2,7 +2,7 @@ dist/
 node_modules/
 .astro/
 DEV_FILES/
-public/
-src/content/
-src/data/
+sites/*/public/
+sites/*/src/content/
+sites/*/src/data/
 *.md

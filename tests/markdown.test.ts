@@ -4,13 +4,13 @@ import path from 'node:path';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import { beforeAll, describe, expect, it } from 'vitest';
 import type { Root } from 'hast';
-import { renderFeed } from '../src/lib/markdown/feed.ts';
-import { named } from '../src/lib/markdown/named.ts';
-import rehypeCallouts from '../src/lib/markdown/rehype-callouts.ts';
-import { wikiRehypePlugins, wikiRemarkPlugins } from '../src/lib/markdown/index.ts';
+import { renderFeed } from '../garden/lib/markdown/feed.ts';
+import { named } from '../garden/lib/markdown/named.ts';
+import rehypeCallouts from '../garden/lib/markdown/rehype-callouts.ts';
+import { wikiRehypePlugins, wikiRemarkPlugins } from '../garden/lib/markdown/index.ts';
 
 const titles = { 'older essay': '/essays/older-essay', cothinking: 'https://cothink.ing/' };
-const publicDir = path.resolve(__dirname, '../public');
+const publicDir = path.resolve(__dirname, '../sites/jothamlim/public');
 let render: (md: string) => Promise<string>;
 
 beforeAll(async () => {

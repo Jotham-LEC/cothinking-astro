@@ -1,0 +1,129 @@
+---
+// An entry's page inside the site shell: breadcrumbs, title, body and the
+// rail. Slots: `before-body` and `after-body` (inside the text),
+// `after-article`, and `body`, markup in place of the Markdown body; the
+// default slot is the rendered body; `head` goes into the <head>.
+// `extraHeadings` are headings for the outline that the body lacks (a view's
+// own h2s). `path` is the address when it is not the entry's own (/notes/2).
+import { wiki } from '@garden/lib/load.ts';
+import { pageInfo } from '@garden/lib/entry.ts';
+import { backlinks } from '@garden/lib/graph.ts';
+import { pager } from '@garden/lib/pager.ts';
+import { toc, type Heading, type TocEntry } from '@garden/lib/toc.ts';
+import { day } from '@garden/lib/dates.ts';
+import type { LivePage } from '@garden/lib/types.ts';
+import Layout from '@garden/layouts/Layout.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import PageHeader from './PageHeader.astro';
+import Prose from './Prose.astro';
+import Rail from './Rail.astro';
+
+type Props = { page: LivePage; path?: string; headings?: Heading[]; extraHeadings?: TocEntry[] };
+const { page, headings = [], extraHeadings = [] } = Astro.props;
+const path = Astro.props.path ?? page.url;
+const w = await wiki();
+// The body as plain HTML, for a description from its first paragraph.
+const html = await w.htmlOf(page);
+const info = pageInfo(page, w.collections, w.site);
+
+const entries = toc(headings, extraHeadings);
+const neighbours = pager(page, w.pages);
+const linked = backlinks(w.graph, page);
+const updated = page.updated ?? page.date;
+const section = info.section ? (w.collections[info.section]?.title ?? info.section) : null;
+---
+
+<Layout page={page} info={info} path={path} html={html} statusline={info.readTime ? `${info.readTime} min read` : null}>
+  <slot name="head" slot="head" />
+  {!info.isHome && <Breadcrumbs url={path} pages={w.live} />}
+
+  <div data-pagefind-body data-pagefind-meta={section ? `section:${section}` : undefined}>
+    <PageHeader title={page.title} eyebrow={info.eyebrow} source={info.source} sourceDate={info.sourceDate} popover />
+
+    {/* The outline, folded under the title where there is no rail for it. */}
+    {entries.length > 0 && (
+      <details
+        class="group rounded-site border-rule bg-bg-elev mb-8 border text-sm xl:hidden"
+        data-toc
+        data-pagefind-ignore
+      >
+        <summary class="text-heading flex cursor-pointer items-center gap-2 px-4 py-2.5 font-medium marker:content-none">
+          <span>On this page</span>
+          <span class="bg-accent-soft text-accent rounded-full px-2 text-xs">{entries.length}</span>
+          <svg
+            class="text-subtle ml-auto size-4 transition-transform group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </summary>
+        <ul class="border-rule space-y-1 border-t px-4 py-3">
+          {entries.map((heading) => (
+            <li class:list={{ 'pl-4': heading.level !== 2 }}>
+              <a
+                class="text-muted hover:text-fg [&.is-active]:text-accent inline-block py-0.5 no-underline pointer-coarse:py-1.5"
+                href={`#${heading.id}`}
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+    )}
+
+    {Astro.slots.has('body') ? (
+      <article>
+        <slot name="body" />
+      </article>
+    ) : (
+      <Prose as="article" data-popover>
+        <slot name="before-body" />
+        <slot />
+        <slot name="after-body" />
+      </Prose>
+    )}
+  </div>
+
+  {/* The pages either side: the notes by date. */}
+  {(neighbours.previous || neighbours.next) && (
+    <nav class="mt-10 grid gap-3 font-sans text-sm sm:grid-cols-2" aria-label="Previous and next" data-pagefind-ignore>
+      {(
+        [
+          ['prev', neighbours.previous],
+          ['next', neighbours.next],
+        ] as const
+      ).map(
+        ([rel, neighbour]) =>
+          neighbour && (
+            <a
+              class:list={[
+                'rounded-site border-rule hover:border-accent group block border px-4 py-3 no-underline',
+                { 'sm:col-start-2 sm:text-right': rel === 'next' },
+              ]}
+              href={neighbour.url}
+              rel={rel}
+            >
+              <span class="text-muted block text-xs">{rel === 'prev' ? '← Previous' : 'Next →'}</span>{' '}
+              <span class="text-heading group-hover:text-accent font-semibold">{neighbour.title}</span>
+            </a>
+          ),
+      )}
+    </nav>
+  )}
+
+  <slot name="after-article" />
+
+  {/* A note's date is in its eyebrow; a saved edit to it is not news. */}
+  {!info.isNote && updated && (
+    <p class="border-rule text-muted mt-10 border-t pt-5 text-sm">Last updated {day(updated)}</p>
+  )}
+
+  <Rail slot="rail" page={page} toc={entries} backlinks={linked} />
+</Layout>

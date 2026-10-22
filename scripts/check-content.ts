@@ -1,4 +1,4 @@
-// `npm run check:content` (after `astro sync`, which validates every file's
+// `npm run check:<site>` (after `astro sync`, which validates every file's
 // front matter against src/content.config.ts): the content rules the Laravel
 // app's `wiki:check` enforced that a schema cannot see. Every published page:
 // its [[wiki links]] name a published page, its /media links exist, its
@@ -8,12 +8,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadProject, type Project } from '../src/lib/files.ts';
-import { localTargets, wikiLinksIn } from '../src/lib/links.ts';
-import { published } from '../src/lib/pages.ts';
-import { normaliseTitle, resolveTitle } from '../src/lib/titles.ts';
-import type { Page } from '../src/lib/types.ts';
-import { pathOf } from '../src/lib/urls.ts';
+import { loadProject, type Project } from '../garden/lib/files.ts';
+import { localTargets, wikiLinksIn } from '../garden/lib/links.ts';
+import { published } from '../garden/lib/pages.ts';
+import { normaliseTitle, resolveTitle } from '../garden/lib/titles.ts';
+import type { Page } from '../garden/lib/types.ts';
+import { pathOf } from '../garden/lib/urls.ts';
 
 // The endpoints a body may link to, beside the pages.
 const ROUTES = /^\/(notes\/type\/[a-z]+|([\w-]+\/)?feed\.xml|sitemap-index\.xml|robots\.txt|graph\.json|llms\.txt)$/;
@@ -70,7 +70,8 @@ export function check(project: Project): string[] {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const project = loadProject(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'));
+  const { ROOT } = await import('./site.mjs');
+  const project = loadProject(ROOT);
   const problems = check(project);
   if (problems.length === 0) {
     console.log(`${published(project.pages).length} pages checked: no problems.`);

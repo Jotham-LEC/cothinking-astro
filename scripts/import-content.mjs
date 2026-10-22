@@ -12,13 +12,11 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
+import { DEV, ROOT, SITE } from './site.mjs';
 
 const LARAVEL = process.env.LARAVEL ?? path.join(os.homedir(), 'Projects/jothamlim.com-laravel');
-const SITE = 'jothamlim';
 const COPY_MEDIA = process.argv.includes('--media');
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 // Values resources/sites.yaml leaves to config. The other site's name and
 // address, for its titles' addresses and the Person's `worksFor`.
@@ -390,7 +388,7 @@ writeYaml(path.join(ROOT, 'src/data/redirects.yaml'), redirects);
 
 // ------------------------------------------------------------ titles ----
 // The other site's published titles by address; this site's are worked out
-// from src/content at build time (src/lib/titles.ts).
+// from src/content at build time (garden/lib/titles.ts).
 const titles = {};
 for (const entry of entries.values()) {
   if (entry.site === SITE || !entry.published || !entry.url) continue;
@@ -414,7 +412,7 @@ if (COPY_MEDIA) {
 
 // ---------------------------------------------------------- manifest ----
 manifest.sort((a, b) => a.url.localeCompare(b.url));
-write(path.join(ROOT, 'DEV_FILES/manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
+write(path.join(DEV, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
 
 console.log(`Imported ${SITE} from ${LARAVEL}`);
 for (const [c, n] of Object.entries(report.counts)) console.log(`  ${c}: ${n}`);

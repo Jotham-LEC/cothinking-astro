@@ -1,0 +1,175 @@
+---
+// The header: the logo, search, the `header` navigation, reader mode, the
+// theme toggle and the menu button.
+import type { SiteConfig } from '@garden/lib/types.ts';
+import type { Link } from '@garden/lib/explorer.ts';
+type Props = { site: SiteConfig; links: Link[] };
+const { site, links } = Astro.props;
+const last = links.length - 1;
+---
+
+<header
+  class="border-rule bg-bg/90 sticky top-0 z-30 flex min-h-14 flex-wrap items-center gap-1 border-b px-4 backdrop-blur sm:gap-3 sm:px-6 print:hidden"
+  data-header
+>
+  <a class="text-heading flex shrink-0 items-center gap-2.5 font-semibold whitespace-nowrap no-underline" href="/">
+    {/* The portrait beside the name. Below 380px the name gives way to "Work with me"; screen readers still hear it. */}
+    <img class="size-7 rounded-full" src={site.attributes.logo} alt="" width="400" height="400" />
+    <span class="max-[380px]:sr-only">{site.name}</span>
+  </a>
+  <button
+    type="button"
+    class="border-rule bg-bg-elev text-muted hover:border-rule-strong hover:text-fg ml-2 hidden h-9 items-center gap-2 rounded-lg border px-3 text-sm sm:flex"
+    data-palette-open
+  >
+    <svg
+      class="size-4"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="7" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+    <span>
+      <span class="text-accent font-mono" aria-hidden="true">
+        $
+      </span>{' '}
+      search…
+    </span>
+    <kbd class="border-rule rounded border px-1.5 font-mono text-[0.65rem]" data-kbd-trigger>
+      ⌘K
+    </kbd>
+  </button>
+  <button
+    type="button"
+    class="text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg sm:hidden pointer-coarse:size-11"
+    aria-label="Search"
+    data-palette-open
+  >
+    <svg
+      class="size-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="7" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  </button>
+  {/* The header navigation: the last link is the call to action; the others show from xl, and in the drawer below it. */}
+  <nav class="ml-auto flex items-center gap-1" aria-label="Header">
+    {links.map((link, i) => (
+      <a
+        href={link.url}
+        aria-current={link.isCurrent ? 'page' : undefined}
+        class:list={[
+          'text-sm whitespace-nowrap no-underline',
+          i !== last &&
+            'text-muted hover:bg-bg-elev hover:text-fg aria-[current=page]:text-fg hidden rounded-lg px-3 py-2.5 font-medium xl:inline-block',
+          i === last &&
+            'rounded-site bg-button-bg text-button-fg ml-1 inline-block px-3 py-1.5 font-semibold transition hover:brightness-95 pointer-coarse:py-2.5',
+        ]}
+      >
+        {link.title}
+      </a>
+    ))}
+  </nav>
+  {/* Reader mode, from lg: puts the Explorer and the rail away together, pressed while neither shows. Its label shows from xl. */}
+  <button
+    class="group rounded-site border-subtle text-heading hover:bg-bg-elev aria-pressed:border-accent aria-pressed:bg-bg-elev aria-pressed:text-accent relative hidden h-9 shrink-0 items-center justify-center gap-2 border px-3 text-sm font-semibold lg:flex"
+    type="button"
+    aria-label="Reader mode"
+    aria-pressed="false"
+    aria-keyshortcuts="z"
+    data-reader-toggle
+  >
+    <svg
+      class="size-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+    </svg>
+    <span class="hidden xl:inline" aria-hidden="true">
+      Reader
+    </span>
+    <span
+      class="border-rule bg-bg text-fg pointer-events-none absolute top-full right-0 mt-2 hidden rounded-lg border px-2.5 py-1.5 text-xs whitespace-nowrap shadow-lg group-hover:block group-focus-visible:block"
+      aria-hidden="true"
+    >
+      <span class="group-aria-pressed:hidden">Hide both side panels</span>
+      <span class="hidden group-aria-pressed:inline">Show the side panels</span>
+      <kbd class="border-rule bg-bg-elev ml-1.5 rounded border px-1 font-mono text-[0.65rem]">z</kbd>
+    </span>
+  </button>
+  {/* Two states, light and dark; the JS sets the state from the scheme in effect. */}
+  <button
+    class="text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11"
+    type="button"
+    data-theme-toggle
+    aria-label="Switch to dark mode"
+  >
+    <svg
+      class="[[data-theme-state=light]_&]:block hidden size-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
+    <svg
+      class="[[data-theme-state=dark]_&]:block hidden size-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  </button>
+  {/* The menu, last as on most phones: it opens the drawer, with the header's links above the Explorer.
+      From lg the Explorer is a column and from xl the links are in the header, so it goes. */}
+  <button
+    class="text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11 lg:hidden"
+    type="button"
+    aria-label="Menu"
+    aria-expanded="false"
+    aria-controls="explorer"
+    data-menu
+  >
+    <svg
+      class="size-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M3 6h18M3 12h18M3 18h18" />
+    </svg>
+  </button>
+</header>

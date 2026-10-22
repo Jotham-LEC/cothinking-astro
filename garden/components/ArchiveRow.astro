@@ -1,0 +1,26 @@
+---
+// One row of an archive list, after `ls -l`: the date in the display timezone
+// (blank when undated), the title, then `note` (a publication's outlet).
+import { day } from '@garden/lib/dates.ts';
+type Props = { date: Date | null; url: string; title: string; note?: string | null };
+const { date, url, title, note = null } = Astro.props;
+const text = date ? day(date) : null;
+---
+
+<li class="border-rule grid grid-cols-[6.5rem_minmax(0,1fr)] items-baseline gap-x-4 border-b py-1.5">
+  {text ? (
+    <time class="text-muted font-sans text-[0.85em] tabular-nums" datetime={text}>
+      {text}
+    </time>
+  ) : (
+    <span></span>
+  )}{' '}
+  {/* Title and note as items of their own, not one run of text, so the link is not a link inside a sentence that only colour sets apart. */}
+  <span class="flex min-w-0 flex-wrap items-baseline gap-x-[0.3em]">
+    <a class="text-accent min-w-0" href={url}>
+      {title}
+    </a>
+    {note && ' '}
+    {note && <span class="text-muted font-sans text-[0.85em]">— {note}</span>}
+  </span>
+</li>

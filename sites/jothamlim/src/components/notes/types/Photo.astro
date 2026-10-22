@@ -1,0 +1,28 @@
+---
+// Each photo at its own size (the media files are already shrunk on upload). Two or more sit in a grid.
+// `eager` on the note's own page, where the first photo is the main content.
+import { measure } from '@garden/lib/markdown/rehype-images.ts';
+import { publicDir } from '@garden/lib/paths.ts';
+import type { Page } from '@garden/lib/types.ts';
+type Props = { note: Page; eager?: boolean };
+const { note, eager = false } = Astro.props;
+const photos = (Array.isArray(note.data.photos) ? (note.data.photos as string[]) : []).map((src) => ({
+  src,
+  ...(measure(publicDir, src) ?? {}),
+}));
+---
+
+<div class:list={['grid gap-0.5', { 'grid-cols-2': photos.length > 1 }]}>
+  {photos.map((photo, i) => (
+    <img
+      src={photo.src}
+      alt=""
+      width={photo.width}
+      height={photo.height}
+      loading={eager && i === 0 ? 'eager' : 'lazy'}
+      fetchpriority={eager && i === 0 ? 'high' : undefined}
+      decoding="async"
+      class="zoomable m-0 block h-auto w-full rounded-none border-0"
+    />
+  ))}
+</div>

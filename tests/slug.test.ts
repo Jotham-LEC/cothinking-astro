@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { headingSlug, laravelSlug, uniqueSlugs } from '../src/lib/markdown/slug.ts';
+import { headingSlug, laravelSlug, uniqueSlugs } from '../garden/lib/markdown/slug.ts';
 
 // Every heading id the Laravel site printed (scripts/dump-heading-ids.php), kept as a fixture.
 const golden = path.resolve(__dirname, 'fixtures/heading-ids.json');

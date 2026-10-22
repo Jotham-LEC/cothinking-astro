@@ -1,24 +1,24 @@
 {
-  "name": "jothamlim.com-astro",
+  "name": "cothinking-astro",
   "type": "module",
   "version": "0.0.1",
   "engines": {
     "node": ">=22.22.0"
   },
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
     "astro": "astro",
-    "import": "node scripts/import-content.mjs",
-    "check": "npm run check:content && npm run check:types",
-    "check:content": "astro sync && node scripts/check-content.ts",
-    "check:types": "astro check",
-    "golden": "node scripts/golden.mjs",
-    "compare": "node scripts/compare.mjs",
+    "build": "npm run build:jothamlim",
+    "check": "npm run check:jothamlim",
     "test": "vitest run",
     "format": "prettier --write .",
-    "test:smoke": "node tests/smoke.mjs"
+    "dev:jothamlim": "cd sites/jothamlim && astro dev",
+    "build:jothamlim": "astro build --root sites/jothamlim",
+    "preview:jothamlim": "cd sites/jothamlim && astro preview",
+    "check:jothamlim": "astro sync --root sites/jothamlim && SITE=jothamlim node scripts/check-content.ts && astro check --root sites/jothamlim",
+    "import:jothamlim": "SITE=jothamlim node scripts/import-content.mjs",
+    "golden:jothamlim": "SITE=jothamlim node scripts/golden.mjs",
+    "compare:jothamlim": "SITE=jothamlim node scripts/compare.mjs",
+    "smoke:jothamlim": "SITE=jothamlim node tests/smoke.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.4",

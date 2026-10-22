@@ -1,0 +1,253 @@
+---
+// The site shell: the header, the Explorer (a drawer on small screens), the
+// page, and the `rail` slot on wide screens. Pass `page` for an entry's page, or `seoTitle`,
+// `seoDescription` and `seoStatus` for one without; `path` is the page's
+// address (never Astro.url). `statusline` is the status line's text.
+import { wiki } from '@garden/lib/load.ts';
+import { headerLinks, markCurrent, menu, footerColumns } from '@garden/lib/explorer.ts';
+import type { Page } from '@garden/lib/types.ts';
+import type { PageInfo } from '@garden/lib/entry.ts';
+import { publicDir } from '@garden/lib/paths.ts';
+import Head from '@garden/components/Head.astro';
+import Header from '@garden/components/Header.astro';
+import Explorer from '@garden/components/Explorer.astro';
+import Palette from '@garden/components/Palette.astro';
+import Keys from '@garden/components/Keys.astro';
+import Statusline from '@garden/components/Statusline.astro';
+import regular from '@garden/assets/fonts/aporetic-sans-regular.woff2?url';
+import bold from '@garden/assets/fonts/aporetic-sans-bold.woff2?url';
+import extrabold from '@garden/assets/fonts/aporetic-sans-extrabold.woff2?url';
+import '@site/styles/site.css';
+
+type Props = {
+  page?: Page | null;
+  info?: PageInfo | null;
+  path: string;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  seoStatus?: number;
+  statusline?: string | null;
+  html?: string;
+};
+const {
+  page = null,
+  info = null,
+  path,
+  seoTitle = null,
+  seoDescription = null,
+  seoStatus = 200,
+  statusline = null,
+  html,
+} = Astro.props;
+const w = await wiki();
+const { site } = w;
+const rows = markCurrent(w.explorer, page, path);
+const links = headerLinks(w, path);
+const menuLinks = menu(w, path, w.explorer);
+const footer = footerColumns(w);
+const footerText = typeof site.settings.footer_text === 'string' ? site.settings.footer_text : null;
+const hasRail = Astro.slots.has('rail');
+// Google Tag Manager, as the Marketing Toolkit addon printed it: in production builds only.
+const gtmId = import.meta.env.PROD && typeof site.marketing.gtm_id === 'string' ? site.marketing.gtm_id : null;
+---
+
+<!doctype html>
+<html lang={site.lang.replace('_', '-')}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {gtmId && (
+      <>
+        <script
+          is:inline
+          set:html={'window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}\n'}
+        />
+        <script
+          is:inline
+          set:html={`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',${JSON.stringify(gtmId)});`}
+        />
+      </>
+    )}
+    <Head
+      input={{
+        page,
+        path,
+        site,
+        collections: w.collections,
+        pages: w.live,
+        html,
+        publicDir,
+        overrides: { title: seoTitle, description: seoDescription },
+        status: seoStatus,
+      }}
+      info={info}
+    />
+    <slot name="head" />
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+          // The panels the reader put away last time (reader mode, the keys).
+          ['explorer', 'rail'].forEach(function (panel) {
+            if (localStorage.getItem('hide-' + panel) === 'on')
+              document.documentElement.setAttribute('data-hide-' + panel, '');
+          });
+        } catch (e) {}
+      })();
+    </script>
+    {/* The faces the first screen is set in, fetched alongside the stylesheet. */}
+    {[regular, bold, extrabold].map((href) => (
+      <link rel="preload" as="font" type="font/woff2" crossorigin href={href} />
+    ))}
+  </head>
+  {/* `nav-open`, set by the JS while the drawer is open, stops the page scrolling under it. */}
+  <body class="min-h-screen font-sans antialiased [&.nav-open]:overflow-hidden lg:[&.nav-open]:overflow-auto">
+    {gtmId && (
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+          height="0"
+          width="0"
+          style="display:none;visibility:hidden"
+          title="Google Tag Manager"
+        ></iframe>
+      </noscript>
+    )}
+    <a
+      class="bg-button-bg text-button-fg fixed top-2 left-2 z-100 -translate-y-[200%] rounded-lg px-3.5 py-2 font-semibold focus-visible:translate-y-0"
+      href="#main"
+    >
+      Skip to content
+    </a>
+    <div class="fixed inset-x-0 top-0 z-50 h-0.5 print:hidden" aria-hidden="true" data-progress>
+      <span class="bg-accent block h-full w-0"></span>
+    </div>
+
+    <Header site={site} links={links} />
+
+    <div
+      class:list={[
+        'mx-auto w-full max-w-[90rem] px-4 sm:px-6',
+        'lg:grid lg:grid-cols-[19.5rem_minmax(0,1fr)] lg:overflow-x-clip lg:transition-[grid-template-columns] lg:duration-150 lg:ease-out xl:grid-cols-[19.5rem_minmax(0,1fr)_19.5rem]',
+        // Putting a column away shrinks its track to nothing, so the page eases
+        // into the space; each track holds its column's 17rem plus the gap.
+        'lg:[[data-hide-explorer]_&]:grid-cols-[0rem_minmax(0,1fr)] xl:[[data-hide-explorer]_&]:grid-cols-[0rem_minmax(0,1fr)_19.5rem] xl:[[data-hide-rail]_&]:grid-cols-[19.5rem_minmax(0,1fr)_0rem] xl:[[data-hide-explorer][data-hide-rail]_&]:grid-cols-[0rem_minmax(0,1fr)_0rem]',
+      ]}
+    >
+      <div
+        class="bg-fg/30 pointer-events-none fixed inset-0 z-30 opacity-0 backdrop-blur-xs transition-opacity in-[.nav-open]:pointer-events-auto in-[.nav-open]:opacity-100 lg:hidden"
+        aria-hidden="true"
+        data-backdrop
+      />
+      <aside
+        id="explorer"
+        class:list={[
+          // A drawer from the right, slid in while <body> is `nav-open` (the JS); from lg a column on the left.
+          'border-rule bg-bg fixed inset-y-0 right-0 z-40 w-72 translate-x-full border-l transition-transform in-[.nav-open]:translate-x-0 print:hidden',
+          'lg:translate-x-0 lg:sticky lg:right-auto lg:left-0 lg:border-r lg:border-l-0 lg:top-14 lg:z-auto lg:h-[calc(100vh-5rem)] lg:w-68 lg:transition-[translate,opacity,visibility] lg:duration-150 lg:ease-out lg:[[data-hide-explorer]_&]:invisible lg:[[data-hide-explorer]_&]:-translate-x-4 lg:[[data-hide-explorer]_&]:opacity-0',
+        ]}
+        data-explorer
+      >
+        {/* Open, the drawer covers the menu button, so it has its own. */}
+        <button
+          class="text-muted hover:bg-bg-elev hover:text-fg absolute top-3 right-3 flex size-11 items-center justify-center rounded-lg lg:hidden"
+          type="button"
+          aria-label="Close navigation"
+          data-menu-close
+        >
+          <svg
+            class="size-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
+        {/* The column is a frame that holds its rule; the tree scrolls inside it. */}
+        <div class="h-full overflow-y-auto px-4 pt-20 pb-8 lg:pt-10 lg:pr-5 lg:pl-0" data-explorer-scroll>
+          {/* The header's links not already in the Explorer, until the header has room for them at xl. */}
+          <nav
+            class="border-rule mb-6 border-b pb-4 text-sm not-has-[a]:hidden xl:hidden"
+            aria-label="Menu"
+            data-drawer-menu
+          >
+            <ul class="space-y-1">
+              {menuLinks.map((link) => (
+                <li>
+                  <a
+                    href={link.url}
+                    aria-current={link.isCurrent ? 'page' : undefined}
+                    class="text-heading hover:bg-bg-elev aria-[current=page]:bg-accent-soft block rounded-md px-2 py-1.5 font-semibold no-underline pointer-coarse:py-2.5"
+                  >
+                    {link.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <Explorer rows={rows} />
+        </div>
+      </aside>
+
+      <div class="min-w-0 py-8 lg:py-10">
+        <main id="main" tabindex="-1" class="mx-auto max-w-[72ch] focus:outline-none">
+          <slot />
+        </main>
+      </div>
+      {/* One rail: under the page until xl, the third column from there. */}
+      {hasRail && (
+        <aside
+          class="border-rule xl:[[data-hide-rail]_&]:invisible xl:[[data-hide-rail]_&]:translate-x-4 xl:[[data-hide-rail]_&]:opacity-0 mx-auto mb-10 w-full max-w-[72ch] border-t pt-8 lg:col-start-2 xl:sticky xl:top-14 xl:col-start-3 xl:row-start-1 xl:mx-0 xl:mb-0 xl:h-[calc(100vh-5rem)] xl:w-68 xl:max-w-none xl:justify-self-end xl:border-t-0 xl:border-l xl:pt-0 xl:transition-[translate,opacity,visibility] xl:duration-150 xl:ease-out print:hidden"
+          id="rail"
+          data-rail
+        >
+          <div class="xl:h-full xl:overflow-y-auto xl:py-10 xl:pl-6">
+            <slot name="rail" />
+          </div>
+        </aside>
+      )}
+    </div>
+
+    <Palette pages={w.live} site={site} />
+    <Keys />
+
+    <Statusline path={path} statusline={statusline} />
+
+    {/* The footer: the `footer` navigation as columns, then the `settings` global's footer text. */}
+    <footer
+      class="border-rule text-muted mx-auto w-full max-w-[90rem] border-t px-4 py-8 text-sm sm:px-6 lg:pb-14"
+      role="contentinfo"
+    >
+      {footer.length > 0 && (
+        <nav class="mb-8 flex flex-wrap justify-center gap-x-16 gap-y-8 sm:gap-x-24" aria-label="Footer">
+          {footer.map((column) => (
+            <div>
+              <h2 class="text-heading font-sans text-sm font-semibold">{column.title}</h2>
+              {column.children.length > 0 && (
+                <ul class="mt-3 space-y-2">
+                  {column.children.map((child) => (
+                    <li>
+                      <a class="hover:text-fg no-underline" href={child.url}>
+                        {child.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </nav>
+      )}
+      {footerText && <div class="text-center">{footerText}</div>}
+    </footer>
+
+    <script src="../scripts/site.js"></script>
+    {hasRail && <script src="../scripts/graph.js"></script>}
+  </body>
+</html>
