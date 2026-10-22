@@ -1,11 +1,8 @@
-// robots.txt, llms.txt and the sitemap's entries: every crawler welcome,
-// and where the sitemap is; the site's name and default
-// description, then each collection's listed pages (newest change first) as
-// Markdown links with their descriptions; every page that is its own
-// canonical address, with its last change (the XML itself is
-// @astrojs/sitemap's: sitemap.ts).
-import { atom } from './dates.ts';
-import { published, type SiteEntry } from './entry.ts';
+// robots.txt and llms.txt: every crawler welcome, and where the sitemap is
+// (sitemap.ts); the site's name and default description, then each
+// collection's listed pages (newest change first) as Markdown links with
+// their descriptions.
+import type { SiteEntry } from './entry.ts';
 import { naturalCompare } from './natural.ts';
 import { contentDescription, inSitemap, limit, squish } from './seo.ts';
 import { absolute, type SiteConfig } from './site.ts';
@@ -15,13 +12,6 @@ const SITEMAP_PATH = '/sitemap-index.xml';
 
 export const robotsTxt = (site: SiteConfig): string =>
   `User-agent: *\nAllow: /\n\nSitemap: ${site.url}${SITEMAP_PATH}\n`;
-
-export function sitemapEntries(entries: SiteEntry[], site: SiteConfig): { loc: string; lastmod: string | null }[] {
-  return published(entries)
-    .filter((p) => inSitemap(p, site))
-    .map((p) => ({ loc: absolute(site.url, p.url), lastmod: p.updated ? atom(p.updated) : null }))
-    .sort((a, b) => a.loc.localeCompare(b.loc));
-}
 
 /** The most pages llms.txt lists per collection. */
 const PER_COLLECTION = 100;
