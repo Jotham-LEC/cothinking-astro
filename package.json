@@ -26,7 +26,9 @@
     "import:cothinking": "SITE=cothinking node scripts/import-content.mjs",
     "golden:cothinking": "SITE=cothinking node scripts/golden.mjs",
     "compare:cothinking": "SITE=cothinking node scripts/compare.mjs",
-    "smoke:cothinking": "SITE=cothinking node tests/smoke.mjs"
+    "smoke:cothinking": "SITE=cothinking node tests/smoke.mjs",
+    "deploy:jothamlim": "npm run build:jothamlim && cd sites/jothamlim && op run --env-file=../../cloudflare.env -- wrangler deploy",
+    "deploy:cothinking": "npm run build:cothinking && cd sites/cothinking && op run --env-file=../../cloudflare.env -- wrangler deploy"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.4",
@@ -68,6 +70,7 @@
     "prettier-plugin-astro": "^1.1.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "typescript": "^6.0.3",
-    "vitest": "^5.0.5"
+    "vitest": "^5.0.5",
+    "wrangler": "^4.151.3"
   }
 }
