@@ -1,5 +1,5 @@
 // The title index behind `[[wiki links]]`: a lower-cased title → the page's
-// address (a path on this site, an absolute URL on cothink.ing). Worked out
+// address (a path on this site, an absolute URL on the other). Worked out
 // from the pages wherever it is needed (garden/config.mjs for the Markdown,
 // load.ts for the graph), so a renamed page needs no extra step; the other
 // site's titles come from src/data/other-site-titles.json (the import).

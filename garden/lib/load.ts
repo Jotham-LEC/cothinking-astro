@@ -8,7 +8,11 @@ import { buildGraph, type Graph } from './graph.ts';
 import { renderFeed } from './markdown/feed.ts';
 import { published, toPages } from './pages.ts';
 import { titleIndex, type TitleIndex } from './titles.ts';
-import type { Collections, LivePage, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
+import type { Author, Collections, LivePage, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
+
+// The authors collection is defined only on a site whose src/data/authors.yaml has entries
+// (garden/content.ts), so it is read only there: an empty one warns on every build.
+const hasAuthors = Object.keys(import.meta.glob('/src/data/authors.yaml')).length > 0;
 
 export type Wiki = {
   site: SiteConfig;
@@ -18,6 +22,7 @@ export type Wiki = {
   live: LivePage[];
   navigation: Record<string, NavItem[]>;
   redirects: { source: string; target: string }[];
+  authors: Author[];
   titles: TitleIndex;
   explorer: Row[];
   graph: Graph;
@@ -39,6 +44,9 @@ export function wiki(): Promise<Wiki> {
       (await getCollection('navigation')).map((n) => [n.id, n.data.items as NavItem[]]),
     );
     const redirects = (await getCollection('redirects')).map((r) => r.data);
+    const authors = hasAuthors
+      ? (await getCollection('authors' as CollectionKey)).map((a) => a.data as unknown as Author)
+      : [];
 
     const raws: RawEntry[] = [];
     const entries = new Map<string, CollectionEntry<CollectionKey>>();
@@ -56,6 +64,7 @@ export function wiki(): Promise<Wiki> {
       ...partial,
       live: published(pages),
       redirects,
+      authors,
       titles,
       explorer: explorerRows(partial),
       graph: buildGraph(pages, collections, titles),

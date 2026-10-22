@@ -17,26 +17,31 @@ function colorOf(className) {
   return color;
 }
 
-// Section (a collection's handle, as graph.json names it; '' is a root page)
-// → the utility that carries its colour. The legend shows the collection's
-// title (`section_title`), so a renamed collection keeps its colour. The
-// class names are written out in full so Tailwind's scan generates them.
-const SECTIONS = {
+// A colour token (a collection's `graph_colour` in collections.yaml) → the
+// utility that carries its colour, written out in full so Tailwind's scan
+// generates them. Root pages (section '') and a section without a colour are
+// `pages`. The legend shows the collection's title (`section_title`), so a
+// renamed collection keeps its colour.
+const COLOURS = {
   essays: 'text-graph-essays',
   notes: 'text-graph-notes',
   publications: 'text-graph-publications',
   projects: 'text-graph-projects',
-  '': 'text-graph-pages',
+  pages: 'text-graph-pages',
 };
 
-function sectionOf(node) {
-  const section = node.section || '';
-  return section in SECTIONS ? section : '';
+// Section (a collection's handle, as graph.json names it) → colour token, from
+// the mount's data-graph-colours (the rail writes it from collections.yaml).
+let sectionColours = {};
+
+function colourOf(node) {
+  const token = sectionColours[node.section || ''];
+  return token in COLOURS ? token : 'pages';
 }
 
 function palette() {
   return {
-    sections: Object.fromEntries(Object.entries(SECTIONS).map(([section, className]) => [section, colorOf(className)])),
+    sections: Object.fromEntries(Object.entries(COLOURS).map(([token, className]) => [token, colorOf(className)])),
     link: colorOf('text-subtle'),
     ring: colorOf('text-heading'),
     label: colorOf('text-fg'),
@@ -45,27 +50,29 @@ function palette() {
 
 // One dot and name per section present, so colour is not the only key.
 function legend(mount, graph) {
-  const present = new Set(graph.nodes.map(sectionOf));
+  const present = new Set(graph.nodes.map(colourOf));
   const titles = Object.fromEntries(
-    graph.nodes.map((node) => [sectionOf(node), (node.section_title || '').toLowerCase()]),
+    graph.nodes.map((node) => [colourOf(node), (node.section_title || '').toLowerCase()]),
   );
   const list = document.createElement('ul');
   list.className = 'text-muted mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs';
-  Object.entries(SECTIONS).forEach(([section, className]) => {
-    if (!present.has(section)) return;
+  Object.entries(COLOURS).forEach(([token, className]) => {
+    if (!present.has(token)) return;
     const item = document.createElement('li');
     const dot = document.createElement('span');
     dot.className = className + ' mr-1';
     dot.setAttribute('aria-hidden', 'true');
     dot.textContent = '●';
-    item.append(dot, (section && titles[section]) || 'pages');
+    item.append(dot, (token !== 'pages' && titles[token]) || 'pages');
     list.appendChild(item);
   });
   mount.appendChild(list);
 }
 
-// The page and its neighbours one link away, with the links between them.
-function neighbourhood(data, url) {
+// The page and its neighbours one link away. A section's index that names its
+// section (data-graph-section: a collection with `graph_section`) holds every page of the
+// section instead, each tied to the index, with the links between them.
+function neighbourhood(data, url, section) {
   const current = data.nodes.find((node) => node.url === url);
   if (!current) return null;
   const near = new Set([current.id]);
@@ -73,11 +80,21 @@ function neighbourhood(data, url) {
     if (link.source === current.id) near.add(link.target);
     if (link.target === current.id) near.add(link.source);
   });
+  const members = section ? data.nodes.filter((node) => node.section === section).map((node) => node.id) : [];
+  members.forEach((id) => near.add(id));
   if (near.size < 2) return null;
+  const links = data.links.filter((link) => near.has(link.source) && near.has(link.target));
+  const tied = new Set(
+    links.flatMap((link) =>
+      link.source === current.id || link.target === current.id ? [link.source, link.target] : [],
+    ),
+  );
   return {
     current,
     nodes: data.nodes.filter((node) => near.has(node.id)).map((node) => ({ ...node })),
-    links: data.links.filter((link) => near.has(link.source) && near.has(link.target)).map((link) => ({ ...link })),
+    links: [...links, ...members.filter((id) => !tied.has(id)).map((id) => ({ source: current.id, target: id }))].map(
+      (link) => ({ ...link }),
+    ),
   };
 }
 
@@ -156,7 +173,7 @@ function createView(canvas, graph, { labels = 'hover' } = {}) {
     graph.nodes.forEach((node) => {
       ctx.beginPath();
       ctx.arc(node.x, node.y, radius(node), 0, Math.PI * 2);
-      ctx.fillStyle = colors.sections[sectionOf(node)];
+      ctx.fillStyle = colors.sections[colourOf(node)];
       ctx.fill();
       if (isCurrent(node) || node === hovered) {
         ctx.lineWidth = (isCurrent(node) ? 2 : 1) / view.k;
@@ -288,7 +305,7 @@ function createView(canvas, graph, { labels = 'hover' } = {}) {
 // The rail's graph, its zoom buttons, and the dialog that shows it larger
 // with every page named (a fresh copy, laid out again at that size).
 function mountGraph(mount, data) {
-  const make = () => neighbourhood(data, mount.getAttribute('data-graph'));
+  const make = () => neighbourhood(data, mount.getAttribute('data-graph'), mount.getAttribute('data-graph-section'));
   const graph = make();
   if (!graph) {
     mount.remove();
@@ -328,6 +345,7 @@ function mountGraph(mount, data) {
 const mounts = document.querySelectorAll('[data-graph]');
 
 function load() {
+  sectionColours = JSON.parse(mounts[0].getAttribute('data-graph-colours') || '{}');
   fetch(mounts[0].getAttribute('data-graph-url'), { credentials: 'same-origin' })
     .then((response) => (response.ok ? response.json() : Promise.reject(response.status)))
     .then((data) => mounts.forEach((mount) => mountGraph(mount, data)))

@@ -4,14 +4,28 @@
 import type { Page } from '@garden/lib/types.ts';
 import type { TocEntry } from '@garden/lib/toc.ts';
 import type { GraphNode } from '@garden/lib/graph.ts';
+import { wiki } from '@garden/lib/load.ts';
 import GraphControls from './GraphControls.astro';
-type Props = { page: Page; toc: TocEntry[]; backlinks: GraphNode[] };
-const { page, toc, backlinks } = Astro.props;
+type Props = { page: Page; toc: TocEntry[]; graphSection?: string | null; backlinks: GraphNode[] };
+const { page, toc, graphSection = null, backlinks } = Astro.props;
+// Each section's colour token (`graph_colour` in collections.yaml), for scripts/graph.js.
+const { collections } = await wiki();
+const colours = JSON.stringify(
+  Object.fromEntries(
+    Object.entries(collections).flatMap(([handle, c]) => (c.graph_colour ? [[handle, c.graph_colour]] : [])),
+  ),
+);
 ---
 
 <div class="space-y-8 text-sm" data-pagefind-ignore>
-  {/* This page and its neighbours one link away (scripts/graph.js); gone when it has none. */}
-  <section data-graph={page.url} data-graph-url="/graph.json" hidden>
+  {/* This page and its neighbours one link away (scripts/graph.js); gone when it has none. `graphSection` widens it to the whole section. */}
+  <section
+    data-graph={page.url}
+    data-graph-url="/graph.json"
+    data-graph-section={graphSection ?? undefined}
+    data-graph-colours={colours}
+    hidden
+  >
     <h2 class="text-heading mb-2 text-sm font-semibold lowercase">Graph</h2>
     <div class="relative">
       <canvas

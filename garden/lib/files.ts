@@ -7,7 +7,7 @@ import path from 'node:path';
 import matter from 'gray-matter';
 import YAML from 'yaml';
 import { published, toPages } from './pages.ts';
-import type { Collections, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
+import type { Author, Collections, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
 import { titleIndex, type TitleIndex } from './titles.ts';
 
 export type Project = {
@@ -16,6 +16,8 @@ export type Project = {
   collections: Collections;
   pages: Page[];
   navigation: Record<string, NavItem[]>;
+  /** Who writes the articles (src/data/authors.yaml, when the site has any). */
+  authors: Author[];
   redirects: { source: string; target: string }[];
   /** The other site's titles (src/data/other-site-titles.json). */
   otherSiteTitles: TitleIndex;
@@ -56,6 +58,7 @@ export function loadProject(root: string): Project {
     collections,
     pages,
     navigation,
+    authors: readYaml<Author[]>(data('authors.yaml'), []),
     redirects: readYaml(data('redirects.yaml'), []),
     otherSiteTitles,
     titles: titleIndex(published(pages), otherSiteTitles),

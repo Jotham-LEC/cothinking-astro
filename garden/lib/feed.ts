@@ -2,7 +2,7 @@
 // (every dated collection) or one section, 20 newest first, each item's body
 // through the `feed` parser with absolute URLs. @astrojs/rss writes the XML.
 import type { RSSOptions } from '@astrojs/rss';
-import { feedOf } from './entry.ts';
+import { feedOf, reshareOf } from './entry.ts';
 import { fullUrls, renderFeed } from './markdown/feed.ts';
 import { measure } from './markdown/rehype-images.ts';
 import { byDateDesc, published } from './pages.ts';
@@ -21,9 +21,12 @@ type FeedContext = {
 const escapeHtml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-/** A feed item's body: a note's post (quote, photos, link, video) then its text; any other page's text. */
-async function feedBody(page: Page, { titles, site, publicDir }: FeedContext): Promise<string> {
-  if (page.collection !== 'notes') return fullUrls(await renderFeed(page.body.trim(), titles), site.url);
+/** A feed item's body: a note's post (quote, photos, link, video) then its text; any other page's text (and a reshare's original). */
+async function feedBody(page: Page, { pages, titles, site, publicDir }: FeedContext): Promise<string> {
+  if (page.collection !== 'notes') {
+    const original = reshareOf(page, pages);
+    return fullUrls(await renderFeed(`${page.body}\n\n${original?.body ?? ''}`.trim(), titles), site.url);
+  }
   const parts: string[] = [];
   const type = page.type ?? 'text';
   if (type === 'quote' && typeof page.data.quote === 'string') {

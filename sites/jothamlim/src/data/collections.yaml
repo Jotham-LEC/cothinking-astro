@@ -9,6 +9,7 @@ essays:
     slug: essays
   og_type: article
   schema: Article
+  graph_colour: essays
 notes:
   title: Notes
   route: "{mount}/{slug}"
@@ -32,6 +33,7 @@ notes:
       title: Quote
     - handle: video
       title: Video
+  graph_colour: notes
 pages:
   title: Pages
   route: "{parent_uri}/{slug}"
@@ -49,6 +51,7 @@ projects:
     slug: projects
   og_type: article
   schema: Article
+  graph_colour: projects
 publications:
   title: Publications
   route: "{mount}/{slug}"
@@ -67,3 +70,5 @@ publications:
       entrepreneur-insight: Entrepreneur Insight
       report: Report
       press-mentions: Press Mentions
+  group_by: year
+  graph_colour: publications

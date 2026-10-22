@@ -1,4 +1,4 @@
-// jothamlim.com: the wiki layer on its imported content: the Explorer and menu, the
+// jothamlim.com: the wiki layer on its imported content: the Explorer, menu and panels, the
 // graph and backlinks, the pager, the years, the note types, breadcrumbs and
 // the head model, against what the Laravel app printed (DEV_FILES/jothamlim/golden).
 // Skipped when the site's data is missing.
@@ -7,7 +7,7 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { check } from '../scripts/check-content.ts';
 import { loadProject } from '../garden/lib/files.ts';
-import { explorerRows, markCurrent, menu, urlsIn } from '../garden/lib/explorer.ts';
+import { explorerRows, markCurrent, menu, panels, urlsIn } from '../garden/lib/explorer.ts';
 import { backlinks, buildGraph } from '../garden/lib/graph.ts';
 import { pager } from '../garden/lib/pager.ts';
 import { years } from '../garden/lib/years.ts';
@@ -72,8 +72,9 @@ describe.skipIf(!present)('explorer', () => {
     });
     expect(ours).toEqual(printed);
   });
-  it('gives the menu the header links the Explorer lacks', () => {
+  it('gives the menu the header links the Explorer lacks, and every page a drawer', () => {
     expect(menu(project, '/career', rows)).toEqual([]);
+    expect(panels(project, false)).toEqual({ hasExplorer: true, hasDrawer: true });
     expect(urlsIn(rows[0]!)).toEqual(['/']);
   });
 });
@@ -205,12 +206,12 @@ describe.skipIf(!present)('pager, years, note types, breadcrumbs', () => {
     expect(breadcrumbs('/notes/type/text', live).map((c) => c.url)).toEqual(['/', '/notes']);
   });
   it('describes a page: eyebrow, feed, source, outline', () => {
-    const info = pageInfo(page('/essays/being-personal-in-the-workplace'), collections, site);
+    const info = pageInfo(page('/essays/being-personal-in-the-workplace'), pages, collections, site);
     expect(info.eyebrow).toBe('2023-01-18 · 8 min read');
     expect(info.feedUrl).toBe('/essays/feed.xml');
-    expect(pageInfo(page('/'), collections, site)).toMatchObject({ isHome: true, eyebrow: null, feedUrl: null });
+    expect(pageInfo(page('/'), pages, collections, site)).toMatchObject({ isHome: true, eyebrow: null, feedUrl: null });
     const publication = live.find((p) => p.collection === 'publications' && p.seo.canonical)!;
-    expect(pageInfo(publication, collections, site).source).toBe(publication.seo.canonical);
+    expect(pageInfo(publication, pages, collections, site).source).toBe(publication.seo.canonical);
     expect(toc([{ depth: 2, slug: 'a', text: 'A' }])).toEqual([]);
     expect(
       toc([

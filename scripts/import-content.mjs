@@ -2,12 +2,15 @@
 // Migration only: delete once the Astro repo is the source (with golden.mjs,
 // compare.mjs, dump-heading-ids.php and node-html-parser).
 //
-// Imports jothamlim.com's content from the Laravel/Statamic repo, re-runnably:
-// entries → src/content/{collection}/{slug}.md (slugs instead of UUIDs, the
+// Imports a site's content from the Laravel/Statamic repo into sites/$SITE,
+// re-runnably: entries → src/content/{collection}/{slug}.md (slugs instead of UUIDs, the
 // date in front matter, trees folded into `order`), navigations, globals,
-// redirects → src/data, cothink.ing's titles → src/data/other-site-titles.json
-// (for the [[wiki links]] that point there), and with --media the
-// site's media folders → public/. Wipes src/content and src/data first.
+// redirects → src/data, the other site's titles → src/data/other-site-titles.json
+// (for the [[wiki links]] that point there), the entries' authors (Statamic
+// users, outside git) → src/data/authors.yaml when there are any, a piece
+// reshared from the other site → src/content/reshared/, and with --media the
+// site's media folders (and the reshared pieces' media) → public/. Wipes
+// src/content and src/data first. SITE (from the npm script) names the site;
 // LARAVEL comes from the environment.
 import fs from 'node:fs';
 import os from 'node:os';
@@ -18,32 +21,60 @@ import { DEV, ROOT, SITE } from './site.mjs';
 const LARAVEL = process.env.LARAVEL ?? path.join(os.homedir(), 'Projects/jothamlim.com-laravel');
 const COPY_MEDIA = process.argv.includes('--media');
 
-// Values resources/sites.yaml leaves to config. The other site's name and
-// address, for its titles' addresses and the Person's `worksFor`.
+// Values resources/sites.yaml leaves to config. feeds: sections with a feed of
+// their own (config/site.php); articles: collections whose pages are Open
+// Graph articles with an Article node (config/marketing-toolkit.php);
+// collections: the flags collections.yaml gets for what the Laravel app
+// hard-coded by handle (App\Tags\Wiki's Explorer, the graph's sections and
+// colours; see CollectionConfig in garden/lib/types.ts).
 const SITE_DEFAULTS = {
-  jothamlim: { name: 'Jotham Lim', url: 'https://jothamlim.com' },
-  cothinking: { name: 'CoThinking', url: 'https://cothink.ing' },
+  jothamlim: {
+    name: 'Jotham Lim',
+    url: 'https://jothamlim.com',
+    feeds: ['essays', 'notes'],
+    articles: ['essays', 'notes', 'projects', 'publications'],
+    collections: {
+      essays: { graph_colour: 'essays' },
+      notes: { graph_colour: 'notes' },
+      projects: { graph_colour: 'projects' },
+      publications: { group_by: 'year', graph_colour: 'publications' },
+    },
+  },
+  cothinking: {
+    name: 'CoThinking',
+    url: 'https://cothink.ing',
+    feeds: [],
+    articles: ['wiki', 'problems'],
+    // cothink.ing's sections borrow jothamlim.com's colours, as the two sites' graphs never meet.
+    collections: {
+      wiki: { group_by: 'category', graph_section: true, graph_colour: 'essays' },
+      problems: { graph_section: true, graph_colour: 'notes' },
+      work: { explorer: 'with_content', graph_colour: 'projects' },
+    },
+  },
 };
-// Sections with a feed of their own (config/site.php).
-const FEEDS = ['essays', 'notes'];
-// Collections whose pages are Open Graph articles with an Article node (config/marketing-toolkit.php).
-const ARTICLES = ['essays', 'notes', 'projects', 'publications'];
 
-// What in public/ is this site's (media folders and other files).
-const PUBLIC_FILES = [
-  'media/career',
-  'media/diagrams',
-  'media/essays',
-  'media/notes',
-  'media/projects',
-  'media/publications',
-  'media/the-edge',
-  'media/profile-400.jpg',
-  'favicon.ico',
-  'favicon.svg',
-  'resume',
-  'images/esomar',
-];
+// What in public/ belongs to which site (media folders and other files).
+const PUBLIC_FILES = {
+  jothamlim: [
+    'media/career',
+    'media/diagrams',
+    'media/essays',
+    'media/notes',
+    'media/projects',
+    'media/publications',
+    'media/the-edge',
+    'media/profile-400.jpg',
+    'favicon.ico',
+    'favicon.svg',
+    'resume',
+    'images/esomar',
+  ],
+  cothinking: ['media/cothinking', 'media/diagrams', 'media/profile-400.jpg', 'images/cothinking'],
+};
+
+// Reference fields: UUIDs that become `{collection}/{slug}`.
+const REFERENCE_FIELDS = ['reshare', 'case_study', 'related_pages', 'related_wiki'];
 
 const readYaml = (file) => YAML.parse(fs.readFileSync(file, 'utf8')) ?? {};
 const exists = (file) => fs.existsSync(file);
@@ -214,6 +245,14 @@ fs.rmSync(path.join(ROOT, 'src/content'), { recursive: true, force: true });
 fs.rmSync(path.join(ROOT, 'src/data'), { recursive: true, force: true });
 
 const report = { counts: {}, drafts: [], unresolved: [], noUrl: [] };
+const users = new Map();
+const usersDir = path.join(LARAVEL, 'storage/users');
+for (const file of exists(usersDir) ? fs.readdirSync(usersDir).filter((f) => f.endsWith('.yaml')) : []) {
+  const u = readYaml(path.join(usersDir, file));
+  if (u.id !== undefined) users.set(String(u.id), u);
+}
+const authors = new Map();
+const reshared = new Map();
 const manifest = [];
 const siteEntries = [...entries.values()].filter((e) => e.site === SITE);
 
@@ -234,7 +273,7 @@ for (const entry of siteEntries) {
   if (c.structured && entry.order !== null) fm.order = entry.order;
   if (entry.parent) fm.parent = entry.parent.slug;
   if (entry.collection === 'notes') fm.type = d.blueprint ?? 'text';
-  // Every other field the entry carries (the schema rejects one it does not know).
+  // Every other field the entry carries, references mapped to slugs.
   const skip = new Set([
     'id',
     'blueprint',
@@ -250,6 +289,29 @@ for (const entry of siteEntries) {
   ]);
   for (const [key, value] of Object.entries(d)) {
     if (skip.has(key)) continue;
+    if (key === 'reshare' && entries.get([value].flat()[0])?.site !== SITE) {
+      const original = entries.get([value].flat()[0]);
+      if (original) fm.reshare = reshareFrom(original);
+      else report.unresolved.push(`${entry.url}: ${key} → ${value}`);
+      continue;
+    }
+    if (key === 'author') {
+      const slugs = [value].flat().map(String).map(authorOf).filter(Boolean);
+      if (slugs.length) fm.author = Array.isArray(value) ? slugs : slugs[0];
+      continue;
+    }
+    if (REFERENCE_FIELDS.includes(key)) {
+      const ids = Array.isArray(value) ? value : [value];
+      const refs = ids
+        .map((id) => {
+          const r = ref(id);
+          if (!r) report.unresolved.push(`${entry.url}: ${key} → ${id}`);
+          return r;
+        })
+        .filter(Boolean);
+      if (refs.length) fm[key] = Array.isArray(value) ? refs : refs[0];
+      continue;
+    }
     if (key === 'photos' && Array.isArray(value)) {
       fm.photos = value.map((p) => `/media/${p}`);
       continue;
@@ -265,6 +327,41 @@ for (const entry of siteEntries) {
   if (entry.published && entry.url)
     manifest.push({ url: entry.url, collection: entry.collection, slug: entry.slug, title: d.title });
   if (entry.published && !entry.url) report.noUrl.push(`${entry.collection}/${entry.slug}`);
+}
+
+// Authors: the users an entry's `author` field names (storage/users/*.yaml, by
+// their `id`), as `{id: slug, name, bio, url}` for src/data/authors.yaml.
+function authorOf(id) {
+  const u = users.get(id);
+  if (!u?.name) {
+    report.unresolved.push(`author: user ${id} (storage/users)`);
+    return null;
+  }
+  const slug = String(u.name)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+  authors.set(slug, { id: slug, name: u.name, ...(u.bio ? { bio: u.bio } : {}), ...(u.url ? { url: u.url } : {}) });
+  return slug;
+}
+
+// A piece of the other site that an entry here reshares: copied into the
+// `reshared` collection with its address there (`url`), so the page can show
+// its text. Its media is copied with --media.
+function reshareFrom(original) {
+  const fm = { title: original.data.title };
+  if (original.data.description) fm.description = original.data.description;
+  if (original.date) fm.date = original.date;
+  if (original.data.updated_at)
+    fm.updated =
+      typeof original.data.updated_at === 'string'
+        ? original.data.updated_at
+        : new Date(original.data.updated_at).toISOString();
+  if (!original.published) fm.draft = true;
+  if (original.data.image) fm.image = `/media/${original.data.image}`;
+  fm.url = absolute(original);
+  reshared.set(original.slug, { fm, body: original.body, site: original.site });
+  return `reshared/${original.slug}`;
 }
 
 function cleanSeo(seo) {
@@ -302,6 +399,14 @@ function splitFrontMatter(raw, file) {
   return { data: YAML.parse(yamlText) ?? {}, body };
 }
 
+for (const [slug, { fm, body }] of reshared) {
+  write(
+    path.join(ROOT, 'src/content/reshared', `${slug}.md`),
+    `---\n${YAML.stringify(fm, { lineWidth: 0 })}---\n${body}`,
+  );
+  report.counts.reshared = (report.counts.reshared ?? 0) + 1;
+}
+
 // ------------------------------------------------- collections.yaml ----
 const siteCollections = {};
 for (const c of Object.values(collections).filter((c) => c.sites.includes(SITE))) {
@@ -310,7 +415,7 @@ for (const c of Object.values(collections).filter((c) => c.sites.includes(SITE))
   const entry = { title: c.title, route: c.route, dated: c.dated, root: c.root, orderable: c.structured && !c.root };
   if (mount) entry.mount = { collection: mount.collection, slug: mount.slug };
   if (c.template) entry.template = c.template;
-  if (ARTICLES.includes(c.handle)) Object.assign(entry, { og_type: 'article', schema: 'Article' });
+  if (SITE_DEFAULTS[SITE].articles.includes(c.handle)) Object.assign(entry, { og_type: 'article', schema: 'Article' });
   if (blueprints.length > 1) entry.types = blueprints.map((b) => ({ handle: b.handle, title: b.title }));
   const options = {};
   for (const b of blueprints)
@@ -319,9 +424,22 @@ for (const c of Object.values(collections).filter((c) => c.sites.includes(SITE))
         options[f.handle] = f.field.options;
     }
   if (Object.keys(options).length) entry.options = options;
+  Object.assign(entry, SITE_DEFAULTS[SITE].collections[c.handle]);
   siteCollections[c.handle] = entry;
 }
+// The reshared pieces: no address on this site (`origin` is the site they live on).
+if (reshared.size)
+  siteCollections.reshared = {
+    title: 'Reshared',
+    route: '{slug}',
+    dated: true,
+    root: false,
+    orderable: false,
+    origin: sites[[...reshared.values()][0].site].url,
+  };
 writeYaml(path.join(ROOT, 'src/data/collections.yaml'), siteCollections);
+// Only a site with authors gets the file (garden/content.ts defines the collection then).
+if (authors.size) writeYaml(path.join(ROOT, 'src/data/authors.yaml'), [...authors.values()]);
 
 // -------------------------------------------------------- navigation ----
 const navDir = path.join(LARAVEL, 'content/trees/navigation', SITE);
@@ -349,7 +467,6 @@ writeYaml(path.join(ROOT, 'src/data/navigation.yaml'), navigation);
 // ----------------------------------------------------------- globals ----
 function globalValues(handle) {
   const config = readYaml(path.join(LARAVEL, 'content/globals', `${handle}.yaml`));
-  // A site's globals can inherit another site's values (`sites: {site: origin}`).
   const origin = config.sites?.[SITE] ?? null;
   const own = exists(path.join(LARAVEL, 'content/globals', SITE, `${handle}.yaml`))
     ? readYaml(path.join(LARAVEL, 'content/globals', SITE, `${handle}.yaml`))
@@ -366,7 +483,7 @@ if (seoGlobal.default_image) seoGlobal.default_image = `/media/${seoGlobal.defau
 const site = {
   ...sites[SITE],
   // Sections with a feed of their own at /{section}/feed.xml (config/site.php).
-  feeds: FEEDS,
+  feeds: SITE_DEFAULTS[SITE].feeds,
   other_sites: Object.values(sites)
     .filter((s) => s.handle !== SITE)
     .map(({ handle, name, url }) => ({ handle, name, url })),
@@ -398,7 +515,7 @@ write(path.join(ROOT, 'src/data/other-site-titles.json'), JSON.stringify(titles,
 
 // ------------------------------------------------------------- media ----
 if (COPY_MEDIA) {
-  for (const rel of PUBLIC_FILES) {
+  for (const rel of PUBLIC_FILES[SITE] ?? []) {
     const from = path.join(LARAVEL, 'public', rel);
     const to = path.join(ROOT, 'public', rel);
     if (!exists(from)) {
@@ -407,6 +524,19 @@ if (COPY_MEDIA) {
     }
     fs.rmSync(to, { recursive: true, force: true });
     fs.cpSync(from, to, { recursive: true, filter: (src) => !src.includes('/.meta') });
+  }
+  // The media a reshared piece shows, which lives with the other site's.
+  for (const { fm, body } of reshared.values()) {
+    const files = [fm.image, ...[...body.matchAll(/\/media\/[^\s)"'<>]+/g)].map((m) => m[0])].filter(Boolean);
+    for (const file of new Set(files.map((f) => decodeURIComponent(f)))) {
+      const from = path.join(LARAVEL, 'public', file);
+      if (!exists(from)) {
+        console.warn(`media: ${file} (reshared) not found`);
+        continue;
+      }
+      fs.mkdirSync(path.dirname(path.join(ROOT, 'public', file)), { recursive: true });
+      fs.copyFileSync(from, path.join(ROOT, 'public', file));
+    }
   }
 }
 

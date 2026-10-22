@@ -1,5 +1,6 @@
-// The build-time model every module in garden/lib works on: the shapes come from
-// src/data (written by the import) and the content collections.
+// The build-time model every module in garden/lib works on. Nothing here names
+// a site: the shapes come from src/data (written by the import) and the
+// content collections.
 
 export type Seo = {
   title?: string;
@@ -57,9 +58,22 @@ type CollectionConfig = {
   schema?: string;
   types?: { handle: string; title: string }[];
   options?: Record<string, Record<string, string>>;
+  /** The site a collection's entries live on, when that is not this one (pieces reshared from it): they have no address here. */
+  origin?: string;
+  /** How the Explorer groups the collection's pages: by year, or by its `category` select's options. */
+  group_by?: 'year' | 'category';
+  /** `with_content`: the Explorer lists only the pages with a body. */
+  explorer?: 'with_content';
+  /** The landing page's graph holds the whole collection, not only its neighbours. */
+  graph_section?: boolean;
+  /** The graph's colour for the collection's pages: a `--site-graph-*` token's name (garden/styles/tokens.css). */
+  graph_colour?: string;
 };
 
 export type Collections = Record<string, CollectionConfig>;
+
+/** Who wrote an entry (its `author` field; src/data/authors.yaml). */
+export type Author = { id: string; name: string; bio?: string; url?: string };
 
 export type NavItem = { title?: string; entry?: string; url?: string; children?: NavItem[] };
 
@@ -71,8 +85,10 @@ export type SiteConfig = {
   lang: string;
   attributes: {
     logo?: string;
+    logo_dark?: string;
     favicon?: string;
     explorer?: boolean;
+    closed_panels?: string[];
     pages?: string;
   };
   feeds: string[];

@@ -1,5 +1,5 @@
-// The Explorer is a drawer below the lg breakpoint; `nav-open` on <body>
-// slides it in.
+// The Explorer is a drawer below the lg breakpoint (at every width in a
+// room, <body data-room>); `nav-open` on <body> slides it in.
 // A closed drawer is only moved off-screen, so it is also made inert: its
 // links leave the tab order and the screen reader's reading order. An open
 // one makes the page behind it inert instead, like a dialog, and closes
@@ -20,7 +20,7 @@ export function initDrawer() {
         return el !== explorer && el !== backdrop;
       }),
     );
-  var desktop = window.matchMedia('(min-width: 64rem)');
+  var desktop = window.matchMedia(document.body.hasAttribute('data-room') ? 'not all' : '(min-width: 64rem)');
   function isOpen() {
     return document.body.classList.contains('nav-open');
   }
