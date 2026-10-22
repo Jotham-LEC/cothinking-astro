@@ -3,6 +3,7 @@
 // entry gives the title and the head.
 import { getEntry } from 'astro:content';
 import { garden } from '@garden/lib/load.ts';
+import { longDate } from '@garden/lib/dates.ts';
 import Entry from '@garden/components/Entry.astro';
 import Prose from '@garden/components/Prose.astro';
 import SectionHeading from '@garden/components/SectionHeading.astro';
@@ -20,12 +21,7 @@ import Timeline from '@site/components/Timeline.astro';
 const entry = (await getEntry('pages', 'how-i-work'))!;
 const g = await garden();
 const testimonial = testimonialOf(await workEntries());
-const termsDate = new Date(terms.date).toLocaleDateString('en-GB', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  timeZone: 'UTC',
-});
+const termsDate = longDate(new Date(terms.date));
 const jobs: [string, string | null][] = [
   ['Emails going to spam', '/emails-going-to-spam'],
   ['A website form that stopped sending enquiries', '/website-form-not-sending-emails'],

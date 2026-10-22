@@ -10,7 +10,7 @@ import type { TitleIndex } from '../titles.ts';
 import rehypeCallouts from './rehype-callouts.ts';
 import rehypeExcerpt from './rehype-excerpt.ts';
 import rehypeHeadingAnchors from './rehype-heading-anchors.ts';
-import rehypeHeadingIds from './rehype-heading-ids.ts';
+import rehypeCleanHeadingIds from './rehype-clean-heading-ids.ts';
 import remarkWikiLinks from './remark-wiki-links.ts';
 
 type PipelineOptions = { titles: () => TitleIndex; siteUrl: string };
@@ -54,5 +54,5 @@ const externalLinks = (siteUrl: string): RehypePlugins => [
  * and optimises the images after these.
  */
 export function wikiRehypePlugins({ siteUrl }: Pick<PipelineOptions, 'siteUrl'>): RehypePlugins {
-  return [...externalLinks(siteUrl), rehypeHeadingIds, rehypeCallouts, rehypeExcerpt, rehypeHeadingAnchors];
+  return [...externalLinks(siteUrl), rehypeCleanHeadingIds, rehypeCallouts, rehypeExcerpt, rehypeHeadingAnchors];
 }

@@ -1,5 +1,5 @@
 // Gives every heading a GitHub-style id (github-slugger, as Astro's own
-// pass would), with emoji left out of the text it slugs and every kind of
+// rehypeHeadingIds would), with emoji left out of the text it slugs and every kind of
 // space treated as one, so a heading that opens with an emoji or holds a
 // non-breaking space gets a clean id. Astro's pass keeps the id and
 // collects the headings, so the outline and the anchors agree.
@@ -10,7 +10,7 @@ import { visit } from 'unist-util-visit';
 
 const EMOJI = /[\p{Extended_Pictographic}️‍]/gu;
 
-export default function rehypeHeadingIds() {
+export default function rehypeCleanHeadingIds() {
   return (tree: Root) => {
     const slugger = new GithubSlugger();
     visit(tree, 'element', (node) => {
