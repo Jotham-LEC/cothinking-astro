@@ -31,6 +31,7 @@ sites/<site>/          one Astro root each: jothamlim, cothinking
   public/              what is served as is: PDFs and their previews, the SVG diagram pairs, favicons, _headers
   src/pages/           the site's own routes: one file per view, [slug].astro for the plain pages (the shared ones are injected)
   src/components/      the site's own views; src/styles/site.css imports the garden's and adds its @source folders
+  src/lib/             the site's own helpers on Astro entries (jothamlim: listing.ts, the archives' order; cothinking: problems, work, contact, related)
   tests/               build.test.ts (reads dist/), smoke.mjs (Playwright against the preview)
 scripts/               snapshot.mjs and diff-snapshot.mjs: compare two builds page by page
 ```

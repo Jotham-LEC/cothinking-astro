@@ -1,30 +1,27 @@
 ---
 // /publications: the landing page's text, then the archive by year, newest
 // first, each piece with its outlet.
-import { getCollection, getEntry, render } from 'astro:content';
-import { garden } from '@garden/lib/load.ts';
-import { byYear, childrenOf } from '@garden/lib/entry.ts';
+import { getEntry, render } from 'astro:content';
+import { year } from '@garden/lib/dates.ts';
 import Entry from '@garden/components/Entry.astro';
 import ArchiveRow from '@garden/components/ArchiveRow.astro';
-import { outlets, site } from '@site/site.config.ts';
-const g = await garden();
+import { newestFirst } from '@site/lib/listing.ts';
+import { outlets } from '@site/site.config.ts';
 const landing = (await getEntry('pages', 'publications'))!;
 const { Content, headings } = await render(landing);
-const outletOf = new Map(
-  (await getCollection('publications')).map((p) => [p.id, outlets[p.data.outlet as keyof typeof outlets]]),
-);
-const archive = byYear(childrenOf('publications', g.live, site));
+// By year (in the display timezone), newest first.
+const archive = [...Map.groupBy(await newestFirst('publications'), (p) => year(p.data.date))];
 ---
 
 <Entry entry={landing} headings={headings}>
   <Content />
   <Fragment slot="after-body">
-    {archive.map(([year, pieces]) => (
+    {archive.map(([y, pieces]) => (
       <>
-        <h2 id={year}>{year}</h2>
+        <h2 id={y}>{y}</h2>
         <ul class="not-prose list-none p-0" data-archive>
           {pieces.map((piece) => (
-            <ArchiveRow date={piece.date} url={piece.url} title={piece.title} note={outletOf.get(piece.id)} />
+            <ArchiveRow entry={piece} note={outlets[piece.data.outlet as keyof typeof outlets]} />
           ))}
         </ul>
       </>

@@ -1,9 +1,9 @@
 ---
 // One page of the stream: the cards, then newer/older links from Astro's paginate().
 import type { Page as Paginated } from 'astro';
-import type { SiteEntry } from '@garden/lib/entry.ts';
+import type { CollectionEntry } from 'astro:content';
 import Card from './Card.astro';
-type Props = { page: Paginated<SiteEntry> };
+type Props = { page: Paginated<CollectionEntry<'notes'>> };
 const { page } = Astro.props;
 ---
 

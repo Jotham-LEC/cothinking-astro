@@ -4,16 +4,12 @@
 // says which page it is, and the search index skips the repeated text.
 import { getEntry, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
-import { garden } from '@garden/lib/load.ts';
-import { byDateDesc } from '@garden/lib/entry.ts';
 import Entry from '@garden/components/Entry.astro';
 import Stream from '@site/components/Stream.astro';
+import { newestFirst } from '@site/lib/listing.ts';
 
-export const getStaticPaths = (async ({ paginate }) => {
-  const g = await garden();
-  const notes = byDateDesc(g.live.filter((p) => p.collection === 'notes'));
-  return paginate(notes, { pageSize: 20 });
-}) satisfies GetStaticPaths;
+export const getStaticPaths = (async ({ paginate }) =>
+  paginate(await newestFirst('notes'), { pageSize: 20 })) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
 const landing = (await getEntry('pages', 'notes'))!;
