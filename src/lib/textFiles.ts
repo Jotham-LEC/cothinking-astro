@@ -58,16 +58,12 @@ export async function llmsTxt(
   for (const handle of handles) {
     const entries = live
       .filter((p) => p.collection === handle)
-      .sort(
-        (a, b) => (b.updated?.getTime() ?? 0) - (a.updated?.getTime() ?? 0) || naturalCompare(a.title, b.title),
-      )
+      .sort((a, b) => (b.updated?.getTime() ?? 0) - (a.updated?.getTime() ?? 0) || naturalCompare(a.title, b.title))
       .slice(0, perCollection);
     if (entries.length === 0) continue;
     lines.push(`## ${collections[handle]!.title}`, '');
     for (const page of entries) {
-      const text =
-        page.seo.description ??
-        contentDescription(page, await htmlOf(page), { skipCreditLine: false });
+      const text = page.seo.description ?? contentDescription(page, await htmlOf(page), { skipCreditLine: false });
       const description = text ? limit(plainText(text), 200) : null;
       lines.push(
         `- [${page.title.replace(/\[/g, '(').replace(/\]/g, ')')}](${absolute(site.url, page.url)})${description ? `: ${description}` : ''}`,

@@ -106,10 +106,9 @@ describe('links read off the Markdown', () => {
     expect(wikiLinksIn('<div>\n[[Writing Shorter]]\n</div>')).toEqual([]);
     expect(wikiLinksIn('| a |\n| - |\n| [[Writing Shorter\\|x]] |')).toEqual(['Writing Shorter\\']);
     const titles = { 'writing shorter': '/notes/writing-shorter' };
-    expect(linkedPages('[[Writing Shorter]], [cv](/cv#top) and `[x](/sports)`', titles, urls).map((p) => p.url)).toEqual([
-      '/notes/writing-shorter',
-      '/cv',
-    ]);
+    expect(
+      linkedPages('[[Writing Shorter]], [cv](/cv#top) and `[x](/sports)`', titles, urls).map((p) => p.url),
+    ).toEqual(['/notes/writing-shorter', '/cv']);
     expect(localTargets('![a](/media/a.png) <img src="/media/b.png">\n\n    [c](/media/c.png)')).toEqual([
       '/media/a.png',
       '/media/b.png',
@@ -133,7 +132,14 @@ describe('redirects', () => {
     expect(blog(fixture({ draft: true }))).toBeNull();
   });
   it('drops (and names) a redirect from a file address', () => {
-    const out = redirectsFor({ ...project, pages: [], redirects: [{ source: '/a.pdf', target: '/b.pdf' }, { source: '/a', target: '/b' }] });
+    const out = redirectsFor({
+      ...project,
+      pages: [],
+      redirects: [
+        { source: '/a.pdf', target: '/b.pdf' },
+        { source: '/a', target: '/b' },
+      ],
+    });
     expect(out).toEqual({ '/a': '/b' });
   });
 });

@@ -11,7 +11,8 @@ const BLOG_COLLECTIONS = ['essays', 'notes', 'publications'];
 export function redirectsFor({ redirects, pages }: Project): Record<string, string> {
   const out: Record<string, string> = {};
   for (const r of redirects) {
-    if (/\.[a-z0-9]+$/i.test(r.source)) console.warn(`[redirects] not redirected (a file address): ${r.source} → ${r.target}`);
+    if (/\.[a-z0-9]+$/i.test(r.source))
+      console.warn(`[redirects] not redirected (a file address): ${r.source} → ${r.target}`);
     else out[r.source] = r.target;
   }
   for (const page of pages) {

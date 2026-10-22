@@ -58,7 +58,10 @@ const gtmId = import.meta.env.PROD && typeof site.marketing.gtm_id === 'string' 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {gtmId && (
       <>
-        <script is:inline set:html={'window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}\n'} />
+        <script
+          is:inline
+          set:html={'window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}\n'}
+        />
         <script
           is:inline
           set:html={`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',${JSON.stringify(gtmId)});`}
@@ -107,7 +110,8 @@ const gtmId = import.meta.env.PROD && typeof site.marketing.gtm_id === 'string' 
           height="0"
           width="0"
           style="display:none;visibility:hidden"
-          title="Google Tag Manager"></iframe>
+          title="Google Tag Manager"
+        ></iframe>
       </noscript>
     )}
     <a
@@ -145,50 +149,50 @@ const gtmId = import.meta.env.PROD && typeof site.marketing.gtm_id === 'string' 
         ]}
         data-explorer
       >
-            {/* Open, the drawer covers the menu button, so it has its own. */}
-            <button
-              class="text-muted hover:bg-bg-elev hover:text-fg absolute top-3 right-3 flex size-11 items-center justify-center rounded-lg lg:hidden"
-              type="button"
-              aria-label="Close navigation"
-              data-menu-close
-            >
-              <svg
-                class="size-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M18 6 6 18M6 6l12 12" />
-              </svg>
-            </button>
-            {/* The column is a frame that holds its rule; the tree scrolls inside it. */}
-            <div class="h-full overflow-y-auto px-4 pt-20 pb-8 lg:pt-10 lg:pr-5 lg:pl-0" data-explorer-scroll>
-              {/* The header's links not already in the Explorer, until the header has room for them at xl. */}
-              <nav
-                class="border-rule mb-6 border-b pb-4 text-sm not-has-[a]:hidden xl:hidden"
-                aria-label="Menu"
-                data-drawer-menu
-              >
-                <ul class="space-y-1">
-                  {menuLinks.map((link) => (
-                    <li>
-                      <a
-                        href={link.url}
-                        aria-current={link.isCurrent ? 'page' : undefined}
-                        class="text-heading hover:bg-bg-elev aria-[current=page]:bg-accent-soft block rounded-md px-2 py-1.5 font-semibold no-underline pointer-coarse:py-2.5"
-                      >
-                        {link.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-              <Explorer rows={rows} />
-            </div>
+        {/* Open, the drawer covers the menu button, so it has its own. */}
+        <button
+          class="text-muted hover:bg-bg-elev hover:text-fg absolute top-3 right-3 flex size-11 items-center justify-center rounded-lg lg:hidden"
+          type="button"
+          aria-label="Close navigation"
+          data-menu-close
+        >
+          <svg
+            class="size-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
+        {/* The column is a frame that holds its rule; the tree scrolls inside it. */}
+        <div class="h-full overflow-y-auto px-4 pt-20 pb-8 lg:pt-10 lg:pr-5 lg:pl-0" data-explorer-scroll>
+          {/* The header's links not already in the Explorer, until the header has room for them at xl. */}
+          <nav
+            class="border-rule mb-6 border-b pb-4 text-sm not-has-[a]:hidden xl:hidden"
+            aria-label="Menu"
+            data-drawer-menu
+          >
+            <ul class="space-y-1">
+              {menuLinks.map((link) => (
+                <li>
+                  <a
+                    href={link.url}
+                    aria-current={link.isCurrent ? 'page' : undefined}
+                    class="text-heading hover:bg-bg-elev aria-[current=page]:bg-accent-soft block rounded-md px-2 py-1.5 font-semibold no-underline pointer-coarse:py-2.5"
+                  >
+                    {link.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <Explorer rows={rows} />
+        </div>
       </aside>
 
       <div class="min-w-0 py-8 lg:py-10">
@@ -198,15 +202,15 @@ const gtmId = import.meta.env.PROD && typeof site.marketing.gtm_id === 'string' 
       </div>
       {/* One rail: under the page until xl, the third column from there. */}
       {hasRail && (
-            <aside
-              class="border-rule xl:[[data-hide-rail]_&]:invisible xl:[[data-hide-rail]_&]:translate-x-4 xl:[[data-hide-rail]_&]:opacity-0 mx-auto mb-10 w-full max-w-[72ch] border-t pt-8 lg:col-start-2 xl:sticky xl:top-14 xl:col-start-3 xl:row-start-1 xl:mx-0 xl:mb-0 xl:h-[calc(100vh-5rem)] xl:w-68 xl:max-w-none xl:justify-self-end xl:border-t-0 xl:border-l xl:pt-0 xl:transition-[translate,opacity,visibility] xl:duration-150 xl:ease-out print:hidden"
-              id="rail"
-              data-rail
-            >
-              <div class="xl:h-full xl:overflow-y-auto xl:py-10 xl:pl-6">
-                <slot name="rail" />
-              </div>
-            </aside>
+        <aside
+          class="border-rule xl:[[data-hide-rail]_&]:invisible xl:[[data-hide-rail]_&]:translate-x-4 xl:[[data-hide-rail]_&]:opacity-0 mx-auto mb-10 w-full max-w-[72ch] border-t pt-8 lg:col-start-2 xl:sticky xl:top-14 xl:col-start-3 xl:row-start-1 xl:mx-0 xl:mb-0 xl:h-[calc(100vh-5rem)] xl:w-68 xl:max-w-none xl:justify-self-end xl:border-t-0 xl:border-l xl:pt-0 xl:transition-[translate,opacity,visibility] xl:duration-150 xl:ease-out print:hidden"
+          id="rail"
+          data-rail
+        >
+          <div class="xl:h-full xl:overflow-y-auto xl:py-10 xl:pl-6">
+            <slot name="rail" />
+          </div>
+        </aside>
       )}
     </div>
 

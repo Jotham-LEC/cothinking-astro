@@ -312,8 +312,7 @@ for (const c of Object.values(collections).filter((c) => c.sites.includes(SITE))
   const entry = { title: c.title, route: c.route, dated: c.dated, root: c.root, orderable: c.structured && !c.root };
   if (mount) entry.mount = { collection: mount.collection, slug: mount.slug };
   if (c.template) entry.template = c.template;
-  if (ARTICLES.includes(c.handle))
-    Object.assign(entry, { og_type: 'article', schema: 'Article' });
+  if (ARTICLES.includes(c.handle)) Object.assign(entry, { og_type: 'article', schema: 'Article' });
   if (blueprints.length > 1) entry.types = blueprints.map((b) => ({ handle: b.handle, title: b.title }));
   const options = {};
   for (const b of blueprints)

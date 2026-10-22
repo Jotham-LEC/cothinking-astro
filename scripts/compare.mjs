@@ -162,7 +162,9 @@ function feed(xml) {
   // evened out (Laravel escaped quotes and apostrophes; rehype writes &#x26;).
   const decode = (s) =>
     s
-      .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, (_, c) => c.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'))
+      .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, (_, c) =>
+        c.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+      )
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&quot;/g, '"')

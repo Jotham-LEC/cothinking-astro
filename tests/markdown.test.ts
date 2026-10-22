@@ -177,7 +177,9 @@ describe('plugin errors', () => {
     const failing = named('rehype-example', () => {
       throw new Error('boom');
     });
-    expect(() => failing({}, { path: 'src/content/essays/x.md' })).toThrow('[rehype-example] src/content/essays/x.md: boom');
+    expect(() => failing({}, { path: 'src/content/essays/x.md' })).toThrow(
+      '[rehype-example] src/content/essays/x.md: boom',
+    );
   });
 });
 

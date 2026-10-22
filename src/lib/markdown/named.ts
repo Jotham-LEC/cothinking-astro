@@ -7,7 +7,9 @@ export function named<T>(plugin: string, transform: (tree: T) => void) {
       transform(tree);
     } catch (error) {
       const where = file?.path ? ` ${file.path}` : '';
-      throw new Error(`[${plugin}]${where}: ${error instanceof Error ? error.message : String(error)}`, { cause: error });
+      throw new Error(`[${plugin}]${where}: ${error instanceof Error ? error.message : String(error)}`, {
+        cause: error,
+      });
     }
   };
 }

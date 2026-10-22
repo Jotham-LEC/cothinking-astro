@@ -17,7 +17,10 @@ type PipelineOptions = { titles: TitleIndex; siteUrl: string; publicDir: string 
 
 /** remark-wiki-link, parsing only: remark-wiki-links resolves the nodes. */
 export const wikiLinkSyntax = (): [RemarkPlugin, unknown][] => [
-  [wikiLinkPlugin as RemarkPlugin, { aliasDivider: '|', pageResolver: (name: string) => [name], hrefTemplate: (p: string) => p }],
+  [
+    wikiLinkPlugin as RemarkPlugin,
+    { aliasDivider: '|', pageResolver: (name: string) => [name], hrefTemplate: (p: string) => p },
+  ],
 ];
 
 /** Raw HTML in the content becomes part of the tree before any plugin looks at it; MDX's own nodes pass through. */
@@ -52,7 +55,10 @@ export const externalLinks = (siteUrl: string): RehypePlugins => [
   ],
 ];
 
-export function wikiRehypePlugins({ siteUrl, publicDir }: Pick<PipelineOptions, 'siteUrl' | 'publicDir'>): RehypePlugins {
+export function wikiRehypePlugins({
+  siteUrl,
+  publicDir,
+}: Pick<PipelineOptions, 'siteUrl' | 'publicDir'>): RehypePlugins {
   return [
     ...externalLinks(siteUrl),
     ...rawHtml(),

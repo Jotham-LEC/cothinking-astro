@@ -85,37 +85,37 @@ const last = links.length - 1;
   </nav>
   {/* Reader mode, from lg: puts the Explorer and the rail away together, pressed while neither shows. Its label shows from xl. */}
   <button
-      class="group rounded-site border-subtle text-heading hover:bg-bg-elev aria-pressed:border-accent aria-pressed:bg-bg-elev aria-pressed:text-accent relative hidden h-9 shrink-0 items-center justify-center gap-2 border px-3 text-sm font-semibold lg:flex"
-      type="button"
-      aria-label="Reader mode"
-      aria-pressed="false"
-      aria-keyshortcuts="z"
-      data-reader-toggle
+    class="group rounded-site border-subtle text-heading hover:bg-bg-elev aria-pressed:border-accent aria-pressed:bg-bg-elev aria-pressed:text-accent relative hidden h-9 shrink-0 items-center justify-center gap-2 border px-3 text-sm font-semibold lg:flex"
+    type="button"
+    aria-label="Reader mode"
+    aria-pressed="false"
+    aria-keyshortcuts="z"
+    data-reader-toggle
+  >
+    <svg
+      class="size-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
     >
-      <svg
-        class="size-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-      </svg>
-      <span class="hidden xl:inline" aria-hidden="true">
-        Reader
-      </span>
-      <span
-        class="border-rule bg-bg text-fg pointer-events-none absolute top-full right-0 mt-2 hidden rounded-lg border px-2.5 py-1.5 text-xs whitespace-nowrap shadow-lg group-hover:block group-focus-visible:block"
-        aria-hidden="true"
-      >
-        <span class="group-aria-pressed:hidden">Hide both side panels</span>
-        <span class="hidden group-aria-pressed:inline">Show the side panels</span>
-        <kbd class="border-rule bg-bg-elev ml-1.5 rounded border px-1 font-mono text-[0.65rem]">z</kbd>
-      </span>
-    </button>
+      <path d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+    </svg>
+    <span class="hidden xl:inline" aria-hidden="true">
+      Reader
+    </span>
+    <span
+      class="border-rule bg-bg text-fg pointer-events-none absolute top-full right-0 mt-2 hidden rounded-lg border px-2.5 py-1.5 text-xs whitespace-nowrap shadow-lg group-hover:block group-focus-visible:block"
+      aria-hidden="true"
+    >
+      <span class="group-aria-pressed:hidden">Hide both side panels</span>
+      <span class="hidden group-aria-pressed:inline">Show the side panels</span>
+      <kbd class="border-rule bg-bg-elev ml-1.5 rounded border px-1 font-mono text-[0.65rem]">z</kbd>
+    </span>
+  </button>
   {/* Two states, light and dark; the JS sets the state from the scheme in effect. */}
   <button
     class="text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11"
@@ -151,25 +151,25 @@ const last = links.length - 1;
   </button>
   {/* The menu, last as on most phones: it opens the drawer, with the header's links above the Explorer.
       From lg the Explorer is a column and from xl the links are in the header, so it goes. */}
-    <button
-      class="text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11 lg:hidden"
-      type="button"
-      aria-label="Menu"
-      aria-expanded="false"
-      aria-controls="explorer"
-      data-menu
+  <button
+    class="text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11 lg:hidden"
+    type="button"
+    aria-label="Menu"
+    aria-expanded="false"
+    aria-controls="explorer"
+    data-menu
+  >
+    <svg
+      class="size-5"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
     >
-      <svg
-        class="size-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M3 6h18M3 12h18M3 18h18" />
-      </svg>
-    </button>
+      <path d="M3 6h18M3 12h18M3 18h18" />
+    </svg>
+  </button>
 </header>
