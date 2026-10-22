@@ -3,7 +3,8 @@
 // come from Pagefind's index of the last build; if that fails (astro dev
 // before any build), typing filters the pre-rendered titles instead. The
 // dialog holds focus, closes on Esc or a click outside, and puts an open
-// drawer away as it opens.
+// drawer away as it opens. The field is a combobox over the results'
+// listbox: the active option is its aria-activedescendant.
 import { cleanUrl, loadPagefind, type PagefindResult } from './pagefind.ts';
 
 const MIN_CHARS = 2;
@@ -56,14 +57,21 @@ export function initPalette() {
   };
   function setActive(i: number) {
     const visible = visibleItems();
+    for (const a of items()) {
+      a.classList.remove('is-active');
+      a.parentElement!.setAttribute('aria-selected', 'false');
+    }
     if (!visible.length) {
       activeIndex = -1;
+      input!.removeAttribute('aria-activedescendant');
       return;
     }
     activeIndex = Math.max(0, Math.min(visible.length - 1, i));
-    for (const a of items()) a.classList.remove('is-active');
-    visible[activeIndex]!.classList.add('is-active');
-    visible[activeIndex]!.scrollIntoView({ block: 'nearest' });
+    const active = visible[activeIndex]!;
+    active.classList.add('is-active');
+    active.parentElement!.setAttribute('aria-selected', 'true');
+    input!.setAttribute('aria-activedescendant', active.parentElement!.id);
+    active.scrollIntoView({ block: 'nearest' });
   }
   function localFilter(query: string) {
     const q = query.trim().toLowerCase();
@@ -82,13 +90,15 @@ export function initPalette() {
     if (!hits.length) {
       const empty = document.createElement('li');
       empty.className = 'palette-empty';
+      empty.setAttribute('role', 'presentation');
       empty.textContent = 'No results';
       list.appendChild(empty);
-      activeIndex = -1;
+      setActive(-1);
       announce(0);
       return;
     }
     let lastSection: string | null = null;
+    let n = 0;
     for (const hit of bySection(hits)) {
       // A header the first time each section's run begins: an <li> with no anchor, so keyboard navigation skips it.
       if (hit.section !== lastSection) {
@@ -96,12 +106,16 @@ export function initPalette() {
         if (hit.section !== '') {
           const header = document.createElement('li');
           header.className = 'palette-section';
+          header.setAttribute('role', 'presentation');
           header.setAttribute('aria-hidden', 'true');
           header.textContent = hit.section;
           list.appendChild(header);
         }
       }
       const li = document.createElement('li');
+      li.setAttribute('role', 'option');
+      li.id = `palette-hit-${n++}`;
+      li.setAttribute('aria-selected', 'false');
       const a = document.createElement('a');
       a.href = hit.url;
       a.dataset.label = hit.title.toLowerCase();
@@ -155,8 +169,15 @@ export function initPalette() {
     debounce = setTimeout(() => remoteSearch(q), 150);
   }
 
+  // A search still on its way must not fill the list after it closes, or under an empty field when it opens again.
+  function forget() {
+    if (debounce) clearTimeout(debounce);
+    requestId++;
+  }
+
   function open() {
     if (palette!.open) return;
+    forget();
     input!.value = '';
     restore();
     localFilter('');
@@ -196,4 +217,5 @@ export function initPalette() {
 
   for (const button of document.querySelectorAll('[data-palette-open]')) button.addEventListener('click', open);
   input.addEventListener('input', onInput);
+  palette.addEventListener('close', forget);
 }

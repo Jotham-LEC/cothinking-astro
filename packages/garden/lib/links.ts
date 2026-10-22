@@ -42,6 +42,15 @@ export function localTargets(body: string): string[] {
   return [...paths, ...htmlPaths];
 }
 
+/** The level of a body's first Markdown heading (`##` is 2), or null when it has none. */
+export function firstHeadingDepth(body: string): number | null {
+  let depth: number | null = null;
+  visit(parser.parse(body) as Root, 'heading', (node) => {
+    depth ??= node.depth;
+  });
+  return depth;
+}
+
 /** The pages a body links to (wiki links by title, Markdown links by path), on this site. */
 export function linkedPages(body: string, titles: TitleIndex, byUrl: Map<string, SiteEntry>): SiteEntry[] {
   const { wikiLinks, paths } = linksIn(body);

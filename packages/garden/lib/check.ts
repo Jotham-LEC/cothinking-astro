@@ -3,7 +3,8 @@
 // and dashes. Every collection folder is in the site config, and each
 // section's landing page exists. Every published page: its [[wiki links]]
 // name a published page, its /media links exist, its ](/path) links are
-// pages or routes, its image exists, no "Sample:" page is left. Every page
+// pages or routes, its image exists, its first heading is `##` (the page's
+// title is the h1), no "Sample:" page is left. Every page
 // (drafts too): an ordered collection's page has its `order`; a field that
 // names another entry (`collection/id`) names one that exists; its author
 // is known; its title can be linked (no `[`, `]` or `|`) and is unique
@@ -15,7 +16,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { byKey, keyOf, published, toSiteEntry, type RawEntry, type SiteEntry, type UrlOf } from './entry.ts';
-import { localTargets, wikiLinksIn } from './links.ts';
+import { firstHeadingDepth, localTargets, wikiLinksIn } from './links.ts';
 import { pathOf, type NavItem, type SiteConfig } from './site.ts';
 import { normaliseTitle, resolveTitle, titleIndex } from './titles.ts';
 
@@ -97,6 +98,9 @@ export function check({ root, site, urlOf, raws, other }: CheckInput): string[] 
       const problem = pathProblem(decodeURIComponent(target.split(/[?#]/)[0]!));
       if (problem) problems.push(`${where(page)}: ${problem}`);
     }
+    const depth = firstHeadingDepth(page.body);
+    if (depth !== null && depth !== 2)
+      problems.push(`${where(page)}: its first heading is ${'#'.repeat(depth)}; start at ## (the title is the h1).`);
     if (page.title.startsWith('Sample:')) problems.push(`${where(page)}: a sample page is still here.`);
   }
 

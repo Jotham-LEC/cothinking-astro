@@ -45,7 +45,7 @@ Marina notes that a lack of awareness is the key factor contributing to the grow
 
 “Many consumers are also careless with their personal information online. Consumers are highly dependent on technology in this day and age, and scammers have easier access to this wealth of information, which will increase consumers’ vulnerability to scams.”
 
-### What to do if you become a victim
+## What to do if you become a victim
 
 It is extremely unlikely for a scam victim to be able to recover the money once it has been stolen, but it is not entirely impossible to do so, says Marina. The most crucial factor is how quickly the victim contacts the bank after the scam and how fast the bank reacts to the complaint.
 
@@ -73,7 +73,7 @@ Marina points out that OFS’ role is to function as a mediator between the fina
 
 “But more often than not, it is the consumer who has revealed all the vital information. [At times, they not only reveal] their username and password but also their authorisation code, which enabled the fraudster to perform the transaction. So, we will weigh the issue and see what is fair and reasonable.”
 
-### Evolving scams
+## Evolving scams
 
 Marina says the modus operandi for scams is always changing, making it challenging to educate the public on the different types of scams going around. She points out that financial scams in the country go as far back as two decades, when credit card skimming and the Lebanese loop scam were prevalent.
 

@@ -5,7 +5,9 @@
 // `after-article`, and `body`, markup in place of the Markdown body; the
 // default slot is the rendered body; `head` goes into the <head>.
 // `extraHeadings` are headings for the outline that the body lacks (a view's
-// own h2s). `path` is the address when it is not the entry's own (/notes/2).
+// own h2s). `path` is the address when it is not the entry's own (/notes/2);
+// such a page passes `seoTitle` for its own title, and `searchable={false}`
+// so the search index holds the entry's text once.
 import { garden } from '../lib/load.ts';
 import { pageInfo } from '../lib/info.ts';
 import { backlinks } from '../lib/graph.ts';
@@ -24,8 +26,10 @@ type Props = {
   path?: string;
   headings?: Heading[];
   extraHeadings?: TocEntry[];
+  seoTitle?: string;
+  searchable?: boolean;
 };
-const { headings = [], extraHeadings = [] } = Astro.props;
+const { headings = [], extraHeadings = [], seoTitle, searchable = true } = Astro.props;
 const g = await garden();
 const page = g.entry(Astro.props.entry);
 const path = Astro.props.path ?? page.url;
@@ -37,11 +41,20 @@ const updated = page.updated ?? page.date;
 const section = info.section ? (g.site.collections[info.section]?.title ?? info.section) : null;
 ---
 
-<Layout page={page} info={info} path={path} statusline={info.readTime ? `${info.readTime} min read` : null}>
+<Layout
+  page={page}
+  info={info}
+  path={path}
+  seoTitle={seoTitle}
+  statusline={info.readTime ? `${info.readTime} min read` : null}
+>
   <slot name="head" slot="head" />
   {!info.isHome && <Breadcrumbs url={path} live={g.live} />}
 
-  <div data-pagefind-body data-pagefind-meta={section ? `section:${section}` : undefined}>
+  <div
+    data-pagefind-body={searchable ? '' : undefined}
+    data-pagefind-meta={searchable && section ? `section:${section}` : undefined}
+  >
     <PageHeader title={page.title} eyebrow={info.eyebrow} source={info.source} sourceDate={info.sourceDate} popover />
     <Outline entries={entries} variant="details" />
 

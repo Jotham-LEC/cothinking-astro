@@ -43,7 +43,7 @@ Kossan is in its final stages of automating the packaging process of sterile glo
 
 The automation machinery includes a glove walleting packing machine, which automatically wraps the cuffed gloves into individual wallets; a platen seal pouching machine with a production speed of up to 75 pouches per minute; and a form fill sealing machine, which prints graphics and texts onto the pouches.
 
-### Talent versus labour
+## Talent versus labour
 
 Lim says the company has been placing emphasis on reducing its reliance on unskilled labour for many years now, and its hard work has started to bear fruit.
 
@@ -81,7 +81,7 @@ During an economic downturn similar to the current pandemic, where non-performin
 
 Lim says true automation is where economies reduce their dependence on manual labour across the board in favour of technology and automation, shifting instead to highly skilled workers doing more productive work, a goal that the Malaysian economy should strive for.
 
-### Beyond production lines
+## Beyond production lines
 
 According to Lim, Kossan has not merely focused its attention on automating its production lines, but rather on digitalising the business as a whole.
 

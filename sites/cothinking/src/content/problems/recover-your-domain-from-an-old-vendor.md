@@ -1,6 +1,7 @@
 ---
 title: Recover your domain from an old vendor
 description: How to get your domain, hosting, and email accounts back from a former web designer or IT vendor and into your company's name, step by step.
+date: 2026-10-10
 updated: 2026-10-16T08:00:00+00:00
 order: 4
 what_i_do: I help you get the domain and the website and email accounts back in your company's name, and I can write to the old vendor for you.

@@ -1,4 +1,4 @@
-// The head model: title, description, canonical, robots, Open Graph, Twitter
+// The head model: title, description, canonical, robots, Open Graph, Twitter card
 // and the JSON-LD graph (WebSite, the publisher, WebPage or ProfilePage,
 // BreadcrumbList, Article). A piece first published elsewhere sends search
 // engines there (`seo.canonical`).
@@ -41,7 +41,6 @@ export type Head = {
   image: ShareImage | null;
   published: string | null;
   modified: string | null;
-  twitterSite: string | null;
   graph: Record<string, unknown>[];
 };
 
@@ -70,7 +69,7 @@ const isArticle = (page: SiteEntry | null, site: SiteConfig) =>
 /** The page's title with the site's name after it, unless that runs long. */
 export function title(input: HeadInput): string {
   const { page, site, overrides } = input;
-  if (page?.seo.title) return page.seo.title;
+  if (page?.seo.title && !overrides?.title) return page.seo.title;
   if (isHome(input) && !overrides?.title) return site.name;
   const own = overrides?.title ?? page?.title ?? null;
   if (own === null) return site.name;
@@ -153,7 +152,7 @@ function websiteNode(site: SiteConfig) {
   };
 }
 
-/** Who is behind the site: a Person (who works for the other site's organisation) or an Organization (founded by the other site's Person). */
+/** Who is behind the site: a Person (with the employers its config names) or an Organization (founded by the other site's Person). */
 function publisherNode(site: SiteConfig) {
   const p = site.seo.publisher;
   const person = p.type === 'Person';
@@ -186,7 +185,7 @@ function publisherNode(site: SiteConfig) {
           clean({ '@type': 'ContactPoint', contactType: c.contactType, telephone: c.telephone, email: c.email }),
         ),
     sameAs: p.sameAs,
-    worksFor: person ? [{ '@type': 'Organization', '@id': otherId, name: other.name, url: other.url }] : null,
+    worksFor: person ? (p.worksFor ?? []).map((o) => ({ '@type': 'Organization', name: o.name, url: o.url })) : null,
     founder: person ? null : { '@type': 'Person', '@id': otherId, name: other.name, url: other.url },
   });
 }
@@ -285,13 +284,13 @@ export function head(input: HeadInput): Head {
     robots: robots(input),
     ogType: type,
     ogTitle: ogT,
-    url: url(input),
+    // A piece first published elsewhere: Open Graph points where rel=canonical does.
+    url: can ?? url(input),
     siteName: site.name,
     locale: site.locale,
     image: img,
     published: article && page?.date ? atom(page.date) : null,
     modified: article && page?.updated ? atom(page.updated) : null,
-    twitterSite: site.seo.twitterHandle ? '@' + site.seo.twitterHandle.replace(/^@/, '') : null,
     graph,
   };
 }
@@ -299,7 +298,14 @@ export function head(input: HeadInput): Head {
 /** The head for a page of the site (layouts/Layout.astro): an entry's, or a listing's by title and description. */
 export function seoFor(
   g: Garden,
-  o: { page?: SiteEntry | null; path: string; status?: number; title?: string | null; description?: string | null },
+  o: {
+    page?: SiteEntry | null;
+    path: string;
+    status?: number;
+    title?: string | null;
+    description?: string | null;
+    noindex?: boolean;
+  },
 ): Head {
   return head({
     page: o.page ?? null,
@@ -307,7 +313,7 @@ export function seoFor(
     site: g.site,
     live: g.live,
     status: o.status,
-    overrides: { title: o.title, description: o.description },
+    overrides: { title: o.title, description: o.description, noindex: o.noindex },
   });
 }
 

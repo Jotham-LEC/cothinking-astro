@@ -15,6 +15,7 @@ import {
   toSiteEntry,
   type RawEntry,
 } from '../lib/entry.ts';
+import { fullUrls, pageOnly } from '../lib/feed.ts';
 import { explorerRows, headerLinks, markCurrent, menu, panels, urlsIn } from '../lib/explorer.ts';
 import { backlinks, buildGraph } from '../lib/graph.ts';
 import { pageInfo } from '../lib/info.ts';
@@ -266,6 +267,52 @@ describe('head and generated files', () => {
       robots: 'noindex, follow',
       graph: [],
     });
+  });
+  it('names the publisher: a Person with the employers its config gives, an Organization founded by the other site', () => {
+    const person = (config: SiteConfig) =>
+      head(input(at('/'), { site: config })).graph.find((n) => n['@id'] === `${config.url}/#publisher`)!;
+    expect(person(site).worksFor).toBeUndefined();
+    const employed: SiteConfig = {
+      ...site,
+      seo: {
+        ...site.seo,
+        publisher: { type: 'Person', jobTitle: 'Head', worksFor: [{ name: 'Firm', url: 'https://firm.test' }] },
+      },
+    };
+    expect(person(employed)).toMatchObject({
+      jobTitle: 'Head',
+      worksFor: [{ '@type': 'Organization', name: 'Firm', url: 'https://firm.test' }],
+    });
+    const org: SiteConfig = { ...site, seo: { ...site.seo, publisher: { type: 'Organization' } } };
+    expect(person(org)).toMatchObject({
+      founder: { '@type': 'Person', '@id': 'https://other.test/#publisher' },
+    });
+    expect(person(org).worksFor).toBeUndefined();
+  });
+  it('points og:url where rel=canonical points, and keeps a listing out of search when asked', () => {
+    const republished = head(input(at('/essays/newer')));
+    expect(republished.url).toBe('https://x.test/n');
+    expect(republished.graph.find((n) => n['@type'] === 'WebPage')!['@id']).toBe(
+      'https://garden.test/essays/newer#webpage',
+    );
+    expect(head(input(at('/essays/older'))).url).toBe('https://garden.test/essays/older');
+    expect(head({ page: null, path: '/x', site, live, overrides: { noindex: true } }).robots).toBe('noindex, follow');
+  });
+  it('makes a feed body stand alone: absolute addresses, #links to the page, no page-only markup', () => {
+    expect(
+      fullUrls(
+        '<a href="/x">x</a> <a href="#h">h</a> <a href="//cdn.test/y">y</a> <img src="/a.png" srcset="/a.png 1x, /b.png 2x">',
+        'https://garden.test/',
+        'https://garden.test/essays/older',
+      ),
+    ).toBe(
+      '<a href="https://garden.test/x">x</a> <a href="https://garden.test/essays/older#h">h</a> <a href="//cdn.test/y">y</a> <img src="https://garden.test/a.png" srcset="https://garden.test/a.png 1x, https://garden.test/b.png 2x">',
+    );
+    expect(
+      pageOnly(
+        '<img class="wiki-logo-light" src="/l.svg"><img class="wiki-logo-dark" src="/d.svg"><div><button class="code-block-copy" type="button">Copy</button><pre>x</pre></div>',
+      ),
+    ).toBe('<img class="wiki-logo-light" src="/l.svg"><div><pre>x</pre></div>');
   });
   it('lists only canonical, indexable pages in the sitemap, and writes robots.txt', () => {
     expect(inSitemap(at('/essays/newer'), site)).toBe(false);

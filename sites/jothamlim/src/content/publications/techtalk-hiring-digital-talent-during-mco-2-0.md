@@ -11,7 +11,7 @@ This article first appeared in Digital Edge, The Edge Malaysia Weekly on March 1
 
 Businesses in Malaysia have been encouraged to adopt aggressive digitalisation measures due to the Covid-19 pandemic, which has increased demand for high-quality digital talent. But they are in short supply. How are companies responding?
 
-### 1  Going global due to lack of quality talent
+## 1  Going global due to lack of quality talent
 
 Prior to the pandemic, Poptron was run by a team of five, led by its CEO and founder, Brian Johnson Lowe. During the Movement Control Order (MCO), the company tripled its workforce to 15 staff members. However, Lowe says it was especially difficult to source high-quality talent in the current environment.
 
@@ -39,7 +39,7 @@ The difficulty in sourcing the right digital talent has prompted Lowe to outsour
 
 He points out that companies will definitely have a leg up if they start out leveraging a global talent pool as opposed to just relying on local supply. However, such practices do come with downsides, such as the lack of an established real working relationship, which is driven by not only product features and deliverables but also being on the same page in terms of the company’s vision and mission.
 
-### 2  MCO as a catalyst for job changes
+## 2  MCO as a catalyst for job changes
 
 WorkSmartly founder Victor Phang tells *Digital Edge* that, although it is actively hiring new digital talent during MCO 2.0, its recruitment exercises are not as aggressive as they were in May 2020 after the relaxation of the first MCO.
 
@@ -69,7 +69,7 @@ With multiple offices in Southeast Asia, Phang believes that Malaysia’s digita
 
 “Our education system is very much driven by politics rather than real market needs. Thus, for many organisations like ours, we have to self-help. And we do so by training our talent ourselves.”
 
-### 3  Beyond hiring — onboarding and managing new recruits
+## 3  Beyond hiring — onboarding and managing new recruits
 
 Despite the movement restrictions imposed during the pandemic, RPG Commerce Sdn Bhd has managed to quadruple its employee count from 20 staff members in January 2020 to 80 in January 2021. Founder and CEO Melvin Chee says most of its recent hires are designers, developers and data analysts, and it is hoping to reach 200 staff members by the end of this year.
 

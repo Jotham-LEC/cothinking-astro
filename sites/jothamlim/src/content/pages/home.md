@@ -35,7 +35,7 @@ But each step of my career has built on the last, and I am extremely fortunate t
 >   
 > **Credentials**: [NBC-HWC](https://www.credly.com/badges/e890b57b-7530-4c5a-ae3e-4fb7c31773ba), [ESOMAR Member](https://community.esomar.org/web/mmark_young/validation.php?id=11647)
 > 
-> **Contact**: [hi@jothamlim.com](mailto:hi@jothamlim.com), [LinkedIn](https://linkedin.com/in/jothamlec), [GitHub](https://github.com/Jotham-LEC), [X](https://x.com/Jotham_Lim_)
+> **Contact**: [hi@jothamlim.com](mailto:hi@jothamlim.com), [LinkedIn](https://linkedin.com/in/jothamlec), [GitHub](https://github.com/Jotham-LEC)
 
 Check out the [[Career|career page]] for more information, and [[Projects]] for what I build and how I work.
 

@@ -1,6 +1,7 @@
 ---
 title: Appear more on Google searches
 description: "How to make your business appear more on Google Search and Maps: a verified Google Business Profile, filled in, and a website Google can read."
+date: 2026-10-11
 updated: 2026-10-16T08:00:00+00:00
 order: 3
 what_i_do: I set up and verify your Google Business Profile, and fix what stops Google showing your website.

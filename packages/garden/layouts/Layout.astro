@@ -4,7 +4,8 @@
 // card, the status line and the footer. A `room` takes the full width and
 // keeps the Explorer as a drawer (with the header's links only). Pass
 // `page` for an entry's page, or `seoTitle`, `seoDescription` and
-// `seoStatus` for one without; `path` is the page's address (never
+// `seoStatus` for one without (`seoTitle` also renames an entry's later
+// pages); `seoNoindex` keeps a page out of search engines; `path` is the page's address (never
 // Astro.url). `statusline` is the status line's text.
 // Pagefind indexes what <Entry> marks with data-pagefind-body; a room has no
 // <Entry>, so its whole <main> is marked here.
@@ -32,6 +33,7 @@ type Props = {
   seoTitle?: string | null;
   seoDescription?: string | null;
   seoStatus?: number;
+  seoNoindex?: boolean;
   statusline?: string | null;
 };
 const { page = null, info = null, path, room = false, seoStatus = 200, statusline = null } = Astro.props;
@@ -43,6 +45,7 @@ const head = seoFor(g, {
   status: seoStatus,
   title: Astro.props.seoTitle,
   description: Astro.props.seoDescription,
+  noindex: Astro.props.seoNoindex,
 });
 const { hasExplorer, hasDrawer } = panels(live, site, room);
 const rows = hasExplorer ? markCurrent(g.explorer, page, path) : [];

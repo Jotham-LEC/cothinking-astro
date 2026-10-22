@@ -30,6 +30,7 @@ const problems = defineCollection({
     z
       .object({
         ...base(image),
+        ...dated,
         ...ordered,
         what_i_do: z.string().optional(),
         case_study: z.array(reference).max(1).optional(),
