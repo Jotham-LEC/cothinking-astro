@@ -54,8 +54,10 @@ from `lib/seo.ts`.
   `garden()` loads every collection the config lists. `lib/site.ts` types the
   config; a collection's `landing` makes it a section under that page, `path`
   says where its pages live (`/<landing>` unless set), `article`,
-  `feed`, `order`, `explorer`, `groupBy`, `categories`, `types`, `graphSection`
-  and `graphColour` say the rest.
+  `feed`, `order`, `explorer` (`all`, `with-body`, `by-year`,
+  `by-category`, `by-type`), `categories`, `types` (a collection with types
+  is a stream of posts: paged by date, no "last updated"), `graphSection`
+  and `graphColour` say the rest. The garden names no collection.
 - **Addresses** come from `urlFor(site)` (`lib/entry.ts`): `pages/home` is
   `/`, a page is `/<id>`, any other entry `<path>/<id>`. It is pure, so the
   Astro config and the tests use it too. `[[wiki links]]` resolve against a title
@@ -148,10 +150,10 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
   under the landing page), a landing page and its `explorer` item, a
   page file for its route (`src/pages/<landing>/[slug].astro`), and the
   landing's own view (`src/pages/<landing>/index.astro`) with its id in
-  `[slug].astro`'s `OWN` list. Its graph colour is `graphColour`, one of the
-  `--site-graph-*` tokens; a new colour is a token in `styles/tokens.css`,
-  its `--color-graph-*` line in `styles/site.css` and its class in
-  `scripts/graph.ts` `COLOURS`.
+  `[slug].astro`'s `OWN` list. Its graph colour is `graphColour`, 1 to 5, the
+  `--site-graph-<n>` tokens in `styles/tokens.css` (5 is the site's own
+  pages); a sixth would be a token there, its `--color-graph-6` line in
+  `styles/site.css` and its class in `scripts/graph.ts` `COLOURS`.
 - **A behaviour**: a `scripts/<name>.ts` exporting `init<Name>()`, imported
   by a `<script>` in the component that owns the markup. Talk to another
   component through the platform (`showModal()`, `hidePopover()`).

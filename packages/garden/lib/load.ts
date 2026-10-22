@@ -8,7 +8,7 @@ import { getCollection, getEntry, render, type CollectionKey } from 'astro:conte
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 // `@site/*` is the site being built: each site's tsconfig.json maps it to its own src/ (AGENTS.md, "Aliases").
 import { site } from '@site/site.config.ts';
-import { keyOf, published, toSiteEntry, urlFor, type SiteEntry } from './entry.ts';
+import { keyOf, published, toSiteEntry, type SiteEntry } from './entry.ts';
 import { explorerRows, type Row } from './explorer.ts';
 import { buildGraph, type Graph } from './graph.ts';
 import type { SiteConfig } from './site.ts';
@@ -30,11 +30,10 @@ let cache: Promise<Garden> | null = null;
 
 export function garden(): Promise<Garden> {
   cache ??= (async () => {
-    const urlOf = urlFor(site);
     // A–Z by name, so the graph's order does not follow the config's.
     const names = Object.keys(site.collections).sort();
     const collections = await Promise.all(names.map((c) => getCollection(c as CollectionKey)));
-    const entries = collections.flat().map((e) => toSiteEntry(e, urlOf));
+    const entries = collections.flat().map((e) => toSiteEntry(e, site));
     const live = published(entries);
     const byId = new Map(entries.map((e) => [keyOf(e), e]));
     // The graph's links are this site's pages only, so its titles are enough (a [[link]] to the other site is no node).

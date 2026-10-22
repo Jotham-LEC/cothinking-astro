@@ -23,14 +23,14 @@ export const site = {
       article: true,
       order: 'order',
       graphSection: true,
-      graphColour: 'notes',
+      graphColour: 2,
     },
     wiki: {
       title: 'Wiki',
       landing: 'wiki',
       article: true,
       order: 'date',
-      groupBy: 'category',
+      explorer: 'by-category',
       categories: {
         'choosing-a-provider': 'Choosing a provider',
         'email-and-security': 'Email and security',
@@ -40,9 +40,9 @@ export const site = {
         'setting-up-it': 'Setting up IT',
       },
       graphSection: true,
-      graphColour: 'essays',
+      graphColour: 1,
     },
-    work: { title: 'Work', landing: 'work', order: 'order', explorer: 'with-body', graphColour: 'projects' },
+    work: { title: 'Work', landing: 'work', order: 'order', explorer: 'with-body', graphColour: 4 },
   },
   navigation: {
     explorer: [

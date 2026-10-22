@@ -1,6 +1,7 @@
 // The entry model the garden works on: every content entry, from any
 // collection of either site, as a SiteEntry with its address and the fields
-// the garden reads (null where a site has no such field). `toSiteEntry` is
+// the garden reads (null where a site has no such field), both from the
+// site's config. `toSiteEntry` is
 // the one mapper, used by Astro's loader (load.ts) and the disk scan
 // (scan.ts); a site's views keep their own typed entry for the rest.
 import { year } from './dates.ts';
@@ -32,7 +33,7 @@ export type SiteEntry = {
   paragraphs: string[];
   seo: Seo;
   order: number | null;
-  /** A note's post type. */
+  /** A post's type, in a collection with `types` (notes). */
   type: string | null;
   category: string | null;
   series: string | null;
@@ -88,12 +89,13 @@ const asImage = (value: unknown): SiteEntry['image'] => {
     : null;
 };
 
-export function toSiteEntry({ collection, id, data: d, body, rendered }: RawEntry, urlOf: UrlOf): SiteEntry {
+export function toSiteEntry({ collection, id, data: d, body, rendered }: RawEntry, site: SiteConfig): SiteEntry {
   const paragraphs = (rendered?.metadata?.frontmatter as Record<string, unknown> | undefined)?.paragraphs;
+  const types = site.collections[collection]?.types;
   return {
     collection,
     id,
-    url: urlOf(collection, id),
+    url: urlFor(site)(collection, id),
     title: String(d.title ?? id),
     description: asString(d.description),
     image: asImage(d.image),
@@ -104,7 +106,7 @@ export function toSiteEntry({ collection, id, data: d, body, rendered }: RawEntr
     paragraphs: Array.isArray(paragraphs) ? paragraphs.map(String) : [],
     seo: d.seo && typeof d.seo === 'object' ? (d.seo as Seo) : {},
     order: asNumber(d.order),
-    type: collection === 'notes' ? (asString(d.type) ?? 'text') : null,
+    type: types ? (asString(d.type) ?? Object.keys(types)[0] ?? null) : null,
     category: asString(d.category),
     series: asString(d.series),
     part: asNumber(d.part),

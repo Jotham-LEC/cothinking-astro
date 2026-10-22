@@ -1,10 +1,16 @@
 // The pages either side of one: a series (same collection, same `series`, by
-// `part`), or a note (every note by date, older first). Published pages of
-// the same collection only; any other page has neither.
+// `part`), or a post in a collection with `types`, such as a note (every
+// post by date, older first). Published pages of the same collection only;
+// any other page has neither.
 import { byDateAsc, type SiteEntry } from './entry.ts';
+import type { SiteConfig } from './site.ts';
 
-export function pager(page: SiteEntry, live: SiteEntry[]): { previous: SiteEntry | null; next: SiteEntry | null } {
-  if (!page.series && page.collection !== 'notes') return { previous: null, next: null };
+export function pager(
+  page: SiteEntry,
+  live: SiteEntry[],
+  site: SiteConfig,
+): { previous: SiteEntry | null; next: SiteEntry | null } {
+  if (!page.series && !site.collections[page.collection]?.types) return { previous: null, next: null };
   const own = live.filter((p) => p.collection === page.collection);
   const ordered = page.series
     ? own.filter((p) => p.series === page.series).sort((a, b) => (a.part ?? 0) - (b.part ?? 0))

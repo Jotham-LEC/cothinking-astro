@@ -67,11 +67,11 @@
   --color-rule-strong: var(--site-rule-strong);
   --color-code-bg: var(--site-code-bg);
   --color-status-mode: var(--site-status-mode);
-  --color-graph-essays: var(--site-graph-essays);
-  --color-graph-notes: var(--site-graph-notes);
-  --color-graph-publications: var(--site-graph-publications);
-  --color-graph-projects: var(--site-graph-projects);
-  --color-graph-pages: var(--site-graph-pages);
+  --color-graph-1: var(--site-graph-1);
+  --color-graph-2: var(--site-graph-2);
+  --color-graph-3: var(--site-graph-3);
+  --color-graph-4: var(--site-graph-4);
+  --color-graph-5: var(--site-graph-5);
   --color-accent: var(--site-accent);
   --color-accent-hover: var(--site-accent-hover);
   --color-accent-soft: var(--site-accent-soft);

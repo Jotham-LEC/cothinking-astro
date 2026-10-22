@@ -8,7 +8,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseFrontmatter } from '@astrojs/markdown-remark';
-import { published, toSiteEntry, type RawEntry, type SiteEntry, type UrlOf } from './entry.ts';
+import { published, toSiteEntry, type RawEntry, type SiteEntry } from './entry.ts';
+import type { SiteConfig } from './site.ts';
 import { titleIndex, type TitleIndex } from './titles.ts';
 
 /** A site folder's `src/content`, every collection in it, as the front matter and body of each file. */
@@ -28,16 +29,16 @@ export function scanRaw(root: URL | string): RawEntry[] {
 }
 
 /** The same, as SiteEntries. */
-export const scanEntries = (root: URL | string, urlOf: UrlOf): SiteEntry[] =>
-  scanRaw(root).map((raw) => toSiteEntry(raw, urlOf));
+export const scanEntries = (root: URL | string, site: SiteConfig): SiteEntry[] =>
+  scanRaw(root).map((raw) => toSiteEntry(raw, site));
 
-export type Scan = { root: URL | string; urlOf: UrlOf };
+export type Scan = { root: URL | string; site: SiteConfig };
 
 /** The title index for a site: its published pages over the other site's, by full address. */
 function scanTitles(site: Scan, other: Scan & { url: string }): TitleIndex {
   return titleIndex(
-    published(scanEntries(site.root, site.urlOf)),
-    published(scanEntries(other.root, other.urlOf)),
+    published(scanEntries(site.root, site.site)),
+    published(scanEntries(other.root, other.site)),
     other.url,
   );
 }

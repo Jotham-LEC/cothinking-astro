@@ -39,7 +39,7 @@ const site: SiteConfig = {
   footerText: 'Footer',
   collections: {
     pages: { title: 'Pages', order: 'order' },
-    essays: { title: 'Essays', landing: 'essays', article: true, feed: true, order: 'date', graphColour: 'essays' },
+    essays: { title: 'Essays', landing: 'essays', article: true, feed: true, order: 'date', graphColour: 1 },
     problems: { title: 'Problems', landing: 'problems', path: '', order: 'order', graphSection: true },
   },
   navigation: {
@@ -59,6 +59,20 @@ const site: SiteConfig = {
   marketing: {},
 };
 const urlOf = urlFor(site);
+// The site with a stream of posts (a collection with `types`), as jothamlim.com's notes.
+const posts: SiteConfig = {
+  ...site,
+  collections: {
+    ...site.collections,
+    notes: {
+      title: 'Notes',
+      landing: 'notes',
+      order: 'date',
+      explorer: 'by-type',
+      types: { text: 'Text', quote: 'Quote' },
+    },
+  },
+};
 
 const raws: RawEntry[] = [
   { collection: 'pages', id: 'home', data: { title: 'Home', order: 0 }, body: 'See [[About]] and [[Newer]].' },
@@ -92,11 +106,9 @@ const raws: RawEntry[] = [
   { collection: 'problems', id: 'spam', data: { title: 'Spam', order: 1 }, body: '' },
   { collection: 'problems', id: 'slow', data: { title: 'Slow', order: 0 }, body: '' },
 ];
-const entries = raws.map((r) => toSiteEntry(r, urlOf));
+const entries = raws.map((r) => toSiteEntry(r, site));
 const live = published(entries);
-const other = [
-  toSiteEntry({ collection: 'pages', id: 'other-page', data: { title: 'Other Page' } }, (_c, id) => `/${id}`),
-];
+const other = [toSiteEntry({ collection: 'pages', id: 'other-page', data: { title: 'Other Page' } }, site)];
 const titles = titleIndex(live, other, site.otherSite.url);
 const at = (url: string) => live.find((e) => e.url === url)!;
 
@@ -113,7 +125,7 @@ describe('entries', () => {
     ]);
     expect(() => urlOf('talks', 'x')).toThrow('No talks collection');
     expect(
-      toSiteEntry({ collection: 'notes', id: 'n', data: { title: 'N', date: '2024-01-01' } }, () => '/notes/n'),
+      toSiteEntry({ collection: 'notes', id: 'n', data: { title: 'N', date: '2024-01-01' } }, posts),
     ).toMatchObject({
       type: 'text',
       date: new Date('2024-01-01'),
@@ -205,9 +217,15 @@ describe('links and the graph', () => {
 
 describe('pager, breadcrumbs, info, outline', () => {
   it('pages through a series by part, and nothing else', () => {
-    expect(pager(at('/essays/older'), live).next?.id).toBe('newer');
-    expect(pager(at('/essays/newer'), live).previous?.id).toBe('older');
-    expect(pager(at('/about'), live)).toEqual({ previous: null, next: null });
+    expect(pager(at('/essays/older'), live, site).next?.id).toBe('newer');
+    expect(pager(at('/essays/newer'), live, site).previous?.id).toBe('older');
+    expect(pager(at('/about'), live, site)).toEqual({ previous: null, next: null });
+    // A collection with `types` is a stream of posts, paged by date.
+    const notes = ['2024-01-01', '2024-02-01'].map((date, i) =>
+      toSiteEntry({ collection: 'notes', id: `n${i}`, data: { title: `N${i}`, date } }, posts),
+    );
+    expect(pager(notes[0]!, notes, posts).next?.id).toBe('n1');
+    expect(pager(notes[0]!, notes, site)).toEqual({ previous: null, next: null });
   });
   it('walks the address for breadcrumbs', () => {
     expect(breadcrumbs('/essays/older', live).map((c) => c.url)).toEqual(['/', '/essays', '/essays/older']);
