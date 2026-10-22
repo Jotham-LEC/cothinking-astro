@@ -3,7 +3,6 @@ title: "PDPA amendments: what sales and marketing teams must change"
 description: "The PDPA amendments in force since 2025, for owners whose sales and marketing teams handle customer data: 72-hour breach notices, when you need a DPO, data portability, and higher fines."
 date: 2026-10-12
 updated: 2026-10-15T08:30:50+00:00
-author: jotham-lim
 category: ownership-and-compliance
 related_pages:
   - problems/building-a-website-that-brings-in-enquiries

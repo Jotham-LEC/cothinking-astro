@@ -5,18 +5,14 @@ import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 import type { SchemaContext } from 'astro:content';
 
-/** An enum of the values given, or any string when there are none. */
-export const enumOf = (values: string[]) => (values.length ? z.enum(values as [string, ...string[]]) : z.string());
-
-/** The SEO group: a title and description of its own, where it was first published, and whether to index and list it. */
-export const seo = z
+/** The SEO group: a title and description of its own, where it was first published, and whether to index it. */
+const seo = z
   .object({
     title: z.string(),
     description: z.string(),
     canonical: z.url(),
     og_type: z.string(),
     noindex: z.boolean(),
-    sitemap: z.boolean(),
   })
   .partial()
   .strict();

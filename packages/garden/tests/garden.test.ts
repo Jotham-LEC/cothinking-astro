@@ -5,16 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { breadcrumbs } from '../lib/breadcrumbs.ts';
 import { check } from '../lib/check.ts';
 import { atom, day, formatDate, year } from '../lib/dates.ts';
-import {
-  byDateDesc,
-  byYear,
-  childrenOf,
-  mountedOn,
-  published,
-  sectionOf,
-  toSiteEntry,
-  type RawEntry,
-} from '../lib/entry.ts';
+import { byDateDesc, byYear, childrenOf, mountedOn, published, toSiteEntry, type RawEntry } from '../lib/entry.ts';
 import { fullUrls, pageOnly } from '../lib/feed.ts';
 import { explorerRows, headerLinks, markCurrent, menu, panels, urlsIn } from '../lib/explorer.ts';
 import { backlinks, buildGraph } from '../lib/graph.ts';
@@ -52,10 +43,10 @@ const site: SiteConfig = {
     header: [{ entry: 'pages/about' }, { title: 'Hire me', url: 'https://other.test' }],
     footer: [{ title: 'Garden', children: [{ entry: 'pages/about' }, { title: 'Mail', url: 'mailto:x@y' }] }],
   },
-  authors: { me: { name: 'Me', url: 'https://other.test/me' } },
+  author: { name: 'Me', url: 'https://other.test/me', bio: 'Writes.' },
   otherSite: { name: 'Other', url: 'https://other.test' },
   seo: { defaultDescription: 'A garden.', publisher: { type: 'Person' } },
-  marketing: { robotsDisallow: ['/cp/'], allowAiTraining: false, allowAiSearch: true },
+  marketing: {},
 };
 const urlOf = (collection: string, id: string) =>
   collection === 'pages'
@@ -74,7 +65,7 @@ const raws: RawEntry[] = [
   {
     collection: 'essays',
     id: 'older',
-    data: { title: 'Older Essay', date: new Date('2023-01-02T00:00:00Z'), author: 'me', series: 's', part: 1 },
+    data: { title: 'Older Essay', date: new Date('2023-01-02T00:00:00Z'), series: 's', part: 1 },
     body: 'Hello world, see [[Other Page]].',
   },
   {
@@ -109,7 +100,7 @@ const at = (url: string) => live.find((e) => e.url === url)!;
 describe('entries', () => {
   it('get their address from the site rule and their fields from the front matter', () => {
     expect(at('/').collection).toBe('pages');
-    expect(at('/essays/older')).toMatchObject({ title: 'Older Essay', author: 'me', series: 's', part: 1, type: null });
+    expect(at('/essays/older')).toMatchObject({ title: 'Older Essay', series: 's', part: 1, type: null });
     expect(live.map((e) => e.id)).not.toContain('draft');
     expect(
       toSiteEntry({ collection: 'notes', id: 'n', data: { title: 'N', date: '2024-01-01' } }, urlOf),
@@ -120,8 +111,6 @@ describe('entries', () => {
   });
   it('know sections, landing pages and listing order', () => {
     expect(mountedOn(at('/essays'), site)).toBe('essays');
-    expect(sectionOf(at('/essays/older'), site)).toBe('essays');
-    expect(sectionOf(at('/about'), site)).toBeNull();
     expect(childrenOf('essays', entries, site).map((e) => e.id)).toEqual(['newer', 'older']);
     expect(childrenOf('problems', entries, site).map((e) => e.id)).toEqual(['slow', 'spam']);
     expect(byDateDesc(entries.filter((e) => e.collection === 'essays')).map((e) => e.id)).toEqual([
@@ -248,6 +237,10 @@ describe('head and generated files', () => {
     expect(essay.graph.find((n) => n['@type'] === 'Article')!.author).toEqual([
       { '@id': 'https://other.test/#publisher', '@type': 'Person', name: 'Me', url: 'https://other.test/me' },
     ]);
+    const own = { ...site, author: undefined };
+    expect(head(input(at('/essays/older'), { site: own })).graph.find((n) => n['@type'] === 'Article')!.author).toEqual(
+      { '@id': 'https://garden.test/#publisher' },
+    );
     expect(head(input(at('/essays/newer'))).canonical).toBe('https://x.test/n');
     const home = head(input(at('/')));
     expect(home.title).toBe('Garden');
@@ -325,9 +318,7 @@ describe('head and generated files', () => {
       'https://garden.test/slow',
       'https://garden.test/spam',
     ]);
-    expect(robotsTxt(site)).toBe(
-      'User-agent: *\nDisallow: /cp/\n\nUser-agent: GPTBot\nUser-agent: ClaudeBot\nUser-agent: Google-Extended\nUser-agent: Applebot-Extended\nUser-agent: CCBot\nDisallow: /\n\nSitemap: https://garden.test/sitemap-index.xml\n',
-    );
+    expect(robotsTxt(site)).toBe('User-agent: *\nAllow: /\n\nSitemap: https://garden.test/sitemap-index.xml\n');
   });
 });
 
@@ -355,13 +346,13 @@ describe('content check', () => {
   it('passes a sound site', () => {
     expect(run()).toEqual([]);
   });
-  it('flags bad file names, a title [[wiki links]] cannot name, a link to a missing page, a bad reference and an unknown author', () => {
+  it('flags bad file names, a title [[wiki links]] cannot name, a link to a missing page, a bad reference and a first heading below ##', () => {
     const problems = run([
       {
         collection: 'essays',
         id: 'Bad_Name',
-        data: { title: 'A [bracketed] title', date: new Date(), author: 'nobody', related: ['essays/nothing'] },
-        body: '[[No Such Page]]\n\n~~~\n[[Also Missing]]\n~~~\n\n[x](/nowhere)',
+        data: { title: 'A [bracketed] title', date: new Date(), related: ['essays/nothing'] },
+        body: '### Too deep\n\n[[No Such Page]]\n\n~~~\n[[Also Missing]]\n~~~\n\n[x](/nowhere)',
       },
       { collection: 'essays', id: 'selfish', data: { title: 'Selfish', date: new Date(), related: 'essays/selfish' } },
     ]);
@@ -371,7 +362,7 @@ describe('content check', () => {
     expect(problems).toContainEqual(expect.stringContaining('/nowhere is not a page'));
     expect(problems).toContainEqual(expect.stringContaining('its related essays/nothing names no page'));
     expect(problems).toContainEqual(expect.stringContaining('/essays/selfish: its related names itself'));
-    expect(problems).toContainEqual(expect.stringContaining('its author nobody is not in site.config.ts'));
+    expect(problems).toContainEqual(expect.stringContaining('its first heading is ###; start at ##'));
     expect(problems.join('\n')).not.toContain('Also Missing');
   });
   it('flags a navigation item that names no published page', () => {

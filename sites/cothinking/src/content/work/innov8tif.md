@@ -9,5 +9,4 @@ year: 2026
 kind: In-house, as marketing manager · Laravel
 seo:
   noindex: true
-  sitemap: false
 ---

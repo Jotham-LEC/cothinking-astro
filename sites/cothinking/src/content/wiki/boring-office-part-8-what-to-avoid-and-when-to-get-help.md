@@ -3,7 +3,6 @@ title: "Setting up IT for a small company, Part 8: What to avoid, and when to ge
 description: Three IT mistakes a small company should avoid, how to recover from each, and the signs that it is time to hire a freelancer or a managed IT provider.
 date: 2026-10-18
 updated: 2026-10-21T04:22:39+00:00
-author: jotham-lim
 category: setting-up-it
 related_pages:
   - pages/how-i-work

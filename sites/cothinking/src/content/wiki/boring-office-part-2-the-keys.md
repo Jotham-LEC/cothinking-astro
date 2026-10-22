@@ -3,7 +3,6 @@ title: "Setting up IT for a small company, Part 2: The domain and accounts"
 description: How a small company should register its domain, choose a registrar and DNS provider, and keep every account it depends on in its own name.
 date: 2026-10-18
 updated: 2026-10-21T04:22:02+00:00
-author: jotham-lim
 category: setting-up-it
 series: The Boring Office
 part: 2

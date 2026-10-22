@@ -54,7 +54,6 @@ export const site = {
     '/projects/ultimate-circle': 'https://cothink.ing/work/ultimate-circle',
     '/web-development': '/projects',
   },
-  authors: {},
   otherSite: { name: 'CoThinking', url: 'https://cothink.ing' },
   seo: {
     defaultDescription:
@@ -68,7 +67,7 @@ export const site = {
       sameAs: ['https://linkedin.com/in/jothamlec', 'https://github.com/Jotham-LEC'],
     },
   },
-  marketing: { gtmId: 'GTM-M5NLR7CX', robotsDisallow: ['/cp/'], allowAiTraining: true, allowAiSearch: true },
+  marketing: { gtmId: 'GTM-M5NLR7CX' },
 } satisfies SiteConfig;
 
 /** A publication's `outlet`, handle → label. */

@@ -4,7 +4,6 @@ description: Hosting, tested backups, updates, security monitoring, hours of cha
 date: 2026-10-12
 updated: 2026-10-15T05:36:37+00:00
 category: choosing-a-provider
-author: jotham-lim
 related_pages:
   - pages/how-i-work
   - pages/websites

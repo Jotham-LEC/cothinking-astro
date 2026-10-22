@@ -3,7 +3,6 @@ title: Why are our emails going to spam?
 description: Most business email lands in spam because the domain can't prove it sent it. The usual causes, the Gmail, Yahoo and Outlook rules, and how to check.
 date: 2026-10-12
 updated: 2026-10-15T08:30:50+00:00
-author: jotham-lim
 category: email-and-security
 related_pages:
   - problems/emails-going-to-spam

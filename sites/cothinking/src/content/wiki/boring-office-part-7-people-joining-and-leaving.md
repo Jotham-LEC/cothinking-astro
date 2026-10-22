@@ -3,7 +3,6 @@ title: "Setting up IT for a small company, Part 7: People joining and leaving"
 description: A checklist for giving a new employee access on their first day and taking it back on their last, for a business of up to 50 staff.
 date: 2026-10-18
 updated: 2026-10-20T07:51:41+00:00
-author: jotham-lim
 category: setting-up-it
 series: The Boring Office
 part: 7

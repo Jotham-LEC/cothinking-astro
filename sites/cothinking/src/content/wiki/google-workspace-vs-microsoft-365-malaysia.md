@@ -3,7 +3,6 @@ title: Google Workspace vs Microsoft 365 for Malaysian companies
 description: Prices from Google's and Microsoft's Malaysian pages, what each plan includes, and how to choose for a business of up to 50 staff.
 date: 2026-10-12
 updated: 2026-10-15T08:30:50+00:00
-author: jotham-lim
 category: email-and-security
 ---
 For most Malaysian businesses of up to 50 staff, one question decides it: does your team work in desktop Word and Excel files, or in shared documents in a browser? For files, choose Microsoft 365 Business Standard. For the browser, choose Google Workspace Business Standard.

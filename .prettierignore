@@ -4,5 +4,4 @@ node_modules/
 DEV_FILES/
 sites/*/public/
 sites/*/src/content/
-sites/*/src/data/
 *.md

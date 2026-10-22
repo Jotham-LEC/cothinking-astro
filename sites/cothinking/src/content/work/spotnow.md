@@ -9,5 +9,4 @@ year: 2025
 kind: CoThinking client · website and SEO
 seo:
   noindex: true
-  sitemap: false
 ---

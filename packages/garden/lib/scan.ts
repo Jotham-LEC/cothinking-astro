@@ -34,7 +34,7 @@ export const scanEntries = (root: URL | string, urlOf: UrlOf): SiteEntry[] =>
 export type Scan = { root: URL | string; urlOf: UrlOf };
 
 /** The title index for a site: its published pages over the other site's, by full address. */
-export function scanTitles(site: Scan, other: Scan & { url: string }): TitleIndex {
+function scanTitles(site: Scan, other: Scan & { url: string }): TitleIndex {
   return titleIndex(
     published(scanEntries(site.root, site.urlOf)),
     published(scanEntries(other.root, other.urlOf)),

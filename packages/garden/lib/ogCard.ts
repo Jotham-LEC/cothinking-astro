@@ -1,4 +1,4 @@
-// The share card (App\Support\OgCard, drawn by simonhamp/the-og there): the
+// The share card (ported from the old Laravel site's, drawn by simonhamp/the-og there): the
 // brand's dark palette with a yellow left edge, the section label up top,
 // the title and its opening words, the site's name along the bottom beside a
 // round portrait. satori lays it out, resvg rasterises it. The fonts (the

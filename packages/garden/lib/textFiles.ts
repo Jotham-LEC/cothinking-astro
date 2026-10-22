@@ -1,5 +1,5 @@
-// robots.txt, llms.txt and the sitemap's entries: the marketing config's
-// disallowed paths and AI crawler rules; the site's name and default
+// robots.txt, llms.txt and the sitemap's entries: every crawler welcome,
+// and where the sitemap is; the site's name and default
 // description, then each collection's listed pages (newest change first) as
 // Markdown links with their descriptions; every page that is its own
 // canonical address, with its last change (the XML itself is
@@ -13,18 +13,8 @@ import { absolute, type SiteConfig } from './site.ts';
 /** Where @astrojs/sitemap writes the index (sitemap.ts). */
 const SITEMAP_PATH = '/sitemap-index.xml';
 
-const AI_TRAINING_AGENTS = ['GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended', 'CCBot'];
-const AI_SEARCH_AGENTS = ['OAI-SearchBot', 'Claude-SearchBot', 'PerplexityBot'];
-
-export function robotsTxt(site: SiteConfig): string {
-  const m = site.marketing;
-  const lines = ['User-agent: *'];
-  for (const path of m.robotsDisallow) lines.push(`Disallow: ${path}`);
-  const agents = [...(m.allowAiTraining ? [] : AI_TRAINING_AGENTS), ...(m.allowAiSearch ? [] : AI_SEARCH_AGENTS)];
-  if (agents.length) lines.push('', ...agents.map((a) => `User-agent: ${a}`), 'Disallow: /');
-  lines.push('', `Sitemap: ${site.url}${SITEMAP_PATH}`);
-  return lines.join('\n') + '\n';
-}
+export const robotsTxt = (site: SiteConfig): string =>
+  `User-agent: *\nAllow: /\n\nSitemap: ${site.url}${SITEMAP_PATH}\n`;
 
 export function sitemapEntries(entries: SiteEntry[], site: SiteConfig): { loc: string; lastmod: string | null }[] {
   return published(entries)
@@ -33,7 +23,10 @@ export function sitemapEntries(entries: SiteEntry[], site: SiteConfig): { loc: s
     .sort((a, b) => a.loc.localeCompare(b.loc));
 }
 
-export function llmsTxt(live: SiteEntry[], site: SiteConfig, perCollection = 100): string {
+/** The most pages llms.txt lists per collection. */
+const PER_COLLECTION = 100;
+
+export function llmsTxt(live: SiteEntry[], site: SiteConfig): string {
   const lines = [`# ${site.name}`, ''];
   lines.push(`> ${squish(site.seo.defaultDescription)}`, '');
   const listed = live.filter((p) => inSitemap(p, site));
@@ -44,7 +37,7 @@ export function llmsTxt(live: SiteEntry[], site: SiteConfig, perCollection = 100
     const entries = listed
       .filter((p) => p.collection === handle)
       .sort((a, b) => (b.updated?.getTime() ?? 0) - (a.updated?.getTime() ?? 0) || naturalCompare(a.title, b.title))
-      .slice(0, perCollection);
+      .slice(0, PER_COLLECTION);
     if (entries.length === 0) continue;
     lines.push(`## ${site.collections[handle]!.title}`, '');
     for (const page of entries) {

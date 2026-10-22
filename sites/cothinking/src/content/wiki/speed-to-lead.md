@@ -3,7 +3,6 @@ title: "Speed to lead: why the first reply decides the deal"
 description: Speed to lead is how fast you reply to a new enquiry. What the research shows, why replies are slow, and how a small B2B team can answer within the hour.
 date: 2026-10-12
 updated: 2026-10-15T01:20:18+00:00
-author: jotham-lim
 category: leads-and-measurement
 related_pages:
   - problems/website-form-not-sending-emails

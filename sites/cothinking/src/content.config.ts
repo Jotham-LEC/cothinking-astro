@@ -4,7 +4,7 @@
 // check says when it names no page).
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { base, dated, enumOf, loader } from '@garden/content.ts';
+import { base, dated, loader } from '@garden/content.ts';
 import { site } from './site.config.ts';
 
 const reference = z.string().regex(/^[a-z_]+\/[\w-]+$/);
@@ -47,8 +47,7 @@ const wiki = defineCollection({
       .object({
         ...base(image),
         ...dated,
-        author: enumOf(Object.keys(site.authors)).optional(),
-        category: enumOf(Object.keys(site.collections.wiki.categories)).optional(),
+        category: z.enum(Object.keys(site.collections.wiki.categories)).optional(),
         related_pages: z.array(reference).optional(),
         series: z.string().optional(),
         part: z.number().int().optional(),
@@ -72,9 +71,7 @@ const work = defineCollection({
         quote_by: z.string().optional(),
         quote_role: z.string().optional(),
         quote_photo: image().optional(),
-        context: z.string().optional(),
-        stats: z.array(z.object({ id: z.string(), value: z.string(), label: z.string() }).strict()).optional(),
-        steps: z.array(z.object({ id: z.string(), title: z.string(), body: z.string() }).strict()).optional(),
+        stats: z.array(z.object({ value: z.string(), label: z.string() }).strict()).optional(),
       })
       .strict(),
 });

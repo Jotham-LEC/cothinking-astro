@@ -3,7 +3,6 @@ title: "Setting up IT for a small company, Part 1: The Boring Office"
 description: "How a business of up to 50 staff should set up its IT from day zero when the owner manages it: the rules, the parts of the series, and the mistakes to avoid."
 date: 2026-10-18
 updated: 2026-10-20T07:51:41+00:00
-author: jotham-lim
 category: setting-up-it
 series: The Boring Office
 part: 1

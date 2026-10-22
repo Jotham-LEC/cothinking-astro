@@ -3,7 +3,6 @@ title: "Setting up IT for a small company, Part 6: Backups"
 description: How a cloud-first small company should apply the 3-2-1 backup rule, what to back up outside Google Workspace or Microsoft 365, and how long Malaysian records must be kept.
 date: 2026-10-18
 updated: 2026-10-21T04:22:20+00:00
-author: jotham-lim
 category: setting-up-it
 series: The Boring Office
 part: 6
