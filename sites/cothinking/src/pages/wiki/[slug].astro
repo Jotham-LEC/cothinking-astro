@@ -1,13 +1,13 @@
 ---
 // An entry of the wiki collection: the WikiEntry view (src/components/templates).
-import { wiki } from '@garden/lib/load.ts';
+import { getCollection } from 'astro:content';
 import WikiEntry from '@site/components/templates/WikiEntry.astro';
 
 export async function getStaticPaths() {
-  const w = await wiki();
-  return w.live.filter((p) => p.collection === 'wiki').map((p) => ({ params: { slug: p.slug }, props: { page: p } }));
+  const entries = await getCollection('wiki', (e) => !e.data.draft);
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
-const { page } = Astro.props;
+const { entry } = Astro.props;
 ---
 
-<WikiEntry page={page} />
+<WikiEntry entry={entry} />

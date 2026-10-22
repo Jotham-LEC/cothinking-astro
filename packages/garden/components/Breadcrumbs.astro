@@ -3,10 +3,10 @@
 // entry behind its address (a note type listing) sets `currentCrumb`, and the
 // last found crumb then shows as its parent.
 import { breadcrumbs } from '../lib/breadcrumbs.ts';
-import type { Page } from '../lib/types.ts';
-type Props = { url: string; pages: Page[]; currentCrumb?: boolean };
-const { url, pages, currentCrumb = false } = Astro.props;
-const crumbs = breadcrumbs(url, pages);
+import type { SiteEntry } from '../lib/entry.ts';
+type Props = { url: string; live: SiteEntry[]; currentCrumb?: boolean };
+const { url, live, currentCrumb = false } = Astro.props;
+const crumbs = breadcrumbs(url, live);
 ---
 
 <nav class="text-muted mb-4 flex flex-wrap items-center gap-x-1.5 text-sm" aria-label="Breadcrumb" data-pagefind-ignore>

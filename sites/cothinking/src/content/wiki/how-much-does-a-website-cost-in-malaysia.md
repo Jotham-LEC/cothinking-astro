@@ -6,8 +6,8 @@ updated: 2026-10-15T05:57:01+00:00
 category: choosing-a-provider
 author: jotham-lim
 related_pages:
-  - cothinking_pages/how-i-work
-  - cothinking_pages/websites
+  - pages/how-i-work
+  - pages/websites
   - problems/building-a-website-that-brings-in-enquiries
 ---
 A small-business website in Malaysia costs about RM2,000 to RM3,300 as a five- or six-page package, and from about RM5,000 into the tens of thousands as a custom build from an agency, going by prices providers published in October 2026. Yearly costs for the domain, hosting, and maintenance come on top, and over five years they can exceed the build.

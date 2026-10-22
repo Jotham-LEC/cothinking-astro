@@ -1,19 +1,18 @@
 ---
 // The home page: what you write on the page, then the newest pages across every section.
-import { render } from 'astro:content';
-import { wiki } from '@garden/lib/load.ts';
-import { byDateDesc, home, isChild } from '@garden/lib/pages.ts';
+import { getEntry, render } from 'astro:content';
+import { garden } from '@garden/lib/load.ts';
+import { byDateDesc, isChild } from '@garden/lib/entry.ts';
 import Entry from '@garden/components/Entry.astro';
 import ArchiveRow from '@garden/components/ArchiveRow.astro';
 import HeadingLink from '@garden/components/HeadingLink.astro';
-const w = await wiki();
-const page = home(w.live);
-if (!page) throw new Error('No home page: the pages tree has no root.');
-const { Content, headings } = await render(w.entryOf(page));
-const latest = byDateDesc(w.live.filter((p) => isChild(p, w.collections))).slice(0, 5);
+const g = await garden();
+const home = (await getEntry('pages', 'home'))!;
+const { Content, headings } = await render(home);
+const latest = byDateDesc(g.live.filter((p) => isChild(p, g.site))).slice(0, 5);
 ---
 
-<Entry page={page} headings={headings} extraHeadings={[{ level: 2, id: 'latest', text: 'Latest' }]}>
+<Entry entry={home} headings={headings} extraHeadings={[{ level: 2, id: 'latest', text: 'Latest' }]}>
   <Content />
   <Fragment slot="after-body">
     <h2 id="latest">

@@ -2,11 +2,10 @@
 // My photo and bio (home and How I work), the page's slot, then a link to my
 // career on jothamlim.com.
 import Prose from '@garden/components/Prose.astro';
-import { wiki } from '@garden/lib/load.ts';
+import { site } from '@site/site.config.ts';
 type Props = { heading: string; id: string; class?: string };
 const { heading, id, class: className } = Astro.props;
-const { site } = await wiki();
-const jothamlim = site.other_sites.find((s) => s.handle === 'jothamlim')?.url ?? 'https://jothamlim.com';
+const jothamlim = site.otherSite.url;
 ---
 
 <section class:list={['flex max-w-3xl flex-col gap-5 sm:flex-row sm:items-start', className]} aria-labelledby={id}>

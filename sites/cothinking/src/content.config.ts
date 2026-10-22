@@ -1,20 +1,20 @@
-// cothink.ing's collections: its content collections here, the shared
-// pieces (the base fields, the data collections) from garden/content.ts.
-// A reference names another entry as `collection/slug` (check-content.ts
-// checks that it exists).
+// cothink.ing's collections: the shared pieces (the base fields, the seo
+// block, the loader) from garden/content.ts; the enums from site.config.ts.
+// A reference names another entry as `collection/id` (the tests' content
+// check says when it names no page).
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { enumOf, garden } from '../../../packages/garden/content.ts';
+import { dated, enumOf, garden } from '../../../packages/garden/content.ts';
+import { site } from './site.config.ts';
 
-const { model, base, dated, media, loader, dataCollections } = garden(new URL('.', import.meta.url));
+const { base, media, loader } = garden(new URL('.', import.meta.url));
 
-const categories = Object.keys(model.wiki?.options?.category ?? {});
 const reference = z.string().regex(/^[a-z_]+\/[\w-]+$/);
-const ordered = { order: z.number().int().optional() };
+const ordered = { order: z.number().int() };
 
 /** The site's own pages; `template` picks the view (src/pages/[...slug].astro). */
-const cothinking_pages = defineCollection({
-  loader: loader('cothinking_pages'),
+const pages = defineCollection({
+  loader: loader('pages'),
   schema: z
     .object({
       ...base,
@@ -56,8 +56,8 @@ const wiki = defineCollection({
     .object({
       ...base,
       ...dated,
-      author: z.string().optional(),
-      category: enumOf(categories).optional(),
+      author: enumOf(Object.keys(site.authors)).optional(),
+      category: enumOf(Object.keys(site.collections.wiki.categories)).optional(),
       related_pages: z.array(reference).optional(),
       series: z.string().optional(),
       part: z.number().int().optional(),
@@ -87,10 +87,4 @@ const work = defineCollection({
     .strict(),
 });
 
-export const collections = {
-  cothinking_pages,
-  problems,
-  wiki,
-  work,
-  ...dataCollections,
-};
+export const collections = { pages, problems, wiki, work };

@@ -1,27 +1,25 @@
 ---
 // A client (`work`), as a room: the eyebrow, title, screenshot (1280px wide
 // at most) and numbers, the write-up, the live site and the closing panel.
-import { render } from 'astro:content';
-import { wiki } from '@garden/lib/load.ts';
-import type { LivePage } from '@garden/lib/types.ts';
+import { render, type CollectionEntry } from 'astro:content';
+import { garden } from '@garden/lib/load.ts';
 import Layout from '@garden/layouts/Layout.astro';
 import PageHeader from '@garden/components/PageHeader.astro';
 import Prose from '@garden/components/Prose.astro';
 import { mediaImage } from '@site/lib/images.ts';
 import NextStep from '@site/components/cothinking/NextStep.astro';
 import WorkStats from '@site/components/cothinking/WorkStats.astro';
-type Props = { page: LivePage };
-const { page } = Astro.props;
-const w = await wiki();
-const { Content } = await render(w.entryOf(page));
-const eyebrow =
-  (typeof page.data.eyebrow === 'string' && page.data.eyebrow) ||
-  [page.data.year, page.data.kind].filter(Boolean).join(' · ');
-const shot = page.image ? await mediaImage(page.image, { width: 1280, quality: 80 }) : null;
-const website = typeof page.data.website === 'string' ? page.data.website : null;
+type Props = { entry: CollectionEntry<'work'> };
+const { entry } = Astro.props;
+const g = await garden();
+const page = g.entry(entry);
+const { Content } = await render(entry);
+const eyebrow = entry.data.eyebrow || [entry.data.year, entry.data.kind].filter(Boolean).join(' · ');
+const shot = entry.data.image ? await mediaImage(entry.data.image, { width: 1280, quality: 80 }) : null;
+const website = entry.data.website ?? null;
 ---
 
-<Layout page={page} path={page.url} html={await w.htmlOf(page)} room>
+<Layout page={page} path={page.url} html={await g.htmlOf(page)} room>
   <article class="mx-auto max-w-[72ch]">
     <PageHeader title={page.title} eyebrow={eyebrow} />
 
@@ -36,7 +34,7 @@ const website = typeof page.data.website === 'string' ? page.data.website : null
       />
     )}
 
-    <WorkStats stats={page.data.stats} />
+    <WorkStats stats={entry.data.stats} />
 
     <Prose class="mt-10" data-popover>
       <Content />

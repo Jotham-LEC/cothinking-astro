@@ -1,13 +1,11 @@
-// jothamlim.com's collections: its content collections here, the shared
-// pieces (the base fields, the data collections) from garden/content.ts.
+// jothamlim.com's collections: the shared pieces (the base fields, the seo
+// block, the loader) from garden/content.ts; the enums from site.config.ts.
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { enumOf, garden } from '../../../packages/garden/content.ts';
+import { dated, enumOf, garden } from '../../../packages/garden/content.ts';
+import { outlets, site } from './site.config.ts';
 
-const { model, base, dated, loader, dataCollections } = garden(new URL('.', import.meta.url));
-
-const noteTypes = model.notes?.types?.map((t) => t.handle);
-const outlets = Object.keys(model.publications?.options?.outlet ?? {});
+const { base, loader } = garden(new URL('.', import.meta.url));
 
 const pages = defineCollection({
   loader: loader('pages'),
@@ -15,7 +13,7 @@ const pages = defineCollection({
     .object({
       ...base,
       template: z.enum(['default', 'home', 'section', 'notes/index', 'publications']).default('default'),
-      order: z.number().int().optional(),
+      order: z.number().int(),
     })
     .strict(),
 });
@@ -31,7 +29,7 @@ const notes = defineCollection({
     .object({
       ...base,
       ...dated,
-      type: enumOf(noteTypes).default('text'),
+      type: enumOf(Object.keys(site.collections.notes.types)).default('text'),
       quote: z.string().optional(),
       cite: z.string().optional(),
     })
@@ -45,14 +43,7 @@ const projects = defineCollection({
 
 const publications = defineCollection({
   loader: loader('publications'),
-  schema: z.object({ ...base, ...dated, outlet: enumOf(outlets) }).strict(),
+  schema: z.object({ ...base, ...dated, outlet: enumOf(Object.keys(outlets)) }).strict(),
 });
 
-export const collections = {
-  pages,
-  essays,
-  notes,
-  projects,
-  publications,
-  ...dataCollections,
-};
+export const collections = { pages, essays, notes, projects, publications };

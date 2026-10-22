@@ -1,19 +1,17 @@
 ---
 // The Work page (`cothinking/work`): its introduction, written here, then the
 // work collection as tiles in its order.
-import { wiki } from '@garden/lib/load.ts';
-import { childrenOf } from '@garden/lib/pages.ts';
-import type { LivePage } from '@garden/lib/types.ts';
+import type { CollectionEntry } from 'astro:content';
 import Entry from '@garden/components/Entry.astro';
 import Prose from '@garden/components/Prose.astro';
 import NextStep from '@site/components/cothinking/NextStep.astro';
 import WorkTiles from '@site/components/cothinking/WorkTiles.astro';
-type Props = { page: LivePage };
-const { page } = Astro.props;
-const w = await wiki();
+import { workEntries } from '@site/lib/work.ts';
+type Props = { entry: CollectionEntry<'pages'> };
+const { entry } = Astro.props;
 ---
 
-<Entry page={page}>
+<Entry entry={entry}>
   <Fragment slot="body">
     <Prose>
       <p>
@@ -25,8 +23,8 @@ const w = await wiki();
 
     {/* The tiles' titles are h3s: this keeps the outline in order. */}
     <h2 class="sr-only">Websites I have built</h2>
-    <WorkTiles clients={childrenOf('work', w.live, w.collections)} narrow />
+    <WorkTiles clients={await workEntries()} narrow />
 
-    <NextStep about={page.title} />
+    <NextStep about={entry.data.title} />
   </Fragment>
 </Entry>

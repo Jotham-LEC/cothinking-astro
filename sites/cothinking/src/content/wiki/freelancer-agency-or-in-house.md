@@ -6,8 +6,8 @@ updated: 2026-10-15T08:30:50+00:00
 category: choosing-a-provider
 author: jotham-lim
 related_pages:
-  - cothinking_pages/websites
-  - cothinking_pages/how-i-work
+  - pages/websites
+  - pages/how-i-work
 ---
 Hire a package shop for a small, standard site; a freelancer for a well-defined job; an agency for a bigger or connected site; and someone in-house when the site changes weekly and is central to how you sell. Most Malaysian businesses of up to 50 staff do best with an outside provider who builds and looks after the site, and a named person inside who owns it.
 

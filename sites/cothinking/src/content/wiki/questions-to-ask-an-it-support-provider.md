@@ -6,7 +6,7 @@ updated: 2026-10-15T08:30:50+00:00
 category: choosing-a-provider
 author: jotham-lim
 related_pages:
-  - cothinking_pages/how-i-work
+  - pages/how-i-work
 ---
 Ask these 18 questions before you sign. A good provider answers in numbers, names, and documents; a weak one answers with reassurance. Get the important answers in writing. Why each topic matters is in [[How to choose an IT support provider for a small company]].
 

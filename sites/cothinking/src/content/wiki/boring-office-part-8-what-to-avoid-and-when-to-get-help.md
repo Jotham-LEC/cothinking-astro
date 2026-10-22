@@ -6,7 +6,7 @@ updated: 2026-10-21T04:22:39+00:00
 author: jotham-lim
 category: setting-up-it
 related_pages:
-  - cothinking_pages/how-i-work
+  - pages/how-i-work
 series: The Boring Office
 part: 8
 seo:

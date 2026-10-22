@@ -1,7 +1,7 @@
 ---
 // The header: the logo, search, the `header` navigation, reader mode, the
 // theme toggle and the menu button.
-import type { SiteConfig } from '../lib/types.ts';
+import type { SiteConfig } from '../lib/site.ts';
 import type { Link } from '../lib/explorer.ts';
 type Props = { site: SiteConfig; room: boolean; hasExplorer: boolean; hasDrawer: boolean; links: Link[] };
 const { site, room, hasExplorer, hasDrawer, links } = Astro.props;
@@ -15,25 +15,25 @@ const last = links.length - 1;
   <a class="text-heading flex shrink-0 items-center gap-2.5 font-semibold whitespace-nowrap no-underline" href="/">
     {/* The site's logo: a wordmark with its dark-mode twin, or a portrait beside the name.
         Below 400px a wordmark's favicon stands in for it; below 360px the logo goes. */}
-    {site.attributes.logo_dark ? (
+    {site.logoDark ? (
       <>
         <img
           class:list={['size-7 min-[400px]:hidden', { 'max-[359px]:hidden': hasDrawer }]}
-          src={site.attributes.favicon}
+          src={site.favicon}
           alt={site.name}
           width="28"
           height="28"
         />
         <img
           class="wiki-logo-light h-7 w-auto max-[399px]:hidden!"
-          src={site.attributes.logo}
+          src={site.logo}
           alt={site.name}
           width="122"
           height="28"
         />
         <img
           class="wiki-logo-dark h-7 w-auto max-[399px]:hidden!"
-          src={site.attributes.logo_dark}
+          src={site.logoDark}
           alt={site.name}
           width="122"
           height="28"
@@ -41,7 +41,7 @@ const last = links.length - 1;
       </>
     ) : (
       <>
-        <img class="size-7 rounded-full" src={site.attributes.logo} alt="" width="400" height="400" />
+        <img class="size-7 rounded-full" src={site.logo} alt="" width="400" height="400" />
         {/* Below 380px the name gives way to "Work with me"; screen readers still hear it. */}
         <span class="max-[380px]:sr-only">{site.name}</span>
       </>

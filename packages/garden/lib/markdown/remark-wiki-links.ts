@@ -2,11 +2,12 @@
 // against the title index: a page → `<a class="wiki-link" href>` (a page on
 // the other site by its full address, marked external too), a missing or
 // draft one → `<span class="wiki-link-missing" data-title>`. In a table cell
-// the pipe is written `\|`, which leaves a backslash on the title.
+// the pipe is written `\|`, which leaves a backslash on the title. `titles`
+// is read on each run, so `astro dev` sees a renamed page without a restart.
 import type { Root } from 'mdast';
 import { visit } from 'unist-util-visit';
 import { resolveTitle, type TitleIndex } from '../titles.ts';
-import { isExternal } from '../urls.ts';
+import { isExternal } from '../site.ts';
 import { named } from './named.ts';
 
 type WikiLinkNode = {
@@ -15,13 +16,14 @@ type WikiLinkNode = {
   data: { alias?: string | null; hName?: string; hProperties?: Record<string, unknown>; hChildren?: unknown[] };
 };
 
-export default function remarkWikiLinks({ titles, siteUrl }: { titles: TitleIndex; siteUrl?: string }) {
+export default function remarkWikiLinks({ titles, siteUrl }: { titles: () => TitleIndex; siteUrl?: string }) {
   return named('remark-wiki-links', (tree: Root) => {
+    const index = titles();
     visit(tree as unknown as import('unist').Node, 'wikiLink', (node: unknown) => {
       const link = node as WikiLinkNode;
       const title = link.value.replace(/\\$/, '').trim();
       const text = (link.data.alias ?? title).trim();
-      const url = resolveTitle(titles, title);
+      const url = resolveTitle(index, title);
       link.data.hName = url ? 'a' : 'span';
       link.data.hProperties = url
         ? { className: siteUrl && isExternal(url, siteUrl) ? ['wiki-link', 'external-link'] : ['wiki-link'], href: url }

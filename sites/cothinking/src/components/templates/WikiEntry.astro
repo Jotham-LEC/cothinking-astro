@@ -2,24 +2,23 @@
 // A wiki entry (`wiki`): the byline (`author`) under the title; after the
 // text (and a reshared essay's, which Entry shows), the `related_pages`, the
 // author box and the closing panel.
-import { render } from 'astro:content';
-import { wiki } from '@garden/lib/load.ts';
-import { childrenOf } from '@garden/lib/pages.ts';
-import type { LivePage } from '@garden/lib/types.ts';
+import { render, type CollectionEntry } from 'astro:content';
+import { garden } from '@garden/lib/load.ts';
+import { childrenOf } from '@garden/lib/entry.ts';
 import Entry from '@garden/components/Entry.astro';
 import NextStep from '@site/components/cothinking/NextStep.astro';
 import Related from '@site/components/cothinking/Related.astro';
-type Props = { page: LivePage };
-const { page } = Astro.props;
-const w = await wiki();
-const { Content, headings } = await render(w.entryOf(page));
-const author = w.authors.find((a) => a.id === page.data.author) ?? null;
+type Props = { entry: CollectionEntry<'wiki'> };
+const { entry } = Astro.props;
+const g = await garden();
+const { Content, headings } = await render(entry);
+const author = entry.data.author ? g.site.authors[entry.data.author] : null;
 // The closing panel names the first related problem (in the tree's order), else this entry.
-const related = new Set(Array.isArray(page.data.related_pages) ? page.data.related_pages : []);
-const problem = childrenOf('problems', w.live, w.collections).find((p) => related.has(`problems/${p.slug}`));
+const related = new Set(entry.data.related_pages ?? []);
+const problem = childrenOf('problems', g.live, g.site).find((p) => related.has(`problems/${p.id}`));
 ---
 
-<Entry page={page} headings={headings}>
+<Entry entry={entry} headings={headings}>
   {author && (
     <p slot="before-body" class="not-prose text-muted -mt-4 mb-8 font-sans text-sm">
       By{' '}
@@ -30,7 +29,7 @@ const problem = childrenOf('problems', w.live, w.collections).find((p) => relate
   )}
   <Content />
   <Fragment slot="after-article">
-    <Related keys={page.data.related_pages} id="related" title="Related" />
+    <Related keys={entry.data.related_pages} id="related" title="Related" />
     <footer class="border-rule mt-10 border-t pt-5 font-sans text-sm">
       {author && (
         <>
@@ -44,6 +43,6 @@ const problem = childrenOf('problems', w.live, w.collections).find((p) => relate
         </>
       )}
     </footer>
-    <NextStep about={problem?.title ?? page.title} />
+    <NextStep about={problem?.title ?? entry.data.title} />
   </Fragment>
 </Entry>

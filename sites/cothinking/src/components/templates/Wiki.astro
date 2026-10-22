@@ -1,26 +1,22 @@
 ---
 // The Wiki page (`cothinking/wiki`): its text, then every wiki entry under its
 // category, A to Z (the Explorer's grouping, `group_by: category`).
-import { render } from 'astro:content';
-import { wiki } from '@garden/lib/load.ts';
+import { render, type CollectionEntry } from 'astro:content';
+import { garden } from '@garden/lib/load.ts';
 import { byCategory } from '@garden/lib/explorer.ts';
-import { childrenOf } from '@garden/lib/pages.ts';
-import type { LivePage } from '@garden/lib/types.ts';
+import { childrenOf } from '@garden/lib/entry.ts';
 import Entry from '@garden/components/Entry.astro';
 import HeadingLink from '@garden/components/HeadingLink.astro';
 import NextStep from '@site/components/cothinking/NextStep.astro';
-type Props = { page: LivePage };
-const { page } = Astro.props;
-const w = await wiki();
-const { Content, headings } = await render(w.entryOf(page));
-const categories = byCategory(
-  childrenOf('wiki', w.live, w.collections),
-  w.collections.wiki?.options?.category ?? {},
-) as { handle: string; title: string; entries: LivePage[] }[];
+type Props = { entry: CollectionEntry<'pages'> };
+const { entry } = Astro.props;
+const g = await garden();
+const { Content, headings } = await render(entry);
+const categories = byCategory(childrenOf('wiki', g.live, g.site), g.site.collections.wiki.categories ?? {});
 ---
 
 <Entry
-  page={page}
+  entry={entry}
   headings={headings}
   extraHeadings={categories.map((c) => ({ level: 2, id: c.handle, text: c.title }))}
 >
@@ -44,5 +40,5 @@ const categories = byCategory(
       </>
     ))}
   </Fragment>
-  <NextStep slot="after-article" about={page.title} />
+  <NextStep slot="after-article" about={entry.data.title} />
 </Entry>

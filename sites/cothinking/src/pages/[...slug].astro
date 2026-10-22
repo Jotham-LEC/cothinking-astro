@@ -1,7 +1,7 @@
 ---
 // The site's own pages (but home, index.astro) and the problems I fix, which
 // live at the top level too, each by its template (src/components/templates).
-import { wiki } from '@garden/lib/load.ts';
+import { getCollection } from 'astro:content';
 import HowIWork from '@site/components/templates/HowIWork.astro';
 import Page from '@site/components/templates/Page.astro';
 import Problem from '@site/components/templates/Problem.astro';
@@ -9,11 +9,11 @@ import Problems from '@site/components/templates/Problems.astro';
 import Websites from '@site/components/templates/Websites.astro';
 import Wiki from '@site/components/templates/Wiki.astro';
 import Work from '@site/components/templates/Work.astro';
+import { urlOf } from '@site/lib/urls.ts';
 
 const TEMPLATES = {
   'cothinking/page': Page,
   'cothinking/problems': Problems,
-  'cothinking/problem': Problem,
   'cothinking/wiki': Wiki,
   'cothinking/work': Work,
   'cothinking/how-i-work': HowIWork,
@@ -21,14 +21,16 @@ const TEMPLATES = {
 };
 
 export async function getStaticPaths() {
-  const w = await wiki();
-  return w.live
-    .filter((p) => ['cothinking_pages', 'problems'].includes(p.collection) && p.url !== '/')
-    .map((p) => ({ params: { slug: p.url.slice(1) }, props: { page: p } }));
+  const pages = await getCollection('pages', (p) => !p.data.draft && p.id !== 'home');
+  const problems = await getCollection('problems', (p) => !p.data.draft);
+  return [...pages, ...problems].map((entry) => ({
+    params: { slug: urlOf(entry.collection, entry.id).slice(1) },
+    props: { entry },
+  }));
 }
-const { page } = Astro.props;
-const Template = TEMPLATES[(page.template ?? 'cothinking/page') as keyof typeof TEMPLATES];
-if (!Template) throw new Error(`${page.url}: no view for the template ${page.template}.`);
+const { entry } = Astro.props;
+const Template = entry.collection === 'problems' ? null : TEMPLATES[entry.data.template as keyof typeof TEMPLATES];
+if (entry.collection === 'pages' && !Template) throw new Error(`${entry.id}: no view for the template ${entry.data.template}.`);
 ---
 
-<Template page={page} />
+{entry.collection === 'problems' ? <Problem entry={entry} /> : Template && <Template entry={entry} />}

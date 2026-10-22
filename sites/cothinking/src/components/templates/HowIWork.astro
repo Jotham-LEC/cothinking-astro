@@ -1,13 +1,14 @@
 ---
 // The How I work page (`cothinking/how-i-work`): its copy is this view, in Entry's `body` slot.
-import { wiki } from '@garden/lib/load.ts';
-import { childrenOf } from '@garden/lib/pages.ts';
-import type { LivePage } from '@garden/lib/types.ts';
+import type { CollectionEntry } from 'astro:content';
+import { garden } from '@garden/lib/load.ts';
 import Entry from '@garden/components/Entry.astro';
 import Prose from '@garden/components/Prose.astro';
 import SectionHeading from '@garden/components/SectionHeading.astro';
 import { price, whatsappHref } from '@site/lib/contact.ts';
 import { relatedPages } from '@site/lib/related.ts';
+import { testimonialOf, workEntries } from '@site/lib/work.ts';
+import { contact, prices, terms } from '@site/site.config.ts';
 import AboutMe from '@site/components/cothinking/AboutMe.astro';
 import Email from '@site/components/cothinking/Email.astro';
 import Enquiry from '@site/components/cothinking/Enquiry.astro';
@@ -15,12 +16,12 @@ import Prices from '@site/components/cothinking/Prices.astro';
 import QuoteBy from '@site/components/cothinking/QuoteBy.astro';
 import Related from '@site/components/cothinking/Related.astro';
 import Timeline from '@site/components/cothinking/Timeline.astro';
-type Props = { page: LivePage };
-const { page } = Astro.props;
-const w = await wiki();
-const { site } = w;
-const testimonial = childrenOf('work', w.live, w.collections).find((c) => typeof c.data.quote === 'string');
-const termsDate = new Date(String(site.settings.terms_date)).toLocaleDateString('en-GB', {
+type Props = { entry: CollectionEntry<'pages'> };
+const { entry } = Astro.props;
+const g = await garden();
+const page = g.entry(entry);
+const testimonial = testimonialOf(await workEntries());
+const termsDate = new Date(terms.date).toLocaleDateString('en-GB', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
@@ -44,13 +45,13 @@ const outline = [
   ['common-jobs', 'Jobs I am often asked to do'],
   ['care-plan', 'Care Plans'],
   ['terms', 'The terms, in short'],
-  ...(relatedPages(page.data.related_wiki, w.live).length ? [['related-wiki', 'Read more on the Wiki']] : []),
+  ...(relatedPages(entry.data.related_wiki, g.live).length ? [['related-wiki', 'Read more on the Wiki']] : []),
   ['about-me', 'About me'],
   ['get-in-touch', 'Get in touch'],
 ].map(([id, text]) => ({ level: 2, id: id!, text: text! }));
 ---
 
-<Entry page={page} extraHeadings={outline}>
+<Entry entry={entry} extraHeadings={outline}>
   <div class="font-prose" slot="body">
     <Prose>
       <p>
@@ -128,7 +129,7 @@ const outline = [
         <article class="rounded-site border-rule bg-bg-elev border p-6">
           <h3 class="text-heading font-heading text-lg font-extrabold">Care Plan Core</h3>
           <p class="mt-2 font-sans">
-            <span class="text-heading text-3xl font-extrabold">RM{price(site, 'care_plan_core')}</span>
+            <span class="text-heading text-3xl font-extrabold">RM{price(prices.carePlanCore)}</span>
             <span class="text-muted">a month, for a Starter Website</span>
           </p>
           <p class="text-muted mt-3 text-sm">
@@ -138,7 +139,7 @@ const outline = [
         <article class="rounded-site border-accent bg-bg-elev border-2 p-6">
           <h3 class="text-heading font-heading text-lg font-extrabold">Care Plan Complete</h3>
           <p class="mt-2 font-sans">
-            <span class="text-heading text-3xl font-extrabold">RM{price(site, 'care_plan_complete')}</span>
+            <span class="text-heading text-3xl font-extrabold">RM{price(prices.carePlanComplete)}</span>
             <span class="text-muted">a month, for a Complete Website</span>
           </p>
           <p class="text-muted mt-3 text-sm">
@@ -157,7 +158,7 @@ const outline = [
       <SectionHeading id="terms" title="The terms, in short" />
       <p class="mt-4">
         Before I start, we sign a one-page engagement letter with my Terms of Service attached. The signed terms are
-        what count. This is a summary of version {String(site.settings.terms_version)}, dated {termsDate}:
+        what count. This is a summary of version {terms.version}, dated {termsDate}:
       </p>
       <Prose class="mt-4">
         <ul>
@@ -173,24 +174,24 @@ const outline = [
       </Prose>
       <p class="mt-4">
         To read the full Terms before you sign anything, ask me by
-        <a class="text-accent underline underline-offset-2" href={`mailto:${String(site.settings.email)}`}>
+        <a class="text-accent underline underline-offset-2" href={`mailto:${contact.email}`}>
           email
         </a>{' '}
         or on
-        <a class="text-accent underline underline-offset-2" href={whatsappHref(site, page.title)}>
+        <a class="text-accent underline underline-offset-2" href={whatsappHref(page.title)}>
           WhatsApp
         </a>
         .
       </p>
     </section>
 
-    <Related keys={page.data.related_wiki} id="related-wiki" title="Read more on the Wiki" />
+    <Related keys={entry.data.related_wiki} id="related-wiki" title="Read more on the Wiki" />
 
     <AboutMe heading="About me" id="about-me" class="border-rule mt-16 border-t pt-10">
       {testimonial && (
         <figure class="border-accent font-prose mt-5 border-l-4 pl-4">
           <blockquote class="text-heading">
-            <p>“{String(testimonial.data.quote)}”</p>
+            <p>“{testimonial.data.quote}”</p>
           </blockquote>
           <QuoteBy client={testimonial} class="mt-3" />
         </figure>

@@ -1,13 +1,17 @@
 ---
 // The problems I fix, one linked row each; `withLine` adds `what_i_do`. Titles
 // look like headings but are not, or the outline would repeat the list.
-import type { LivePage } from '@garden/lib/types.ts';
-type Props = { problems: LivePage[]; withLine?: boolean };
+import type { CollectionEntry } from 'astro:content';
+import { garden } from '@garden/lib/load.ts';
+import type { SiteEntry } from '@garden/lib/entry.ts';
+type Props = { problems: (SiteEntry | CollectionEntry<'problems'>)[]; withLine?: boolean };
 const { problems, withLine = false } = Astro.props;
+const g = await garden();
+const rows = problems.map((p) => ('data' in p ? { url: g.entry(p).url, title: p.data.title, line: p.data.what_i_do } : { url: p.url, title: p.title, line: undefined }));
 ---
 
 <ul class="border-rule divide-rule mt-8 divide-y border-y font-sans">
-  {problems.map((problem) => (
+  {rows.map((problem) => (
     <li>
       <a class="group hover:bg-bg-elev block px-2 py-4 no-underline" href={problem.url}>
         <span class="text-heading group-hover:text-accent font-heading text-lg font-extrabold">
@@ -16,9 +20,7 @@ const { problems, withLine = false } = Astro.props;
           </span>
           {problem.title}
         </span>
-        {withLine && typeof problem.data.what_i_do === 'string' && (
-          <span class="text-muted mt-1 block text-sm">{problem.data.what_i_do}</span>
-        )}
+        {withLine && problem.line && <span class="text-muted mt-1 block text-sm">{problem.line}</span>}
       </a>
     </li>
   ))}

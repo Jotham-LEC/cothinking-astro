@@ -1,38 +1,35 @@
-// The head model: what the Marketing Toolkit addon and App\Seo printed for a
-// page. Title, description, canonical, robots, Open Graph, Twitter and the
-// JSON-LD graph (WebSite, the publisher, WebPage or ProfilePage,
+// The head model: title, description, canonical, robots, Open Graph, Twitter
+// and the JSON-LD graph (WebSite, the publisher, WebPage or ProfilePage,
 // BreadcrumbList, Article). A piece first published elsewhere sends search
 // engines there (`seo.canonical`).
 import { breadcrumbs } from './breadcrumbs.ts';
 import { atom } from './dates.ts';
+import { byUrl, type SiteEntry } from './entry.ts';
 import { plainText } from './markdown/feed.ts';
 import { measure } from './markdown/rehype-images.ts';
-import { byUrl } from './pages.ts';
-import type { Author, Collections, Page, SiteConfig } from './types.ts';
-import { absolute, cardUrl } from './urls.ts';
+import { absolute, cardUrl, type SiteConfig } from './site.ts';
 
 const TITLE_MAX = 60;
 const DESCRIPTION_MAX = 160;
+const TITLE_SEPARATOR = ' | ';
 const ROBOTS_DEFAULT = 'max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 const IMAGE_WIDTH = 1200;
 const IMAGE_HEIGHT = 630;
 const CREDIT_LINE = 'This article first appeared';
 
 export type HeadInput = {
-  page: Page | null;
+  page: SiteEntry | null;
   /** The page's path (never Astro.url: build.format 'file' makes that `/x.html`). */
   path: string;
   site: SiteConfig;
-  collections: Collections;
-  pages: Page[];
+  /** The published entries, for the breadcrumbs and the home page's card. */
+  live: SiteEntry[];
   /** The rendered body, for a description from its first paragraph. */
   html?: string;
   /** Where the public files are, to measure a share image. */
   publicDir?: string;
   overrides?: { title?: string | null; description?: string | null; noindex?: boolean; ogType?: string | null };
   status?: number;
-  /** Who writes the site's articles (src/data/authors.yaml). */
-  authors?: Author[];
 };
 
 type ShareImage = { url: string; width: number; height: number; alt: string | null };
@@ -53,16 +50,13 @@ export type Head = {
   graph: Record<string, unknown>[];
 };
 
-const str = (v: unknown): string | null => (typeof v === 'string' && v.trim() !== '' ? v : null);
-const list = (v: unknown): string[] =>
-  Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string' && x !== '') : [];
-const oneOrMany = (values: string[]) => (values.length === 0 ? undefined : values.length === 1 ? values[0] : values);
+const oneOrMany = (values: string[] = []) => (values.length === 0 ? undefined : values.length === 1 ? values[0] : values);
 const clean = (node: Record<string, unknown>) =>
   Object.fromEntries(
     Object.entries(node).filter(([, v]) => v !== null && v !== undefined && !(Array.isArray(v) && v.length === 0)),
   );
 
-/** At most `length` characters, cut at a word, with an ellipsis (the addon's Text::limit). */
+/** At most `length` characters, cut at a word, with an ellipsis. */
 export function limit(text: string, length: number): string {
   if ([...text].length <= length) return text;
   const cut = [...text].slice(0, length - 1).join('');
@@ -73,23 +67,18 @@ export function limit(text: string, length: number): string {
 const home = (site: SiteConfig) => `${site.url.replace(/\/$/, '')}/`;
 const websiteId = (site: SiteConfig) => `${home(site)}#website`;
 const publisherId = (site: SiteConfig) => `${home(site)}#publisher`;
-
-function separator(site: SiteConfig): string {
-  const sep = (str(site.seo.title_separator) ?? '·').trim();
-  return ` ${sep} `;
-}
-
 const isHome = ({ path }: HeadInput) => path === '/';
+const isArticle = (page: SiteEntry | null, site: SiteConfig) =>
+  page !== null && (site.collections[page.collection]?.article ?? false);
 
+/** The page's title with the site's name after it, unless that runs long. */
 export function title(input: HeadInput): string {
   const { page, site, overrides } = input;
   if (page?.seo.title) return page.seo.title;
   if (isHome(input) && !overrides?.title) return site.name;
   const own = overrides?.title ?? page?.title ?? null;
   if (own === null) return site.name;
-  if (site.seo.title_site_name === false || (site.seo.title_site_name === undefined && !str(site.seo.title_separator)))
-    return own;
-  const full = `${own}${separator(site)}${str(site.seo.title_brand) ?? site.name}`;
+  const full = `${own}${TITLE_SEPARATOR}${site.name}`;
   return [...full].length <= TITLE_MAX ? full : own;
 }
 
@@ -98,15 +87,15 @@ export function ogTitle({ page, site, overrides }: HeadInput): string {
 }
 
 /** The content's own description: its `description`, a quote note's quote, else the body's first paragraph (skipping a column's credit line). */
-export function contentDescription(page: Page, html?: string, { skipCreditLine = true } = {}): string | null {
+export function contentDescription(page: SiteEntry, html?: string, { skipCreditLine = true } = {}): string | null {
   if (page.description) return page.description;
-  if (typeof page.data.quote === 'string' && page.data.quote.trim() !== '') return plainText(page.data.quote);
+  if (page.quote) return plainText(page.quote);
   if (!html) return null;
   const paragraphs = [...html.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)]
     .map((m) => plainText(m[1]!))
     .filter((p) => p !== '');
   const first = paragraphs[0] ?? null;
-  // A republished column opens with its credit line, which describes the outlet: the head skips it (App\Seo), llms.txt did not.
+  // A republished column opens with its credit line, which describes the outlet: the head skips it, llms.txt does not.
   if (skipCreditLine && first !== null && first.startsWith(CREDIT_LINE))
     return paragraphs.find((p) => !p.startsWith(CREDIT_LINE)) ?? null;
   return first;
@@ -118,8 +107,8 @@ export function description(input: HeadInput): string | null {
     overrides?.description ??
     page?.seo.description ??
     (page ? contentDescription(page, html) : null) ??
-    str(site.seo.default_description);
-  return text === null ? null : limit(plainText(text), DESCRIPTION_MAX);
+    site.seo.defaultDescription;
+  return limit(plainText(text), DESCRIPTION_MAX);
 }
 
 export const url = ({ site, path }: HeadInput): string => absolute(site.url, path);
@@ -134,157 +123,87 @@ export function robots({ page, overrides, status }: HeadInput): string {
   return noindex || (status ?? 200) >= 400 ? 'noindex, follow' : ROBOTS_DEFAULT;
 }
 
-/** `profile` on a home page that says so, `article` for a section's pages, else `website`. */
+/** `profile` on a home page that says so, `article` for a section's articles, else `website`. */
 export function ogType(input: HeadInput): string {
-  const { page, collections, overrides } = input;
+  const { page, site, overrides } = input;
   if (overrides?.ogType) return overrides.ogType;
   if (isHome(input)) return page?.seo.og_type === 'profile' ? 'profile' : 'website';
-  return page?.seo.og_type ?? (page ? (collections[page.collection]?.og_type ?? 'website') : 'website');
+  return page?.seo.og_type ?? (isArticle(page, site) ? 'article' : 'website');
 }
 
-/** The share image: the entry's `image`, else the default card; a listing without an entry shares the home page's. */
+/** The share image: the entry's `image`, else the generated card; a listing without an entry shares the home page's. */
 export function image(input: HeadInput): ShareImage | null {
-  const { page, site, pages, publicDir, status } = input;
+  const { page, site, live, publicDir, status } = input;
   if ((status ?? 200) >= 400) return null;
-  const own = page?.image ?? null;
-  if (own) {
-    const size = publicDir ? measure(publicDir, own) : null;
+  if (page?.image) {
+    const size = publicDir ? measure(publicDir, page.image) : null;
     return {
-      url: absolute(site.url, own),
+      url: absolute(site.url, page.image),
       width: size?.width ?? IMAGE_WIDTH,
       height: size?.height ?? IMAGE_HEIGHT,
       alt: null,
     };
   }
-  // The generated card (og.png.ts, og/[...uri].png.ts); a listing without an entry shares the home page's.
-  const subject = page ?? byUrl(pages).get('/') ?? null;
-  if (!subject?.url) return null;
-  return {
-    url: absolute(site.url, cardUrl(subject.url)),
-    width: IMAGE_WIDTH,
-    height: IMAGE_HEIGHT,
-    alt: subject.title,
-  };
+  const subject = page ?? byUrl(live).get('/') ?? null;
+  if (!subject) return null;
+  return { url: absolute(site.url, cardUrl(subject.url)), width: IMAGE_WIDTH, height: IMAGE_HEIGHT, alt: subject.title };
 }
 
 function websiteNode(site: SiteConfig) {
-  return clean({
+  return {
     '@type': 'WebSite',
     '@id': websiteId(site),
     url: home(site),
     name: site.name,
-    alternateName: str(site.seo.site_alternate_name),
     publisher: { '@id': publisherId(site) },
-  });
+  };
 }
 
-/** Who is behind the site: a Person (with the organisations they work for: the settings' employer and the other sites) or an Organization (with its founder, the other site's Person). */
+/** Who is behind the site: a Person (who works for the other site's organisation) or an Organization (founded by the other site's Person). */
 function publisherNode(site: SiteConfig) {
-  const seo = site.seo;
-  const types = list(seo.publisher_type).length
-    ? list(seo.publisher_type)
-    : str(seo.publisher_type)
-      ? [str(seo.publisher_type)!]
-      : ['Organization'];
-  const person = types.includes('Person');
-  const organization = !person;
-  const logo = str(seo.publisher_logo)
-    ? absolute(site.url, str(seo.publisher_logo)!)
-    : str(site.attributes.logo)
-      ? absolute(site.url, site.attributes.logo!)
-      : null;
+  const p = site.seo.publisher;
+  const person = p.type === 'Person';
+  const logo = absolute(site.url, p.logo ?? site.logo);
   const address = clean({
-    streetAddress: str(seo.street_address),
-    addressLocality: str(seo.address_locality),
-    addressRegion: str(seo.address_region),
-    postalCode: str(seo.postal_code),
-    addressCountry: str(seo.address_country),
+    addressLocality: p.address?.locality,
+    addressRegion: p.address?.region,
+    addressCountry: p.address?.country,
   });
-  const node: Record<string, unknown> = clean({
-    '@type': types.length === 1 ? types[0] : types,
+  const other = site.otherSite;
+  const otherId = `${other.url.replace(/\/$/, '')}/#publisher`;
+  return clean({
+    '@type': p.type,
     '@id': publisherId(site),
-    name: str(seo.publisher_name) ?? site.name,
-    alternateName: oneOrMany(
-      list(seo.publisher_alternate_name).length
-        ? list(seo.publisher_alternate_name)
-        : str(seo.publisher_alternate_name)
-          ? [str(seo.publisher_alternate_name)!]
-          : [],
-    ),
-    legalName: organization ? str(seo.legal_name) : null,
-    description: str(seo.publisher_description),
+    name: p.name ?? site.name,
+    alternateName: oneOrMany(p.alternateName),
+    legalName: person ? null : p.legalName,
+    description: p.description,
     url: home(site),
-    logo: organization ? logo : null,
+    logo: person ? null : logo,
     image: person ? logo : null,
-    jobTitle: person ? str(seo.job_title) : null,
-    telephone: str(seo.telephone),
-    email: str(seo.email),
+    jobTitle: person ? p.jobTitle : null,
+    telephone: p.telephone,
+    email: p.email,
     address: Object.keys(address).length ? { '@type': 'PostalAddress', ...address } : null,
-    areaServed: organization ? oneOrMany(list(seo.area_served)) : null,
-    foundingDate: organization ? str(seo.founding_date) : null,
-    contactPoint: organization ? contactPoints(seo.contact_points) : null,
-    sameAs: list(seo.same_as),
+    areaServed: person ? null : oneOrMany(p.areaServed),
+    contactPoint: person
+      ? null
+      : (p.contactPoints ?? []).map((c) =>
+          clean({ '@type': 'ContactPoint', contactType: c.contactType, telephone: c.telephone, email: c.email }),
+        ),
+    sameAs: p.sameAs,
+    worksFor: person ? [{ '@type': 'Organization', '@id': otherId, name: other.name, url: other.url }] : null,
+    founder: person ? null : { '@type': 'Person', '@id': otherId, name: other.name, url: other.url },
   });
-  if (person) {
-    const employer = str(site.settings.employer);
-    node.worksFor = [
-      ...(employer ? [clean({ '@type': 'Organization', name: employer, url: str(site.settings.employer_url) })] : []),
-      ...site.other_sites.map((other) => ({
-        '@type': 'Organization',
-        '@id': `${other.url.replace(/\/$/, '')}/#publisher`,
-        name: other.name,
-        url: other.url.replace(/\/$/, ''),
-      })),
-    ];
-  } else {
-    const founder = site.other_sites[0];
-    if (founder)
-      node.founder = {
-        '@type': 'Person',
-        '@id': `${founder.url.replace(/\/$/, '')}/#publisher`,
-        name: founder.name,
-        url: founder.url.replace(/\/$/, ''),
-      };
-  }
-  return node;
 }
 
-/** The Brand global's contact points (customer service, sales…), each with a telephone or an email. */
-function contactPoints(rows: unknown): Record<string, unknown>[] {
-  if (!Array.isArray(rows)) return [];
-  return rows
-    .filter((row): row is Record<string, unknown> => Boolean(row) && typeof row === 'object')
-    .filter((row) => str(row.telephone) || str(row.email))
-    .map((row) =>
-      clean({
-        '@type': 'ContactPoint',
-        contactType: str(row.contact_type),
-        telephone: str(row.telephone),
-        email: str(row.email),
-      }),
-    );
-}
-
-/** The people an article names in its `author` field; one whose page is on a site of the owner's is that site's Person, by its id. */
-function authorNodes(page: Page, site: SiteConfig, authors: Author[] = []): Record<string, unknown>[] {
-  const ids = [page.data.author]
-    .flat()
-    .map((a) => (a && typeof a === 'object' && 'id' in a ? String((a as { id: unknown }).id) : a))
-    .filter((a): a is string => typeof a === 'string' && a !== '');
-  const sites = [site.url, ...site.other_sites.map((s) => s.url)].map((u) => u.replace(/\/$/, ''));
-  return ids.flatMap((id) => {
-    const author = authors.find((a) => a.id === id);
-    if (!author?.name) return [];
-    const home = author.url ? sites.find((u) => author.url!.startsWith(u)) : undefined;
-    return [
-      clean({
-        ...(home ? { '@id': `${home}/#publisher` } : {}),
-        '@type': 'Person',
-        name: author.name,
-        url: str(author.url),
-      }),
-    ];
-  });
+/** The person an article names in its `author` field; one whose page is on a site of the owner's is that site's Person, by its id. */
+function authorNodes(page: SiteEntry, site: SiteConfig): Record<string, unknown>[] {
+  const author = page.author ? site.authors[page.author] : undefined;
+  if (!author) return [];
+  const sites = [site.url, site.otherSite.url].map((u) => u.replace(/\/$/, ''));
+  const home = author.url ? sites.find((u) => author.url!.startsWith(u)) : undefined;
+  return [clean({ ...(home ? { '@id': `${home}/#publisher` } : {}), '@type': 'Person', name: author.name, url: author.url })];
 }
 
 function webPageNode(
@@ -310,9 +229,9 @@ function webPageNode(
 }
 
 function breadcrumbNode(input: HeadInput) {
-  const { page, site, pages } = input;
-  if (!page || isHome(input) || !page.url) return null;
-  const trail = breadcrumbs(page.url, pages).map((c, i) => ({
+  const { page, site, live } = input;
+  if (!page || isHome(input)) return null;
+  const trail = breadcrumbs(page.url, live).map((c, i) => ({
     name: i === 0 ? site.name : c.title,
     item: i === 0 ? home(site) : absolute(site.url, c.url),
   }));
@@ -327,12 +246,11 @@ function articleNode(
   input: HeadInput,
   head: { description: string | null; image: ShareImage | null; canonical: string | null },
 ) {
-  const { page, site, collections } = input;
-  const type = page ? collections[page.collection]?.schema : null;
-  if (!page || !type) return null;
-  const people = authorNodes(page, site, input.authors);
+  const { page, site } = input;
+  if (!page || !isArticle(page, site)) return null;
+  const people = authorNodes(page, site);
   return clean({
-    '@type': type,
+    '@type': 'Article',
     '@id': `${url(input)}#article`,
     headline: page.title,
     description: head.description,
@@ -346,14 +264,14 @@ function articleNode(
 }
 
 export function head(input: HeadInput): Head {
-  const { site, page, collections } = input;
+  const { site, page } = input;
   const status = input.status ?? 200;
   const desc = description(input);
   const img = image(input);
   const type = ogType(input);
   const ogT = ogTitle(input);
   const can = canonical(input);
-  const article = page ? collections[page.collection]?.og_type === 'article' || type === 'article' : false;
+  const article = isArticle(page, site) || type === 'article';
   const graph =
     status >= 400
       ? []
@@ -377,12 +295,12 @@ export function head(input: HeadInput): Head {
     image: img,
     published: article && page?.date ? atom(page.date) : null,
     modified: article && page?.updated ? atom(page.updated) : null,
-    twitterSite: str(site.seo.twitter_handle) ? '@' + str(site.seo.twitter_handle)!.replace(/^@/, '') : null,
+    twitterSite: site.seo.twitterHandle ? '@' + site.seo.twitterHandle.replace(/^@/, '') : null,
     graph,
   };
 }
 
-/** The JSON-LD as the addon printed it: `<` and `&` as \u escapes, so it is safe inside a <script>. */
+/** The JSON-LD with `<`, `>` and `&` as \u escapes, so it is safe inside a <script>. */
 export function jsonLd(graph: Record<string, unknown>[]): string | null {
   if (graph.length === 0) return null;
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })
@@ -392,8 +310,8 @@ export function jsonLd(graph: Record<string, unknown>[]): string | null {
 }
 
 /** Whether a page is listed in the sitemap and llms.txt: its own canonical address, indexable, not left out. */
-export function inSitemap(page: Page, site: SiteConfig): boolean {
-  if (page.draft || !page.url || page.seo.noindex || page.seo.sitemap === false) return false;
+export function inSitemap(page: SiteEntry, site: SiteConfig): boolean {
+  if (page.draft || page.seo.noindex || page.seo.sitemap === false) return false;
   const canonical = page.seo.canonical?.replace(/\/$/, '');
   return !canonical || canonical === absolute(site.url, page.url).replace(/\/$/, '');
 }

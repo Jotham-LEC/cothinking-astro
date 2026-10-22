@@ -6,7 +6,7 @@ updated: 2026-10-15T08:30:50+00:00
 category: choosing-a-provider
 author: jotham-lim
 related_pages:
-  - cothinking_pages/how-i-work
+  - pages/how-i-work
 ---
 Choose an IT support provider by what they take responsibility for, not by the monthly price: what they cover, how fast they reply and fix, how much on-site time you get, and what security they insist on. Before you sign, make sure the admin accounts stay in your company's name.
 

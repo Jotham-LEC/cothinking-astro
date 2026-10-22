@@ -6,7 +6,7 @@ updated: 2026-10-15T01:20:18+00:00
 category: choosing-a-provider
 author: jotham-lim
 related_pages:
-  - cothinking_pages/websites
+  - pages/websites
 ---
 Choose a web developer in this order: decide what the site must do, set a budget, pick the kind of provider, and only then compare people. Judge them on work they have shipped, on whether your company will own every account and file, on what happens after launch, and on the contract.
 

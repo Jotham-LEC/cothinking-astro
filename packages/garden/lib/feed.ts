@@ -1,31 +1,24 @@
-// RSS 2.0 feeds, as the Laravel site's feed view printed them: the whole site
-// (every dated collection) or one section, 20 newest first, each item's body
-// through the `feed` parser with absolute URLs. @astrojs/rss writes the XML.
+// RSS 2.0 feeds: the whole site (every dated collection) or one section, 20
+// newest first, each item's body through the `feed` parser with absolute
+// URLs. @astrojs/rss writes the XML.
 import type { RSSOptions } from '@astrojs/rss';
-import { feedOf } from './entry.ts';
+import { byDateDesc, type SiteEntry } from './entry.ts';
+import { feedOf } from './info.ts';
 import { fullUrls, renderFeed } from './markdown/feed.ts';
-import { byDateDesc, published } from './pages.ts';
-import type { Collections, Page, SiteConfig } from './types.ts';
-import { absolute } from './urls.ts';
+import { absolute, type SiteConfig } from './site.ts';
 import type { TitleIndex } from './titles.ts';
 
-type FeedContext = {
-  site: SiteConfig;
-  collections: Collections;
-  pages: Page[];
-  titles: TitleIndex;
-};
+type FeedContext = { site: SiteConfig; live: SiteEntry[]; titles: TitleIndex };
 
 const escapeHtml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /** A feed item's body: a quote note's quote, then the page's text. */
-async function feedBody(page: Page, { titles, site }: FeedContext): Promise<string> {
+async function feedBody(page: SiteEntry, { titles, site }: FeedContext): Promise<string> {
   const parts: string[] = [];
-  if (page.type === 'quote' && typeof page.data.quote === 'string') {
-    const cite =
-      typeof page.data.cite === 'string' && page.data.cite !== '' ? `<p>— ${escapeHtml(page.data.cite)}</p>` : '';
-    parts.push(`<blockquote>\n${await renderFeed(page.data.quote, titles, { breaks: true })}${cite}\n</blockquote>`);
+  if (page.quote) {
+    const cite = page.cite ? `<p>— ${escapeHtml(page.cite)}</p>` : '';
+    parts.push(`<blockquote>\n${await renderFeed(page.quote, titles, { breaks: true })}${cite}\n</blockquote>`);
   }
   parts.push(await renderFeed(page.body.trim(), titles));
   return fullUrls(parts.join('\n'), site.url);
@@ -33,14 +26,14 @@ async function feedBody(page: Page, { titles, site }: FeedContext): Promise<stri
 
 /** A feed's options for @astrojs/rss: the whole site (every dated collection) or one section, 20 newest first. */
 export async function feedOptions(section: string | null, ctx: FeedContext): Promise<RSSOptions> {
-  const { site, collections, pages } = ctx;
-  const feed = feedOf(section, site, collections);
+  const { site, live } = ctx;
+  const feed = feedOf(section, site);
   const from = section
     ? [section]
-    : Object.entries(collections)
-        .filter(([, c]) => c.dated)
+    : Object.entries(site.collections)
+        .filter(([, c]) => c.order === 'date')
         .map(([h]) => h);
-  const items = byDateDesc(published(pages).filter((p) => from.includes(p.collection))).slice(0, 20);
+  const items = byDateDesc(live.filter((p) => from.includes(p.collection))).slice(0, 20);
   return {
     title: feed.title,
     description: feed.title,

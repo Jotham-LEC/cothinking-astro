@@ -7,7 +7,7 @@ draft: true
 category: choosing-a-provider
 author: jotham-lim
 related_pages:
-  - cothinking_pages/how-i-work
+  - pages/how-i-work
 ---
 Every job I do has a fixed price, which I put in writing before I start. You pay it once the job is done, on one bill at the end of the month, with no prepaid hours and no contract term.
 

@@ -1,12 +1,10 @@
 ---
-// ⌘K search: the site's pages collection is listed up front; from two
-// characters scripts/site/palette.js asks Pagefind and builds the results.
-import type { Page, SiteConfig } from '../lib/types.ts';
-type Props = { pages: Page[]; site: SiteConfig };
-const { pages, site } = Astro.props;
-const root = pages
-  .filter((p) => p.collection === (site.attributes.pages ?? 'pages') && p.order !== null)
-  .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+// ⌘K search: the site's pages are listed up front, in their order; from
+// two characters scripts/site/palette.js asks Pagefind and builds the results.
+import type { SiteEntry } from '../lib/entry.ts';
+type Props = { live: SiteEntry[] };
+const { live } = Astro.props;
+const root = live.filter((p) => p.collection === 'pages').sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
 <div

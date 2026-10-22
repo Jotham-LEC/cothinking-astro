@@ -1,13 +1,16 @@
 ---
 // cothink.ing's home page, a room. Its copy is written here.
-import { wiki } from '@garden/lib/load.ts';
-import { childrenOf, home } from '@garden/lib/pages.ts';
+import { getEntry } from 'astro:content';
+import { garden } from '@garden/lib/load.ts';
+import { childrenOf } from '@garden/lib/entry.ts';
 import Layout from '@garden/layouts/Layout.astro';
 import Prose from '@garden/components/Prose.astro';
 import SectionHeading from '@garden/components/SectionHeading.astro';
 import ComputerDesktop from '@site/assets/icons/computer-desktop.svg';
 import WrenchScrewdriver from '@site/assets/icons/wrench-screwdriver.svg';
 import { price } from '@site/lib/contact.ts';
+import { testimonialOf, workEntries } from '@site/lib/work.ts';
+import { prices } from '@site/site.config.ts';
 import AboutMe from '@site/components/cothinking/AboutMe.astro';
 import Email from '@site/components/cothinking/Email.astro';
 import Enquiry from '@site/components/cothinking/Enquiry.astro';
@@ -15,16 +18,14 @@ import ProblemList from '@site/components/cothinking/ProblemList.astro';
 import QuoteBy from '@site/components/cothinking/QuoteBy.astro';
 import Whatsapp from '@site/components/cothinking/Whatsapp.astro';
 import WorkTiles from '@site/components/cothinking/WorkTiles.astro';
-const w = await wiki();
-const page = home(w.live);
-if (!page) throw new Error('No home page: the pages tree has no root.');
-const problems = childrenOf('problems', w.live, w.collections).slice(0, 5);
-const work = childrenOf('work', w.live, w.collections);
-// The first Work entry with a testimonial, as a pull quote.
-const testimonial = work.find((c) => typeof c.data.quote === 'string' && c.data.quote !== '');
+const g = await garden();
+const page = g.entry((await getEntry('pages', 'home'))!);
+const problems = childrenOf('problems', g.live, g.site).slice(0, 5);
+const work = await workEntries();
+const testimonial = testimonialOf(work);
 ---
 
-<Layout page={page} path={page.url} html={await w.htmlOf(page)} room>
+<Layout page={page} path={page.url} html={await g.htmlOf(page)} room>
   <div class="font-prose mx-auto max-w-6xl">
     <header class="lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-12" data-popover>
       <img
@@ -78,7 +79,7 @@ const testimonial = work.find((c) => typeof c.data.quote === 'string' && c.data.
           <div>
             <h3 class="text-heading font-heading text-lg font-extrabold">Websites</h3>
             <p class="mt-1">
-              Two website packages, from RM{price(w.site, 'starter_price')} at the launch price, for the first five
+              Two website packages, from RM{price(prices.starter)} at the launch price, for the first five
               clients who agree to a short case study.
             </p>
           </div>
@@ -105,7 +106,7 @@ const testimonial = work.find((c) => typeof c.data.quote === 'string' && c.data.
     {testimonial && (
       <figure class="border-accent mt-24 max-w-4xl border-l-4 pl-6 sm:pl-10">
         <blockquote class="text-heading text-2xl leading-snug sm:text-3xl">
-          <p>“{String(testimonial.data.quote)}”</p>
+          <p>“{testimonial.data.quote}”</p>
         </blockquote>
         <QuoteBy client={testimonial} class="mt-6" />
       </figure>

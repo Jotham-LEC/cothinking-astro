@@ -6,8 +6,8 @@ updated: 2026-10-15T08:30:50+00:00
 category: choosing-a-provider
 author: jotham-lim
 related_pages:
-  - cothinking_pages/websites
-  - cothinking_pages/how-i-work
+  - pages/websites
+  - pages/how-i-work
 ---
 Send every developer on your shortlist the same twenty questions, in writing, and compare the answers side by side. Perfect answers are rare. What matters is that you understand each one and could hold the developer to it.
 

@@ -1,27 +1,25 @@
 ---
 // /notes (template `notes/index`) and /notes/2, /notes/3…: the landing page's
 // text, then the stream, 20 to a page, newest first.
-import { render } from 'astro:content';
+import { getEntry, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
-import { wiki } from '@garden/lib/load.ts';
-import { byDateDesc, landingOf } from '@garden/lib/pages.ts';
+import { garden } from '@garden/lib/load.ts';
+import { byDateDesc } from '@garden/lib/entry.ts';
 import Entry from '@garden/components/Entry.astro';
 import Stream from '@site/components/notes/Stream.astro';
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const w = await wiki();
-  const landing = landingOf('notes', w.live, w.collections);
-  if (!landing) return [];
-  const notes = byDateDesc(w.live.filter((p) => p.collection === 'notes'));
-  return paginate(notes, { pageSize: 20, props: { landing } });
+  const g = await garden();
+  const notes = byDateDesc(g.live.filter((p) => p.collection === 'notes'));
+  return paginate(notes, { pageSize: 20 });
 }) satisfies GetStaticPaths;
 
-const { page, landing } = Astro.props;
-const w = await wiki();
-const { Content, headings } = await render(w.entryOf(landing));
+const { page } = Astro.props;
+const landing = (await getEntry('pages', 'notes'))!;
+const { Content, headings } = await render(landing);
 ---
 
-<Entry page={landing} path={page.url.current} headings={headings}>
+<Entry entry={landing} path={page.url.current} headings={headings}>
   <Fragment slot="head">
     {page.url.prev && <link rel="prev" href={page.url.prev} />}
     {page.url.next && <link rel="next" href={page.url.next} />}

@@ -1,79 +1,59 @@
-// The site at build time: the content and data collections (validated by
-// src/content.config.ts) as Pages and settings, with the title index, the
-// Explorer and the graph, each worked out once per build.
-import { getCollection, getEntry, type CollectionEntry, type CollectionKey } from 'astro:content';
-import otherSiteTitles from '@site/data/other-site-titles.json';
+// The site at build time: its config and every content entry (validated by
+// its content.config.ts) as SiteEntries, with the title index, the Explorer
+// and the graph, each worked out once per build. `garden()` is the one
+// thing a component awaits; the three `@site` imports (here and in
+// layouts/Layout.astro) are the whole contract between a site and the garden.
+import { site } from '@site/site.config.ts';
+import { loadEntries, otherEntries } from '@site/lib/entries.ts';
+import { byUrl, keyOf, published, type SiteEntry } from './entry.ts';
 import { explorerRows, type Row } from './explorer.ts';
 import { buildGraph, type Graph } from './graph.ts';
 import { renderFeed } from './markdown/feed.ts';
-import { published, toPages } from './pages.ts';
+import type { SiteConfig } from './site.ts';
 import { titleIndex, type TitleIndex } from './titles.ts';
-import type { Author, Collections, LivePage, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
 
-// The authors collection is defined only on a site whose src/data/authors.yaml has entries
-// (garden/content.ts), so it is read only there: an empty one warns on every build.
-const hasAuthors = Object.keys(import.meta.glob('/src/data/authors.yaml')).length > 0;
-
-export type Wiki = {
+export type Garden = {
   site: SiteConfig;
-  collections: Collections;
-  pages: Page[];
-  /** Published pages with an address. */
-  live: LivePage[];
-  navigation: Record<string, NavItem[]>;
-  authors: Author[];
+  /** Every entry, drafts included. */
+  entries: SiteEntry[];
+  /** The entries a reader can see. */
+  live: SiteEntry[];
+  byUrl: Map<string, SiteEntry>;
+  /** The SiteEntry behind one of Astro's entries (`collection` and `id`). */
+  entry: (of: { collection: string; id: string }) => SiteEntry;
   titles: TitleIndex;
   explorer: Row[];
   graph: Graph;
-  /** A page's body as plain HTML (the feed parser, callouts rendered), for descriptions; rendered once per page. */
-  htmlOf: (page: Page) => Promise<string>;
-  entryOf: (page: Page) => CollectionEntry<CollectionKey>;
+  /** An entry's body as plain HTML (the feed parser, callouts rendered), for descriptions; rendered once per entry. */
+  htmlOf: (entry: SiteEntry) => Promise<string>;
 };
 
-let cache: Promise<Wiki> | null = null;
+let cache: Promise<Garden> | null = null;
 
-export function wiki(): Promise<Wiki> {
+export function garden(): Promise<Garden> {
   cache ??= (async () => {
-    const site = (await getEntry('site', 'site'))?.data as SiteConfig | undefined;
-    if (!site) throw new Error('src/data/site.yaml is missing: run `npm run import:<site>`.');
-    const collections = Object.fromEntries(
-      (await getCollection('collectionsConfig')).map((c) => [c.id, c.data]),
-    ) as Collections;
-    const navigation = Object.fromEntries(
-      (await getCollection('navigation')).map((n) => [n.id, n.data.items as NavItem[]]),
-    );
-    const authors = hasAuthors
-      ? (await getCollection('authors' as CollectionKey)).map((a) => a.data as unknown as Author)
-      : [];
-
-    const raws: RawEntry[] = [];
-    const entries = new Map<string, CollectionEntry<CollectionKey>>();
-    for (const collection of Object.keys(collections) as CollectionKey[]) {
-      for (const entry of await getCollection(collection)) {
-        raws.push({ collection, slug: entry.id, data: entry.data as Record<string, unknown>, body: entry.body ?? '' });
-        entries.set(`${collection}/${entry.id}`, entry);
-      }
-    }
-    const pages = toPages(raws, collections);
-    const titles = titleIndex(published(pages), otherSiteTitles as TitleIndex);
-    const partial = { site, collections, pages, navigation };
+    const entries = await loadEntries();
+    const live = published(entries);
+    const byId = new Map(entries.map((e) => [keyOf(e), e]));
+    const titles = titleIndex(live, otherEntries(), site.otherSite.url);
     const html = new Map<string, Promise<string>>();
     return {
-      ...partial,
-      live: published(pages),
-      authors,
-      titles,
-      explorer: explorerRows(partial),
-      graph: buildGraph(pages, collections, titles),
-      htmlOf: (page) => {
-        const key = `${page.collection}/${page.slug}`;
-        if (!html.has(key)) html.set(key, renderFeed(page.body, titles, { callouts: true }));
-        return html.get(key)!;
+      site,
+      entries,
+      live,
+      byUrl: byUrl(live),
+      entry: (of) => {
+        const found = byId.get(keyOf(of));
+        if (!found) throw new Error(`No entry ${keyOf(of)}.`);
+        return found;
       },
-      entryOf: (page) => {
-        const entry = entries.get(`${page.collection}/${page.slug}`);
-        if (!entry) throw new Error(`No entry for ${page.collection}/${page.slug}`);
-        return entry;
+      titles,
+      explorer: explorerRows(live, site),
+      graph: buildGraph(live, site, titles),
+      htmlOf: (entry) => {
+        const key = keyOf(entry);
+        if (!html.has(key)) html.set(key, renderFeed(entry.body, titles, { callouts: true }));
+        return html.get(key)!;
       },
     };
   })();

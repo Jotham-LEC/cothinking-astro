@@ -6,14 +6,14 @@ import rehypeExternalLinks from 'rehype-external-links';
 import rehypeRaw from 'rehype-raw';
 import wikiLinkPlugin from 'remark-wiki-link';
 import type { TitleIndex } from '../titles.ts';
-import { isExternal } from '../urls.ts';
+import { isExternal } from '../site.ts';
 import rehypeCallouts from './rehype-callouts.ts';
 import rehypeHeadingAnchors from './rehype-heading-anchors.ts';
 import rehypeHeadingIds from './rehype-heading-ids.ts';
 import rehypeImages from './rehype-images.ts';
 import remarkWikiLinks from './remark-wiki-links.ts';
 
-type PipelineOptions = { titles: TitleIndex; siteUrl: string; publicDir: string };
+type PipelineOptions = { titles: () => TitleIndex; siteUrl: string; publicDir: string };
 
 /** remark-wiki-link, parsing only: remark-wiki-links resolves the nodes. */
 export const wikiLinkSyntax = (): [RemarkPlugin, unknown][] => [

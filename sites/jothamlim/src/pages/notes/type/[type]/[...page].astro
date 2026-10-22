@@ -1,42 +1,40 @@
 ---
 // /notes/type/{type}: the stream narrowed to one post type; only a type with
 // a published note gets a listing.
+import { getEntry } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
-import { wiki } from '@garden/lib/load.ts';
-import { byDateDesc, landingOf } from '@garden/lib/pages.ts';
-import { noteTypes } from '@garden/lib/noteTypes.ts';
+import { garden } from '@garden/lib/load.ts';
+import { byDateDesc } from '@garden/lib/entry.ts';
+import { noteTypesInUse } from '@garden/lib/explorer.ts';
 import Layout from '@garden/layouts/Layout.astro';
 import Breadcrumbs from '@garden/components/Breadcrumbs.astro';
 import PageHeader from '@garden/components/PageHeader.astro';
 import Stream from '@site/components/notes/Stream.astro';
+import { site } from '@site/site.config.ts';
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const w = await wiki();
-  const landing = landingOf('notes', w.live, w.collections);
-  if (!landing) return [];
-  return noteTypes(w.live, w.collections).flatMap((type) =>
-    paginate(byDateDesc(w.live.filter((p) => p.collection === 'notes' && (p.type ?? 'text') === type.handle)), {
+  const g = await garden();
+  return noteTypesInUse(g.live, 'notes', site.collections.notes.types).flatMap(([handle, title]) =>
+    paginate(byDateDesc(g.live.filter((p) => p.collection === 'notes' && p.type === handle)), {
       pageSize: 20,
-      params: { type: type.handle },
-      props: { type, landing },
+      params: { type: handle },
+      props: { title },
     }),
   );
 }) satisfies GetStaticPaths;
 
-const { page, type, landing } = Astro.props;
-const w = await wiki();
-const path =
-  page.currentPage > 1
-    ? `${landing.url}/type/${type.handle}/${page.currentPage}`
-    : `${landing.url}/type/${type.handle}`;
+const { page, title } = Astro.props;
+const g = await garden();
+const landing = (await getEntry('pages', 'notes'))!;
+const path = page.currentPage > 1 ? `/notes/type/${Astro.params.type}/${page.currentPage}` : `/notes/type/${Astro.params.type}`;
 ---
 
-<Layout path={path} seoTitle={type.seoTitle} seoDescription={type.seoDescription}>
+<Layout path={path} seoTitle={`${title} notes`} seoDescription={`Every ${title.toLowerCase()} note, newest first.`}>
   <Fragment slot="head">
     {page.url.prev && <link rel="prev" href={page.url.prev} />}
     {page.url.next && <link rel="next" href={page.url.next} />}
   </Fragment>
-  <Breadcrumbs url={path} pages={w.live} currentCrumb />
-  <PageHeader title={type.title} eyebrow={landing.title} />
+  <Breadcrumbs url={path} live={g.live} currentCrumb />
+  <PageHeader title={title} eyebrow={landing.data.title} />
   <Stream page={page} />
 </Layout>

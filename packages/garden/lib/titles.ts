@@ -1,20 +1,18 @@
 // The title index behind `[[wiki links]]`: a lower-cased title → the page's
-// address (a path on this site, an absolute URL on the other). Worked out
-// from the pages wherever it is needed (garden/config.mjs for the Markdown,
-// load.ts for the graph), so a renamed page needs no extra step; the other
-// site's titles come from src/data/other-site-titles.json (the import).
-// Titles are unique across both sites (`npm run check:<site>` enforces it).
-import type { Page } from './types.ts';
+// address (a path on this site, a full address on the other). Titles are
+// unique across both sites (check.ts enforces it).
+import { absolute } from './site.ts';
+import type { SiteEntry } from './entry.ts';
 
 export type TitleIndex = Record<string, string>;
 
 export const normaliseTitle = (title: string): string => title.replace(/\\$/, '').trim().toLowerCase();
 
-/** This site's published pages, over the other site's titles. */
-export function titleIndex(pages: Page[], other: TitleIndex = {}): TitleIndex {
+/** This site's published pages, over the other site's. */
+export function titleIndex(own: SiteEntry[], other: SiteEntry[] = [], otherUrl = ''): TitleIndex {
   const index: TitleIndex = {};
-  for (const [title, url] of Object.entries(other)) if (/^https?:\/\//.test(url)) index[title] = url;
-  for (const page of pages) if (!page.draft && page.url) index[normaliseTitle(page.title)] = page.url;
+  for (const e of other) if (!e.draft) index[normaliseTitle(e.title)] = absolute(otherUrl, e.url);
+  for (const e of own) if (!e.draft) index[normaliseTitle(e.title)] = e.url;
   return index;
 }
 

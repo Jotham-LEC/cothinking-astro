@@ -2,11 +2,11 @@
 // Links from a page to others (`keys`: `collection/slug`, from a field such
 // as `related_pages` or `related_wiki`), A–Z under a heading (`title`), or
 // nothing when none is published.
-import { wiki } from '@garden/lib/load.ts';
+import { garden } from '@garden/lib/load.ts';
 import { relatedPages } from '@site/lib/related.ts';
-type Props = { keys: unknown; id: string; title: string };
+type Props = { keys: string[] | undefined; id: string; title: string };
 const { keys, id, title } = Astro.props;
-const links = relatedPages(keys, (await wiki()).live);
+const links = relatedPages(keys, (await garden()).live);
 ---
 
 {links.length > 0 && (

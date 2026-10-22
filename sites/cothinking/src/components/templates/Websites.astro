@@ -1,24 +1,24 @@
 ---
 // The Websites page (`cothinking/websites`): its copy is this view, in Entry's
 // `body` slot; the prices come from the settings global.
-import { wiki } from '@garden/lib/load.ts';
-import { childrenOf } from '@garden/lib/pages.ts';
-import type { LivePage } from '@garden/lib/types.ts';
+import type { CollectionEntry } from 'astro:content';
+import { garden } from '@garden/lib/load.ts';
 import Entry from '@garden/components/Entry.astro';
 import Prose from '@garden/components/Prose.astro';
 import SectionHeading from '@garden/components/SectionHeading.astro';
 import { emailHref, price } from '@site/lib/contact.ts';
 import { relatedPages } from '@site/lib/related.ts';
+import { workEntries } from '@site/lib/work.ts';
+import { prices } from '@site/site.config.ts';
 import Email from '@site/components/cothinking/Email.astro';
 import Enquiry from '@site/components/cothinking/Enquiry.astro';
 import Related from '@site/components/cothinking/Related.astro';
 import Timeline from '@site/components/cothinking/Timeline.astro';
 import WorkTiles from '@site/components/cothinking/WorkTiles.astro';
-type Props = { page: LivePage };
-const { page } = Astro.props;
-const w = await wiki();
-const { site } = w;
-const clients = childrenOf('work', w.live, w.collections).slice(0, 3);
+type Props = { entry: CollectionEntry<'pages'> };
+const { entry } = Astro.props;
+const g = await garden();
+const clients = (await workEntries()).slice(0, 3);
 // The outline: the view's own h2s (Blade read them off the rendered body).
 const outline = [
   ['packages', 'Packages'],
@@ -27,12 +27,12 @@ const outline = [
   ['after-launch', 'After launch'],
   ['custom-web-apps', 'Custom web apps'],
   ...(clients.length ? [['websites', 'Websites I have built']] : []),
-  ...(relatedPages(page.data.related_wiki, w.live).length ? [['related-wiki', 'Read more on the Wiki']] : []),
+  ...(relatedPages(entry.data.related_wiki, g.live).length ? [['related-wiki', 'Read more on the Wiki']] : []),
   ['get-in-touch', 'Ask about a website'],
 ].map(([id, text]) => ({ level: 2, id: id!, text: text! }));
 ---
 
-<Entry page={page} extraHeadings={outline}>
+<Entry entry={entry} extraHeadings={outline}>
   <div class="font-prose" slot="body">
     <Prose class="max-w-3xl">
       <p>
@@ -53,9 +53,9 @@ const outline = [
         >
           <h3 class="text-heading font-heading text-xl font-extrabold">Starter Website</h3>
           <p class="mt-3 font-sans">
-            <span class="text-heading text-4xl font-extrabold">RM{price(site, 'starter_price')}</span>
+            <span class="text-heading text-4xl font-extrabold">RM{price(prices.starter)}</span>
           </p>
-          <p class="text-muted mt-1 font-sans text-sm">Launch price, normally RM{price(site, 'starter_list_price')}.</p>
+          <p class="text-muted mt-1 font-sans text-sm">Launch price, normally RM{price(prices.starterList)}.</p>
           <p class="text-muted mt-2 text-sm">Built from your text and photos. Live in about two weeks.</p>
           <Prose class="mt-4">
             <ul>
@@ -78,10 +78,10 @@ const outline = [
         >
           <h3 class="text-heading font-heading text-xl font-extrabold">Complete Website</h3>
           <p class="mt-3 font-sans">
-            <span class="text-heading text-4xl font-extrabold">RM{price(site, 'complete_price')}</span>
+            <span class="text-heading text-4xl font-extrabold">RM{price(prices.complete)}</span>
           </p>
           <p class="text-muted mt-1 font-sans text-sm">
-            Launch price, normally RM{price(site, 'complete_list_price')}.
+            Launch price, normally RM{price(prices.completeList)}.
           </p>
           <p class="text-muted mt-2 text-sm">I write the copy and design the site. Live in about four weeks.</p>
           <Prose class="mt-4">
@@ -146,7 +146,7 @@ const outline = [
         <p class="mt-3">
           Every website comes with 3 months of the Care Plan free, and in that time I fix, at no charge, anything that
           doesn't work as we agreed. After that there is no support unless you subscribe to a Care Plan: RM
-          {price(site, 'care_plan_core')} a month for the Starter, or RM{price(site, 'care_plan_complete')} for the
+          {price(prices.carePlanCore)} a month for the Starter, or RM{price(prices.carePlanComplete)} for the
           Complete.
           <a class="text-accent underline underline-offset-2" href="/how-i-work#care-plan">
             More on Care Plans
@@ -163,7 +163,7 @@ const outline = [
       <p class="mt-3">
         If your business needs more than a website, such as customer bookings or stock records your staff can update, I
         can build that too.
-        <a class="text-accent underline underline-offset-2" href={emailHref(site, null, 'Enquiry: a custom web app')}>
+        <a class="text-accent underline underline-offset-2" href={emailHref(null, 'Enquiry: a custom web app')}>
           Tell me what you have in mind
         </a>
         .
@@ -177,12 +177,12 @@ const outline = [
       </section>
     )}
 
-    <Related keys={page.data.related_wiki} id="related-wiki" title="Read more on the Wiki" />
+    <Related keys={entry.data.related_wiki} id="related-wiki" title="Read more on the Wiki" />
 
     <Enquiry
       title="Ask about a website"
       intro="Tell me about your business and what the site is for. I will tell you which package fits and what would cost extra."
-      about={page.title}
+      about={entry.data.title}
     />
   </div>
 </Entry>

@@ -1,5 +1,4 @@
-// The Laravel app's tests/Feature/Markdown/WikiParserTest.php, run through
-// Astro's own remark/rehype pipeline with the site's plugins.
+// The Markdown pipeline: Astro's own remark/rehype processor with the garden's plugins.
 import path from 'node:path';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import { beforeAll, describe, expect, it } from 'vitest';
@@ -13,7 +12,7 @@ let render: (md: string) => Promise<string>;
 
 beforeAll(async () => {
   const processor = await createMarkdownProcessor({
-    remarkPlugins: wikiRemarkPlugins({ titles, siteUrl: 'https://jothamlim.com' }),
+    remarkPlugins: wikiRemarkPlugins({ titles: () => titles, siteUrl: 'https://jothamlim.com' }),
     rehypePlugins: wikiRehypePlugins({ siteUrl: 'https://jothamlim.com', publicDir }),
     gfm: true,
     smartypants: false,

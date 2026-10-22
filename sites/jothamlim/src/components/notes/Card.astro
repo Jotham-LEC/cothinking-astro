@@ -1,22 +1,19 @@
 ---
 // One note in the stream: a date badge linking to the note, the type icon
 // linking to that type's listing, then the post.
-import { render } from 'astro:content';
-import { wiki } from '@garden/lib/load.ts';
+import { getEntry, render } from 'astro:content';
 import { formatDate } from '@garden/lib/dates.ts';
-import type { Page } from '@garden/lib/types.ts';
+import type { SiteEntry } from '@garden/lib/entry.ts';
 import Prose from '@garden/components/Prose.astro';
+import { site } from '@site/site.config.ts';
 import Icon from './Icon.astro';
-import Quote from './types/Quote.astro';
-type Props = { note: Page };
+import Quote from './Quote.astro';
+type Props = { note: SiteEntry };
 const { note } = Astro.props;
-const w = await wiki();
 const type = note.type ?? 'text';
-const typeTitle = w.collections.notes?.types?.find((t) => t.handle === type)?.title ?? type;
+const typeTitle = site.collections.notes.types[type as keyof typeof site.collections.notes.types] ?? type;
 const posted = note.date!;
-const { Content } = await render(w.entryOf(note));
-// A text note is all body; a quote note draws its quote above it.
-const Post = type === 'quote' ? Quote : null;
+const { Content } = await render((await getEntry('notes', note.id))!);
 const hasContent = note.body.trim() !== '';
 ---
 
@@ -41,7 +38,7 @@ const hasContent = note.body.trim() !== '';
     </a>
   </div>
   <div class="rounded-site border-rule bg-bg-elev overflow-hidden border">
-    {Post && <Post note={note} />}
+    {type === 'quote' && <Quote quote={note.quote ?? ''} cite={note.cite} />}
     {(type === 'text' || hasContent) && (
       <div class="px-6 py-5">
         {type === 'text' && (

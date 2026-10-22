@@ -14,7 +14,11 @@ import rehypeCallouts from './rehype-callouts.ts';
 import remarkWikiLinks from './remark-wiki-links.ts';
 
 function feedProcessor(titles: TitleIndex, { breaks = false, callouts = false } = {}) {
-  const processor = unified().use(remarkParse).use(remarkGfm).use(wikiLinkSyntax()).use(remarkWikiLinks, { titles });
+  const processor = unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(wikiLinkSyntax())
+    .use(remarkWikiLinks, { titles: () => titles });
   if (breaks) processor.use(remarkBreaks);
   const html = processor.use(remarkRehype, { allowDangerousHtml: true }).use(rehypeRaw);
   // `callouts` renders `> [!NOTE]` as the page does, so a description's first paragraph is the callout's text, not its marker.

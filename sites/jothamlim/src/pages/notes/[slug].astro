@@ -2,35 +2,25 @@
 // A single note: the entry's page with the post (a quote) above its text. A
 // text note is all text, so it adds nothing. A slug is never a number, so none
 // collides with /notes/2.
-import { render } from 'astro:content';
-import { wiki } from '@garden/lib/load.ts';
+import { getCollection, render } from 'astro:content';
 import Entry from '@garden/components/Entry.astro';
-import Quote from '@site/components/notes/types/Quote.astro';
+import Quote from '@site/components/notes/Quote.astro';
 
 export async function getStaticPaths() {
-  const w = await wiki();
-  return w.live
-    .filter((p) => p.collection === 'notes')
-    .map((p) => {
-      if (/^\d+$/.test(p.slug)) throw new Error(`Note slug "${p.slug}" would collide with the stream's pagination.`);
-      return { params: { slug: p.slug }, props: { page: p } };
-    });
+  const notes = await getCollection('notes', (n) => !n.data.draft);
+  return notes.map((entry) => {
+    if (/^\d+$/.test(entry.id)) throw new Error(`Note "${entry.id}" would collide with the stream's pagination.`);
+    return { params: { slug: entry.id }, props: { entry } };
+  });
 }
-const { page } = Astro.props;
-const w = await wiki();
-const { Content, headings } = await render(w.entryOf(page));
-const type = page.type ?? 'text';
-const Post = type === 'quote' ? Quote : null;
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
 ---
 
-<Entry page={page} headings={headings}>
-  {Post && (
-    <div
-      slot="before-body"
-      class="not-prose rounded-site border-rule bg-bg-elev overflow-hidden border"
-      data-type={type}
-    >
-      <Post note={page} />
+<Entry entry={entry} headings={headings}>
+  {entry.data.type === 'quote' && (
+    <div slot="before-body" class="not-prose rounded-site border-rule bg-bg-elev overflow-hidden border" data-type="quote">
+      <Quote quote={entry.data.quote ?? ''} cite={entry.data.cite} />
     </div>
   )}
   <Content />

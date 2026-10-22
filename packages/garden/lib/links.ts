@@ -8,10 +8,10 @@ import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
+import type { SiteEntry } from './entry.ts';
 import { wikiLinkSyntax } from './markdown/index.ts';
-import type { Page } from './types.ts';
+import { pathOf } from './site.ts';
 import { resolveTitle, type TitleIndex } from './titles.ts';
-import { pathOf } from './urls.ts';
 
 const parser = unified().use(remarkParse).use(remarkGfm).use(wikiLinkSyntax());
 
@@ -43,9 +43,9 @@ export function localTargets(body: string): string[] {
 }
 
 /** The pages a body links to (wiki links by title, Markdown links by path), on this site. */
-export function linkedPages(body: string, titles: TitleIndex, byUrl: Map<string, Page>): Page[] {
+export function linkedPages(body: string, titles: TitleIndex, byUrl: Map<string, SiteEntry>): SiteEntry[] {
   const { wikiLinks, paths } = linksIn(body);
-  const out: Page[] = [];
+  const out: SiteEntry[] = [];
   for (const title of wikiLinks) {
     const url = resolveTitle(titles, title);
     const page = url && !url.startsWith('http') ? byUrl.get(url) : undefined;

@@ -5,10 +5,10 @@
 // attribute is off. Pass `page` for an entry's page, or `seoTitle`,
 // `seoDescription` and `seoStatus` for one without; `path` is the page's
 // address (never Astro.url). `statusline` is the status line's text.
-import { wiki } from '../lib/load.ts';
+import { garden } from '../lib/load.ts';
 import { headerLinks, markCurrent, menu, panels, footerColumns } from '../lib/explorer.ts';
-import type { Page } from '../lib/types.ts';
-import type { PageInfo } from '../lib/entry.ts';
+import type { SiteEntry } from '../lib/entry.ts';
+import type { PageInfo } from '../lib/info.ts';
 import { publicDir } from '../lib/paths.ts';
 import Head from '../components/Head.astro';
 import Header from '../components/Header.astro';
@@ -22,7 +22,7 @@ import extrabold from '../assets/fonts/aporetic-sans-extrabold.woff2?url';
 import '@site/styles/site.css';
 
 type Props = {
-  page?: Page | null;
+  page?: SiteEntry | null;
   info?: PageInfo | null;
   path: string;
   room?: boolean;
@@ -43,17 +43,17 @@ const {
   statusline = null,
   html,
 } = Astro.props;
-const w = await wiki();
-const { site } = w;
-const { hasExplorer, hasDrawer } = panels(w, room);
-const rows = hasExplorer ? markCurrent(w.explorer, page, path) : [];
-const links = headerLinks(w, path);
-const menuLinks = hasDrawer ? menu(w, path, rows) : [];
-const footer = footerColumns(w);
-const footerText = typeof site.settings.footer_text === 'string' ? site.settings.footer_text : null;
+const g = await garden();
+const { site, live } = g;
+const { hasExplorer, hasDrawer } = panels(live, site, room);
+const rows = hasExplorer ? markCurrent(g.explorer, page, path) : [];
+const links = headerLinks(live, site, path);
+const menuLinks = hasDrawer ? menu(live, site, path, rows) : [];
+const footer = footerColumns(live, site);
+const footerText = site.footerText;
 const hasRail = Astro.slots.has('rail') && !room;
-// Google Tag Manager, as the Marketing Toolkit addon printed it: in production builds only.
-const gtmId = import.meta.env.PROD && typeof site.marketing.gtm_id === 'string' ? site.marketing.gtm_id : null;
+// Google Tag Manager, in production builds only.
+const gtmId = import.meta.env.PROD ? (site.marketing.gtmId ?? null) : null;
 ---
 
 <!doctype html>
@@ -78,13 +78,11 @@ const gtmId = import.meta.env.PROD && typeof site.marketing.gtm_id === 'string' 
         page,
         path,
         site,
-        collections: w.collections,
-        pages: w.live,
+        live,
         html,
         publicDir,
         overrides: { title: seoTitle, description: seoDescription },
         status: seoStatus,
-        authors: w.authors,
       }}
       info={info}
     />
@@ -252,7 +250,7 @@ const gtmId = import.meta.env.PROD && typeof site.marketing.gtm_id === 'string' 
       )}
     </div>
 
-    <Palette pages={w.live} site={site} />
+    <Palette live={live} />
     <Keys />
 
     {!room && <Statusline path={path} statusline={statusline} />}

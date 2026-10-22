@@ -6,8 +6,8 @@ updated: 2026-10-15T08:30:50+00:00
 category: choosing-a-provider
 author: jotham-lim
 related_pages:
-  - cothinking_pages/websites
-  - cothinking_pages/how-i-work
+  - pages/websites
+  - pages/how-i-work
 ---
 The biggest red flags in a website or IT quotation are accounts in the vendor's name, a scope too vague to check, promises with no number, and no way out. They don't prove the vendor is dishonest; they mean the document won't help you when something goes wrong. The flags below run roughly from most to least costly.
 

@@ -6,7 +6,7 @@ updated: 2026-10-15T12:23:07+00:00
 author: jotham-lim
 category: choosing-a-provider
 related_pages:
-  - cothinking_pages/websites
+  - pages/websites
 seo:
   title: Why I build on BLaST, not WordPress or a website builder
   canonical: https://jothamlim.com/essays/blast-stack

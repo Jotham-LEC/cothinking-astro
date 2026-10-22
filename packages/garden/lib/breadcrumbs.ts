@@ -1,12 +1,11 @@
-// `~ / Section` breadcrumbs, as Statamic's nav:breadcrumbs finds them: the
-// pages at each prefix of the address, home first, the page itself last.
-import { byUrl } from './pages.ts';
-import type { Page } from './types.ts';
+// `~ / Section` breadcrumbs: the pages at each prefix of the address, home
+// first, the page itself last.
+import { byUrl, type SiteEntry } from './entry.ts';
 
 type Crumb = { title: string; url: string };
 
-export function breadcrumbs(url: string, pages: Page[]): Crumb[] {
-  const urls = byUrl(pages);
+export function breadcrumbs(url: string, live: SiteEntry[]): Crumb[] {
+  const urls = byUrl(live);
   const crumbs: Crumb[] = [];
   const home = urls.get('/');
   if (home) crumbs.push({ title: home.title, url: '/' });
@@ -14,7 +13,7 @@ export function breadcrumbs(url: string, pages: Page[]): Crumb[] {
   for (let i = 1; i <= segments.length; i++) {
     const prefix = '/' + segments.slice(0, i).join('/');
     const page = urls.get(prefix);
-    if (page && !page.draft) crumbs.push({ title: page.title, url: prefix });
+    if (page) crumbs.push({ title: page.title, url: prefix });
   }
   return crumbs;
 }

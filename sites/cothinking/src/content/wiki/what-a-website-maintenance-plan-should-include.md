@@ -6,8 +6,8 @@ updated: 2026-10-15T05:36:37+00:00
 category: choosing-a-provider
 author: jotham-lim
 related_pages:
-  - cothinking_pages/how-i-work
-  - cothinking_pages/websites
+  - pages/how-i-work
+  - pages/websites
 ---
 A website maintenance plan should state six things in writing: hosting, backups, updates, monitoring, changes and reply times, and renewal and exit terms. A plan that says only "maintenance" is a fee for an unknown amount of attention.
 

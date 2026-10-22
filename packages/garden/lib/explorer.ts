@@ -1,17 +1,15 @@
 // The Explorer: the site as one tree, from the `explorer` navigation. A nav
-// item whose page has a collection mounted on it is a folder holding that
-// collection's pages, as its collections.yaml flags say: one row per post
-// type in use (a collection with `types`), a group per year (`group_by:
-// year`), a group per option of its `category` select, A–Z, "Other" last
-// (`group_by: category`), or only the pages with a body (`explorer:
-// with_content`). At each level single pages come before folders; text-only
-// items holding nothing are dropped, so are drafts. Also the header, drawer
-// and footer links, and which panels a page has (App\Tags\Wiki).
-import { childrenOf, mountedOn, pageByKey, published } from './pages.ts';
+// item whose page is a section's landing page is a folder holding that
+// section's pages, as the collection's config says: one row per post type
+// in use (`types`), a group per year (`groupBy: 'year'`), a group per
+// category, A–Z, "Other" last (`groupBy: 'category'`), or only the pages
+// with a body (`explorer: 'with-body'`). At each level single pages come
+// before folders; text-only items holding nothing are dropped, so are
+// drafts. Also the header, drawer and footer links, and which panels a page
+// has.
+import { byKey, byYear, childrenOf, keyOf, mountedOn, type SiteEntry } from './entry.ts';
 import { naturalCompare } from './natural.ts';
-import type { Collections, NavItem, Page, SiteConfig } from './types.ts';
-import { pathOf } from './urls.ts';
-import { byYear } from './years.ts';
+import { pathOf, type NavItem, type SiteConfig } from './site.ts';
 
 export type Row = {
   id: string | null;
@@ -23,11 +21,7 @@ export type Row = {
   children: Row[];
 };
 
-export type Site = { pages: Page[]; collections: Collections; navigation: Record<string, NavItem[]>; site: SiteConfig };
-
-const keyOf = (page: Page) => `${page.collection}/${page.slug}`;
-
-const row = (page: Page | null, title?: string): Row => ({
+const row = (page: SiteEntry | null, title?: string): Row => ({
   id: page ? keyOf(page) : null,
   title: title ?? page?.title ?? '',
   url: page?.url ?? null,
@@ -44,15 +38,15 @@ const group = (
   kind: Row['kind'] = 'folder',
 ): Row => ({ id, title, url, kind, isCurrent: false, isOpen: false, children });
 
-export function explorerRows({ pages, collections, navigation }: Site): Row[] {
-  const live = published(pages);
+/** The whole tree, from the published entries. */
+export function explorerRows(live: SiteEntry[], site: SiteConfig): Row[] {
   const navRows = (items: NavItem[]): Row[] => {
     const rows: Row[] = [];
     for (const item of items) {
-      const entry = pageByKey(pages, item.entry);
+      const entry = byKey(live, item.entry);
       const title = item.title ?? entry?.title ?? '';
-      if (item.entry && (!entry || entry.draft || !entry.url)) continue;
-      const section = entry ? mountedOn(entry, collections) : null;
+      if (item.entry && !entry) continue;
+      const section = entry ? mountedOn(entry, site) : null;
       if (entry && section) {
         rows.push(folder(entry, section, title));
         continue;
@@ -66,66 +60,65 @@ export function explorerRows({ pages, collections, navigation }: Site): Row[] {
     return [...rows.filter((r) => r.kind === 'page'), ...rows.filter((r) => r.kind !== 'page')];
   };
 
-  const folder = (landing: Page, section: string, title: string): Row => {
-    const config = collections[section]!;
+  const folder = (landing: SiteEntry, section: string, title: string): Row => {
+    const config = site.collections[section]!;
+    const pages = childrenOf(section, live, site);
     let children: Row[];
     if (config.types) {
-      children = noteTypesInUse(live, section, config.types).map((t) =>
-        group(t.title, `${landing.url}/type/${t.handle}`, [], null, 'type'),
+      children = noteTypesInUse(live, section, config.types).map(([handle, name]) =>
+        group(name, `${landing.url}/type/${handle}`, [], null, 'type'),
       );
-    } else if (config.group_by === 'year') {
-      children = byYear(childrenOf(section, live, collections)).map(([y, pieces]) =>
+    } else if (config.groupBy === 'year') {
+      children = byYear(pages).map(([y, pieces]) =>
         group(
           y,
           `${landing.url}#${y}`,
           pieces.map((p) => row(p)),
         ),
       );
-    } else if (config.group_by === 'category') {
-      children = byCategory(childrenOf(section, live, collections), config.options?.category ?? {}).map((c) =>
+    } else if (config.groupBy === 'category') {
+      children = byCategory(pages, config.categories ?? {}).map((c) =>
         group(
           c.title,
           `${landing.url}#${c.handle}`,
           c.entries.map((p) => row(p)),
         ),
       );
-    } else if (config.explorer === 'with_content') {
-      children = childrenOf(section, live, collections)
-        .filter((p) => p.body.trim() !== '')
-        .map((p) => row(p));
+    } else if (config.explorer === 'with-body') {
+      children = pages.filter((p) => p.body.trim() !== '').map((p) => row(p));
     } else {
-      children = childrenOf(section, live, collections).map((p) => row(p));
+      children = pages.map((p) => row(p));
     }
     return group(title, landing.url, children, keyOf(landing));
   };
 
-  return navRows(navigation.explorer ?? []);
+  return navRows(site.navigation.explorer);
 }
 
-/** Pages by a `category` select, in the options' order, each A–Z; the rest last as "Other". */
+/** Entries by their `category`, in the categories' order, each A–Z; the rest last as "Other". */
 export function byCategory(
-  pages: Page[],
-  options: Record<string, string>,
-): { handle: string; title: string; entries: Page[] }[] {
-  const sorted = [...pages].sort((a, b) => naturalCompare(a.title, b.title));
-  const out: { handle: string; title: string; entries: Page[] }[] = [];
-  for (const [handle, title] of Object.entries(options)) {
-    const entries = sorted.filter((p) => p.data.category === handle);
-    if (entries.length) out.push({ handle, title, entries });
+  entries: SiteEntry[],
+  categories: Record<string, string>,
+): { handle: string; title: string; entries: SiteEntry[] }[] {
+  const sorted = [...entries].sort((a, b) => naturalCompare(a.title, b.title));
+  const out: { handle: string; title: string; entries: SiteEntry[] }[] = [];
+  for (const [handle, title] of Object.entries(categories)) {
+    const own = sorted.filter((e) => e.category === handle);
+    if (own.length) out.push({ handle, title, entries: own });
   }
-  const other = sorted.filter((p) => !(typeof p.data.category === 'string' && p.data.category in options));
+  const other = sorted.filter((e) => !(e.category && e.category in categories));
   if (other.length) out.push({ handle: 'other', title: 'Other', entries: other });
   return out;
 }
 
-/** The post types with a published note, in blueprint order. */
-export function noteTypesInUse(live: Page[], collection: string, types: { handle: string; title: string }[]) {
-  const inUse = new Set(live.filter((p) => p.collection === collection).map((p) => p.type ?? types[0]?.handle));
-  return types.filter((t) => inUse.has(t.handle));
+/** The post types with a published entry, as `[handle, title]` in the config's order. */
+export function noteTypesInUse(live: SiteEntry[], collection: string, types: Record<string, string>): [string, string][] {
+  const inUse = new Set(live.filter((e) => e.collection === collection).map((e) => e.type));
+  return Object.entries(types).filter(([handle]) => inUse.has(handle));
 }
 
 /** Marks the current page's row and opens every row holding it. A type's listing has no page, so it is current by address. */
-export function markCurrent(rows: Row[], current: Page | null, url: string): Row[] {
+export function markCurrent(rows: Row[], current: SiteEntry | null, url: string): Row[] {
   const currentId = current ? keyOf(current) : null;
   return rows.map((r) => {
     const children = markCurrent(r.children, current, url);
@@ -140,12 +133,12 @@ export function urlsIn(row: Row): string[] {
 
 export type Link = { title: string; url: string; isCurrent: boolean };
 
-/** The header navigation's links, as `nav:header` gives them. */
-export function headerLinks({ pages, navigation }: Site, currentUrl: string | null): Link[] {
-  return (navigation.header ?? []).flatMap((item) => {
-    const entry = pageByKey(pages, item.entry);
+/** The header navigation's links. */
+export function headerLinks(live: SiteEntry[], site: SiteConfig, currentUrl: string | null): Link[] {
+  return site.navigation.header.flatMap((item) => {
+    const entry = byKey(live, item.entry);
     const url = entry?.url ?? item.url;
-    if (!url || (item.entry && (!entry || entry.draft))) return [];
+    if (!url || (item.entry && !entry)) return [];
     return [
       { title: item.title ?? entry?.title ?? '', url, isCurrent: currentUrl !== null && pathOf(url) === currentUrl },
     ];
@@ -153,28 +146,28 @@ export function headerLinks({ pages, navigation }: Site, currentUrl: string | nu
 }
 
 /** The drawer's menu: the header's links but the last (the call to action), minus those the Explorer already lists. */
-export function menu(site: Site, currentUrl: string | null, explorer: Row[]): Link[] {
+export function menu(live: SiteEntry[], site: SiteConfig, currentUrl: string | null, explorer: Row[]): Link[] {
   const listed = new Set(explorer.flatMap(urlsIn).map(pathOf));
-  return headerLinks(site, currentUrl)
+  return headerLinks(live, site, currentUrl)
     .slice(0, -1)
     .filter((link) => !listed.has(pathOf(link.url)));
 }
 
-/** Whether a page has an Explorer (every page but a room on a site whose `explorer` attribute is off) and a drawer. */
-export function panels(site: Site, room: boolean): { hasExplorer: boolean; hasDrawer: boolean } {
-  const hasExplorer = Boolean(site.site.attributes.explorer) || !room;
-  return { hasExplorer, hasDrawer: hasExplorer || headerLinks(site, null).length > 1 };
+/** Whether a page has an Explorer (every page but a room) and a drawer (the Explorer, or a menu of more than one link). */
+export function panels(live: SiteEntry[], site: SiteConfig, room: boolean): { hasExplorer: boolean; hasDrawer: boolean } {
+  const hasExplorer = !room;
+  return { hasExplorer, hasDrawer: hasExplorer || headerLinks(live, site, null).length > 1 };
 }
 
 /** The footer navigation: a heading per top-level item with its children as links. */
-export function footerColumns({
-  pages,
-  navigation,
-}: Site): { title: string; children: { title: string; url: string }[] }[] {
-  return (navigation.footer ?? []).map((item) => ({
-    title: item.title ?? pageByKey(pages, item.entry)?.title ?? '',
+export function footerColumns(
+  live: SiteEntry[],
+  site: SiteConfig,
+): { title: string; children: { title: string; url: string }[] }[] {
+  return site.navigation.footer.map((item) => ({
+    title: item.title ?? byKey(live, item.entry)?.title ?? '',
     children: (item.children ?? []).flatMap((child) => {
-      const entry = pageByKey(pages, child.entry);
+      const entry = byKey(live, child.entry);
       const url = entry?.url ?? child.url;
       return url ? [{ title: child.title ?? entry?.title ?? '', url }] : [];
     }),

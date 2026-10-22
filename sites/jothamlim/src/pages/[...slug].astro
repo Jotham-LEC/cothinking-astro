@@ -3,43 +3,47 @@
 // template: `default`, `section` (the mounted collection newest first),
 // `publications` (the archive by year). Home is index.astro; the notes
 // landing page is notes/[...page].astro, as it paginates.
-import { render } from 'astro:content';
-import { wiki } from '@garden/lib/load.ts';
-import { childrenOf, mountedOn } from '@garden/lib/pages.ts';
-import { years } from '@garden/lib/years.ts';
+import { getCollection, render } from 'astro:content';
+import { garden } from '@garden/lib/load.ts';
+import { byYear, childrenOf, mountedOn } from '@garden/lib/entry.ts';
 import Entry from '@garden/components/Entry.astro';
 import ArchiveRow from '@garden/components/ArchiveRow.astro';
+import { outlets } from '@site/site.config.ts';
+import { urlOf } from '@site/lib/urls.ts';
 
 export async function getStaticPaths() {
-  const w = await wiki();
-  return w.live
-    .filter((p) => p.collection === 'pages' && p.url !== '/' && p.template !== 'notes/index')
-    .map((p) => ({ params: { slug: p.url.slice(1) }, props: { page: p } }));
+  const pages = await getCollection('pages', (p) => !p.data.draft && p.id !== 'home' && p.data.template !== 'notes/index');
+  return pages.map((entry) => ({ params: { slug: urlOf('pages', entry.id).slice(1) }, props: { entry } }));
 }
-const { page } = Astro.props;
-const w = await wiki();
-const { Content, headings } = await render(w.entryOf(page));
-const mount = mountedOn(page, w.collections);
-const listing = page.template === 'section' && mount ? childrenOf(mount, w.live, w.collections) : [];
-const archive = page.template === 'publications' ? years(page, w.live, w.collections) : [];
+const { entry } = Astro.props;
+const g = await garden();
+const page = g.entry(entry);
+const { Content, headings } = await render(entry);
+const mount = mountedOn(page, g.site);
+const listing = entry.data.template === 'section' && mount ? childrenOf(mount, g.live, g.site) : [];
+// The publications archive: each piece's outlet comes from its own entry.
+const outletOf = new Map(
+  (await getCollection('publications')).map((p) => [p.id, outlets[p.data.outlet as keyof typeof outlets]]),
+);
+const archive = entry.data.template === 'publications' ? byYear(childrenOf('publications', g.live, g.site)) : [];
 ---
 
-<Entry page={page} headings={headings}>
+<Entry entry={entry} headings={headings}>
   <Content />
   <Fragment slot="after-body">
     {listing.length > 0 && (
       <ul class="not-prose list-none p-0" data-archive>
-        {listing.map((entry) => (
-          <ArchiveRow date={entry.date} url={entry.url} title={entry.title} />
+        {listing.map((piece) => (
+          <ArchiveRow date={piece.date} url={piece.url} title={piece.title} />
         ))}
       </ul>
     )}
-    {archive.map((group) => (
+    {archive.map(([year, pieces]) => (
       <>
-        <h2 id={group.year}>{group.year}</h2>
+        <h2 id={year}>{year}</h2>
         <ul class="not-prose list-none p-0" data-archive>
-          {group.pieces.map((piece) => (
-            <ArchiveRow date={piece.date} url={piece.url} title={piece.title} note={piece.outlet} />
+          {pieces.map((piece) => (
+            <ArchiveRow date={piece.date} url={piece.url} title={piece.title} note={outletOf.get(piece.id)} />
           ))}
         </ul>
       </>

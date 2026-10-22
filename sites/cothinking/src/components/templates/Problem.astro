@@ -3,24 +3,24 @@
 // (`what_i_do`, email, WhatsApp, and the `case_study` with its
 // `case_study_line`), the Markdown how-to, then the contact block, both naming
 // the page.
-import { render } from 'astro:content';
-import { wiki } from '@garden/lib/load.ts';
-import { pageByKey } from '@garden/lib/pages.ts';
-import type { LivePage } from '@garden/lib/types.ts';
+import { render, type CollectionEntry } from 'astro:content';
+import { garden } from '@garden/lib/load.ts';
+import { byKey } from '@garden/lib/entry.ts';
 import Entry from '@garden/components/Entry.astro';
 import LightBulb from '@site/assets/icons/light-bulb.svg';
 import Email from '@site/components/cothinking/Email.astro';
 import Enquiry from '@site/components/cothinking/Enquiry.astro';
 import Whatsapp from '@site/components/cothinking/Whatsapp.astro';
-type Props = { page: LivePage };
-const { page } = Astro.props;
-const w = await wiki();
-const { Content, headings } = await render(w.entryOf(page));
-const caseStudy = pageByKey(w.live, [page.data.case_study].flat()[0] as string | undefined);
-const whatIDo = typeof page.data.what_i_do === 'string' ? page.data.what_i_do : null;
+type Props = { entry: CollectionEntry<'problems'> };
+const { entry } = Astro.props;
+const g = await garden();
+const { Content, headings } = await render(entry);
+const title = entry.data.title;
+const caseStudy = byKey(g.live, entry.data.case_study?.[0]);
+const whatIDo = entry.data.what_i_do ?? null;
 ---
 
-<Entry page={page} headings={headings}>
+<Entry entry={entry} headings={headings}>
   <aside
     slot="before-body"
     id="next-step"
@@ -36,12 +36,12 @@ const whatIDo = typeof page.data.what_i_do === 'string' ? page.data.what_i_do : 
       separately, and whether to go ahead is your decision.
     </p>
     <div class="mt-4 flex flex-wrap gap-3">
-      <Email about={page.title}>Send me the details</Email>
-      <Whatsapp about={page.title} secondary />
+      <Email about={title}>Send me the details</Email>
+      <Whatsapp about={title} secondary />
     </div>
-    {caseStudy?.url && (
+    {caseStudy && (
       <p class="mt-4 text-sm">
-        {String(page.data.case_study_line ?? '')}
+        {entry.data.case_study_line ?? ''}
         <a href={caseStudy.url}>See what changed →</a>
       </p>
     )}
@@ -49,7 +49,7 @@ const whatIDo = typeof page.data.what_i_do === 'string' ? page.data.what_i_do : 
   <Content />
   <Enquiry
     slot="after-article"
-    about={page.title}
+    about={title}
     title="Tell me about it"
     intro="Tell me what is happening, in your own words. If anyone has already looked into it, tell me what they found. I will reply with what I think is wrong and a fixed price, before any work starts."
   />
