@@ -46,9 +46,15 @@ from `lib/seo.ts`.
 - **The garden's model** is `lib/entry.ts`: every content entry becomes a
   `SiteEntry` (address, title, dates, body, the opening paragraphs, and the
   fields the garden reads, `null` where a site has none) through `toSiteEntry`.
-  `lib/load.ts` `garden()` loads them once per build: `site`,
-  `live` (published), `entry(astroEntry)`, `explorer`, `graph`, `htmlOf()`. A site's view keeps its own typed Astro entry for its
-  own fields and asks `g.entry(entry)` for the garden's.
+  `lib/load.ts` `garden()` loads them once per build: `live` (published),
+  `entry(astroEntry)`, `explorer`, `graph`, `htmlOf()`. A site's view keeps
+  its own typed Astro entry for its own fields and asks `g.entry(entry)` for
+  the garden's. `descriptionOf(entry)` (`lib/entry.ts`) is what a page is
+  about everywhere: the head, the share card, llms.txt and listing cards.
+- **The site's config is imported, never passed.** A site's views import
+  `site` from `@site/site.config.ts` (with its literal types); the garden's
+  components and routes import `site` from `lib/load.ts` (the same object,
+  typed `SiteConfig`); `lib/` functions take it as a parameter.
 - **A site tells the garden two things**, the only `@site` imports the
   garden makes: `src/site.config.ts` (the config) and `src/styles/site.css`.
   `garden()` loads every collection the config lists. `lib/site.ts` types the

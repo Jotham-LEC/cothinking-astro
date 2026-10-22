@@ -4,8 +4,7 @@
 // engines there (`seo.canonical`).
 import { breadcrumbs } from './breadcrumbs.ts';
 import { atom } from './dates.ts';
-import { byUrl, type SiteEntry } from './entry.ts';
-import type { Garden } from './load.ts';
+import { byUrl, descriptionOf, type SiteEntry } from './entry.ts';
 import { absolute, cardUrl, type SiteConfig } from './site.ts';
 
 const TITLE_MAX = 60;
@@ -14,7 +13,6 @@ const TITLE_SEPARATOR = ' | ';
 const ROBOTS_DEFAULT = 'max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 const IMAGE_WIDTH = 1200;
 const IMAGE_HEIGHT = 630;
-const CREDIT_LINE = 'This article first appeared';
 
 export type HeadInput = {
   page: SiteEntry | null;
@@ -81,25 +79,9 @@ export function ogTitle({ page, site, overrides }: HeadInput): string {
   return overrides?.title ?? page?.seo.title ?? page?.title ?? site.name;
 }
 
-/** The content's own description: its `description`, a quote note's quote, else the body's first paragraph (skipping a column's credit line). */
-export function contentDescription(page: SiteEntry, { skipCreditLine = true } = {}): string | null {
-  if (page.description) return page.description;
-  if (page.quote) return page.quote;
-  const { paragraphs } = page;
-  const first = paragraphs[0] ?? null;
-  // A republished column opens with its credit line, which describes the outlet: the head skips it, llms.txt does not.
-  if (skipCreditLine && first !== null && first.startsWith(CREDIT_LINE))
-    return paragraphs.find((p) => !p.startsWith(CREDIT_LINE)) ?? null;
-  return first;
-}
-
 export function description(input: HeadInput): string | null {
   const { page, site, overrides } = input;
-  const text =
-    overrides?.description ??
-    page?.seo.description ??
-    (page ? contentDescription(page) : null) ??
-    site.seo.defaultDescription;
+  const text = overrides?.description ?? (page ? descriptionOf(page) : null) ?? site.seo.defaultDescription;
   return limit(squish(text), DESCRIPTION_MAX);
 }
 
@@ -295,7 +277,8 @@ export function head(input: HeadInput): Head {
 
 /** The head for a page of the site (layouts/Layout.astro): an entry's, or a listing's by title and description. */
 export function seoFor(
-  g: Garden,
+  site: SiteConfig,
+  live: SiteEntry[],
   o: {
     page?: SiteEntry | null;
     path: string;
@@ -308,8 +291,8 @@ export function seoFor(
   return head({
     page: o.page ?? null,
     path: o.path,
-    site: g.site,
-    live: g.live,
+    site,
+    live,
     status: o.status,
     overrides: { title: o.title, description: o.description, noindex: o.noindex },
   });

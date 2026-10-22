@@ -9,6 +9,7 @@ import {
   byDateDesc,
   byYear,
   childrenOf,
+  descriptionOf,
   mountedOn,
   published,
   toSiteEntry,
@@ -130,6 +131,22 @@ describe('entries', () => {
       type: 'text',
       date: new Date('2024-01-01'),
     });
+  });
+  it('describe themselves: seo, description, quote, else the first paragraph past a credit line', () => {
+    const column = (data: Record<string, unknown>) =>
+      toSiteEntry(
+        {
+          collection: 'essays',
+          id: 'c',
+          data: { title: 'C', ...data },
+          rendered: { metadata: { frontmatter: { paragraphs: ['This article first appeared in X.', 'The point.'] } } },
+        },
+        site,
+      );
+    expect(descriptionOf(column({}))).toBe('The point.');
+    expect(descriptionOf(column({}), { skipCreditLine: false })).toBe('This article first appeared in X.');
+    expect(descriptionOf(column({ description: 'Own.' }))).toBe('Own.');
+    expect(descriptionOf(column({ description: 'Own.', seo: { description: 'For search.' } }))).toBe('For search.');
   });
   it('know sections, landing pages and listing order', () => {
     expect(mountedOn(at('/essays'), site)).toBe('essays');

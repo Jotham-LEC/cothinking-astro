@@ -7,15 +7,17 @@
 import { getCollection, getEntry, render, type CollectionKey } from 'astro:content';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 // `@site/*` is the site being built: each site's tsconfig.json maps it to its own src/ (AGENTS.md, "Aliases").
-import { site } from '@site/site.config.ts';
+import { site as config } from '@site/site.config.ts';
 import { keyOf, published, toSiteEntry, type SiteEntry } from './entry.ts';
 import { explorerRows, type Row } from './explorer.ts';
 import { buildGraph, type Graph } from './graph.ts';
 import type { SiteConfig } from './site.ts';
 import { titleIndex } from './titles.ts';
 
+/** The site being built, as the garden sees any site (its own views import site.config.ts for its literal types). */
+export const site: SiteConfig = config;
+
 export type Garden = {
-  site: SiteConfig;
   /** The entries a reader can see. */
   live: SiteEntry[];
   /** The SiteEntry behind one of Astro's entries (`collection` and `id`). */
@@ -41,7 +43,6 @@ export function garden(): Promise<Garden> {
     const html = new Map<string, Promise<string>>();
     let container: Promise<AstroContainer> | null = null;
     return {
-      site,
       live,
       entry: (of) => {
         const found = byId.get(keyOf(of));

@@ -4,13 +4,12 @@
 import type { SiteEntry } from '../lib/entry.ts';
 import type { TocEntry } from '../lib/toc.ts';
 import type { GraphNode } from '../lib/graph.ts';
-import { garden } from '../lib/load.ts';
+import { site } from '../lib/load.ts';
 import GraphControls from './GraphControls.astro';
 import Outline from './Outline.astro';
 type Props = { page: SiteEntry; toc: TocEntry[]; graphSection?: string | null; backlinks: GraphNode[] };
 const { page, toc, graphSection = null, backlinks } = Astro.props;
 // Each section's colour token (`graphColour` in site.config.ts), for scripts/graph.ts.
-const { site } = await garden();
 const colours = JSON.stringify(
   Object.fromEntries(
     Object.entries(site.collections).flatMap(([handle, c]) => (c.graphColour ? [[handle, c.graphColour]] : [])),
