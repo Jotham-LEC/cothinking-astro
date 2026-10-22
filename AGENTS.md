@@ -160,9 +160,13 @@ when that page is next saved (or on restart), as its render is cached too.
 Each site is a Worker of static assets (`wrangler.jsonc`: `dist/`,
 `not_found_handling: "404-page"`, `html_handling: "drop-trailing-slash"`),
 a Custom Domain at jothamlim.com and cothink.ing, both in the owner's
-account (`account_id`). `npm run deploy -w sites/<site>` builds with
-`--force` and runs `wrangler deploy` through `op run --env-file=cloudflare.env`
-(1Password references only). `/_astro/*` is cached a year by `public/_headers`;
+account (`account_id`). **Every push to `main` deploys both**
+(`.github/workflows/deploy.yml`: check, the garden's tests, a forced build,
+the site's build tests, then `wrangler deploy`, with the repository secret
+`CLOUDFLARE_API_TOKEN`, a token scoped to Workers Scripts and the two zones;
+pull requests only build). `npm run deploy -w sites/<site>` is the manual
+fallback: it builds with `--force` and runs `wrangler deploy` through
+`op run --env-file=cloudflare.env` (1Password references only). `/_astro/*` is cached a year by `public/_headers`;
 pages are revalidated. Locally, `wrangler dev` needs `steam-run` on NixOS.
 
 ## What is custom, and deviations
