@@ -9,9 +9,10 @@
    because the class scanner cannot see them. */
 @import 'tailwindcss' source(none);
 
-@source '../components/garden/';
+@source '../layouts';
 @source '../components';
 @source '../pages';
+@source '../scripts';
 
 @plugin '@tailwindcss/typography';
 
