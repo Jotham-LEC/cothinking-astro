@@ -55,7 +55,6 @@ describe.skipIf(!present)('cothink.ing: explorer and panels', () => {
   it('gives a room no Explorer on a site without one, but a drawer for the menu', () => {
     expect(panels(project, true)).toEqual({ hasExplorer: false, hasDrawer: true });
     expect(panels(project, false)).toEqual({ hasExplorer: true, hasDrawer: true });
-    expect(site.attributes.closed_panels).toEqual(['explorer']);
   });
 });
 

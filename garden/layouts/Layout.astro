@@ -52,7 +52,6 @@ const menuLinks = hasDrawer ? menu(w, path, rows) : [];
 const footer = footerColumns(w);
 const footerText = typeof site.settings.footer_text === 'string' ? site.settings.footer_text : null;
 const hasRail = Astro.slots.has('rail') && !room;
-const closedPanels = site.attributes.closed_panels ?? [];
 // Google Tag Manager, as the Marketing Toolkit addon printed it: in production builds only.
 const gtmId = import.meta.env.PROD && typeof site.marketing.gtm_id === 'string' ? site.marketing.gtm_id : null;
 ---
@@ -91,16 +90,14 @@ const gtmId = import.meta.env.PROD && typeof site.marketing.gtm_id === 'string' 
       info={info}
     />
     <slot name="head" />
-    <script is:inline define:vars={{ closedPanels }}>
+    <script is:inline>
       (function () {
         try {
           var t = localStorage.getItem('theme');
           if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
-          // A stored choice wins; without one, the site's `closed_panels`
-          // attribute says which start put away.
+          // The panels start open; these are the ones the reader put away last time (reader mode, the keys).
           ['explorer', 'rail'].forEach(function (panel) {
-            var stored = localStorage.getItem('hide-' + panel);
-            if (stored === 'on' || (stored === null && closedPanels.indexOf(panel) !== -1))
+            if (localStorage.getItem('hide-' + panel) === 'on')
               document.documentElement.setAttribute('data-hide-' + panel, '');
           });
         } catch (e) {}

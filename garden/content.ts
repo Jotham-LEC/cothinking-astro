@@ -83,7 +83,6 @@ export function garden(src: URL) {
             logo_dark: z.string().optional(),
             favicon: z.string().optional(),
             explorer: z.boolean().optional(),
-            closed_panels: z.array(z.string()).optional(),
             pages: z.string().optional(),
           })
           .loose(),

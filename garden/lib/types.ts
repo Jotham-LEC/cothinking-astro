@@ -88,7 +88,6 @@ export type SiteConfig = {
     logo_dark?: string;
     favicon?: string;
     explorer?: boolean;
-    closed_panels?: string[];
     pages?: string;
   };
   feeds: string[];

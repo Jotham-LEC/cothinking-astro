@@ -86,6 +86,9 @@ function write(file, text) {
 
 // ---------------------------------------------------------------- sites ----
 const sitesYaml = readYaml(path.join(LARAVEL, 'resources/sites.yaml'));
+// Not carried over: `closed_panels` (the panels a first visit started with put
+// away). The panels start open; the reader puts them away (reader mode).
+const withoutClosedPanels = ({ closed_panels: _, ...attributes }) => attributes;
 const sites = Object.fromEntries(
   Object.entries(sitesYaml).map(([handle, site]) => [
     handle,
@@ -95,7 +98,7 @@ const sites = Object.fromEntries(
       url: (site.url?.includes('{{') ? SITE_DEFAULTS[handle].url : site.url).replace(/\/$/, ''),
       locale: site.locale,
       lang: site.lang,
-      attributes: site.attributes ?? {},
+      attributes: withoutClosedPanels(site.attributes ?? {}),
     },
   ]),
 );

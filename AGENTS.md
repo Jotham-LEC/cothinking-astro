@@ -118,9 +118,9 @@ How a page is built:
    footer, scripts). A `room` (cothink.ing's home, privacy and case
    studies) takes the full width on the terminal ground (`bg-terminal`),
    has no rail or status line, and keeps the drawer at every width; it has
-   no Explorer when the site's `explorer` attribute is off. The site's
-   `closed_panels` attribute says which panels start put away until the
-   reader chooses. `garden/components/Entry.astro` has the slots `head`,
+   no Explorer when the site's `explorer` attribute is off. Elsewhere the
+   Explorer and the rail start open; reader mode (or the keys) puts them
+   away, and the browser remembers it. `garden/components/Entry.astro` has the slots `head`,
    `before-body`, `after-body`, `after-article` and `body`, a `path` for an
    address that is not the entry's own (`/notes/2`) and `extraHeadings` for
    a view's own h2s (Blade read the outline off the rendered body; a view

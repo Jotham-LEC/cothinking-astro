@@ -8,8 +8,6 @@ attributes:
   logo_dark: /images/cothinking/logo-dark.svg
   favicon: /images/cothinking/favicon.svg
   explorer: false
-  closed_panels:
-    - explorer
   pages: cothinking_pages
 feeds: []
 other_sites:

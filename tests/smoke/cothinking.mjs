@@ -1,5 +1,5 @@
 // cothink.ing's smoke steps (tests/smoke.mjs runs them): the rooms (terminal
-// ground, no rail, the drawer at every width), the Explorer starting put away,
+// ground, no rail, the drawer at every width), the panels starting open and reader mode,
 // the wiki's categories and its section-wide graph, the series pager, the
 // Pagefind palette and the 404's suggestions, with screenshots of rooms and
 // garden pages in light and dark.
@@ -44,12 +44,23 @@ export async function run({ page, BASE, check, shots }) {
   );
   await both(page, shots, 'case-study');
 
-  // A garden page: the Explorer starts put away (closed_panels), the reader can open it.
+  // A garden page: the panels start open; reader mode puts both away.
   await page.goto(`${BASE}/wiki`, { waitUntil: 'networkidle' });
   check(
-    'explorer starts put away',
-    await page.evaluate(() => document.documentElement.hasAttribute('data-hide-explorer')),
+    'explorer starts open',
+    !(await page.evaluate(() => document.documentElement.hasAttribute('data-hide-explorer'))),
   );
+  check('explorer visible', await page.locator('[data-explorer]').isVisible());
+  await page.click('[data-reader-toggle]');
+  check(
+    'reader mode hides panels',
+    await page.evaluate(
+      () =>
+        document.documentElement.hasAttribute('data-hide-explorer') &&
+        document.documentElement.hasAttribute('data-hide-rail'),
+    ),
+  );
+  await page.click('[data-reader-toggle]');
   check('wiki categories', (await page.locator('main article h2[id]').count()) === 6);
   await page.locator('[data-rail]').scrollIntoViewIfNeeded();
   await page.waitForTimeout(1000);
