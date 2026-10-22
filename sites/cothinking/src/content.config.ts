@@ -4,7 +4,7 @@
 // checks that it exists).
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { enumOf, garden } from '../../../garden/content.ts';
+import { enumOf, garden } from '../../../packages/garden/content.ts';
 
 const { model, base, dated, media, loader, dataCollections } = garden(new URL('.', import.meta.url));
 

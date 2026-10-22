@@ -1,3 +1,3 @@
-@import '../../../../garden/styles/site.css';
+@import '../../../../packages/garden/styles/site.css';
 @source '../pages';
 @source '../components';

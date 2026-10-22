@@ -1,0 +1,17 @@
+{
+  "name": "jothamlim",
+  "private": true,
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro sync && node ../../scripts/check-content.ts && astro check",
+    "smoke": "node tests/smoke.mjs",
+    "deploy": "npm run build && op run --env-file=cloudflare.env -- wrangler deploy"
+  },
+  "dependencies": {
+    "@cothinking/garden": "*"
+  }
+}

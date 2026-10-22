@@ -28,3 +28,6 @@ DEV_FILES/
 
 # wrangler state
 .wrangler/
+
+# agent shell transcripts
+.agent-shell/
