@@ -36,7 +36,8 @@ DEV_FILES/<site>/   golden set, manifest, screenshots, audits (git-ignored)
 ```
 
 Each site has its own `.astro/`, `dist/` and `public/`, so both can run
-`astro dev` or `astro preview` at once. Astro's background servers need an
+`astro dev` or `astro preview` at once. The repo root is not an Astro site:
+`npx astro …` there finds no pages; use the npm scripts. Astro's background servers need an
 absolute root: the npm scripts `cd` into the site rather than pass `--root`.
 
 ## Read first
@@ -161,8 +162,11 @@ npm run check                 # both sites: astro sync, scripts/check-content.ts
 npm run check:<site>          # astro sync (every file against its schema), the content check (wiki links, media, routes, trees,
                               # references, authors, reshared pieces, linkable and unique titles), astro check (0 errors expected)
 npm run build                 # both sites, each into sites/<site>/dist
-npm run dev:<site>            # astro dev, a background server; two sites can run at once (--port)
-npm run preview:<site>        # astro preview, a background server (`npx astro preview status` / `stop` inside sites/<site>)
+npm run dev                   # both sites' astro dev in the background: jothamlim :4321, cothinking :4322
+npm run preview               # both sites' last build in the background: jothamlim :4331, cothinking :4332
+npm run stop                  # stops every dev and preview server both sites started
+npm run dev:<site>            # one site's astro dev in the foreground (Ctrl-C stops it)
+npm run preview:<site>        # one site's astro preview in the foreground
 npm run test                  # vitest: slugs, the Markdown, each site's wiki layer and head model, each site's dist/
 PREVIEW_URL=http://localhost:4321 npm run smoke:<site>   # Playwright against the preview (tests/smoke/<site>.mjs); browsers from NixOS
 npm run deploy:<site>         # build, then `wrangler deploy` with the Cloudflare key from 1Password (see Cloudflare)

@@ -6,6 +6,9 @@
     "node": ">=22.22.0"
   },
   "scripts": {
+    "dev": "npm run dev:jothamlim -- --background --port 4321 && npm run dev:cothinking -- --background --port 4322",
+    "preview": "npm run preview:jothamlim -- --background --port 4331 && npm run preview:cothinking -- --background --port 4332",
+    "stop": "for s in jothamlim cothinking; do (cd sites/$s && astro dev stop; astro preview stop); done",
     "astro": "astro",
     "build": "npm run build:jothamlim && npm run build:cothinking",
     "check": "npm run check:jothamlim && npm run check:cothinking",
