@@ -16,6 +16,7 @@ packages/garden/       @cothinking/garden: the shared code and its runtime depen
   content.ts           the schema pieces: base(image), dated, loader (content.config.ts imports it as @garden/content.ts)
   lib/                 the garden layer, plain TypeScript (tests cover it): see "How a page is built"
   lib/markdown/        the remark/rehype plugins and the Shiki transformer
+  routes/              the routes every site has (404, feed, graph, llms, robots, share cards), injected by config.mjs
   components/          22 .astro components; layouts/Layout.astro is the shell
   scripts/             one TypeScript module per client behaviour, each imported by the component that owns the markup
   styles/              tokens.css (the only colours), shell.css (the grid and its states), components.css, site.css
@@ -30,7 +31,7 @@ sites/<site>/          one Astro root each: jothamlim, cothinking
   src/content/<collection>/<id>.md   the pages
   src/assets/media/    the pictures the content embeds (Astro optimises them)
   public/              what is served as is: PDFs and their previews, the SVG diagram pairs, favicons, _headers
-  src/pages/           the routes: one file per view, [slug].astro for the plain pages, the endpoints
+  src/pages/           the site's own routes: one file per view, [slug].astro for the plain pages (the shared ones are injected)
   src/components/      the site's own views; src/styles/site.css imports the garden's and adds its @source folders
   tests/               build.test.ts (reads dist/), smoke.mjs (Playwright against the preview)
 scripts/               snapshot.mjs and diff-snapshot.mjs: compare two builds page by page
@@ -104,6 +105,22 @@ line's mode and `.light-only`/`.dark-only`; `components.css` styles markup no
 component writes (plugins' output, raw HTML in content, what the scripts
 build). The share cards read their four colours off `tokens.css`
 (`lib/palette.ts`; `tests/tokens.test.ts` guards the lines' shape).
+
+### Injected routes
+
+`config.mjs` adds these to every site (Astro's `injectRoute`, from an inline
+integration), so a site's `src/pages/` holds only its own views. Each reads
+`garden()`, so `@site` is the site being built.
+
+| Address | File (`packages/garden/routes/`) | What |
+| --- | --- | --- |
+| `/404` | `404.astro` | the 404 page (`components/NotFound.astro`), which `wrangler.jsonc` serves for a missing page |
+| `/feed.xml` | `feed.xml.ts` | the site feed, every dated collection (`lib/feed.ts`); a section's feed is the site's own file |
+| `/graph.json` | `graph.json.ts` | the pages and links the rail's graph draws (`lib/graph.ts`) |
+| `/llms.txt` | `llms.txt.ts` | the site for language models (`lib/textFiles.ts`) |
+| `/og.png` | `og.png.ts` | the home page's share card (`lib/ogCard.ts`) |
+| `/og/<path>.png` | `og/[...uri].png.ts` | every other page's share card |
+| `/robots.txt` | `robots.txt.ts` | every crawler allowed, and the sitemap (`lib/textFiles.ts`) |
 
 ## Recipes
 

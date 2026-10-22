@@ -1,9 +1,9 @@
 // /og.png: the home page's share card, which listings without an entry share too.
 import type { APIRoute } from 'astro';
-import { garden } from '@garden/lib/load.ts';
-import { home } from '@garden/lib/entry.ts';
-import { cardFor } from '@garden/lib/share.ts';
-import { renderCard } from '@garden/lib/ogCard.ts';
+import { garden } from '../lib/load.ts';
+import { home } from '../lib/entry.ts';
+import { cardFor } from '../lib/share.ts';
+import { renderCard } from '../lib/ogCard.ts';
 
 export const GET: APIRoute = async () => {
   const g = await garden();
