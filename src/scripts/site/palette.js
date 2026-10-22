@@ -1,3 +1,5 @@
+import { cleanUrl, loadPagefind } from './pagefind.js';
+
 // Pagefind's excerpt is text with <mark> around the matches; it is built
 // here from text nodes and <mark> elements, never parsed as HTML.
 function marked(excerpt) {
@@ -18,11 +20,6 @@ function marked(excerpt) {
     }
   });
   return fragment;
-}
-
-// Pagefind's result URL, without the build's file name (`/x.html` → `/x`).
-function cleanUrl(url) {
-  return url.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
 }
 
 // The section a result sits in (Essays, Notes, …); none for a root page.
@@ -58,20 +55,7 @@ export function initPalette(beforeOpen) {
 
   // Full-text matches come from Pagefind's index of the last build; if that
   // fails (astro dev before any build), typing filters the pre-rendered titles instead.
-  // The path is a variable so Vite leaves the import to the browser: the index
-  // exists only after a build (astro-pagefind serves the last one in dev).
-  var pagefindUrl = '/pagefind/pagefind.js';
-  var pagefind = null;
-  function engine() {
-    if (!pagefind) {
-      pagefind = import(/* @vite-ignore */ pagefindUrl).then(function (module) {
-        return module.init().then(function () {
-          return module;
-        });
-      });
-    }
-    return pagefind;
-  }
+  var engine = loadPagefind;
   var minChars = parseInt(palette.getAttribute('data-search-min'), 10) || 1;
   var originalHtml = results.innerHTML;
   var activeIndex = -1;

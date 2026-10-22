@@ -3,8 +3,14 @@
 // note badges and year groups all format in that zone.
 export const DISPLAY_TIMEZONE = 'Asia/Kuala_Lumpur';
 
-const parts = (date: Date, timeZone: string) => {
-  const dtf = new Intl.DateTimeFormat('en-GB', {
+const read = (date: Date, options: Intl.DateTimeFormatOptions): Record<string, string> => {
+  const out: Record<string, string> = {};
+  for (const p of new Intl.DateTimeFormat('en-GB', options).formatToParts(date)) out[p.type] = p.value;
+  return out;
+};
+
+const parts = (date: Date, timeZone: string): Record<string, string> => ({
+  ...read(date, {
     timeZone,
     year: 'numeric',
     month: 'long',
@@ -14,11 +20,9 @@ const parts = (date: Date, timeZone: string) => {
     minute: '2-digit',
     second: '2-digit',
     hour12: false,
-  });
-  const out: Record<string, string> = {};
-  for (const p of dtf.formatToParts(date)) out[p.type] = p.value;
-  return out;
-};
+  }),
+  monthNumber: read(date, { timeZone, month: '2-digit' }).month!,
+});
 
 /**
  * Formats with PHP's date letters (the ones the views use): Y m d j n M F D l H i s.
@@ -28,8 +32,8 @@ export function formatDate(date: Date, pattern: string, timeZone = DISPLAY_TIMEZ
   const hour = p.hour === '24' ? '00' : p.hour;
   const map: Record<string, string> = {
     Y: p.year!,
-    m: p.day !== undefined ? String(new Date(`${p.month} 1, 2000`).getMonth() + 1).padStart(2, '0') : '',
-    n: String(new Date(`${p.month} 1, 2000`).getMonth() + 1),
+    m: p.monthNumber,
+    n: String(Number(p.monthNumber)),
     d: p.day!,
     j: String(Number(p.day)),
     M: p.month!.slice(0, 3),

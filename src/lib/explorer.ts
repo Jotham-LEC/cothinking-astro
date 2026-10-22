@@ -7,7 +7,7 @@
 import { childrenOf, isChild, mountedOn, naturalTitle, pageByKey, published } from './pages.ts';
 import type { Collections, NavItem, Page, SiteConfig } from './types.ts';
 import { pathOf } from './urls.ts';
-import { year } from './dates.ts';
+import { byYear } from './years.ts';
 
 export type Row = {
   id: string | null;
@@ -87,16 +87,6 @@ export function explorerRows({ pages, collections, navigation }: Site): Row[] {
   return navRows(navigation.explorer ?? []);
 }
 
-/** Pieces grouped by the year of their date (display timezone), newest first. */
-export function byYear(pieces: Page[]): [string, Page[]][] {
-  const groups = new Map<string, Page[]>();
-  for (const p of pieces) {
-    const y = p.date ? year(p.date) : '';
-    groups.set(y, [...(groups.get(y) ?? []), p]);
-  }
-  return [...groups.entries()];
-}
-
 /** The post types with a published note, in blueprint order. */
 export function noteTypesInUse(live: Page[], collection: string, types: { handle: string; title: string }[]) {
   const inUse = new Set(live.filter((p) => p.collection === collection).map((p) => p.type ?? types[0]?.handle));
@@ -132,8 +122,8 @@ export function headerLinks({ pages, navigation }: Site, currentUrl: string | nu
 }
 
 /** The drawer's menu: the header's links but the last (the call to action), minus those the Explorer already lists. */
-export function menu(site: Site, currentUrl: string | null): Link[] {
-  const listed = new Set(explorerRows(site).flatMap(urlsIn).map(pathOf));
+export function menu(site: Site, currentUrl: string | null, explorer: Row[]): Link[] {
+  const listed = new Set(explorer.flatMap(urlsIn).map(pathOf));
   return headerLinks(site, currentUrl)
     .slice(0, -1)
     .filter((link) => !listed.has(pathOf(link.url)));

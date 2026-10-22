@@ -29,7 +29,7 @@ export default defineConfig({
       // Statamic had no SmartPunct: `--`, `...` and straight quotes stay as typed.
       smartypants: false,
       remarkPlugins: wikiRemarkPlugins({ titles, siteUrl: site.url }),
-      rehypePlugins: wikiRehypePlugins({ publicDir: root + 'public' }),
+      rehypePlugins: wikiRehypePlugins({ siteUrl: site.url, publicDir: root + 'public' }),
     }),
     // No highlighter: code-blocks.js draws the chrome in the browser.
     syntaxHighlight: false,

@@ -15,7 +15,7 @@ let render: (md: string) => Promise<string>;
 beforeAll(async () => {
   const processor = await createMarkdownProcessor({
     remarkPlugins: wikiRemarkPlugins({ titles, siteUrl: 'https://jothamlim.com' }),
-    rehypePlugins: wikiRehypePlugins({ publicDir }),
+    rehypePlugins: wikiRehypePlugins({ siteUrl: 'https://jothamlim.com', publicDir }),
     gfm: true,
     smartypants: false,
     syntaxHighlight: false,

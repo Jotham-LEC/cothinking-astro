@@ -38,8 +38,9 @@ How a page is built:
 3. **The Markdown pipeline** (`src/lib/markdown/`, wired in
    `astro.config.mjs` through `@astrojs/markdown-remark`'s `unified()`
    processor): remark-wiki-link + `remark-wiki-links` (titles →
-   `a.wiki-link` / `span.wiki-link-missing`), `remark-external-links`
-   (`external-link` on links off the site), then `rehype-raw` first (raw HTML
+   `a.wiki-link` / `span.wiki-link-missing`), then `rehype-external-links`
+   (`external-link` on Markdown links off the site, before raw HTML joins
+   the tree), `rehype-raw` (raw HTML
    in content becomes part of the tree), `rehype-heading-ids` (Laravel's
    `Str::slug`, `slug.ts`), `rehype-callouts` (`> [!NOTE]`), `rehype-images`
    (sizes, eager/lazy, figures, `zoomable`), `rehype-heading-anchors`.
@@ -131,7 +132,9 @@ Pagefind (results come from the last build; result excerpts are Pagefind's);
 no PDF redirects: the old blog's PDF addresses
 (`/blog/storage/publications/*.pdf`) and the old résumé address
 (`/media/career/jotham-lim-resume.pdf`, in `src/data/redirects.yaml`) are not
-redirected, and the build log names each one it drops; the sitemap is `@astrojs/sitemap`'s `/sitemap-index.xml` (named in
+redirected, and the build log names each one it drops; the feeds are `@astrojs/rss`'s (item bodies escaped rather than in CDATA,
+`pubDate` in `GMT` rather than `+0000`; the same text and dates for a
+reader); the sitemap is `@astrojs/sitemap`'s `/sitemap-index.xml` (named in
 robots.txt) rather than `/sitemap.xml`; the 404's host/path and suggestions
 are filled in by the browser. Google Tag Manager (`site.yaml`
 `marketing.gtm_id`) is printed as the addon printed it, in production builds

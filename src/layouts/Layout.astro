@@ -43,7 +43,7 @@ const w = await wiki();
 const { site } = w;
 const rows = markCurrent(w.explorer, page, path);
 const links = headerLinks(w, path);
-const menuLinks = menu(w, path);
+const menuLinks = menu(w, path, w.explorer);
 const footer = footerColumns(w);
 const footerText = typeof site.settings.footer_text === 'string' ? site.settings.footer_text : null;
 const hasRail = Astro.slots.has('rail');

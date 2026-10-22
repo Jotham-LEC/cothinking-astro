@@ -5,12 +5,10 @@
 // page that is its own canonical address, with its last change (the XML itself is
 // @astrojs/sitemap's: src/lib/sitemap.ts).
 import { atom } from './dates.ts';
-import { renderFeed } from './markdown/feed.ts';
 import { naturalTitle, published } from './pages.ts';
 import { contentDescription, inSitemap, limit } from './seo.ts';
 import { plainText } from './markdown/feed.ts';
 import type { Collections, Page, SiteConfig } from './types.ts';
-import type { TitleIndex } from './titles.ts';
 import { absolute } from './urls.ts';
 
 /** Where @astrojs/sitemap writes the index (src/lib/sitemap.ts). */
@@ -48,7 +46,7 @@ export async function llmsTxt(
   pages: Page[],
   site: SiteConfig,
   collections: Collections,
-  titles: TitleIndex,
+  htmlOf: (page: Page) => Promise<string>,
   perCollection = 100,
 ): Promise<string> {
   const lines = [`# ${site.name}`, ''];
@@ -68,7 +66,7 @@ export async function llmsTxt(
     for (const page of entries) {
       const text =
         page.seo.description ??
-        contentDescription(page, await renderFeed(page.body, titles, { callouts: true }), { skipCreditLine: false });
+        contentDescription(page, await htmlOf(page), { skipCreditLine: false });
       const description = text ? limit(plainText(text), 200) : null;
       lines.push(
         `- [${page.title.replace(/\[/g, '(').replace(/\]/g, ')')}](${absolute(site.url, page.url!)})${description ? `: ${description}` : ''}`,

@@ -6,7 +6,7 @@
 import type { Root } from 'mdast';
 import { visit } from 'unist-util-visit';
 import { resolveTitle, type TitleIndex } from '../titles.ts';
-import { isExternal } from './remark-external-links.ts';
+import { isExternal } from '../urls.ts';
 
 type WikiLinkNode = {
   type: 'wikiLink';

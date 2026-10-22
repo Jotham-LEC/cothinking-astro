@@ -2,7 +2,6 @@
 // it sits in (or the site's host for a root page) as the label, its title,
 // its description, the site's name, and the author's portrait.
 import type { Wiki } from './load.ts';
-import { renderFeed } from './markdown/feed.ts';
 import { isChild } from './pages.ts';
 import { description, ogTitle } from './seo.ts';
 import type { Page } from './types.ts';
@@ -11,7 +10,7 @@ import type { CardInput } from './ogCard.ts';
 export async function cardFor(page: Page, w: Wiki): Promise<CardInput> {
   const { site, collections } = w;
   const section = isChild(page, collections) ? (collections[page.collection]?.title ?? null) : null;
-  const html = await renderFeed(page.body, w.titles, { callouts: true });
+  const html = await w.htmlOf(page);
   const input = { page, path: page.url!, site, collections, pages: w.live, html };
   return {
     label: section ?? new URL(site.url).host,

@@ -11,7 +11,6 @@ import { backlinks } from '../../lib/graph.ts';
 import { pager } from '../../lib/pager.ts';
 import { toc, type Heading, type TocEntry } from '../../lib/toc.ts';
 import { day } from '../../lib/dates.ts';
-import { renderFeed } from '../../lib/markdown/feed.ts';
 import type { Page } from '../../lib/types.ts';
 import Layout from '../../layouts/Layout.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
@@ -24,7 +23,7 @@ const { page, headings = [], extraHeadings = [] } = Astro.props;
 const path = Astro.props.path ?? page.url!;
 const w = await wiki();
 // The body as plain HTML, for a description from its first paragraph.
-const html = await renderFeed(page.body, w.titles, { callouts: true });
+const html = await w.htmlOf(page);
 const info = pageInfo(page, w.collections, w.site);
 
 const entries = toc(headings, extraHeadings);

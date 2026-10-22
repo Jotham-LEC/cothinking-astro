@@ -65,7 +65,7 @@ describe('explorer', () => {
     expect(ours).toEqual(printed);
   });
   it('gives the menu the header links the Explorer lacks', () => {
-    expect(menu(project, '/career')).toEqual([]);
+    expect(menu(project, '/career', rows)).toEqual([]);
     expect(urlsIn(rows[0]!)).toEqual(['/']);
   });
 });

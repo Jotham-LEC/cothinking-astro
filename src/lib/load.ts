@@ -5,6 +5,7 @@ import { getCollection, getEntry, type CollectionEntry, type CollectionKey } fro
 import titlesJson from '../data/titles.json';
 import { explorerRows, type Row } from './explorer.ts';
 import { buildGraph, type Graph } from './graph.ts';
+import { renderFeed } from './markdown/feed.ts';
 import { published, toPages } from './pages.ts';
 import type { TitleIndex } from './titles.ts';
 import type { Collections, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
@@ -23,6 +24,8 @@ export type Wiki = {
   titles: TitleIndex;
   explorer: Row[];
   graph: Graph;
+  /** A page's body as plain HTML (the feed parser, callouts rendered), for descriptions; rendered once per page. */
+  htmlOf: (page: Page) => Promise<string>;
   entryOf: (page: Page) => CollectionEntry<CollectionKey>;
 };
 
@@ -51,6 +54,7 @@ export function wiki(): Promise<Wiki> {
     const pages = toPages(raws, collections);
     const titles = titlesJson as TitleIndex;
     const partial = { site, collections, pages, navigation };
+    const html = new Map<string, Promise<string>>();
     return {
       ...partial,
       live: published(pages),
@@ -58,6 +62,11 @@ export function wiki(): Promise<Wiki> {
       titles,
       explorer: explorerRows(partial),
       graph: buildGraph(pages, collections, titles),
+      htmlOf: (page) => {
+        const key = `${page.collection}/${page.slug}`;
+        if (!html.has(key)) html.set(key, renderFeed(page.body, titles, { callouts: true }));
+        return html.get(key)!;
+      },
       entryOf: (page) => {
         const entry = entries.get(`${page.collection}/${page.slug}`);
         if (!entry) throw new Error(`No entry for ${page.collection}/${page.slug}`);

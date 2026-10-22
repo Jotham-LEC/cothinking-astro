@@ -27,7 +27,9 @@ const verbose = process.argv.includes('--verbose');
 //  - /search.json → Pagefind: not compared
 //  - GFM autolinks bare URLs: body links other than wiki links are not compared
 //  - 404 suggestions come from Pagefind in the browser: not compared; its og:url is the address asked for, which a static page cannot know
-//  - feed bodies: Blade indented the CDATA, wrote `<img />` and escaped quotes and ampersands as &quot;/&amp; where rehype writes &#x26;; the HTML is the same
+//  - feeds are @astrojs/rss's: item bodies escaped rather than in CDATA, pubDate as `GMT` rather than `+0000`; Blade
+//    also indented the CDATA, wrote `<img />` and escaped quotes and ampersands as &quot;/&amp; where rehype writes
+//    &#x26;. Decoded, the HTML and the dates are the same
 //  - the sitemap is @astrojs/sitemap's: /sitemap-index.xml + /sitemap-0.xml instead of /sitemap.xml, and robots.txt names the index
 //  - Explorer rows for note types and years: Laravel printed absolute addresses, Astro prints paths
 const EXPECTED = {
@@ -153,23 +155,31 @@ function extract(html) {
 
 function feed(xml) {
   const src = normaliseHost(xml);
-  // Blade indented the markup inside CDATA and escaped apostrophes; neither changes what a reader shows.
+  // Blade wrote item bodies in indented CDATA and @astrojs/rss escapes them; both
+  // decode to the same HTML. Then the HTML's own entity and spacing styles are
+  // evened out (Blade escaped quotes and apostrophes; rehype writes &#x26;).
+  const decode = (s) =>
+    s
+      .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, (_, c) => c.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'))
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&apos;/g, "'")
+      .replace(/&amp;/g, '&');
   const field = (block, name) => {
     const m = new RegExp(`<${name}[^>]*>([\\s\\S]*?)</${name}>`).exec(block);
-    return m
-      ? m[1]
-          .replace(/&#039;|&#x27;/gi, "'")
-          .replace(/&quot;/g, '"')
-          .replace(/&#x26;/gi, '&amp;')
-          .replace(/&#x3C;/gi, '&lt;')
-          .replace(/&#x3E;|&gt;/gi, '>')
-          .replace(/\s*\/>/g, '>')
-          .replace(/>\s+</g, '><')
-          .replace(/\[CDATA\[\s+/g, '[CDATA[')
-          .replace(/\s+\]\]>/g, ']]>')
-          .replace(/\s+/g, ' ')
-          .trim()
-      : null;
+    if (!m) return null;
+    const value = decode(m[1])
+      .replace(/&#039;|&#x27;/gi, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/&#x26;/gi, '&amp;')
+      .replace(/&#x3C;/gi, '&lt;')
+      .replace(/&#x3E;|&gt;/gi, '>')
+      .replace(/\s*\/>/g, '>')
+      .replace(/>\s+</g, '><')
+      .replace(/\s+/g, ' ')
+      .trim();
+    return name === 'pubDate' && value ? new Date(value).toISOString() : value;
   };
   const channel = src.split('<item>')[0];
   return {

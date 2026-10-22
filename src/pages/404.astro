@@ -87,6 +87,7 @@ const host = new URL(site.url).host;
 
   <script>
     // The address that was asked for, and up to five pages whose text matches its last segment.
+    import { cleanUrl, loadPagefind } from '../scripts/site/pagefind.js';
     const root = document.querySelector('[data-not-found]');
     if (root) {
       let path = location.pathname;
@@ -104,10 +105,8 @@ const host = new URL(site.url).host;
         search.hidden = false;
         root.querySelector('[data-not-found-guess]')!.textContent = guess;
         const list = root.querySelector('[data-not-found-suggestions]')!;
-        const pagefindUrl = '/pagefind/pagefind.js';
-        import(/* @vite-ignore */ pagefindUrl)
+        loadPagefind()
           .then(async (pagefind) => {
-            await pagefind.init();
             const found = await pagefind.search(guess);
             const pages = await Promise.all(
               found.results
@@ -115,7 +114,7 @@ const host = new URL(site.url).host;
                 .map((r: { data: () => Promise<{ url: string; meta: { title: string } }> }) => r.data()),
             );
             for (const page of pages) {
-              const url = page.url.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+              const url = cleanUrl(page.url);
               const li = document.createElement('li');
               const a = document.createElement('a');
               a.className = 'text-accent break-all underline underline-offset-2';

@@ -42,6 +42,16 @@ export function resolveUrls<T extends Locatable>(items: T[], collections: Collec
   return urls;
 }
 
+/** Whether an address leaves the site: http(s) on another host (CommonMark's ExternalLinkExtension). */
+export function isExternal(href: string, siteUrl: string): boolean {
+  try {
+    const url = new URL(href);
+    return (url.protocol === 'http:' || url.protocol === 'https:') && url.host !== new URL(siteUrl).host;
+  } catch {
+    return false;
+  }
+}
+
 /** An address's path, so a relative and an absolute address to one page match. */
 export function pathOf(url: string): string {
   const path = url.startsWith('http') ? new URL(url).pathname : url.split(/[?#]/)[0]!;
