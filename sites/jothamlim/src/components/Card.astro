@@ -2,7 +2,7 @@
 // One note in the stream: a date badge linking to the note, the type icon
 // linking to that type's listing, then the post.
 import { render, type CollectionEntry } from 'astro:content';
-import { formatDate } from '@garden/lib/dates.ts';
+import { badge, longDate } from '@garden/lib/dates.ts';
 import { urlOf } from '@garden/lib/load.ts';
 import Prose from '@garden/components/Prose.astro';
 import { site } from '@site/site.config.ts';
@@ -10,9 +10,10 @@ import Icon from './Icon.astro';
 import Quote from './Quote.astro';
 type Props = { note: CollectionEntry<'notes'> };
 const { note } = Astro.props;
-const { type, title, quote, cite, date: posted } = note.data;
+const { type, title, quote, cite, date } = note.data;
 const typeTitle = site.collections.notes.types[type as keyof typeof site.collections.notes.types] ?? type;
 const url = urlOf(note);
+const posted = badge(date);
 const { Content } = await render(note);
 const hasContent = (note.body ?? '').trim() !== '';
 ---
@@ -22,12 +23,12 @@ const hasContent = (note.body ?? '').trim() !== '';
     <a
       class="text-fg hover:text-accent flex items-baseline gap-1.5 leading-none uppercase no-underline sm:flex-col sm:items-center sm:gap-0"
       href={url}
-      aria-label={`${title}, ${formatDate(posted, 'j F Y')}`}
+      aria-label={`${title}, ${longDate(date)}`}
     >
       <span class="text-xs tracking-[0.12em]" data-month>
-        {formatDate(posted, 'M')}
+        {posted.month}
       </span>
-      <span class="text-base font-extrabold sm:text-3xl">{formatDate(posted, 'j')}</span>
+      <span class="text-base font-extrabold sm:text-3xl">{posted.day}</span>
     </a>
     <a
       class="text-muted hover:text-accent block size-6"

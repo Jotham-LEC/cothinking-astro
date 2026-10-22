@@ -78,7 +78,7 @@ from `lib/seo.ts`.
   its own from the raw files. The sitemap lists what `inSitemap` (`seo.ts`)
   allows, as llms.txt does.
 - **The Markdown pipeline** (`lib/markdown/index.ts`, in `config.mjs`): remark
-  `wiki-links`; rehype `external-links`, `heading-ids` (GitHub-style, emoji
+  `wiki-links`; rehype `external-links`, `clean-heading-ids` (GitHub-style, emoji
   cleaned; Astro keeps them), `callouts`, `excerpt` (the first paragraphs, for
   descriptions), `heading-anchors` (the icon is CSS). Astro does the rest:
   GFM, Shiki in both themes inside the chrome `shiki-code-block.ts` draws, raw

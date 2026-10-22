@@ -4,7 +4,7 @@
 import { describe, expect, it } from 'vitest';
 import { breadcrumbs } from '../lib/breadcrumbs.ts';
 import { check } from '../lib/check.ts';
-import { atom, day, formatDate, year } from '../lib/dates.ts';
+import { atom, badge, day, longDate, year } from '../lib/dates.ts';
 import {
   byDateDesc,
   byYear,
@@ -450,8 +450,10 @@ describe('dates and read time', () => {
     const late = new Date('2026-10-07T17:30:00Z'); // 01:30 the next day in KL
     expect(day(late)).toBe('2026-10-08');
     expect(year(new Date('2020-12-31T18:00:00Z'))).toBe('2021');
-    expect(formatDate(late, 'j F Y')).toBe('8 October 2026');
-    expect(formatDate(late, 'M')).toBe('Oct');
+    expect(longDate(late)).toBe('8 October 2026');
+    expect(badge(late)).toEqual({ month: 'Oct', day: '8' });
+    expect(badge(new Date('2026-09-24T12:00:00Z'))).toEqual({ month: 'Sep', day: '24' });
+    expect(longDate(new Date('2026-10-20'))).toBe('20 October 2026');
     expect(atom(new Date('2023-01-18T00:00:00Z'))).toBe('2023-01-18T00:00:00+00:00');
   });
   it('counts words as Statamic did', () => {
