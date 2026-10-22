@@ -1,13 +1,14 @@
 ---
 // /problem-statements: the landing page's text, then every problem in the
 // tree's order with its `what_i_do`.
-import { getCollection, getEntry, render } from 'astro:content';
+import { getEntry, render } from 'astro:content';
 import Entry from '@garden/components/Entry.astro';
 import NextStep from '@site/components/NextStep.astro';
 import ProblemList from '@site/components/ProblemList.astro';
+import { problemsInOrder } from '@site/lib/problems.ts';
 const entry = (await getEntry('pages', 'problem-statements'))!;
 const { Content, headings } = await render(entry);
-const problems = (await getCollection('problems', (p) => !p.data.draft)).sort((a, b) => a.data.order - b.data.order);
+const problems = await problemsInOrder();
 ---
 
 <Entry entry={entry} headings={headings}>

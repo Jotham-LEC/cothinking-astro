@@ -2,26 +2,24 @@
 // A plain page (privacy), as a room: its text in a reading column, then the
 // way to get in touch.
 import { render, type CollectionEntry } from 'astro:content';
-import { garden } from '@garden/lib/load.ts';
+import { urlOf } from '@garden/lib/load.ts';
 import Layout from '@garden/layouts/Layout.astro';
 import PageHeader from '@garden/components/PageHeader.astro';
 import Prose from '@garden/components/Prose.astro';
 import { emailHref } from '@site/lib/contact.ts';
 type Props = { entry: CollectionEntry<'pages'> };
 const { entry } = Astro.props;
-const g = await garden();
-const page = g.entry(entry);
 const { Content } = await render(entry);
 ---
 
-<Layout page={page} path={page.url} room>
+<Layout entry={entry} path={urlOf(entry)} room>
   <article class="mx-auto max-w-[72ch]">
-    <PageHeader title={page.title} />
+    <PageHeader title={entry.data.title} />
     <Prose data-popover>
       <Content />
     </Prose>
     <p class="border-rule text-muted mt-10 border-t pt-5 font-sans text-sm">
-      <a class="text-accent" href={emailHref(page.title)}>
+      <a class="text-accent" href={emailHref(entry.data.title)}>
         Work with me →
       </a>
     </p>

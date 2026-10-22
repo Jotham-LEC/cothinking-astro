@@ -3,7 +3,7 @@
 // wide at most) and numbers, the write-up, the live site and the closing panel.
 import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
-import { garden } from '@garden/lib/load.ts';
+import { urlOf } from '@garden/lib/load.ts';
 import Layout from '@garden/layouts/Layout.astro';
 import PageHeader from '@garden/components/PageHeader.astro';
 import Prose from '@garden/components/Prose.astro';
@@ -15,21 +15,19 @@ export async function getStaticPaths() {
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 const { entry } = Astro.props;
-const g = await garden();
-const page = g.entry(entry);
 const { Content } = await render(entry);
 const eyebrow = entry.data.eyebrow || [entry.data.year, entry.data.kind].filter(Boolean).join(' · ');
 const website = entry.data.website ?? null;
 ---
 
-<Layout page={page} path={page.url} room>
+<Layout entry={entry} path={urlOf(entry)} room>
   <article class="mx-auto max-w-[72ch]">
-    <PageHeader title={page.title} eyebrow={eyebrow} />
+    <PageHeader title={entry.data.title} eyebrow={eyebrow} />
 
     {entry.data.image && (
       <Image
         src={entry.data.image}
-        alt={`${page.title}’s website`}
+        alt={`${entry.data.title}’s website`}
         width={Math.min(1280, entry.data.image.width)}
         quality={80}
         loading="eager"
@@ -55,6 +53,6 @@ const website = entry.data.website ?? null;
       </a>
     </p>
 
-    <NextStep about={page.title} />
+    <NextStep about={entry.data.title} />
   </article>
 </Layout>

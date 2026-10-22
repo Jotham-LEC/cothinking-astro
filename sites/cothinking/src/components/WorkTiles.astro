@@ -4,16 +4,15 @@
 // screenshots are cropped from the top to 800 × 450.
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import { garden } from '@garden/lib/load.ts';
+import { urlOf } from '@garden/lib/load.ts';
 type Props = { clients: CollectionEntry<'work'>[]; narrow?: boolean };
 const { clients, narrow = false } = Astro.props;
-const g = await garden();
 const tiles = clients.map((client) => {
   const written = (client.body ?? '').trim() !== '';
   return {
     client,
     written,
-    href: written ? g.entry(client).url : (client.data.website ?? null),
+    href: written ? urlOf(client) : (client.data.website ?? null),
     meta: [client.data.year, client.data.kind].filter(Boolean).join(' · '),
     image: client.data.image ?? null,
   };

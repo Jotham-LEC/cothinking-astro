@@ -47,9 +47,11 @@ from `lib/seo.ts`.
   `SiteEntry` (address, title, dates, body, the opening paragraphs, and the
   fields the garden reads, `null` where a site has none) through `toSiteEntry`.
   `lib/load.ts` `garden()` loads them once per build: `live` (published),
-  `entry(astroEntry)`, `explorer`, `graph`, `htmlOf()`. A site's view keeps
-  its own typed Astro entry for its own fields and asks `g.entry(entry)` for
-  the garden's. `descriptionOf(entry)` (`lib/entry.ts`) is what a page is
+  `entry(astroEntry)`, `explorer`, `graph`, `htmlOf()`. `SiteEntry` stays
+  inside `lib/` and the garden's components: **a site's view works on Astro
+  entries** (`CollectionEntry<'x'>`, `entry.data.*`), gets an address from
+  `urlOf(entry)` (`lib/load.ts`), and hands the entry to `<Entry entry>` or
+  `<Layout entry>`, which look up the rest. `descriptionOf(entry)` (`lib/entry.ts`) is what a page is
   about everywhere: the head, the share card, llms.txt and listing cards.
 - **The site's config is imported, never passed.** A site's views import
   `site` from `@site/site.config.ts` (with its literal types); the garden's

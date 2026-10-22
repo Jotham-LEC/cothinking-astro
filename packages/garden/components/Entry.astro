@@ -1,7 +1,8 @@
 ---
 // An entry's page inside the site shell: breadcrumbs, title, outline, body,
 // pager and the rail. `entry` is one of Astro's content entries (any
-// collection). Slots: `before-body` and `after-body` (inside the text),
+// collection). Slots: `after-title` (under the title: a subtitle, a
+// byline), `before-body` and `after-body` (inside the text),
 // `after-article`, and `body`, markup in place of the Markdown body; the
 // default slot is the rendered body; `head` goes into the <head>.
 // `extraHeadings` are headings for the outline that the body lacks (a view's
@@ -42,7 +43,7 @@ const section = info.section ? (site.collections[info.section]?.title ?? info.se
 ---
 
 <Layout
-  page={page}
+  entry={Astro.props.entry}
   info={info}
   path={path}
   seoTitle={seoTitle}
@@ -56,6 +57,7 @@ const section = info.section ? (site.collections[info.section]?.title ?? info.se
     data-pagefind-meta={searchable && section ? `section:${section}` : undefined}
   >
     <PageHeader title={page.title} eyebrow={info.eyebrow} source={info.source} sourceDate={info.sourceDate} popover />
+    <slot name="after-title" />
     <Outline entries={entries} variant="details" />
 
     {Astro.slots.has('body') ? (
