@@ -1,15 +1,15 @@
 ---
 // The header: the logo, search, the `header` navigation, reader mode, the
 // theme toggle and the menu button that opens the Explorer's drawer.
-import type { SiteConfig } from '../lib/site.ts';
+import { site } from '../lib/load.ts';
 import type { Link } from '../lib/explorer.ts';
 import Bars from '../assets/icons/bars-3.svg';
 import BookOpen from '../assets/icons/book-open.svg';
 import MagnifyingGlass from '../assets/icons/magnifying-glass.svg';
 import Moon from '../assets/icons/moon.svg';
 import Sun from '../assets/icons/sun.svg';
-type Props = { site: SiteConfig; room: boolean; hasExplorer: boolean; hasDrawer: boolean; links: Link[] };
-const { site, room, hasExplorer, hasDrawer, links } = Astro.props;
+type Props = { room: boolean; hasExplorer: boolean; hasDrawer: boolean; links: Link[] };
+const { room, hasExplorer, hasDrawer, links } = Astro.props;
 const last = links.length - 1;
 const icon =
   'text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11';

@@ -7,7 +7,8 @@ import { byDateDesc, type SiteEntry } from './entry.ts';
 import { feedOf } from './info.ts';
 import { absolute, type SiteConfig } from './site.ts';
 
-type FeedContext = { site: SiteConfig; live: SiteEntry[]; htmlOf: (entry: SiteEntry) => Promise<string> };
+/** What a feed reads off `garden()`: the published entries and each one's rendered body. */
+type FeedContext = { live: SiteEntry[]; htmlOf: (entry: SiteEntry) => Promise<string> };
 
 const escapeHtml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -28,7 +29,7 @@ export const pageOnly = (html: string): string =>
     .replace(/<button\b[^>]*\bclass="[^"]*\bcode-block-copy\b[^"]*"[^>]*>[\s\S]*?<\/button>/g, '');
 
 /** A feed item's body: a quote note's quote, then the page's text. */
-async function feedBody(page: SiteEntry, { htmlOf, site }: FeedContext): Promise<string> {
+async function feedBody(page: SiteEntry, site: SiteConfig, { htmlOf }: FeedContext): Promise<string> {
   const parts: string[] = [];
   if (page.quote) {
     const cite = page.cite ? `<p>— ${escapeHtml(page.cite)}</p>` : '';
@@ -39,8 +40,8 @@ async function feedBody(page: SiteEntry, { htmlOf, site }: FeedContext): Promise
 }
 
 /** A feed's options for @astrojs/rss: the whole site (every dated collection) or one section, 20 newest first. */
-export async function feedOptions(section: string | null, ctx: FeedContext): Promise<RSSOptions> {
-  const { site, live } = ctx;
+export async function feedOptions(section: string | null, site: SiteConfig, ctx: FeedContext): Promise<RSSOptions> {
+  const { live } = ctx;
   const feed = feedOf(section, site);
   const from = section
     ? [section]
@@ -60,7 +61,7 @@ export async function feedOptions(section: string | null, ctx: FeedContext): Pro
         title: item.title,
         link: absolute(site.url, item.url),
         pubDate: item.date ?? undefined,
-        description: await feedBody(item, ctx),
+        description: await feedBody(item, site, ctx),
       })),
     ),
   };

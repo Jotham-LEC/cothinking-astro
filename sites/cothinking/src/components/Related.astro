@@ -3,6 +3,7 @@
 // as `related_pages` or `related_wiki`), A–Z under a heading (`title`), or
 // nothing when none is published.
 import { garden } from '@garden/lib/load.ts';
+import { descriptionOf } from '@garden/lib/entry.ts';
 import { relatedPages } from '@site/lib/related.ts';
 type Props = { keys: string[] | undefined; id: string; title: string };
 const { keys, id, title } = Astro.props;
@@ -20,7 +21,7 @@ const links = relatedPages(keys, (await garden()).live);
           <a class="text-accent font-sans font-semibold" href={link.url}>
             {link.title}
           </a>
-          {link.description && <p class="text-muted mt-1 text-sm">{link.description}</p>}
+          {descriptionOf(link) && <p class="text-muted mt-1 text-sm">{descriptionOf(link)}</p>}
         </li>
       ))}
     </ul>

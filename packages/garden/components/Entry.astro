@@ -8,7 +8,7 @@
 // own h2s). `path` is the address when it is not the entry's own (/notes/2);
 // such a page passes `seoTitle` for its own title, and `searchable={false}`
 // so the search index holds the entry's text once.
-import { garden } from '../lib/load.ts';
+import { garden, site } from '../lib/load.ts';
 import { pageInfo } from '../lib/info.ts';
 import { backlinks } from '../lib/graph.ts';
 import { pager } from '../lib/pager.ts';
@@ -33,12 +33,12 @@ const { headings = [], extraHeadings = [], seoTitle, searchable = true } = Astro
 const g = await garden();
 const page = g.entry(Astro.props.entry);
 const path = Astro.props.path ?? page.url;
-const info = pageInfo(page, g.site);
+const info = pageInfo(page, site);
 const entries = toc(headings, extraHeadings);
-const neighbours = pager(page, g.live, g.site);
+const neighbours = pager(page, g.live, site);
 const linked = backlinks(g.graph, page);
 const updated = page.updated ?? page.date;
-const section = info.section ? (g.site.collections[info.section]?.title ?? info.section) : null;
+const section = info.section ? (site.collections[info.section]?.title ?? info.section) : null;
 ---
 
 <Layout

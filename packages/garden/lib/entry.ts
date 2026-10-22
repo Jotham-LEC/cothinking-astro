@@ -115,6 +115,22 @@ export function toSiteEntry({ collection, id, data: d, body, rendered }: RawEntr
   };
 }
 
+/** How a republished column opens: its credit line, which describes the outlet, not the piece. */
+const CREDIT_LINE = 'This article first appeared';
+
+/**
+ * What an entry is about, for the head, llms.txt and a listing's cards: its `seo.description`, its `description`, a
+ * quote post's quote, else the body's first paragraph (past a column's credit line, unless `skipCreditLine` is false).
+ */
+export function descriptionOf(entry: SiteEntry, { skipCreditLine = true } = {}): string | null {
+  const own = entry.seo.description ?? entry.description ?? entry.quote;
+  if (own) return own;
+  const first = entry.paragraphs[0] ?? null;
+  if (skipCreditLine && first !== null && first.startsWith(CREDIT_LINE))
+    return entry.paragraphs.find((p) => !p.startsWith(CREDIT_LINE)) ?? null;
+  return first;
+}
+
 export const keyOf = (entry: { collection: string; id: string }) => `${entry.collection}/${entry.id}`;
 
 /** The entries a reader can see. */

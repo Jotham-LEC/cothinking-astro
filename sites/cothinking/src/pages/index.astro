@@ -10,7 +10,7 @@ import ComputerDesktop from '@site/assets/icons/computer-desktop.svg';
 import WrenchScrewdriver from '@site/assets/icons/wrench-screwdriver.svg';
 import { price } from '@site/lib/contact.ts';
 import { testimonialOf, workEntries } from '@site/lib/work.ts';
-import { prices } from '@site/site.config.ts';
+import { prices, site } from '@site/site.config.ts';
 import AboutMe from '@site/components/AboutMe.astro';
 import Email from '@site/components/Email.astro';
 import Enquiry from '@site/components/Enquiry.astro';
@@ -20,7 +20,7 @@ import Whatsapp from '@site/components/Whatsapp.astro';
 import WorkTiles from '@site/components/WorkTiles.astro';
 const g = await garden();
 const page = g.entry((await getEntry('pages', 'home'))!);
-const problems = childrenOf('problems', g.live, g.site).slice(0, 5);
+const problems = childrenOf('problems', g.live, site).slice(0, 5);
 const work = await workEntries();
 const testimonial = testimonialOf(work);
 ---

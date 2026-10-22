@@ -2,9 +2,9 @@
 // (sitemap.ts); the site's name and default description, then each
 // collection's listed pages (newest change first) as Markdown links with
 // their descriptions.
-import type { SiteEntry } from './entry.ts';
+import { descriptionOf, type SiteEntry } from './entry.ts';
 import { naturalCompare } from './natural.ts';
-import { contentDescription, inSitemap, limit, squish } from './seo.ts';
+import { inSitemap, limit, squish } from './seo.ts';
 import { absolute, type SiteConfig } from './site.ts';
 
 /** Where @astrojs/sitemap writes the index (sitemap.ts). */
@@ -31,7 +31,8 @@ export function llmsTxt(live: SiteEntry[], site: SiteConfig): string {
     if (entries.length === 0) continue;
     lines.push(`## ${site.collections[handle]!.title}`, '');
     for (const page of entries) {
-      const text = page.seo.description ?? contentDescription(page, { skipCreditLine: false });
+      // A column's credit line says where it first appeared, which a reader of llms.txt wants.
+      const text = descriptionOf(page, { skipCreditLine: false });
       const description = text ? limit(squish(text), 200) : null;
       lines.push(
         `- [${page.title.replace(/\[/g, '(').replace(/\]/g, ')')}](${absolute(site.url, page.url)})${description ? `: ${description}` : ''}`,

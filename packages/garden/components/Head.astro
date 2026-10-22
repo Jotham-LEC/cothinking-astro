@@ -1,10 +1,10 @@
 ---
 // Title, meta tags and JSON-LD for a page (`head`: lib/seo.ts), the favicon
 // and the feeds.
+import { site } from '../lib/load.ts';
 import { jsonLd, type Head } from '../lib/seo.ts';
-import type { SiteConfig } from '../lib/site.ts';
-type Props = { head: Head; site: SiteConfig; feed: { title: string; url: string } | null };
-const { head: h, site, feed } = Astro.props;
+type Props = { head: Head; feed: { title: string; url: string } | null };
+const { head: h, feed } = Astro.props;
 const ld = jsonLd(h.graph);
 ---
 
