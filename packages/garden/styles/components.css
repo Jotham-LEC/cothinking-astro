@@ -17,7 +17,7 @@
        (important: the typography plugin styles links from the utilities
        layer), and a link icon after it (a mask over the text colour) that
        shows under the pointer or on keyboard focus. A click copies the
-       address (scripts/site/heading-links.js), confirmed for a moment in
+       address (scripts/heading-links.ts), confirmed for a moment in
        the icon's place. */
   .anchor {
     @apply text-inherit! no-underline!;
@@ -51,7 +51,7 @@
     @apply text-muted cursor-help underline decoration-dashed underline-offset-4;
   }
 
-  /* A link to another site (CommonMark's ExternalLinkExtension): an arrow sets it
+  /* A link to another site (`external-link`, lib/markdown/index.ts): an arrow sets it
        apart from a link within the site. */
   .external-link::after {
     @apply text-muted ml-0.5 inline-block text-[0.75em] no-underline;
@@ -70,7 +70,7 @@
     @apply bg-bg fixed inset-[5%] z-60 m-0! h-[90%]! w-[90%]! max-w-none! cursor-zoom-out object-contain shadow-2xl;
   }
 
-  /* A portrait: round, no zoom (important: <x-prose> rounds every image
+  /* A portrait: round, no zoom (important: <Prose> rounds every image
        from the utilities layer). */
   .prose img.wiki-portrait {
     @apply pointer-events-none rounded-full!;

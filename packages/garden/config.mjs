@@ -1,6 +1,6 @@
 // @ts-check
 // The Astro config every site shares; each site's astro.config.mjs calls
-// `gardenConfig({ root, site, urlOf, otherSite, redirects })`.
+// `gardenConfig({ root, site, urlOf, otherSite })`.
 import { defineConfig, fontProviders } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
 import pagefind from 'astro-pagefind';
@@ -30,9 +30,8 @@ const font = (file, weight, style) => ({
  * @param {import('./lib/site.ts').SiteConfig} options.site the site's config (src/site.config.ts)
  * @param {import('./lib/entry.ts').UrlOf} options.urlOf the site's address rule (src/lib/urls.ts)
  * @param {{ root: URL, urlOf: import('./lib/entry.ts').UrlOf }} options.otherSite the other site's folder and address rule, for `[[wiki links]]` to its pages
- * @param {Record<string, string>} [options.redirects] old addresses and where they go
  */
-export function gardenConfig({ root: rootUrl, site, urlOf, otherSite, redirects = {} }) {
+export function gardenConfig({ root: rootUrl, site, urlOf, otherSite }) {
   // The `[[wiki link]]` title index, from both sites' content on disk: read once in a build, on every render in dev.
   const titles = lazyTitles({ root: rootUrl, urlOf }, { ...otherSite, url: site.otherSite.url });
 
@@ -50,7 +49,7 @@ export function gardenConfig({ root: rootUrl, site, urlOf, otherSite, redirects 
         remarkPlugins: wikiRemarkPlugins({ titles, siteUrl: site.url }),
         rehypePlugins: wikiRehypePlugins({ siteUrl: site.url }),
       }),
-      // Shiki in both modes (styles/site.css picks the colour by light-dark()), each block in its chrome.
+      // Shiki in both modes (styles/components.css picks the colour by light-dark()), each block in its chrome.
       syntaxHighlight: { type: 'shiki' },
       shikiConfig: {
         themes: { light: 'gruvbox-light-soft', dark: 'gruvbox-dark-soft' },
@@ -85,6 +84,7 @@ export function gardenConfig({ root: rootUrl, site, urlOf, otherSite, redirects 
         options: { variants: [font('aporetic-sans-mono-regular', 400, 'normal')] },
       },
     ],
-    redirects,
+    // Old addresses (site.config.ts `redirects`): Astro writes each as a meta-refresh page.
+    redirects: site.redirects ?? {},
   });
 }

@@ -285,10 +285,22 @@ describe('head and generated files', () => {
 });
 
 describe('content check', () => {
-  const run = (extra: RawEntry[] = []) =>
+  // The fixture's Explorer names a missing page on purpose (the Explorer test); a sound site does not.
+  const sound: SiteConfig = {
+    ...site,
+    navigation: {
+      ...site.navigation,
+      explorer: site.navigation.explorer.map((item) => ({
+        ...item,
+        children: item.children?.filter((c) => c.entry !== 'pages/missing'),
+      })),
+    },
+    redirects: { '/old-about': '/about', '/gone': '/essays#top', '/moved': 'https://other.test/other-page' },
+  };
+  const run = (extra: RawEntry[] = [], config: SiteConfig = sound) =>
     check({
       root: '/nowhere',
-      site,
+      site: config,
       urlOf,
       raws: [...raws, ...extra],
       other: { entries: other, url: site.otherSite.url },
@@ -314,6 +326,29 @@ describe('content check', () => {
     expect(problems).toContainEqual(expect.stringContaining('/essays/selfish: its related names itself'));
     expect(problems).toContainEqual(expect.stringContaining('its author nobody is not in site.config.ts'));
     expect(problems.join('\n')).not.toContain('Also Missing');
+  });
+  it('flags a navigation item that names no published page', () => {
+    expect(run([], site)).toEqual([
+      'navigation.explorer: pages/missing names no published page, so it would be left out.',
+    ]);
+    const drafted = { ...sound, navigation: { ...sound.navigation, header: [{ entry: 'essays/draft' }] } };
+    expect(run([], drafted)).toContainEqual(expect.stringContaining('navigation.header: essays/draft'));
+  });
+  it('flags a redirect from a page, or to a page that does not exist on either site', () => {
+    const bad = {
+      ...sound,
+      redirects: {
+        '/about': '/essays',
+        '/old': '/nowhere',
+        '/away': 'https://other.test/nothing',
+        '/out': 'https://x.test/',
+      },
+    };
+    expect(run([], bad)).toEqual([
+      "redirects: /about is a page's own address.",
+      'redirects: /old → /nowhere is not a page.',
+      'redirects: /away → https://other.test/nothing is not a page.',
+    ]);
   });
   it('flags a title used twice, on either site', () => {
     expect(run([{ collection: 'essays', id: 'x', data: { title: 'other page', date: new Date() } }])).toContainEqual(

@@ -7,13 +7,16 @@
 // (drafts too): an ordered collection's page has its `order`; a field that
 // names another entry (`collection/id`) names one that exists; its author
 // is known; its title can be linked (no `[`, `]` or `|`) and is unique
-// across both sites.
+// across both sites. Every navigation item that names an entry names a
+// published one (the Explorer, header and footer would drop it in silence),
+// and every redirect leaves an address no page uses for a page that exists
+// (on this site or the other).
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { byKey, keyOf, published, toSiteEntry, type RawEntry, type SiteEntry, type UrlOf } from './entry.ts';
 import { localTargets, wikiLinksIn } from './links.ts';
-import { pathOf, type SiteConfig } from './site.ts';
+import { pathOf, type NavItem, type SiteConfig } from './site.ts';
 import { normaliseTitle, resolveTitle, titleIndex } from './titles.ts';
 
 const ID = /^[a-z0-9-]+$/;
@@ -59,18 +62,40 @@ export function check({ root, site, urlOf, raws, other }: CheckInput): string[] 
   for (const raw of raws)
     if (!ID.test(raw.id)) problems.push(`src/content/${raw.collection}/${raw.id}.md: name it with [a-z0-9-] only.`);
 
+  // A site path a link may name: a page, a known route, or a file in public/.
+  const pathProblem = (p: string): string | null => {
+    if (p.startsWith('/media/') || p.startsWith('/resume/') || p.startsWith('/images/'))
+      return inPublic(p) ? null : `${p} is missing from public/.`;
+    return routes.test(p) || urls.has(pathOf(p)) ? null : `${p} is not a page.`;
+  };
+
+  const navItems = (items: NavItem[]): NavItem[] => items.flatMap((item) => [item, ...navItems(item.children ?? [])]);
+  for (const [menu, items] of Object.entries(site.navigation))
+    for (const item of navItems(items))
+      if (item.entry && !byKey(live, item.entry))
+        problems.push(`navigation.${menu}: ${item.entry} names no published page, so it would be left out.`);
+
+  for (const [from, to] of Object.entries(site.redirects ?? {})) {
+    if (urls.has(pathOf(from))) problems.push(`redirects: ${from} is a page's own address.`);
+    const otherBase = other.url.replace(/\/$/, '');
+    if (to.startsWith(`${otherBase}/`)) {
+      const path = pathOf(to.slice(otherBase.length));
+      if (!other.entries.some((e) => e.url === path)) problems.push(`redirects: ${from} → ${to} is not a page.`);
+      continue;
+    }
+    if (!to.startsWith('/')) continue;
+    const problem = pathProblem(decodeURIComponent(to.split(/[?#]/)[0]!));
+    if (problem) problems.push(`redirects: ${from} → ${problem}`);
+  }
+
   for (const page of live) {
     const body = page.body + '\n\n' + (page.quote ?? '');
     for (const title of wikiLinksIn(body)) {
       if (!resolveTitle(titles, title)) problems.push(`${where(page)}: [[${title}]] names no published page.`);
     }
     for (const target of localTargets(body)) {
-      const p = decodeURIComponent(target.split(/[?#]/)[0]!);
-      if (p.startsWith('/media/') || p.startsWith('/resume/') || p.startsWith('/images/')) {
-        if (!inPublic(p)) problems.push(`${where(page)}: ${p} is missing from public/.`);
-      } else if (!routes.test(p) && !urls.has(pathOf(p))) {
-        problems.push(`${where(page)}: ${p} is not a page.`);
-      }
+      const problem = pathProblem(decodeURIComponent(target.split(/[?#]/)[0]!));
+      if (problem) problems.push(`${where(page)}: ${problem}`);
     }
     if (page.title.startsWith('Sample:')) problems.push(`${where(page)}: a sample page is still here.`);
   }

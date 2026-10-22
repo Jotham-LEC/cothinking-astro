@@ -1,4 +1,4 @@
-// jothamlim.com's built site (sites/jothamlim/dist/, from `npm run build:jothamlim`): what only shows once Astro has
+// jothamlim.com's built site (sites/jothamlim/dist/, from `npm run build -w sites/jothamlim`): what only shows once Astro has
 // put the pages together. Skipped, loudly, when there is no build.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -6,7 +6,8 @@ import { describe, expect, it } from 'vitest';
 
 const dist = path.resolve(__dirname, '../dist');
 const built = fs.existsSync(path.join(dist, 'index.html'));
-if (!built) console.warn('dist/ is missing: run `npm run build:jothamlim` first; the build tests are skipped.');
+if (!built)
+  console.warn('dist/ is missing: run `npm run build -w sites/jothamlim` first; the build tests are skipped.');
 const read = (file: string) => fs.readFileSync(path.join(dist, file), 'utf8');
 const htmlIn = (dir: string): string[] =>
   fs.existsSync(path.join(dist, dir))

@@ -6,6 +6,8 @@
 // `page` for an entry's page, or `seoTitle`, `seoDescription` and
 // `seoStatus` for one without; `path` is the page's address (never
 // Astro.url). `statusline` is the status line's text.
+// Pagefind indexes what <Entry> marks with data-pagefind-body; a room has no
+// <Entry>, so its whole <main> is marked here.
 import { Font } from 'astro:assets';
 import { garden } from '../lib/load.ts';
 import type { SiteEntry } from '../lib/entry.ts';
@@ -90,7 +92,7 @@ const gtmId = import.meta.env.PROD ? (site.marketing.gtmId ?? null) : null;
       {hasDrawer && <Drawer rows={rows} menu={hasDrawer ? menu(live, site, path, rows) : []} room={room} />}
 
       {room ? (
-        <main id="main" tabindex="-1" class="py-10 focus:outline-none sm:py-14">
+        <main id="main" tabindex="-1" class="py-10 focus:outline-none sm:py-14" data-pagefind-body>
           <slot />
         </main>
       ) : (

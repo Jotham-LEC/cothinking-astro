@@ -1,7 +1,7 @@
 // A Shiki transformer that wraps each highlighted `<pre>` in the code
 // block's chrome: a header with the language and a copy button, then the
 // code. Plain HTML, so it works without JavaScript and nothing shifts when
-// the page loads; scripts/site/code-copy.js makes the button copy.
+// the page loads; scripts/code-copy.ts makes the button copy.
 import type { Root } from 'hast';
 import { h } from 'hastscript';
 import type { ShikiTransformer } from 'shiki';

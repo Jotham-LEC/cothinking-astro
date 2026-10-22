@@ -1,5 +1,5 @@
-// The cothinking Worker: only static assets, the site's dist/ (npm run build:cothinking).
-// Deploy with npm run deploy:cothinking. 404.html answers a missing page with a 404;
+// The cothinking Worker: only static assets, the site's dist/ (npm run build -w sites/cothinking).
+// Deploy with npm run deploy -w sites/cothinking. 404.html answers a missing page with a 404;
 // addresses have no trailing slash, as Caddy served them.
 {
   "$schema": "../../node_modules/wrangler/config-schema.json",

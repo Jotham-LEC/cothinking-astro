@@ -2,7 +2,7 @@
 // `<a class="anchor" href="#id">`; a heading that already holds a link gets
 // an empty named link after it instead. The link icon is CSS
 // (`.anchor::after`, styles/components.css); a click copies the address
-// (scripts/site/heading-links.js).
+// (scripts/heading-links.ts).
 import type { Element, Root } from 'hast';
 import { toString } from 'hast-util-to-string';
 import { h } from 'hastscript';

@@ -47,6 +47,8 @@ export type SiteConfig = {
   footerText: string;
   collections: Record<string, CollectionConfig>;
   navigation: { explorer: NavItem[]; header: NavItem[]; footer: NavItem[] };
+  /** Old addresses and where they go: Astro writes each as a meta-refresh page (garden/config.mjs). */
+  redirects?: Record<string, string>;
   /** Who writes the articles (an entry's `author`), by id. */
   authors: Record<string, Author>;
   /** The owner's other site: `[[wiki links]]` reach its pages, and the JSON-LD names it. */

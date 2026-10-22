@@ -39,7 +39,18 @@ async function run({ page, BASE, check, shots }) {
   );
   check('code highlighted in both themes', (await page.locator('main .astro-code[style*="--shiki-dark"]').count()) > 0);
   await page.locator('main .code-block-copy').first().click();
-  check('copy button copies', (await page.locator('main .code-block-copy').first().textContent()) === 'Copied');
+  // The clipboard write resolves after the click, so wait for the label rather than read it at once.
+  check(
+    'copy button copies',
+    await page
+      .waitForFunction(() => document.querySelector('main .code-block-copy')?.textContent === 'Copied', null, {
+        timeout: 2000,
+      })
+      .then(
+        () => true,
+        () => false,
+      ),
+  );
   await page.goto(`${BASE}/essays/being-personal-in-the-workplace`, { waitUntil: 'networkidle' });
 
   // Theme

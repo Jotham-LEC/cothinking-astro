@@ -12,7 +12,7 @@ is what Astro ships; the custom parts are listed under "What is custom".
 ```
 package.json           workspaces: packages/garden, sites/*; root scripts run both sites
 packages/garden/       @cothinking/garden: the shared code and its runtime dependencies (no site's name in it)
-  config.mjs           gardenConfig({ root, site, urlOf, otherSite, redirects }): the Astro config both sites use
+  config.mjs           gardenConfig({ root, site, urlOf, otherSite }): the Astro config both sites use
   content.ts           the schema pieces: base(image), seo, dated, enumOf, loader
   lib/                 the garden layer, plain TypeScript (tests cover it): see "How a page is built"
   lib/markdown/        the remark/rehype plugins and the Shiki transformer
@@ -22,8 +22,8 @@ packages/garden/       @cothinking/garden: the shared code and its runtime depen
   assets/              fonts (woff2 for the pages, ttf for the cards), icons (SVG components), portrait.jpg
   tests/               markdown, garden (the lib on a made-up site), sites (both real sites), tokens
 sites/<site>/          one Astro root each: jothamlim, cothinking
-  astro.config.mjs     gardenConfig(...) with the site's redirects
-  src/site.config.ts   the site: name, URL, collections, navigation, authors, SEO, marketing (`satisfies SiteConfig`)
+  astro.config.mjs     gardenConfig(...) with the site's config and the other site's folder
+  src/site.config.ts   the site: name, URL, collections, navigation, redirects, authors, SEO, marketing (`satisfies SiteConfig`)
   src/lib/urls.ts      urlOf(collection, id): where an entry lives
   src/lib/entries.ts   loadEntries() for the garden, and otherEntries() (the other site, for [[wiki links]])
   src/content.config.ts  the collections' schemas (zod, strict)
@@ -73,7 +73,9 @@ from `lib/seo.ts`.
   outside a room: `styles/shell.css`); the palette and keys card are
   `<dialog closedby="any">`, opened with `showModal()`, which puts an open
   drawer away. Reader mode is `<html data-hide-explorer data-hide-rail>`; a
-  room is `.shell[data-room]`; the status line's mode is `:has()` CSS.
+  room is `.shell[data-room]` (its whole `<main>` is in the search index, as
+  no `<Entry>` marks it); the status line's mode is CSS (READER from
+  `html[data-hide-explorer]`, SEARCH from `body:has(#palette[open])`).
 - **Never use `Astro.url`** for a page's address: `build.format: 'file'`
   makes it `/x.html`. Pass `path`.
 
@@ -128,7 +130,7 @@ build). The share cards read their four colours off `tokens.css`
 
 ```sh
 npm run check         # both sites: astro sync, astro check (0 errors expected)
-npm test              # vitest: the markdown pipeline, the lib, both sites' content (check.ts), tokens, and dist/ when built
+npm test              # vitest: the markdown pipeline, the lib, both sites' content, navigation and redirects (check.ts), tokens, and dist/ when built
 npm run build         # both sites, each into sites/<site>/dist; `-- --force` after changing a Markdown plugin (see Verify)
 npm run dev           # both sites' astro dev in the background: jothamlim :4321, cothinking :4322
 npm run preview       # both sites' last build: jothamlim :4331, cothinking :4332

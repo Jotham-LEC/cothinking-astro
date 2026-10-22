@@ -1,4 +1,4 @@
-// cothink.ing's built site (sites/cothinking/dist/, from `npm run build:cothinking`):
+// cothink.ing's built site (sites/cothinking/dist/, from `npm run build -w sites/cothinking`):
 // what only shows once Astro has put the pages together. Skipped, loudly, when there is no build.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -7,7 +7,9 @@ import { describe, expect, it } from 'vitest';
 const dist = path.resolve(__dirname, '../dist');
 const built = fs.existsSync(path.join(dist, 'index.html'));
 if (!built)
-  console.warn('sites/cothinking/dist is missing: run `npm run build:cothinking`; its build tests are skipped.');
+  console.warn(
+    'sites/cothinking/dist is missing: run `npm run build -w sites/cothinking`; its build tests are skipped.',
+  );
 const read = (file: string) => fs.readFileSync(path.join(dist, file), 'utf8');
 
 describe.skipIf(!built)('the cothink.ing build', () => {

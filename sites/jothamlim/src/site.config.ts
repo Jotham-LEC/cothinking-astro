@@ -45,6 +45,15 @@ export const site = {
     header: [{ title: 'Work with me', url: 'https://cothink.ing' }],
     footer: [],
   },
+  // The old site's addresses and where they go (Astro writes each as a meta-refresh page; the
+  // content check confirms each target exists). /blog/{slug} is src/pages/blog/[slug].astro.
+  redirects: {
+    '/about': '/',
+    '/connect': '/',
+    '/cothinking': 'https://cothink.ing',
+    '/projects/ultimate-circle': 'https://cothink.ing/work/ultimate-circle',
+    '/web-development': '/projects',
+  },
   authors: {},
   otherSite: { name: 'CoThinking', url: 'https://cothink.ing' },
   seo: {

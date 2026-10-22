@@ -9,13 +9,4 @@ export default gardenConfig({
   site,
   urlOf,
   otherSite: { root: new URL('../cothinking/', import.meta.url), urlOf: otherUrlOf },
-  // The old site's addresses and where they go (Astro writes each as a
-  // meta-refresh page); /blog/{slug} is src/pages/blog/[slug].astro.
-  redirects: {
-    '/about': '/',
-    '/connect': '/',
-    '/cothinking': 'https://cothink.ing',
-    '/projects/ultimate-circle': 'https://cothink.ing/work/ultimate-circle',
-    '/web-development': '/projects',
-  },
 });

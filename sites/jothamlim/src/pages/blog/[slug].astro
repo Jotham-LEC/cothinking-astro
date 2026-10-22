@@ -1,6 +1,9 @@
 ---
 // /blog/{slug}: the old blog's address for every essay, note and publication,
-// each a redirect page to where the piece lives now.
+// each a redirect page to where the piece lives now. In a static build
+// Astro.redirect() writes a meta-refresh page, served with status 200 like the
+// `redirects` in site.config.ts (the owner's choice). The 301 is never sent;
+// it makes the refresh instant, which Google reads as permanent (a 302 waits 2s).
 import { garden } from '@garden/lib/load.ts';
 
 export async function getStaticPaths() {

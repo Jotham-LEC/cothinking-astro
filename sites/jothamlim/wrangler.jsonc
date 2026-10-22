@@ -1,5 +1,5 @@
-// The jothamlim Worker: only static assets, the site's dist/ (npm run build:jothamlim).
-// Deploy with npm run deploy:jothamlim. 404.html answers a missing page with a 404;
+// The jothamlim Worker: only static assets, the site's dist/ (npm run build -w sites/jothamlim).
+// Deploy with npm run deploy -w sites/jothamlim. 404.html answers a missing page with a 404;
 // addresses have no trailing slash, as Caddy served them.
 {
   "$schema": "../../node_modules/wrangler/config-schema.json",
