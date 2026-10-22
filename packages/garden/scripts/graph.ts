@@ -24,12 +24,14 @@ type Local = { current: Node; nodes: SimNode[]; links: { source: string; target:
 
 /** A colour token (a collection's `graphColour`) → the utility that carries its colour, written out in full so Tailwind generates them. */
 const COLOURS: Record<string, string> = {
-  essays: 'text-graph-essays',
-  notes: 'text-graph-notes',
-  publications: 'text-graph-publications',
-  projects: 'text-graph-projects',
-  pages: 'text-graph-pages',
+  1: 'text-graph-1',
+  2: 'text-graph-2',
+  3: 'text-graph-3',
+  4: 'text-graph-4',
+  5: 'text-graph-5',
 };
+/** The site's own pages (no section, or a section without a colour). */
+const PAGES = '5';
 
 function colorOf(className: string): string {
   const probe = document.createElement('span');
@@ -303,7 +305,7 @@ function legend(mount: HTMLElement, graph: Local, colourOf: (node: Node) => stri
     dot.className = `${className} mr-1`;
     dot.setAttribute('aria-hidden', 'true');
     dot.textContent = '●';
-    item.append(dot, (token !== 'pages' && titles[token]) || 'pages');
+    item.append(dot, (token !== PAGES && titles[token]) || 'pages');
     list.appendChild(item);
   }
   mount.appendChild(list);
@@ -311,10 +313,10 @@ function legend(mount: HTMLElement, graph: Local, colourOf: (node: Node) => stri
 
 /** The rail's graph, its zoom buttons, and the dialog that shows it larger with every page named (a fresh copy, laid out again at that size). */
 function mountGraph(mount: HTMLElement, data: Data) {
-  const sectionColours: Record<string, string> = JSON.parse(mount.dataset.graphColours ?? '{}');
+  const sectionColours: Record<string, number> = JSON.parse(mount.dataset.graphColours ?? '{}');
   const colourOf = (node: Node) => {
-    const token = sectionColours[node.section] ?? 'pages';
-    return token in COLOURS ? token : 'pages';
+    const token = String(sectionColours[node.section] ?? PAGES);
+    return token in COLOURS ? token : PAGES;
   };
   const make = () => neighbourhood(data, mount.dataset.graph!, mount.dataset.graphSection ?? null);
   const graph = make();

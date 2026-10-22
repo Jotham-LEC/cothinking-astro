@@ -8,7 +8,6 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { wikiRehypePlugins, wikiRemarkPlugins } from './lib/markdown/index.ts';
 import { codeBlock } from './lib/markdown/shiki-code-block.ts';
-import { urlFor } from './lib/entry.ts';
 import { lazyTitles, scanEntries } from './lib/scan.ts';
 import { sitemapOptions } from './lib/sitemap.ts';
 
@@ -57,11 +56,10 @@ const sharedRoutes = {
  * @param {import('./lib/site.ts').SiteConfig} options.otherSite the other site's config (sites/<site.otherSite.folder>), for `[[wiki links]]` to its pages
  */
 export function gardenConfig({ root: rootUrl, site, otherSite }) {
-  const urlOf = urlFor(site);
   // The `[[wiki link]]` title index, from both sites' content on disk: read once in a build, on every render in dev.
   const titles = lazyTitles(
-    { root: rootUrl, urlOf },
-    { root: new URL(`../${site.otherSite.folder}/`, rootUrl), urlOf: urlFor(otherSite), url: site.otherSite.url },
+    { root: rootUrl, site },
+    { root: new URL(`../${site.otherSite.folder}/`, rootUrl), site: otherSite, url: site.otherSite.url },
   );
 
   return defineConfig({
@@ -86,7 +84,7 @@ export function gardenConfig({ root: rootUrl, site, otherSite }) {
         transformers: [codeBlock()],
       },
     },
-    integrations: [sharedRoutes, sitemap(sitemapOptions(scanEntries(rootUrl, urlOf), site)), pagefind()],
+    integrations: [sharedRoutes, sitemap(sitemapOptions(scanEntries(rootUrl, site), site)), pagefind()],
     vite: { plugins: [tailwindcss()] },
     // Sans for everything (400 and 700 with italics, 800 for headings), Sans Mono for code; layouts/Layout.astro loads them.
     fonts: [

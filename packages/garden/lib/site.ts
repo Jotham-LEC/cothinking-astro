@@ -21,17 +21,18 @@ export type CollectionConfig = {
   feed?: boolean;
   /** How listings order the pages: newest first, or by their `order` field. */
   order: 'date' | 'order';
-  /** The Explorer lists only the pages with a body. */
-  explorer?: 'with-body';
-  /** The Explorer groups the pages by year, or by their `category` (`categories`, in order). */
-  groupBy?: 'year' | 'category';
+  /**
+   * What the section's Explorer folder holds: every page (`all`, the default), only those with a body, a group per
+   * year, a group per `category` (`categories`, in order), or a row per post type in use (`types`).
+   */
+  explorer?: 'all' | 'with-body' | 'by-year' | 'by-category' | 'by-type';
   categories?: Record<string, string>;
-  /** Post types (a note's `type`), handle → title; the Explorer lists a row per type in use. */
+  /** Post types (an entry's `type`), handle → title, the first the default. A collection with types is a stream of posts, like notes: its pages are paged by date and print no "last updated". */
   types?: Record<string, string>;
   /** The landing page's graph holds the whole section, not only its neighbours. */
   graphSection?: boolean;
-  /** The graph's colour for the pages: a `--site-graph-*` token (garden/styles/tokens.css); `pages` otherwise. */
-  graphColour?: 'essays' | 'notes' | 'publications' | 'projects' | 'pages';
+  /** The graph's colour for the pages: `--site-graph-<n>` (garden/styles/tokens.css); 5 otherwise, as the site's own pages. */
+  graphColour?: 1 | 2 | 3 | 4 | 5;
 };
 
 export type SiteConfig = {

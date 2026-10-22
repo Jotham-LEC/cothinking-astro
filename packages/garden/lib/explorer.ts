@@ -1,9 +1,9 @@
 // The Explorer: the site as one tree, from the `explorer` navigation. A nav
 // item whose page is a section's landing page is a folder holding that
-// section's pages, as the collection's config says: one row per post type
-// in use (`types`), a group per year (`groupBy: 'year'`), a group per
-// category, A–Z, "Other" last (`groupBy: 'category'`), or only the pages
-// with a body (`explorer: 'with-body'`). At each level single pages come
+// section's pages, as the collection's `explorer` says: every page (`all`),
+// one row per post type in use (`by-type`), a group per year (`by-year`), a
+// group per category, A–Z, "Other" last (`by-category`), or only the pages
+// with a body (`with-body`). At each level single pages come
 // before folders; text-only items holding nothing are dropped, so are
 // drafts. Also the header, drawer and footer links, and which panels a page
 // has.
@@ -63,33 +63,35 @@ export function explorerRows(live: SiteEntry[], site: SiteConfig): Row[] {
   const folder = (landing: SiteEntry, section: string, title: string): Row => {
     const config = site.collections[section]!;
     const pages = childrenOf(section, live, site);
-    let children: Row[];
-    if (config.types) {
-      children = noteTypesInUse(live, section, config.types).map(([handle, name]) =>
-        group(name, `${landing.url}/type/${handle}`, [], null, 'type'),
-      );
-    } else if (config.groupBy === 'year') {
-      children = byYear(pages).map(([y, pieces]) =>
-        group(
-          y,
-          `${landing.url}#${y}`,
-          pieces.map((p) => row(p)),
-        ),
-      );
-    } else if (config.groupBy === 'category') {
-      children = byCategory(pages, config.categories ?? {}).map((c) =>
-        group(
-          c.title,
-          `${landing.url}#${c.handle}`,
-          c.entries.map((p) => row(p)),
-        ),
-      );
-    } else if (config.explorer === 'with-body') {
-      children = pages.filter((p) => p.body.trim() !== '').map((p) => row(p));
-    } else {
-      children = pages.map((p) => row(p));
-    }
-    return group(title, landing.url, children, keyOf(landing));
+    const children = (): Row[] => {
+      switch (config.explorer ?? 'all') {
+        case 'by-type':
+          return noteTypesInUse(live, section, config.types ?? {}).map(([handle, name]) =>
+            group(name, `${landing.url}/type/${handle}`, [], null, 'type'),
+          );
+        case 'by-year':
+          return byYear(pages).map(([y, pieces]) =>
+            group(
+              y,
+              `${landing.url}#${y}`,
+              pieces.map((p) => row(p)),
+            ),
+          );
+        case 'by-category':
+          return byCategory(pages, config.categories ?? {}).map((c) =>
+            group(
+              c.title,
+              `${landing.url}#${c.handle}`,
+              c.entries.map((p) => row(p)),
+            ),
+          );
+        case 'with-body':
+          return pages.filter((p) => p.body.trim() !== '').map((p) => row(p));
+        case 'all':
+          return pages.map((p) => row(p));
+      }
+    };
+    return group(title, landing.url, children(), keyOf(landing));
   };
 
   return navRows(site.navigation.explorer);

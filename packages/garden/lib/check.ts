@@ -14,7 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { byKey, keyOf, published, toSiteEntry, urlFor, type RawEntry, type SiteEntry } from './entry.ts';
+import { byKey, keyOf, published, toSiteEntry, type RawEntry, type SiteEntry } from './entry.ts';
 import { firstHeadingDepth, localTargets, wikiLinksIn } from './links.ts';
 import { pathOf, type NavItem, type SiteConfig } from './site.ts';
 import { normaliseTitle, resolveTitle, titleIndex } from './titles.ts';
@@ -33,13 +33,20 @@ export type CheckInput = {
 export function check({ root, site, raws, other }: CheckInput): string[] {
   const dir = typeof root === 'string' ? root : fileURLToPath(root);
   const problems: string[] = [];
-  const entries = raws.map((raw) => toSiteEntry(raw, urlFor(site)));
+  const entries = raws.map((raw) => toSiteEntry(raw, site));
   const live = published(entries);
   const titles = titleIndex(live, other.entries, other.url);
   const urls = new Set(live.map((p) => p.url));
   const where = (p: SiteEntry) => p.url;
   const inPublic = (file: string) =>
     fs.existsSync(path.join(dir, 'public', decodeURIComponent(file.split(/[?#]/)[0]!)));
+  // public/'s folders (/media/, /images/…): a link into one names a file, not a page.
+  const publicDirs = fs.existsSync(path.join(dir, 'public'))
+    ? fs
+        .readdirSync(path.join(dir, 'public'), { withFileTypes: true })
+        .filter((d) => d.isDirectory())
+        .map((d) => `/${d.name}/`)
+    : [];
   const routes = new RegExp(
     `^/(${[
       ...Object.entries(site.collections).flatMap(([c, config]) =>
@@ -63,8 +70,7 @@ export function check({ root, site, raws, other }: CheckInput): string[] {
 
   // A site path a link may name: a page, a known route, or a file in public/.
   const pathProblem = (p: string): string | null => {
-    if (p.startsWith('/media/') || p.startsWith('/resume/') || p.startsWith('/images/'))
-      return inPublic(p) ? null : `${p} is missing from public/.`;
+    if (publicDirs.some((d) => p.startsWith(d))) return inPublic(p) ? null : `${p} is missing from public/.`;
     return routes.test(p) || urls.has(pathOf(p)) ? null : `${p} is not a page.`;
   };
 

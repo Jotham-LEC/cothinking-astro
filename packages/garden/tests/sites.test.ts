@@ -31,10 +31,10 @@ const otherOf = (s: Loaded) =>
 
 describe.each(loaded)('$name', (s) => {
   const raws = scanRaw(s.root);
-  const entries = raws.map((r) => toSiteEntry(r, urlFor(s.site)));
+  const entries = raws.map((r) => toSiteEntry(r, s.site));
   const live = published(entries);
   const other = otherOf(s);
-  const otherEntries = other ? published(scanRaw(other.root).map((r) => toSiteEntry(r, urlFor(other.site)))) : [];
+  const otherEntries = other ? published(scanRaw(other.root).map((r) => toSiteEntry(r, other.site))) : [];
   const dist = path.join(s.root, 'dist');
 
   it('names its other site, which is in sites/ too', () => {

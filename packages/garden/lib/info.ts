@@ -1,5 +1,6 @@
 // What an entry's page says about the entry beyond its fields: its section
-// and that section's feed, whether it is a note or the home page, where it
+// and that section's feed, whether it is a post (a collection with `types`,
+// such as notes) or the home page, where it
 // was first published (`seo.canonical`), and the eyebrow (date and reading
 // time, on a section's pages only).
 import { day } from './dates.ts';
@@ -40,7 +41,7 @@ export function pageInfo(entry: SiteEntry, site: SiteConfig): PageInfo {
     section,
     feedTitle: feed?.title ?? null,
     feedUrl: feed?.url ?? null,
-    isNote: entry.collection === 'notes',
+    isNote: site.collections[entry.collection]?.types !== undefined,
     isHome: entry.url === '/',
     source,
     sourceDate: source && dayText ? `, ${dayText}` : '',
