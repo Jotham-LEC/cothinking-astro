@@ -3,8 +3,9 @@
 // page, so a refactor can be checked against the build before it
 // (scripts/diff-snapshot.mjs). Reads sites/<site>/dist: for each HTML page its
 // head (title, description, canonical, robots, og:type, og:image, the JSON-LD
-// node types), headings (level, id, text), internal links, and where a
-// redirect page sends you; robots.txt and llms.txt whole; the feeds' items;
+// node types), every <meta> as `head`, the JSON-LD graph whole as `jsonld`,
+// headings (level, id, text), internal links, the text of <main> as `body`,
+// and where a redirect page sends you; robots.txt and llms.txt whole; the feeds' items;
 // the sitemap's addresses; the graph's nodes and links.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -53,14 +54,20 @@ function page(html) {
   const canonical = /<link rel="canonical" href="([^"]*)">/.exec(html);
   const ld = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(html);
   let jsonLdTypes = [];
+  let jsonld = null;
   if (ld) {
     try {
-      const graph = JSON.parse(ld[1])['@graph'] ?? [];
-      jsonLdTypes = graph.map((n) => n['@type']);
+      jsonld = JSON.parse(ld[1])['@graph'] ?? [];
+      jsonLdTypes = jsonld.map((n) => n['@type']);
     } catch {
       jsonLdTypes = ['(invalid JSON-LD)'];
     }
   }
+  const head = Object.fromEntries(
+    [...html.slice(0, html.indexOf('</head>')).matchAll(/<meta\s[^>]*>/g)]
+      .map((m) => [attr(m[0], 'name') ?? attr(m[0], 'property'), attr(m[0], 'content')])
+      .filter(([key]) => key !== null),
+  );
   const main = html.slice(html.indexOf('<main'), html.lastIndexOf('</main>'));
   const headings = [...main.matchAll(/<h([1-6])\b([^>]*)>([\s\S]*?)<\/h\1>/g)].map((m) => ({
     level: Number(m[1]),
@@ -76,8 +83,11 @@ function page(html) {
     ogType: meta(html, 'property', 'og:type'),
     ogImage: meta(html, 'property', 'og:image'),
     jsonLdTypes,
+    head,
+    jsonld,
     headings,
     internalLinks,
+    body: text(main.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, '')),
   };
 }
 

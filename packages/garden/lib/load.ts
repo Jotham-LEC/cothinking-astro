@@ -5,6 +5,7 @@
 // layouts/Layout.astro) are the whole contract between a site and the garden.
 import { getEntry, render, type CollectionKey } from 'astro:content';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
+// `@site/*` is the site being built: each site's tsconfig.json maps it to its own src/ (AGENTS.md, "Aliases").
 import { site } from '@site/site.config.ts';
 import { loadEntries, otherEntries } from '@site/lib/entries.ts';
 import { byUrl, keyOf, published, type SiteEntry } from './entry.ts';
