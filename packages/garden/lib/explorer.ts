@@ -9,7 +9,7 @@
 // has.
 import { byKey, byYear, childrenOf, keyOf, mountedOn, type SiteEntry } from './entry.ts';
 import { naturalCompare } from './natural.ts';
-import { pathOf, type NavItem, type SiteConfig } from './site.ts';
+import { isExternal, pathOf, type NavItem, type SiteConfig } from './site.ts';
 
 export type Row = {
   id: string | null;
@@ -133,14 +133,18 @@ export function urlsIn(row: Row): string[] {
 
 export type Link = { title: string; url: string; isCurrent: boolean };
 
-/** The header navigation's links. */
+/** The header navigation's links; one to another site is never the current page. */
 export function headerLinks(live: SiteEntry[], site: SiteConfig, currentUrl: string | null): Link[] {
   return site.navigation.header.flatMap((item) => {
     const entry = byKey(live, item.entry);
     const url = entry?.url ?? item.url;
     if (!url || (item.entry && !entry)) return [];
     return [
-      { title: item.title ?? entry?.title ?? '', url, isCurrent: currentUrl !== null && pathOf(url) === currentUrl },
+      {
+        title: item.title ?? entry?.title ?? '',
+        url,
+        isCurrent: currentUrl !== null && !isExternal(url, site.url) && pathOf(url) === currentUrl,
+      },
     ];
   });
 }

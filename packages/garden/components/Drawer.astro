@@ -1,0 +1,49 @@
+---
+// The Explorer's panel: a popover the header's menu button opens, which is
+// a drawer from the right below lg and in a room (light-dismissed, the page
+// behind it inert, no JavaScript needed to open it), and the sticky left
+// column from lg outside a room (styles/shell.css). It holds the header's
+// links the header has no room for yet (`menu`), then the Explorer tree.
+import type { Link, Row } from '../lib/explorer.ts';
+import XMark from '../assets/icons/x-mark.svg';
+import Explorer from './Explorer.astro';
+type Props = { rows: Row[]; menu: Link[]; room: boolean };
+const { rows, menu, room } = Astro.props;
+---
+
+<aside id="explorer" popover aria-label="Site navigation">
+  {/* Open, the drawer covers the menu button, so it has its own. */}
+  <button
+    class:list={[
+      'text-muted hover:bg-bg-elev hover:text-fg absolute top-3 right-3 flex size-11 items-center justify-center rounded-lg',
+      { 'lg:hidden': !room },
+    ]}
+    type="button"
+    popovertarget="explorer"
+    popovertargetaction="hide"
+    aria-label="Close navigation"
+  >
+    <XMark class="size-5" aria-hidden="true" />
+  </button>
+  {/* The column is a frame that holds its rule; the tree scrolls inside it. */}
+  <div class:list={['h-full overflow-y-auto px-4 pt-20 pb-8', { 'lg:pt-10 lg:pr-5 lg:pl-0': !room }]} data-explorer-scroll>
+    {menu.length > 0 && (
+      <nav class="border-rule mb-6 border-b pb-4 text-sm xl:hidden" aria-label="Menu" data-drawer-menu>
+        <ul class="space-y-1">
+          {menu.map((link) => (
+            <li>
+              <a
+                href={link.url}
+                aria-current={link.isCurrent ? 'page' : undefined}
+                class="text-heading hover:bg-bg-elev aria-[current=page]:bg-accent-soft block rounded-md px-2 py-1.5 font-semibold no-underline pointer-coarse:py-2.5"
+              >
+                {link.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+    {rows.length > 0 && <Explorer rows={rows} />}
+  </div>
+</aside>

@@ -2,13 +2,13 @@
    for it: what the Markdown plugins emit (garden/lib/markdown), what content
    authors write in raw HTML, what the JS builds (palette results, hover
    previews) and the state classes it toggles on that markup. Everything a
-   component writes, including its states (`in-[.nav-open]:`,
-   `group-[.is-collapsed]/folder:`, `[&.is-active]:`, `print:`), is utilities
-   in the .astro files; rendered Markdown's own look is the typography plugin,
+   component writes, including its states (`group-[.is-collapsed]/folder:`,
+   `[&.is-active]:`, `print:`), is utilities in the .astro files, and the
+   shell's layout is shell.css; rendered Markdown's own look is the typography plugin,
    set up in garden/components/Prose.astro. Colours are tokens; a few rules
    are plain CSS where @apply has nothing to say (masks, pseudo-elements,
    media queries). Parts of this are adapted from Laradocs
-   (garden/scripts/LICENSE-laradocs.md). */
+   (scripts/LICENSE-laradocs.md). */
 @layer components {
   /* ── Prose extras the typography plugin does not do ─────────────── */
 
@@ -76,29 +76,6 @@
     @apply pointer-events-none rounded-full!;
   }
 
-  /* A black logo has a light twin for dark mode. */
-  .wiki-logo-dark {
-    display: none;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light']) .wiki-logo-light {
-      display: none;
-    }
-
-    :root:not([data-theme='light']) .wiki-logo-dark {
-      display: block;
-    }
-  }
-
-  :root[data-theme='dark'] .wiki-logo-light {
-    display: none;
-  }
-
-  :root[data-theme='dark'] .wiki-logo-dark {
-    display: block;
-  }
-
   /* ── Code blocks: the chrome lib/markdown/shiki-code-block.ts draws ── */
 
   .code-block {
@@ -164,11 +141,6 @@
     --callout-color: var(--color-danger);
   }
 
-  .callout-note,
-  .callout-info {
-    --callout-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M12 16v-4'/><path d='M12 8h.01'/></svg>");
-  }
-
   .callout-tip {
     --callout-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M9 18h6'/><path d='M10 22h4'/><path d='M12 2a7 7 0 0 0-4 12.7c.9.7 1.4 1.7 1.5 2.8h5c.1-1.1.6-2.1 1.5-2.8A7 7 0 0 0 12 2z'/></svg>");
   }
@@ -186,13 +158,16 @@
     --callout-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='m4.9 4.9 14.2 14.2'/></svg>");
   }
 
-  /* ── Buttons written in content (`<a class="button">`) ─────────── */
-  /* Markdown cannot use <x-button>, so this matches it. The typography
-       plugin colours every link in .prose from the utilities layer, which
-       beats this one: the colour and underline must be important. */
+  /* ── Buttons: components/Button.astro, and `<a class="button">` in content ── */
+  /* The typography plugin colours every link in .prose from the utilities
+       layer, which beats this one: the colour and underline must be important. */
 
   .button {
     @apply rounded-site bg-button-bg text-button-fg! inline-flex items-center gap-2 px-4 py-2.5 font-sans text-sm font-bold no-underline! transition hover:brightness-95;
+  }
+
+  .button-secondary {
+    @apply border-subtle text-heading! hover:bg-bg border bg-transparent hover:brightness-100;
   }
 
   .button + .button {
@@ -217,7 +192,7 @@
     @apply text-muted mt-2 text-sm;
   }
 
-  /* ── The page shell's state, toggled by the JS ─────────────────── */
+  /* ── What the scripts build or mark ────────────────────────────── */
 
   /* The palette's highlighted result: its list mixes the view's pages
        with results the JS builds. */

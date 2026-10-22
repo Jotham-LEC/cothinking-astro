@@ -1,0 +1,194 @@
+/* The page shell (layouts/Layout.astro): the Explorer, the page and the
+   rail as a grid from lg, and what reader mode does to it. Reader mode is
+   <html data-hide-explorer data-hide-rail> (scripts/reader.ts; the head
+   script sets them before first paint from the last choice). A room
+   (<div class="shell" data-room>) has no columns: it takes the full width.
+   Plain CSS, as the states are on <html>, which no utility can reach. */
+
+.shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 90rem;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 40rem) {
+  .shell {
+    padding-inline: 1.5rem;
+  }
+}
+
+/* Putting a column away shrinks its track to nothing, so the page eases
+   into the space; each track holds its column's 17rem plus the gap. */
+@media (min-width: 64rem) {
+  .shell:not([data-room]) {
+    display: grid;
+    grid-template-columns: 19.5rem minmax(0, 1fr);
+    overflow-x: clip;
+    transition: grid-template-columns 150ms ease-out;
+  }
+
+  html[data-hide-explorer] .shell:not([data-room]) {
+    grid-template-columns: 0 minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 80rem) {
+  .shell:not([data-room]) {
+    grid-template-columns: 19.5rem minmax(0, 1fr) 19.5rem;
+  }
+
+  html[data-hide-explorer] .shell:not([data-room]) {
+    grid-template-columns: 0 minmax(0, 1fr) 19.5rem;
+  }
+
+  html[data-hide-rail] .shell:not([data-room]) {
+    grid-template-columns: 19.5rem minmax(0, 1fr) 0;
+  }
+
+  html[data-hide-explorer][data-hide-rail] .shell:not([data-room]) {
+    grid-template-columns: 0 minmax(0, 1fr) 0;
+  }
+}
+
+/* The Explorer (components/Drawer.astro) is a popover: a drawer from the
+   right, light-dismissed, that the menu button opens declaratively. The
+   browser's popover box is reset to a full-height panel on the right. */
+#explorer {
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: 18rem;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid var(--site-rule);
+  background: var(--site-bg);
+  color: var(--site-fg);
+}
+
+#explorer::backdrop {
+  background: color-mix(in srgb, var(--site-fg) 30%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+/* From lg, outside a room, it is the sticky left column instead, shown
+   whether or not the popover is open; reader mode slides it away. */
+@media (min-width: 64rem) {
+  .shell:not([data-room]) #explorer {
+    display: block;
+    position: sticky;
+    inset: auto;
+    top: 3.5rem;
+    z-index: auto;
+    width: 17rem;
+    height: calc(100vh - 5rem);
+    border-left: 0;
+    border-right: 1px solid var(--site-rule);
+    transition:
+      translate 150ms ease-out,
+      opacity 150ms ease-out,
+      visibility 150ms;
+  }
+
+  html[data-hide-explorer] .shell:not([data-room]) #explorer {
+    visibility: hidden;
+    translate: -1rem 0;
+    opacity: 0;
+  }
+}
+
+/* The rail (components/Rail.astro): under the page until xl, the third
+   column from there; reader mode slides it away. */
+#rail {
+  margin-inline: auto;
+  margin-bottom: 2.5rem;
+  width: 100%;
+  max-width: 72ch;
+  border-top: 1px solid var(--site-rule);
+  padding-top: 2rem;
+}
+
+@media (min-width: 64rem) {
+  #rail {
+    grid-column-start: 2;
+  }
+}
+
+@media (min-width: 80rem) {
+  #rail {
+    position: sticky;
+    top: 3.5rem;
+    grid-column-start: 3;
+    grid-row-start: 1;
+    margin: 0;
+    justify-self: end;
+    width: 17rem;
+    max-width: none;
+    height: calc(100vh - 5rem);
+    border-top: 0;
+    border-left: 1px solid var(--site-rule);
+    padding-top: 0;
+    transition:
+      translate 150ms ease-out,
+      opacity 150ms ease-out,
+      visibility 150ms;
+  }
+
+  html[data-hide-rail] #rail {
+    visibility: hidden;
+    translate: 1rem 0;
+    opacity: 0;
+  }
+}
+
+/* The page cannot scroll under an open drawer. */
+body:has(#explorer:popover-open) {
+  overflow: hidden;
+}
+
+/* The status line's mode (components/Statusline.astro): READER while the
+   panels are away, SEARCH while the palette is open. */
+[data-status-mode]::before {
+  content: 'NORMAL';
+}
+
+html[data-hide-explorer] [data-status-mode]::before {
+  content: 'READER';
+}
+
+body:has(#palette[open]) [data-status-mode]::before {
+  content: 'SEARCH';
+}
+
+/* What shows in one colour scheme only (the theme toggle's icons, a logo's
+   dark twin, the content's `wiki-logo-light`/`-dark` diagram pairs). */
+.dark-only,
+.wiki-logo-dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme='light']) :is(.light-only, .wiki-logo-light) {
+    display: none;
+  }
+
+  html:not([data-theme='light']) :is(.dark-only, .wiki-logo-dark) {
+    display: block;
+  }
+}
+
+html[data-theme='dark'] :is(.light-only, .wiki-logo-light) {
+  display: none;
+}
+
+html[data-theme='dark'] :is(.dark-only, .wiki-logo-dark) {
+  display: block;
+}
+
+@media print {
+  #explorer,
+  #rail {
+    display: none;
+  }
+}

@@ -1,7 +1,10 @@
 ---
-// Rendered Markdown: the typography plugin with this site's element modifiers
-// (`as` is the wrapping tag).
-type Props = { as?: string; class?: string; [key: string]: unknown };
+// Rendered Markdown: the typography plugin with this site's element
+// modifiers (`as` is the wrapping tag), and the behaviours of the text:
+// hover previews of its links, images that enlarge, headings that copy their
+// address, code blocks that copy.
+import type { Polymorphic } from 'astro/types';
+type Props<Tag extends 'div' | 'article' | 'section' = 'div'> = Polymorphic<{ as: Tag }>;
 const { as: Tag = 'div', class: className, ...rest } = Astro.props;
 ---
 
@@ -20,3 +23,14 @@ const { as: Tag = 'div', class: className, ...rest } = Astro.props;
 >
   <slot />
 </Tag>
+
+<script>
+  import { initCodeCopy } from '../scripts/code-copy.ts';
+  import { initHeadingLinks } from '../scripts/heading-links.ts';
+  import { initPopovers } from '../scripts/popovers.ts';
+  import { initZoom } from '../scripts/zoom.ts';
+  initCodeCopy();
+  initHeadingLinks();
+  initPopovers();
+  initZoom();
+</script>

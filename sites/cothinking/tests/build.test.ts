@@ -19,10 +19,11 @@ describe.skipIf(!built)('the cothink.ing build', () => {
   it('draws the rooms on the terminal ground, without the rail or the status line', () => {
     for (const room of ['index.html', 'privacy.html', 'work/ultimate-circle.html']) {
       const html = read(room);
-      expect(html).toMatch(/<body[^>]*class="[^"]*bg-terminal[^"]*"[^>]*data-room/);
-      expect(html).not.toContain('data-rail');
+      expect(html).toMatch(/<body[^>]*class="[^"]*bg-terminal/);
+      expect(html).toContain('<div class="shell" data-room>');
+      expect(html).not.toContain('id="rail"');
     }
-    expect(read('wiki/speed-to-lead.html')).not.toContain('data-room');
+    expect(read('wiki/speed-to-lead.html')).toContain('<div class="shell">');
   });
   it('resizes the work tiles to 800 × 450 and the testimonial photo to 96px', () => {
     const tiles = [...read('work.html').matchAll(/<img src="(\/_astro\/[^"]+\.webp)"[^>]*width="800" height="450"/g)];

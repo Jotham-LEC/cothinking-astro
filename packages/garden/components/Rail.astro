@@ -6,9 +6,10 @@ import type { TocEntry } from '../lib/toc.ts';
 import type { GraphNode } from '../lib/graph.ts';
 import { garden } from '../lib/load.ts';
 import GraphControls from './GraphControls.astro';
+import Outline from './Outline.astro';
 type Props = { page: SiteEntry; toc: TocEntry[]; graphSection?: string | null; backlinks: GraphNode[] };
 const { page, toc, graphSection = null, backlinks } = Astro.props;
-// Each section's colour token (`graphColour` in site.config.ts), for scripts/graph.js.
+// Each section's colour token (`graphColour` in site.config.ts), for scripts/graph.ts.
 const { site } = await garden();
 const colours = JSON.stringify(
   Object.fromEntries(
@@ -18,14 +19,8 @@ const colours = JSON.stringify(
 ---
 
 <div class="space-y-8 text-sm" data-pagefind-ignore>
-  {/* This page and its neighbours one link away (scripts/graph.js); gone when it has none. `graphSection` widens it to the whole section. */}
-  <section
-    data-graph={page.url}
-    data-graph-url="/graph.json"
-    data-graph-section={graphSection ?? undefined}
-    data-graph-colours={colours}
-    hidden
-  >
+  {/* This page and its neighbours one link away (scripts/graph.ts); gone when it has none. `graphSection` widens it to the whole section. */}
+  <section data-graph={page.url} data-graph-section={graphSection ?? undefined} data-graph-colours={colours} hidden>
     <h2 class="text-heading mb-2 text-sm font-semibold lowercase">Graph</h2>
     <div class="relative">
       <canvas
@@ -38,6 +33,7 @@ const colours = JSON.stringify(
     </div>
     <dialog
       class="rounded-site border-rule bg-bg text-fg backdrop:bg-fg/30 m-auto h-[min(85vh,48rem)] w-[min(92vw,72rem)] overflow-hidden border p-0 shadow-2xl backdrop:backdrop-blur-xs"
+      closedby="any"
       aria-label="Graph"
       data-graph-dialog
     >
@@ -53,28 +49,7 @@ const colours = JSON.stringify(
     </dialog>
   </section>
 
-  <div class="hidden xl:block" data-toc>
-    {toc.length > 0 && (
-      <>
-        <h2 class="text-heading mb-2 text-sm font-semibold lowercase">On this page</h2>
-        <ul class="border-rule space-y-1 border-l">
-          {toc.map((heading) => (
-            <li>
-              <a
-                href={`#${heading.id}`}
-                class:list={[
-                  '-ml-px block border-l border-transparent py-0.5 text-muted no-underline hover:text-fg [&.is-active]:text-accent',
-                  heading.level === 2 ? 'pl-3' : 'pl-6',
-                ]}
-              >
-                {heading.text}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </>
-    )}
-  </div>
+  <Outline entries={toc} variant="rail" />
 
   {backlinks.length > 0 && (
     <section data-backlinks>
@@ -91,3 +66,8 @@ const colours = JSON.stringify(
     </section>
   )}
 </div>
+
+<script>
+  import { initGraph } from '../scripts/graph.ts';
+  initGraph();
+</script>

@@ -1,5 +1,5 @@
-/* The site's stylesheet: Tailwind v4 (Statamic's own stack), fed by the
-   tokens in tokens.css, which is the only file that names a colour.
+/* The site's stylesheet: Tailwind v4, fed by the tokens in tokens.css, which
+   is the only file that names a colour; shell.css lays out the page shell.
 
    `@theme inline` hands every --site-* token to the utilities by reference,
    so `text-accent` emits var(--site-accent). The tokens are light-dark()
@@ -17,6 +17,7 @@
 @plugin '@tailwindcss/typography';
 
 @import './tokens.css';
+@import './shell.css';
 @import './components.css';
 
 /* No stock palette: a view can only use the site's own colours. */

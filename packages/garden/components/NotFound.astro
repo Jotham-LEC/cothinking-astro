@@ -87,7 +87,7 @@ const host = new URL(site.url).host;
 
   <script>
     // The address that was asked for, and up to five pages whose text matches its last segment.
-    import { cleanUrl, loadPagefind } from '../scripts/site/pagefind.js';
+    import { cleanUrl, loadPagefind } from '../scripts/pagefind.ts';
     const root = document.querySelector('[data-not-found]');
     if (root) {
       let path = location.pathname;
@@ -100,7 +100,7 @@ const host = new URL(site.url).host;
       root.querySelectorAll('[data-not-found-url]').forEach((el) => (el.textContent = location.origin + path));
       root.querySelectorAll('[data-not-found-path]').forEach((el) => (el.textContent = path));
       const guess = (path.split('/').filter(Boolean).pop() ?? '').replace(/[-_]/g, ' ').trim();
-      const search = root.querySelector('[data-not-found-search]') as HTMLElement | null;
+      const search = root.querySelector<HTMLElement>('[data-not-found-search]');
       if (guess.length >= 2 && search) {
         search.hidden = false;
         root.querySelector('[data-not-found-guess]')!.textContent = guess;
@@ -108,11 +108,7 @@ const host = new URL(site.url).host;
         loadPagefind()
           .then(async (pagefind) => {
             const found = await pagefind.search(guess);
-            const pages = await Promise.all(
-              found.results
-                .slice(0, 5)
-                .map((r: { data: () => Promise<{ url: string; meta: { title: string } }> }) => r.data()),
-            );
+            const pages = await Promise.all(found.results.slice(0, 5).map((r) => r.data()));
             for (const page of pages) {
               const url = cleanUrl(page.url);
               const li = document.createElement('li');
@@ -126,11 +122,9 @@ const host = new URL(site.url).host;
               li.append(a, title);
               list.appendChild(li);
             }
-            (
-              root.querySelector(pages.length ? '[data-not-found-some]' : '[data-not-found-none]') as HTMLElement
-            ).hidden = false;
+            root.querySelector<HTMLElement>(pages.length ? '[data-not-found-some]' : '[data-not-found-none]')!.hidden = false;
           })
-          .catch(() => ((root.querySelector('[data-not-found-none]') as HTMLElement).hidden = false));
+          .catch(() => (root.querySelector<HTMLElement>('[data-not-found-none]')!.hidden = false));
       }
     }
   </script>

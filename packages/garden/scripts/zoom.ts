@@ -1,21 +1,19 @@
-// An image in the text (not one that is a link) is a button: a click, Enter
-// or Space enlarges it, again or Escape puts it back.
+// An image in the text (components/Prose.astro), unless it is a link, is a
+// button: a click, Enter or Space enlarges it, again or Escape puts it back
+// (`.zoomable`, styles/components.css).
 export function initZoom() {
-  document.querySelectorAll('.prose :not(a) > img').forEach(function (img) {
+  for (const img of document.querySelectorAll<HTMLImageElement>('.prose :not(a) > img')) {
     img.classList.add('zoomable');
-    var alt = img.getAttribute('alt');
     img.tabIndex = 0;
     img.setAttribute('role', 'button');
     img.setAttribute('aria-pressed', 'false');
-    img.setAttribute('aria-label', 'Enlarge image' + (alt ? ': ' + alt : ''));
-    function toggle(zoomed) {
+    img.setAttribute('aria-label', `Enlarge image${img.alt ? `: ${img.alt}` : ''}`);
+    const toggle = (zoomed: boolean) => {
       img.classList.toggle('is-zoomed', zoomed);
       img.setAttribute('aria-pressed', zoomed ? 'true' : 'false');
-    }
-    img.addEventListener('click', function () {
-      toggle(!img.classList.contains('is-zoomed'));
-    });
-    img.addEventListener('keydown', function (e) {
+    };
+    img.addEventListener('click', () => toggle(!img.classList.contains('is-zoomed')));
+    img.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         toggle(!img.classList.contains('is-zoomed'));
@@ -25,5 +23,5 @@ export function initZoom() {
         toggle(false);
       }
     });
-  });
+  }
 }

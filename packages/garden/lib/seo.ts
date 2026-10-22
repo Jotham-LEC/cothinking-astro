@@ -5,6 +5,7 @@
 import { breadcrumbs } from './breadcrumbs.ts';
 import { atom } from './dates.ts';
 import { byUrl, type SiteEntry } from './entry.ts';
+import type { Garden } from './load.ts';
 import { absolute, cardUrl, type SiteConfig } from './site.ts';
 
 const TITLE_MAX = 60;
@@ -282,6 +283,21 @@ export function head(input: HeadInput): Head {
     twitterSite: site.seo.twitterHandle ? '@' + site.seo.twitterHandle.replace(/^@/, '') : null,
     graph,
   };
+}
+
+/** The head for a page of the site (layouts/Layout.astro): an entry's, or a listing's by title and description. */
+export function seoFor(
+  g: Garden,
+  o: { page?: SiteEntry | null; path: string; status?: number; title?: string | null; description?: string | null },
+): Head {
+  return head({
+    page: o.page ?? null,
+    path: o.path,
+    site: g.site,
+    live: g.live,
+    status: o.status,
+    overrides: { title: o.title, description: o.description },
+  });
 }
 
 /** The JSON-LD with `<`, `>` and `&` as \u escapes, so it is safe inside a <script>. */

@@ -1,21 +1,19 @@
 ---
-// A call to action: the yellow button, or `secondary`, an outlined one. A link
-// with `href`, else a <button>. `not-prose` keeps its colours inside <Prose>;
-// Markdown writes `<a class="button">` instead.
-type Props = { href?: string; secondary?: boolean; type?: 'button' | 'submit' | 'reset'; [key: string]: unknown };
-const { href, secondary = false, type = 'submit', ...rest } = Astro.props;
-const classes = [
-  'not-prose rounded-site inline-flex items-center gap-2 px-4 py-2.5 font-sans text-sm font-bold no-underline transition',
-  secondary ? 'border-subtle text-heading hover:bg-bg border' : 'bg-button-bg text-button-fg hover:brightness-95',
-];
+// A call to action: the yellow button, or `secondary`, an outlined one
+// (`.button` and `.button-secondary`, styles/components.css, which Markdown
+// uses too as `<a class="button">`). A link with `href`, else a <button>.
+import type { HTMLAttributes } from 'astro/types';
+type Props = { secondary?: boolean } & (({ href: string } & HTMLAttributes<'a'>) | ({ href?: undefined } & HTMLAttributes<'button'>));
+const { secondary = false, class: className, ...rest } = Astro.props;
+const classes = ['not-prose button', { 'button-secondary': secondary }, className];
 ---
 
-{href ? (
-  <a href={href} class:list={classes} {...rest}>
+{rest.href !== undefined ? (
+  <a class:list={classes} {...(rest as HTMLAttributes<'a'>)}>
     <slot />
   </a>
 ) : (
-  <button type={type} class:list={classes} {...rest}>
+  <button type="submit" class:list={classes} {...(rest as HTMLAttributes<'button'>)}>
     <slot />
   </button>
 )}

@@ -1,12 +1,13 @@
 ---
-// The keyboard card `?` opens, a native <dialog> (scripts/site/keys.js). The
+// The keyboard card `?` opens, a native dialog (scripts/keys.ts). The
 // checkbox turns the single-key shortcuts off (WCAG 2.1.4).
 ---
 
 <dialog
+  id="keys"
   class="rounded-site border-rule-strong bg-bg text-fg backdrop:bg-fg/30 m-auto w-[min(26rem,92vw)] border p-0 text-sm shadow-2xl backdrop:backdrop-blur-xs"
+  closedby="any"
   aria-labelledby="keys-title"
-  data-keys
   data-pagefind-ignore
 >
   <div class="border-rule flex items-center justify-between border-b px-4 py-3">
@@ -65,3 +66,8 @@
     Single-key shortcuts (everything here but ⌘K)
   </label>
 </dialog>
+
+<script>
+  import { initKeys } from '../scripts/keys.ts';
+  initKeys();
+</script>

@@ -1,16 +1,21 @@
 ---
 // The header: the logo, search, the `header` navigation, reader mode, the
-// theme toggle and the menu button.
+// theme toggle and the menu button that opens the Explorer's drawer.
 import type { SiteConfig } from '../lib/site.ts';
 import type { Link } from '../lib/explorer.ts';
+import Bars from '../assets/icons/bars-3.svg';
+import BookOpen from '../assets/icons/book-open.svg';
+import MagnifyingGlass from '../assets/icons/magnifying-glass.svg';
+import Moon from '../assets/icons/moon.svg';
+import Sun from '../assets/icons/sun.svg';
 type Props = { site: SiteConfig; room: boolean; hasExplorer: boolean; hasDrawer: boolean; links: Link[] };
 const { site, room, hasExplorer, hasDrawer, links } = Astro.props;
 const last = links.length - 1;
+const icon = 'text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11';
 ---
 
 <header
   class="border-rule bg-bg/90 sticky top-0 z-30 flex min-h-14 flex-wrap items-center gap-1 border-b px-4 backdrop-blur sm:gap-3 sm:px-6 print:hidden"
-  data-header
 >
   <a class="text-heading flex shrink-0 items-center gap-2.5 font-semibold whitespace-nowrap no-underline" href="/">
     {/* The site's logo: a wordmark with its dark-mode twin, or a portrait beside the name.
@@ -24,20 +29,8 @@ const last = links.length - 1;
           width="28"
           height="28"
         />
-        <img
-          class="wiki-logo-light h-7 w-auto max-[399px]:hidden!"
-          src={site.logo}
-          alt={site.name}
-          width="122"
-          height="28"
-        />
-        <img
-          class="wiki-logo-dark h-7 w-auto max-[399px]:hidden!"
-          src={site.logoDark}
-          alt={site.name}
-          width="122"
-          height="28"
-        />
+        <img class="light-only h-7 w-auto max-[399px]:hidden!" src={site.logo} alt={site.name} width="122" height="28" />
+        <img class="dark-only h-7 w-auto max-[399px]:hidden!" src={site.logoDark} alt={site.name} width="122" height="28" />
       </>
     ) : (
       <>
@@ -52,19 +45,7 @@ const last = links.length - 1;
     class="border-rule bg-bg-elev text-muted hover:border-rule-strong hover:text-fg ml-2 hidden h-9 items-center gap-2 rounded-lg border px-3 text-sm sm:flex"
     data-palette-open
   >
-    <svg
-      class="size-4"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="11" cy="11" r="7" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
+    <MagnifyingGlass class="size-4" aria-hidden="true" />
     <span>
       <span class="text-accent font-mono" aria-hidden="true">
         $
@@ -75,25 +56,8 @@ const last = links.length - 1;
       ⌘K
     </kbd>
   </button>
-  <button
-    type="button"
-    class="text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg sm:hidden pointer-coarse:size-11"
-    aria-label="Search"
-    data-palette-open
-  >
-    <svg
-      class="size-5"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="11" cy="11" r="7" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
+  <button type="button" class:list={[icon, 'sm:hidden']} aria-label="Search" data-palette-open>
+    <MagnifyingGlass class="size-5" aria-hidden="true" />
   </button>
   {/* The header navigation: the last link is the call to action; the others show from xl, and in the drawer below it. */}
   <nav class="ml-auto flex items-center gap-1" aria-label="Header">
@@ -113,7 +77,7 @@ const last = links.length - 1;
       </a>
     ))}
   </nav>
-  {/* Reader mode, from lg: puts the Explorer and the rail away together, pressed while neither shows. Its label shows from xl. */}
+  {/* Reader mode, from lg: puts the Explorer and the rail away together, pressed while they are. Its label shows from xl. */}
   {!room && (
     <button
       class="group rounded-site border-subtle text-heading hover:bg-bg-elev aria-pressed:border-accent aria-pressed:bg-bg-elev aria-pressed:text-accent relative hidden h-9 shrink-0 items-center justify-center gap-2 border px-3 text-sm font-semibold lg:flex"
@@ -123,18 +87,7 @@ const last = links.length - 1;
       aria-keyshortcuts="z"
       data-reader-toggle
     >
-      <svg
-        class="size-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-      </svg>
+      <BookOpen class="size-5" aria-hidden="true" />
       <span class="hidden xl:inline" aria-hidden="true">
         Reader
       </span>
@@ -148,65 +101,28 @@ const last = links.length - 1;
       </span>
     </button>
   )}
-  {/* Two states, light and dark; the JS sets the state from the scheme in effect. */}
-  <button
-    class="text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11"
-    type="button"
-    data-theme-toggle
-    aria-label="Switch to dark mode"
-  >
-    <svg
-      class="[[data-theme-state=light]_&]:block hidden size-5"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-    </svg>
-    <svg
-      class="[[data-theme-state=dark]_&]:block hidden size-5"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-    </svg>
+  {/* The theme toggle shows the scheme in effect (CSS picks the icon); the script flips it. */}
+  <button class={icon} type="button" aria-label="Switch colour scheme" data-theme-toggle>
+    <Sun class="light-only size-5" aria-hidden="true" />
+    <Moon class="dark-only size-5" aria-hidden="true" />
   </button>
   {/* The menu, last as on most phones: it opens the drawer, with the header's links above the Explorer.
       From lg the Explorer is a column and from xl the links are in the header, so it goes. */}
   {hasDrawer && (
     <button
-      class:list={[
-        'text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11',
-        { 'lg:hidden': !room, 'xl:hidden': room && !hasExplorer },
-      ]}
+      class:list={[icon, { 'lg:hidden': !room, 'xl:hidden': room && !hasExplorer }]}
       type="button"
       aria-label="Menu"
-      aria-expanded="false"
-      aria-controls="explorer"
-      data-menu
+      popovertarget="explorer"
     >
-      <svg
-        class="size-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M3 6h18M3 12h18M3 18h18" />
-      </svg>
+      <Bars class="size-5" aria-hidden="true" />
     </button>
   )}
 </header>
+
+<script>
+  import { initTheme } from '../scripts/theme.ts';
+  import { initReader } from '../scripts/reader.ts';
+  initTheme();
+  initReader();
+</script>

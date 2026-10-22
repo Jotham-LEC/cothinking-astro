@@ -1,0 +1,35 @@
+---
+// The footer: the `footer` navigation as columns, then the site's footer text.
+type Props = { columns: { title: string; children: { title: string; url: string }[] }[]; text: string; room: boolean };
+const { columns, text, room } = Astro.props;
+---
+
+<footer
+  class:list={[
+    'border-rule text-muted mx-auto w-full max-w-[90rem] border-t px-4 py-8 text-sm sm:px-6',
+    { 'lg:pb-14': !room },
+  ]}
+  role="contentinfo"
+>
+  {columns.length > 0 && (
+    <nav class="mb-8 flex flex-wrap justify-center gap-x-16 gap-y-8 sm:gap-x-24" aria-label="Footer">
+      {columns.map((column) => (
+        <div>
+          <h2 class="text-heading font-sans text-sm font-semibold">{column.title}</h2>
+          {column.children.length > 0 && (
+            <ul class="mt-3 space-y-2">
+              {column.children.map((child) => (
+                <li>
+                  <a class="hover:text-fg no-underline" href={child.url}>
+                    {child.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ))}
+    </nav>
+  )}
+  <div class="text-center">{text}</div>
+</footer>
