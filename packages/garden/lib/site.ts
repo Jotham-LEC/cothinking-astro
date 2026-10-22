@@ -13,6 +13,8 @@ export type CollectionConfig = {
   title: string;
   /** The `pages` entry the collection hangs under: a section's landing page. Absent for `pages` itself. */
   landing?: string;
+  /** Where its pages live: `/<landing>` unless set (`''` puts them at the site's root, as `pages` is). */
+  path?: string;
   /** The pages are articles: `og:type` article and a JSON-LD Article node. */
   article?: boolean;
   /** The section has its own feed at /<collection>/feed.xml. */
@@ -49,8 +51,8 @@ export type SiteConfig = {
   redirects?: Record<string, string>;
   /** Who writes the articles, for the byline and the JSON-LD: the owner, named as on the other site. Absent when the publisher is the author (a Person). */
   author?: { name: string; url: string; bio: string };
-  /** The owner's other site: `[[wiki links]]` reach its pages, and the JSON-LD names it. */
-  otherSite: { name: string; url: string };
+  /** The owner's other site, and its folder under sites/: `[[wiki links]]` reach its pages, and the JSON-LD names it. */
+  otherSite: { name: string; url: string; folder: string };
   seo: {
     defaultDescription: string;
     /** Who is behind the site, for the JSON-LD: a Person or an Organization. */

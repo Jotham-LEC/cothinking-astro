@@ -12,7 +12,7 @@ is what Astro ships; the custom parts are listed under "What is custom".
 ```
 package.json           workspaces: packages/garden, sites/*; root scripts run both sites
 packages/garden/       @cothinking/garden: the shared code and its runtime dependencies (no site's name in it)
-  config.mjs           gardenConfig({ root, site, urlOf, otherSite }): the Astro config both sites use
+  config.mjs           gardenConfig({ root, site, otherSite }): the Astro config both sites use
   content.ts           the schema pieces: base(image), dated, loader (content.config.ts imports it as @garden/content.ts)
   lib/                 the garden layer, plain TypeScript (tests cover it): see "How a page is built"
   lib/markdown/        the remark/rehype plugins and the Shiki transformer
@@ -23,10 +23,8 @@ packages/garden/       @cothinking/garden: the shared code and its runtime depen
   assets/              fonts (woff2 for the pages, ttf for the cards), icons (SVG components), portrait.jpg
   tests/               markdown, garden (the lib on a made-up site), sites (both real sites), tokens
 sites/<site>/          one Astro root each: jothamlim, cothinking
-  astro.config.mjs     gardenConfig(...) with the site's config and the other site's folder
+  astro.config.mjs     gardenConfig(...) with the site's config and the other site's
   src/site.config.ts   the site: name, URL, collections, navigation, redirects, author, SEO, GTM (`satisfies SiteConfig`)
-  src/lib/urls.ts      urlOf(collection, id): where an entry lives
-  src/lib/entries.ts   loadEntries() for the garden, and otherEntries() (the other site, for [[wiki links]])
   src/content.config.ts  the collections' schemas (zod, strict)
   src/content/<collection>/<id>.md   the pages
   src/assets/media/    the pictures the content embeds (Astro optimises them)
@@ -51,14 +49,16 @@ from `lib/seo.ts`.
   `lib/load.ts` `garden()` loads them once per build: `site`,
   `live` (published), `entry(astroEntry)`, `explorer`, `graph`, `htmlOf()`. A site's view keeps its own typed Astro entry for its
   own fields and asks `g.entry(entry)` for the garden's.
-- **A site tells the garden three things**, the only `@site` imports the
-  garden makes: `src/site.config.ts` (the config), `src/lib/entries.ts` (its
-  entries) and `src/styles/site.css`. `lib/site.ts` types the config; a
-  collection's `landing` makes it a section under that page, `article`,
+- **A site tells the garden two things**, the only `@site` imports the
+  garden makes: `src/site.config.ts` (the config) and `src/styles/site.css`.
+  `garden()` loads every collection the config lists. `lib/site.ts` types the
+  config; a collection's `landing` makes it a section under that page, `path`
+  says where its pages live (`/<landing>` unless set), `article`,
   `feed`, `order`, `explorer`, `groupBy`, `categories`, `types`, `graphSection`
   and `graphColour` say the rest.
-- **Addresses** come from `src/lib/urls.ts` (`urlOf`), pure, so the Astro
-  config and the tests use it too. `[[wiki links]]` resolve against a title
+- **Addresses** come from `urlFor(site)` (`lib/entry.ts`): `pages/home` is
+  `/`, a page is `/<id>`, any other entry `<path>/<id>`. It is pure, so the
+  Astro config and the tests use it too. `[[wiki links]]` resolve against a title
   index scanned off both sites' `src/content` with Astro's own front-matter
   reader (`lib/scan.ts`): once per build, on every render in `astro dev`.
 - **The Markdown pipeline** (`lib/markdown/index.ts`, in `config.mjs`): remark
@@ -138,9 +138,9 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
 - **A front-matter field**: the collection's schema in `content.config.ts`;
   views read `entry.data.<field>`. A field the garden should read on every
   site goes into `SiteEntry` and `toSiteEntry`.
-- **A collection**: a schema in `content.config.ts`, its line in
-  `loadEntries()`, its address in `urls.ts`, its entry in
-  `site.config.ts` `collections`, a landing page and its `explorer` item, a
+- **A collection**: a schema in `content.config.ts`, its entry in
+  `site.config.ts` `collections` (with a `path` if its pages should not sit
+  under the landing page), a landing page and its `explorer` item, a
   page file for its route (`src/pages/<landing>/[slug].astro`), and the
   landing's own view (`src/pages/<landing>/index.astro`) with its id in
   `[slug].astro`'s `OWN` list. Its graph colour is `graphColour`, one of the
@@ -152,9 +152,10 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
   component through the platform (`showModal()`, `hidePopover()`).
 - **A site**: `sites/<name>/` with `astro.config.mjs`, `tsconfig.json`,
   `wrangler.jsonc`, `cloudflare.env`, `package.json`, `src/site.config.ts`,
-  `src/lib/{urls,entries}.ts`, `src/content.config.ts`, `src/styles/site.css`,
-  `src/pages/`; name it in the other site's `entries.ts` and `astro.config.mjs`,
-  and in the other site's `site.config.ts` `otherSite`. Give it a dev and a
+  `src/content.config.ts`, `src/styles/site.css`, `src/pages/`; name it in
+  the other site's `site.config.ts` `otherSite` (`folder` is its folder
+  under `sites/`) and import its config as `otherSite` in the other site's
+  `astro.config.mjs`. Give it a dev and a
   preview port in the root `package.json` `dev` and `preview` scripts, and
   the preview port as `PREVIEW_URL`'s default in its `tests/smoke.mjs`.
 

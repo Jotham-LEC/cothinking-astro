@@ -42,8 +42,21 @@ export type SiteEntry = {
   cite: string | null;
 };
 
-/** A site's rule for an entry's address: `urlOf(collection, id)` (sites/<site>/src/lib/urls.ts). */
+/** A site's rule for an entry's address: `urlOf(collection, id)`. */
 export type UrlOf = (collection: string, id: string) => string;
+
+/**
+ * A site's address rule, from its collections: `pages/home` is `/`, a `pages` entry is `/<id>`, any other
+ * collection's entry is `<path>/<id>` (its `path`, else `/<landing>`). A collection the config lacks throws.
+ */
+export function urlFor(site: SiteConfig): UrlOf {
+  return (collection, id) => {
+    if (collection === 'pages' && id === 'home') return '/';
+    const c = site.collections[collection];
+    if (!c) throw new Error(`No ${collection} collection in site.config.ts.`);
+    return `${c.path ?? (c.landing ? `/${c.landing}` : '')}/${id}`;
+  };
+}
 
 export type RawEntry = {
   collection: string;

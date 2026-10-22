@@ -18,6 +18,8 @@ export const site = {
     problems: {
       title: 'Problems I fix',
       landing: 'problem-statements',
+      // At the site's root (/emails-going-to-spam), not under the landing page.
+      path: '',
       article: true,
       order: 'order',
       graphSection: true,
@@ -112,7 +114,7 @@ export const site = {
     bio: 'I run CoThinking, a web, IT and marketing service for small businesses in Malaysia. I am also the Head of Global Marketing at Moojing, a China-based market-intelligence company.',
     url: 'https://jothamlim.com/career',
   },
-  otherSite: { name: 'Jotham Lim', url: 'https://jothamlim.com' },
+  otherSite: { name: 'Jotham Lim', url: 'https://jothamlim.com', folder: 'jothamlim' },
   seo: {
     defaultDescription:
       'Web, IT and marketing for small businesses in Malaysia, all in one service. Start small, and pay only when you need something done.',

@@ -14,7 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { byKey, keyOf, published, toSiteEntry, type RawEntry, type SiteEntry, type UrlOf } from './entry.ts';
+import { byKey, keyOf, published, toSiteEntry, urlFor, type RawEntry, type SiteEntry } from './entry.ts';
 import { firstHeadingDepth, localTargets, wikiLinksIn } from './links.ts';
 import { pathOf, type NavItem, type SiteConfig } from './site.ts';
 import { normaliseTitle, resolveTitle, titleIndex } from './titles.ts';
@@ -25,16 +25,15 @@ const REFERENCE = /^([a-z_]+)\/([a-z0-9-]+)$/;
 export type CheckInput = {
   root: URL | string;
   site: SiteConfig;
-  urlOf: UrlOf;
   raws: RawEntry[];
   /** The other site's published entries and address, for the title index and the uniqueness of titles. */
   other: { entries: SiteEntry[]; url: string };
 };
 
-export function check({ root, site, urlOf, raws, other }: CheckInput): string[] {
+export function check({ root, site, raws, other }: CheckInput): string[] {
   const dir = typeof root === 'string' ? root : fileURLToPath(root);
   const problems: string[] = [];
-  const entries = raws.map((raw) => toSiteEntry(raw, urlOf));
+  const entries = raws.map((raw) => toSiteEntry(raw, urlFor(site)));
   const live = published(entries);
   const titles = titleIndex(live, other.entries, other.url);
   const urls = new Set(live.map((p) => p.url));
