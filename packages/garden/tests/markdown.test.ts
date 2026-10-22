@@ -3,10 +3,8 @@
 import path from 'node:path';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import { beforeAll, describe, expect, it } from 'vitest';
-import type { Root } from 'hast';
 import { renderFeed } from '../lib/markdown/feed.ts';
 import { named } from '../lib/markdown/named.ts';
-import rehypeCallouts from '../lib/markdown/rehype-callouts.ts';
 import { wikiRehypePlugins, wikiRemarkPlugins } from '../lib/markdown/index.ts';
 
 const titles = { 'older essay': '/essays/older-essay', cothinking: 'https://cothink.ing/' };
@@ -73,31 +71,6 @@ describe('headings and callouts', () => {
     );
   });
 
-  it('leaves MDX nodes in a blockquote alone (no serialising), and keeps them in a callout body', () => {
-    const expression = { type: 'mdxTextExpression', value: '1 + 1' };
-    const quote = (children: unknown[]) =>
-      ({
-        type: 'root',
-        children: [
-          {
-            type: 'element',
-            tagName: 'blockquote',
-            properties: {},
-            children: [{ type: 'element', tagName: 'p', properties: {}, children }],
-          },
-        ],
-      }) as unknown as Root;
-    const plain = quote([{ type: 'text', value: 'A quote with an expression: ' }, expression]);
-    rehypeCallouts()(plain);
-    expect((plain.children[0] as { tagName: string }).tagName).toBe('blockquote');
-    const leading = quote([expression, { type: 'text', value: ' first' }]);
-    rehypeCallouts()(leading);
-    expect((leading.children[0] as { tagName: string }).tagName).toBe('blockquote');
-    const callout = quote([{ type: 'text', value: '[!NOTE] Sum\nIt is ' }, expression]);
-    rehypeCallouts()(callout);
-    expect(JSON.stringify(callout)).toContain('"callout-title"');
-    expect(JSON.stringify(callout)).toContain('{"type":"mdxTextExpression","value":"1 + 1"}');
-  });
 });
 
 describe('wiki links', () => {

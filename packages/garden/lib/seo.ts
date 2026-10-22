@@ -1,13 +1,13 @@
 // The head model: what the Marketing Toolkit addon and App\Seo printed for a
 // page. Title, description, canonical, robots, Open Graph, Twitter and the
 // JSON-LD graph (WebSite, the publisher, WebPage or ProfilePage,
-// BreadcrumbList, Article, the editors' extra nodes). A reshare sends search
-// engines to its original (App\Seo).
+// BreadcrumbList, Article). A piece first published elsewhere sends search
+// engines there (`seo.canonical`).
 import { breadcrumbs } from './breadcrumbs.ts';
 import { atom } from './dates.ts';
 import { plainText } from './markdown/feed.ts';
 import { measure } from './markdown/rehype-images.ts';
-import { addressOf, byUrl } from './pages.ts';
+import { byUrl } from './pages.ts';
 import type { Author, Collections, Page, SiteConfig } from './types.ts';
 import { absolute, cardUrl } from './urls.ts';
 
@@ -31,8 +31,6 @@ export type HeadInput = {
   publicDir?: string;
   overrides?: { title?: string | null; description?: string | null; noindex?: boolean; ogType?: string | null };
   status?: number;
-  /** The piece the page reshares (entry.ts `reshareOf`), which may live on the other site. */
-  original?: Page | null;
   /** Who writes the site's articles (src/data/authors.yaml). */
   authors?: Author[];
 };
@@ -115,10 +113,7 @@ export function contentDescription(page: Page, html?: string, { skipCreditLine =
 }
 
 export function description(input: HeadInput): string | null {
-  const { page, site, html, overrides, original } = input;
-  // A reshare with nothing of its own to say is described as its original.
-  if (original && page && !overrides?.description && !page.description && page.body.trim() === '')
-    return description({ ...input, page: original, original: null, html: undefined });
+  const { page, site, html, overrides } = input;
   const text =
     overrides?.description ??
     page?.seo.description ??
@@ -131,20 +126,12 @@ export const url = ({ site, path }: HeadInput): string => absolute(site.url, pat
 
 export function canonical(input: HeadInput): string | null {
   if ((input.status ?? 200) >= 400) return null;
-  if (input.page?.seo.canonical) return input.page.seo.canonical;
-  const original = input.original ? addressOf(input.original, input.site.url) : null;
-  return original ?? url(input);
+  return input.page?.seo.canonical ?? url(input);
 }
 
 export function robots({ page, overrides, status }: HeadInput): string {
   const noindex = overrides?.noindex ?? page?.seo.noindex ?? false;
-  const nofollow = page?.seo.nofollow ?? false;
-  if (noindex || (status ?? 200) >= 400) return `noindex, ${nofollow ? 'nofollow' : 'follow'}`;
-  let rules = ROBOTS_DEFAULT;
-  if (page?.seo.nosnippet) rules = rules.replace(/max-snippet:-?\d+/, 'nosnippet');
-  else if (typeof page?.seo.max_snippet === 'number' && page.seo.max_snippet >= 0)
-    rules = rules.replace(/max-snippet:-?\d+/, `max-snippet:${page.seo.max_snippet}`);
-  return [nofollow ? 'nofollow' : null, rules].filter(Boolean).join(', ');
+  return noindex || (status ?? 200) >= 400 ? 'noindex, follow' : ROBOTS_DEFAULT;
 }
 
 /** `profile` on a home page that says so, `article` for a section's pages, else `website`. */
@@ -155,11 +142,11 @@ export function ogType(input: HeadInput): string {
   return page?.seo.og_type ?? (page ? (collections[page.collection]?.og_type ?? 'website') : 'website');
 }
 
-/** The share image: the SEO tab's, the entry's `image`, else the default card; a listing without an entry shares the home page's. */
+/** The share image: the entry's `image`, else the default card; a listing without an entry shares the home page's. */
 export function image(input: HeadInput): ShareImage | null {
   const { page, site, pages, publicDir, status } = input;
   if ((status ?? 200) >= 400) return null;
-  const own = page?.seo.image ?? page?.image ?? null;
+  const own = page?.image ?? null;
   if (own) {
     const size = publicDir ? measure(publicDir, own) : null;
     return {
@@ -176,7 +163,7 @@ export function image(input: HeadInput): ShareImage | null {
     url: absolute(site.url, cardUrl(subject.url)),
     width: IMAGE_WIDTH,
     height: IMAGE_HEIGHT,
-    alt: subject.seo.og_title ?? subject.title,
+    alt: subject.title,
   };
 }
 
@@ -358,18 +345,6 @@ function articleNode(
   });
 }
 
-/** The editors' nodes from the SEO tab's "Extra JSON-LD" field: an object or a list of objects; anything else is ignored. */
-function customNodes(page: Page | null): Record<string, unknown>[] {
-  if (!page?.seo.json_ld) return [];
-  try {
-    const decoded = JSON.parse(page.seo.json_ld);
-    if (Array.isArray(decoded)) return decoded.filter((n) => n && typeof n === 'object');
-    return decoded && typeof decoded === 'object' ? [decoded] : [];
-  } catch {
-    return [];
-  }
-}
-
 export function head(input: HeadInput): Head {
   const { site, page, collections } = input;
   const status = input.status ?? 200;
@@ -388,7 +363,6 @@ export function head(input: HeadInput): Head {
           webPageNode(input, { description: desc, image: img, ogTitle: ogT, ogType: type }),
           breadcrumbNode(input),
           articleNode(input, { description: desc, image: img, canonical: can }),
-          ...customNodes(page),
         ].filter((n): n is Record<string, unknown> => n !== null);
   return {
     title: title(input),
@@ -417,9 +391,9 @@ export function jsonLd(graph: Record<string, unknown>[]): string | null {
     .replace(/&/g, '\\u0026');
 }
 
-/** Whether a page is listed in the sitemap and llms.txt: its own canonical address, indexable, not left out, not a reshare. */
+/** Whether a page is listed in the sitemap and llms.txt: its own canonical address, indexable, not left out. */
 export function inSitemap(page: Page, site: SiteConfig): boolean {
-  if (page.draft || !page.url || page.seo.noindex || page.seo.sitemap === false || page.data.reshare) return false;
+  if (page.draft || !page.url || page.seo.noindex || page.seo.sitemap === false) return false;
   const canonical = page.seo.canonical?.replace(/\/$/, '');
   return !canonical || canonical === absolute(site.url, page.url).replace(/\/$/, '');
 }

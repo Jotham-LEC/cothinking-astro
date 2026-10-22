@@ -5,7 +5,7 @@ import type { Page, SiteConfig } from '../lib/types.ts';
 type Props = { pages: Page[]; site: SiteConfig };
 const { pages, site } = Astro.props;
 const root = pages
-  .filter((p) => p.collection === (site.attributes.pages ?? 'pages') && p.order !== null && !p.parent)
+  .filter((p) => p.collection === (site.attributes.pages ?? 'pages') && p.order !== null)
   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 

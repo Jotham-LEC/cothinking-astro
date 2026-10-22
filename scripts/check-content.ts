@@ -3,10 +3,9 @@
 // app's `wiki:check` enforced that a schema cannot see. Every published page:
 // its [[wiki links]] name a published page, its /media links exist, its
 // ](/path) links are pages or routes, its image exists, no "Sample:" page is
-// left (a piece reshared from the other site too). Every page (drafts too):
-// a page of a tree is in it; its references (reshare, related pages…) and
-// authors exist; a reshared piece has its address there; its title can be
-// linked (no `[`, `]` or `|`) and is unique across both sites.
+// left. Every page (drafts too): a page of a tree is in it; its references
+// (related pages, a case study) and authors exist; its title can be linked
+// (no `[`, `]` or `|`) and is unique across both sites.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -21,7 +20,7 @@ import { pathOf } from '../packages/garden/lib/urls.ts';
 const ROUTES = /^\/(notes\/type\/[a-z]+|([\w-]+\/)?feed\.xml|sitemap-index\.xml|robots\.txt|graph\.json|llms\.txt)$/;
 
 // Fields that name another entry as `collection/slug` (the import's references).
-const REFERENCES = ['reshare', 'case_study', 'related_pages', 'related_wiki'];
+const REFERENCES = ['case_study', 'related_pages', 'related_wiki'];
 
 export function check(project: Project): string[] {
   const { pages, collections, root, titles, otherSiteTitles, authors } = project;
@@ -32,9 +31,7 @@ export function check(project: Project): string[] {
   const inPublic = (file: string) =>
     fs.existsSync(path.join(root, 'public', decodeURIComponent(file.split(/[?#]/)[0]!)));
 
-  // A piece reshared from the other site (an `origin` collection's) is checked like a page: its text shows here.
-  const reshared = pages.filter((p) => collections[p.collection]?.origin && !p.draft);
-  for (const page of [...live, ...reshared]) {
+  for (const page of live) {
     const body = page.body + '\n\n' + (typeof page.data.quote === 'string' ? page.data.quote : '');
     for (const title of wikiLinksIn(body)) {
       if (!resolveTitle(titles, title)) problems.push(`${where(page)}: [[${title}]] names no published page.`);
@@ -68,16 +65,12 @@ export function check(project: Project): string[] {
     for (const author of [page.data.author].flat().filter((a) => a !== undefined))
       if (!authors.some((a) => a.id === author))
         problems.push(`${where(page)}: its author ${String(author)} is not in src/data/authors.yaml.`);
-    if (c?.origin && !(typeof page.data.url === 'string' && page.data.url.startsWith(c.origin)))
-      problems.push(`${where(page)}: a reshared piece needs its address on ${c.origin} (\`url\`).`);
   }
 
   // Two pages with one title (a draft included, and the other site's pages).
   const seen = new Map<string, string[]>();
   for (const [title, url] of Object.entries(otherSiteTitles)) seen.set(title, [url]);
   for (const page of pages) {
-    // A reshared piece is the other site's page, already in its titles by its address.
-    if (collections[page.collection]?.origin) continue;
     const key = normaliseTitle(page.title);
     if (!key) continue;
     seen.set(key, [...(seen.get(key) ?? []), where(page)]);

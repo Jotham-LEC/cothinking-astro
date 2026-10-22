@@ -39,10 +39,10 @@ export function loadProject(root: string): Project {
     if (!fs.existsSync(dir)) continue;
     for (const file of fs
       .readdirSync(dir)
-      .filter((f) => /\.(md|mdx)$/.test(f))
+      .filter((f) => f.endsWith('.md'))
       .sort()) {
       const parsed = matter(fs.readFileSync(path.join(dir, file), 'utf8'));
-      raws.push({ collection, slug: file.replace(/\.(md|mdx)$/, ''), data: parsed.data, body: parsed.content });
+      raws.push({ collection, slug: file.slice(0, -3), data: parsed.data, body: parsed.content });
     }
   }
   const navigation: Record<string, NavItem[]> = {};

@@ -206,12 +206,12 @@ describe.skipIf(!present)('pager, years, note types, breadcrumbs', () => {
     expect(breadcrumbs('/notes/type/text', live).map((c) => c.url)).toEqual(['/', '/notes']);
   });
   it('describes a page: eyebrow, feed, source, outline', () => {
-    const info = pageInfo(page('/essays/being-personal-in-the-workplace'), pages, collections, site);
+    const info = pageInfo(page('/essays/being-personal-in-the-workplace'), collections, site);
     expect(info.eyebrow).toBe('2023-01-18 · 8 min read');
     expect(info.feedUrl).toBe('/essays/feed.xml');
-    expect(pageInfo(page('/'), pages, collections, site)).toMatchObject({ isHome: true, eyebrow: null, feedUrl: null });
+    expect(pageInfo(page('/'), collections, site)).toMatchObject({ isHome: true, eyebrow: null, feedUrl: null });
     const publication = live.find((p) => p.collection === 'publications' && p.seo.canonical)!;
-    expect(pageInfo(publication, pages, collections, site).source).toBe(publication.seo.canonical);
+    expect(pageInfo(publication, collections, site).source).toBe(publication.seo.canonical);
     expect(toc([{ depth: 2, slug: 'a', text: 'A' }])).toEqual([]);
     expect(
       toc([

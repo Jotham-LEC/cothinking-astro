@@ -33,15 +33,8 @@ export function garden(src: URL) {
       description: z.string(),
       canonical: z.url(),
       og_type: z.string(),
-      og_title: z.string(),
-      og_description: z.string(),
-      image: z.string().refine(publicFile, { message: 'seo.image is not in public/' }),
-      max_snippet: z.number().int(),
       noindex: z.boolean(),
-      nofollow: z.boolean(),
       sitemap: z.boolean(),
-      nosnippet: z.boolean(),
-      json_ld: z.string(),
     })
     .partial()
     .strict();
@@ -63,7 +56,7 @@ export function garden(src: URL) {
 
   const dated = { date: z.coerce.date() };
 
-  const loader = (name: string) => glob({ pattern: '**/*.{md,mdx}', base: `./src/content/${name}` });
+  const loader = (name: string) => glob({ pattern: '**/*.md', base: `./src/content/${name}` });
 
   // ---- Data collections: what the import writes to src/data (Astro's file() loader reads YAML). ----
 
@@ -111,7 +104,6 @@ export function garden(src: URL) {
         schema: z.string().optional(),
         types: z.array(z.object({ handle: z.string(), title: z.string() })).optional(),
         options: z.record(z.string(), z.record(z.string(), z.string())).optional(),
-        origin: z.url().optional(),
         group_by: z.enum(['year', 'category']).optional(),
         explorer: z.literal('with_content').optional(),
         graph_section: z.boolean().optional(),

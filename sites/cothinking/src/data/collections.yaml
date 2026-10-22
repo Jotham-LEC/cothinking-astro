@@ -54,10 +54,3 @@ work:
   template: cothinking/case-study
   explorer: with_content
   graph_colour: projects
-reshared:
-  title: Reshared
-  route: "{slug}"
-  dated: true
-  root: false
-  orderable: false
-  origin: https://jothamlim.com

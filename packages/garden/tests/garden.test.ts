@@ -30,7 +30,6 @@ const pages = toPages(
     { collection: 'pages', slug: 'home', data: { title: 'Home', order: 0 }, body: '' },
     { collection: 'pages', slug: 'essays', data: { title: 'Essays', order: 1 }, body: '' },
     { collection: 'pages', slug: 'problems', data: { title: 'Problems', order: 2 }, body: '' },
-    { collection: 'pages', slug: 'child', data: { title: 'Child', order: 3, parent: 'essays' }, body: '' },
     { collection: 'pages', slug: 'lost', data: { title: 'Lost' }, body: '' },
     {
       collection: 'essays',
@@ -56,7 +55,6 @@ describe('urls', () => {
   it('follow each collection route', () => {
     expect(url('home')).toBe('/');
     expect(url('essays')).toBe('/essays');
-    expect(url('child')).toBe('/essays/child');
     expect(url('lost')).toBeNull();
     expect(url('older')).toBe('/essays/older');
     expect(url('spam')).toBe('/spam');

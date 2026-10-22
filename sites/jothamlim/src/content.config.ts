@@ -4,7 +4,7 @@ import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { enumOf, garden } from '../../../packages/garden/content.ts';
 
-const { model, base, dated, media, loader, dataCollections } = garden(new URL('.', import.meta.url));
+const { model, base, dated, loader, dataCollections } = garden(new URL('.', import.meta.url));
 
 const noteTypes = model.notes?.types?.map((t) => t.handle);
 const outlets = Object.keys(model.publications?.options?.outlet ?? {});
@@ -16,7 +16,6 @@ const pages = defineCollection({
       ...base,
       template: z.enum(['default', 'home', 'section', 'notes/index', 'publications']).default('default'),
       order: z.number().int().optional(),
-      parent: z.string().optional(),
     })
     .strict(),
 });
@@ -35,11 +34,6 @@ const notes = defineCollection({
       type: enumOf(noteTypes).default('text'),
       quote: z.string().optional(),
       cite: z.string().optional(),
-      photos: z.array(media('photo')).optional(),
-      link_url: z.url().optional(),
-      link_title: z.string().optional(),
-      link_image: z.string().optional(),
-      video_url: z.url().optional(),
     })
     .strict(),
 });

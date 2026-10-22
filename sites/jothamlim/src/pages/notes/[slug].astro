@@ -1,14 +1,11 @@
 ---
-// A single note: the entry's page with the post (photo, link, quote, video)
-// above its text. A text note is all text, so it adds nothing. A slug is
-// never a number, so none collides with /notes/2.
+// A single note: the entry's page with the post (a quote) above its text. A
+// text note is all text, so it adds nothing. A slug is never a number, so none
+// collides with /notes/2.
 import { render } from 'astro:content';
 import { wiki } from '@garden/lib/load.ts';
 import Entry from '@garden/components/Entry.astro';
-import Photo from '@site/components/notes/types/Photo.astro';
-import Link from '@site/components/notes/types/Link.astro';
 import Quote from '@site/components/notes/types/Quote.astro';
-import Video from '@site/components/notes/types/Video.astro';
 
 export async function getStaticPaths() {
   const w = await wiki();
@@ -23,7 +20,7 @@ const { page } = Astro.props;
 const w = await wiki();
 const { Content, headings } = await render(w.entryOf(page));
 const type = page.type ?? 'text';
-const Post = { photo: Photo, link: Link, quote: Quote, video: Video }[type as 'photo' | 'link' | 'quote' | 'video'];
+const Post = type === 'quote' ? Quote : null;
 ---
 
 <Entry page={page} headings={headings}>
@@ -33,7 +30,7 @@ const Post = { photo: Photo, link: Link, quote: Quote, video: Video }[type as 'p
       class="not-prose rounded-site border-rule bg-bg-elev overflow-hidden border"
       data-type={type}
     >
-      <Post note={page} eager />
+      <Post note={page} />
     </div>
   )}
   <Content />

@@ -17,8 +17,8 @@ export async function cardFor(page: LivePage, w: Wiki): Promise<CardInput> {
   const input = { page, path: page.url, site, collections, pages: w.live, html };
   return {
     label: section ?? new URL(site.url).host,
-    title: page.seo.og_title ?? ogTitle(input),
-    description: page.seo.og_description ?? description(input),
+    title: ogTitle(input),
+    description: description(input),
     url: site.name,
     portrait: PORTRAIT,
   };

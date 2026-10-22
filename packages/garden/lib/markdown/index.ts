@@ -23,13 +23,6 @@ export const wikiLinkSyntax = (): [RemarkPlugin, unknown][] => [
   ],
 ];
 
-/** Raw HTML in the content becomes part of the tree before any plugin looks at it; MDX's own nodes pass through. */
-const rawHtml = (): RehypePlugins => [
-  [
-    rehypeRaw,
-    { passThrough: ['mdxjsEsm', 'mdxJsxFlowElement', 'mdxJsxTextElement', 'mdxFlowExpression', 'mdxTextExpression'] },
-  ],
-];
 
 export function wikiRemarkPlugins({ titles, siteUrl }: Pick<PipelineOptions, 'titles' | 'siteUrl'>): RemarkPlugins {
   return [...wikiLinkSyntax(), [remarkWikiLinks, { titles, siteUrl }]];
@@ -61,7 +54,8 @@ export function wikiRehypePlugins({
 }: Pick<PipelineOptions, 'siteUrl' | 'publicDir'>): RehypePlugins {
   return [
     ...externalLinks(siteUrl),
-    ...rawHtml(),
+    // Raw HTML in the content becomes part of the tree before any plugin looks at it.
+    rehypeRaw,
     rehypeHeadingIds,
     rehypeCallouts,
     [rehypeImages, { publicDir }],

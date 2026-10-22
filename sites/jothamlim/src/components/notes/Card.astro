@@ -7,10 +7,7 @@ import { formatDate } from '@garden/lib/dates.ts';
 import type { Page } from '@garden/lib/types.ts';
 import Prose from '@garden/components/Prose.astro';
 import Icon from './Icon.astro';
-import Photo from './types/Photo.astro';
-import Link from './types/Link.astro';
 import Quote from './types/Quote.astro';
-import Video from './types/Video.astro';
 type Props = { note: Page };
 const { note } = Astro.props;
 const w = await wiki();
@@ -18,8 +15,8 @@ const type = note.type ?? 'text';
 const typeTitle = w.collections.notes?.types?.find((t) => t.handle === type)?.title ?? type;
 const posted = note.date!;
 const { Content } = await render(w.entryOf(note));
-// A text note is all body; the other types draw their post above it.
-const Post = { photo: Photo, link: Link, quote: Quote, video: Video }[type as 'photo' | 'link' | 'quote' | 'video'];
+// A text note is all body; a quote note draws its quote above it.
+const Post = type === 'quote' ? Quote : null;
 const hasContent = note.body.trim() !== '';
 ---
 

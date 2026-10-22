@@ -1,6 +1,6 @@
 // cothink.ing: what only its content uses, on its imported content: the
 // Explorer grouped by the collections.yaml flags, rooms and their panels, the
-// series pager, the reshare, authors and the Organization publisher, against
+// series pager, a piece first published elsewhere, authors and the Organization publisher, against
 // what the Laravel app printed (DEV_FILES/cothinking/golden) where it can.
 // Skipped when the site's data is missing.
 import fs from 'node:fs';
@@ -66,20 +66,17 @@ describe.skipIf(!present)('cothink.ing: pages', () => {
     expect(pager(page('/wiki/speed-to-lead'), pages)).toEqual({ previous: null, next: null });
   });
   it('widens the graph to the whole section on the landing pages with `graph_section`', () => {
-    expect(pageInfo(page('/wiki'), pages, collections, site).graphSection).toBe('wiki');
-    expect(pageInfo(page('/problem-statements'), pages, collections, site).graphSection).toBe('problems');
-    expect(pageInfo(page('/work'), pages, collections, site).graphSection).toBeNull();
+    expect(pageInfo(page('/wiki'), collections, site).graphSection).toBe('wiki');
+    expect(pageInfo(page('/problem-statements'), collections, site).graphSection).toBe('problems');
+    expect(pageInfo(page('/work'), collections, site).graphSection).toBeNull();
   });
-  it('shows a reshared essay, sends search engines to it and leaves it out of the sitemap', () => {
+  it('sends search engines to a piece first published on the other site and leaves it out of the sitemap', () => {
     const reshare = page('/wiki/blast-stack');
-    const info = pageInfo(reshare, pages, collections, site);
-    expect(info.original?.collection).toBe('reshared');
+    const info = pageInfo(reshare, collections, site);
     expect(info.source).toBe('https://jothamlim.com/essays/blast-stack');
-    const h = head({ page: reshare, path: reshare.url, site, collections, pages: live, original: info.original });
+    const h = head({ page: reshare, path: reshare.url, site, collections, pages: live });
     expect(h.canonical).toBe('https://jothamlim.com/essays/blast-stack');
     expect(inSitemap(reshare, site)).toBe(false);
-    // The reshared piece has no address here.
-    expect(info.original?.url).toBeNull();
   });
 });
 
@@ -117,15 +114,13 @@ describe.skipIf(!present)('cothink.ing: content check', () => {
   it('passes the content as it is', () => {
     expect(check(project)).toEqual([]);
   });
-  it('flags a reshare of a missing page, an unknown author and a reshared piece without its address', () => {
+  it('flags a reference to a missing page and an unknown author', () => {
     const broken = structuredClone(project);
     const entry = broken.pages.find((p) => p.url === '/wiki/speed-to-lead')!;
-    entry.data.reshare = 'reshared/nothing-here';
+    entry.data.related_pages = ['wiki/nothing-here'];
     entry.data.author = 'someone-else';
-    broken.pages.find((p) => p.collection === 'reshared')!.data.url = 'https://example.com/x';
     const problems = check(broken);
-    expect(problems).toContain('/wiki/speed-to-lead: its reshare reshared/nothing-here names no page.');
+    expect(problems).toContain('/wiki/speed-to-lead: its related_pages wiki/nothing-here names no page.');
     expect(problems).toContain('/wiki/speed-to-lead: its author someone-else is not in src/data/authors.yaml.');
-    expect(problems.some((p) => p.includes('a reshared piece needs its address on https://jothamlim.com'))).toBe(true);
   });
 });

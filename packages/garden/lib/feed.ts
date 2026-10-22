@@ -2,9 +2,8 @@
 // (every dated collection) or one section, 20 newest first, each item's body
 // through the `feed` parser with absolute URLs. @astrojs/rss writes the XML.
 import type { RSSOptions } from '@astrojs/rss';
-import { feedOf, reshareOf } from './entry.ts';
+import { feedOf } from './entry.ts';
 import { fullUrls, renderFeed } from './markdown/feed.ts';
-import { measure } from './markdown/rehype-images.ts';
 import { byDateDesc, published } from './pages.ts';
 import type { Collections, Page, SiteConfig } from './types.ts';
 import { absolute } from './urls.ts';
@@ -15,41 +14,20 @@ type FeedContext = {
   collections: Collections;
   pages: Page[];
   titles: TitleIndex;
-  publicDir?: string;
 };
 
 const escapeHtml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-/** A feed item's body: a note's post (quote, photos, link, video) then its text; any other page's text (and a reshare's original). */
-async function feedBody(page: Page, { pages, titles, site, publicDir }: FeedContext): Promise<string> {
-  if (page.collection !== 'notes') {
-    const original = reshareOf(page, pages);
-    return fullUrls(await renderFeed(`${page.body}\n\n${original?.body ?? ''}`.trim(), titles), site.url);
-  }
+/** A feed item's body: a quote note's quote, then the page's text. */
+async function feedBody(page: Page, { titles, site }: FeedContext): Promise<string> {
   const parts: string[] = [];
-  const type = page.type ?? 'text';
-  if (type === 'quote' && typeof page.data.quote === 'string') {
+  if (page.type === 'quote' && typeof page.data.quote === 'string') {
     const cite =
       typeof page.data.cite === 'string' && page.data.cite !== '' ? `<p>— ${escapeHtml(page.data.cite)}</p>` : '';
     parts.push(`<blockquote>\n${await renderFeed(page.data.quote, titles, { breaks: true })}${cite}\n</blockquote>`);
-  } else if (type === 'photo' && Array.isArray(page.data.photos)) {
-    for (const photo of page.data.photos as string[]) {
-      const size = publicDir ? measure(publicDir, photo) : null;
-      parts.push(
-        `<p><img src="${absolute(site.url, photo)}" alt="" width="${size?.width ?? ''}" height="${size?.height ?? ''}" /></p>`,
-      );
-    }
-  } else if (type === 'link' && typeof page.data.link_url === 'string') {
-    const title =
-      typeof page.data.link_title === 'string' && page.data.link_title !== ''
-        ? page.data.link_title
-        : page.data.link_url;
-    parts.push(`<p><a href="${escapeHtml(page.data.link_url)}">${escapeHtml(title)}</a></p>`);
-  } else if (type === 'video' && typeof page.data.video_url === 'string') {
-    parts.push(`<p><a href="${escapeHtml(page.data.video_url)}">${escapeHtml(page.data.video_url)}</a></p>`);
   }
-  parts.push(await renderFeed(page.body, titles));
+  parts.push(await renderFeed(page.body.trim(), titles));
   return fullUrls(parts.join('\n'), site.url);
 }
 

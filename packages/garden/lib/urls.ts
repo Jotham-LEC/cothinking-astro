@@ -1,11 +1,10 @@
 // Addresses, as Statamic resolves a collection's `route`: `{mount}` is the
-// landing page's address, `{parent_uri}` the parent's in a structured
-// collection, `{slug}` the entry's. The first item of a root tree is `/`. An
-// entry of a structured collection that is not in its tree has no address, nor
-// has an entry of a collection that lives on another site (`origin`).
+// landing page's address, `{slug}` the entry's. The first item of a root tree
+// is `/`. An entry of a structured collection that is not in its tree has no
+// address.
 import type { Collections } from './types.ts';
 
-type Locatable = { collection: string; slug: string; order: number | null; parent: string | null };
+type Locatable = { collection: string; slug: string; order: number | null };
 
 export function resolveUrls<T extends Locatable>(items: T[], collections: Collections): Map<T, string | null> {
   const byKey = new Map(items.map((item) => [`${item.collection}/${item.slug}`, item]));
@@ -18,7 +17,7 @@ export function resolveUrls<T extends Locatable>(items: T[], collections: Collec
     const c = collections[item.collection];
     if (!c) throw new Error(`Unknown collection ${item.collection}`);
     let url: string | null;
-    if (c.origin || ((c.root || c.orderable) && item.order === null)) {
+    if ((c.root || c.orderable) && item.order === null) {
       url = null;
     } else if (c.root && item.order === 0) {
       url = '/';
@@ -28,10 +27,7 @@ export function resolveUrls<T extends Locatable>(items: T[], collections: Collec
         const mount = c.mount ? byKey.get(`${c.mount.collection}/${c.mount.slug}`) : undefined;
         route = route.replace('{mount}', (mount && urlOf(mount, seen)) ?? '');
       }
-      if (route.includes('{parent_uri}')) {
-        const parent = item.parent ? byKey.get(`${item.collection}/${item.parent}`) : undefined;
-        route = route.replace('{parent_uri}', (parent && urlOf(parent, seen)) ?? '');
-      }
+      route = route.replace('{parent_uri}', '');
       route = route.replace('{slug}', item.slug);
       url = ('/' + route).replace(/\/+/g, '/').replace(/\/$/, '') || '/';
     }

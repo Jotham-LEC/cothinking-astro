@@ -1,6 +1,6 @@
 // @astrojs/sitemap's options: only the pages that are their own canonical
 // address and ask to be indexed (not noindex, not `seo.sitemap: false`, not
-// a reshare, not a canonical elsewhere), each with its `updated` as lastmod.
+// a canonical elsewhere), each with its `updated` as lastmod.
 // The integration writes /sitemap-index.xml and /sitemap-0.xml, which
 // robots.txt names.
 import type { SitemapOptions } from '@astrojs/sitemap';

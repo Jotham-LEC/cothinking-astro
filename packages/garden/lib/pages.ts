@@ -30,7 +30,6 @@ export function toPages(raws: RawEntry[], collections: Collections): Page[] {
       draft: d.draft === true,
       template: asString(d.template) ?? collections[raw.collection]?.template ?? null,
       order: typeof d.order === 'number' ? d.order : null,
-      parent: asString(d.parent),
       type: raw.collection === 'notes' ? (asString(d.type) ?? 'text') : null,
       seo: d.seo && typeof d.seo === 'object' ? (d.seo as Seo) : {},
       body: raw.body,
@@ -43,10 +42,9 @@ export function toPages(raws: RawEntry[], collections: Collections): Page[] {
   return items;
 }
 
-/** A page's full address: on this site, or for a piece of another site (an `origin` collection's), its `url` there. */
+/** A page's full address on this site. */
 export function addressOf(page: Page, siteUrl: string): string | null {
-  if (page.url) return absolute(siteUrl, page.url);
-  return typeof page.data.url === 'string' && /^https?:\/\//.test(page.data.url) ? page.data.url : null;
+  return page.url ? absolute(siteUrl, page.url) : null;
 }
 
 /** The pages a reader can see: published, with an address. */

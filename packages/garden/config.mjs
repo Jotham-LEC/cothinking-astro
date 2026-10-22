@@ -4,7 +4,6 @@
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
-import mdx from '@astrojs/mdx';
 import pagefind from 'astro-pagefind';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
@@ -39,7 +38,7 @@ export function gardenConfig({ root: rootUrl }) {
       // No highlighter: code-blocks.js draws the chrome in the browser.
       syntaxHighlight: false,
     },
-    integrations: [mdx(), sitemap(sitemapOptions(project)), pagefind()],
+    integrations: [sitemap(sitemapOptions(project)), pagefind()],
     vite: {
       plugins: [tailwindcss()],
       // garden/lib/paths.ts: bundled code's import.meta.url points into dist/, so the folders come from here.

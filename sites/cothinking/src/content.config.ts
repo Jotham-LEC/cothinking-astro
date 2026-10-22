@@ -30,7 +30,6 @@ const cothinking_pages = defineCollection({
           'cothinking/websites',
         ])
         .default('cothinking/page'),
-      parent: z.string().optional(),
       related_wiki: z.array(reference).optional(),
     })
     .strict(),
@@ -50,7 +49,7 @@ const problems = defineCollection({
     .strict(),
 });
 
-/** The wiki: articles by category, some in a series (`series`, `part`), one a reshare of an essay. */
+/** The wiki: articles by category, some in a series (`series`, `part`). */
 const wiki = defineCollection({
   loader: loader('wiki'),
   schema: z
@@ -60,7 +59,6 @@ const wiki = defineCollection({
       author: z.string().optional(),
       category: enumOf(categories).optional(),
       related_pages: z.array(reference).optional(),
-      reshare: reference.optional(),
       series: z.string().optional(),
       part: z.number().int().optional(),
     })
@@ -89,17 +87,10 @@ const work = defineCollection({
     .strict(),
 });
 
-/** Pieces of jothamlim.com a wiki entry reshares (`origin`): their text, and their address there (`url`). */
-const reshared = defineCollection({
-  loader: loader('reshared'),
-  schema: z.object({ ...base, ...dated, url: z.url() }).strict(),
-});
-
 export const collections = {
   cothinking_pages,
   problems,
   wiki,
   work,
-  reshared,
   ...dataCollections,
 };

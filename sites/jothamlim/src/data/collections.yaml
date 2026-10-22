@@ -25,14 +25,8 @@ notes:
   types:
     - handle: text
       title: Text
-    - handle: photo
-      title: Photo
-    - handle: link
-      title: Link
     - handle: quote
       title: Quote
-    - handle: video
-      title: Video
   graph_colour: notes
 pages:
   title: Pages

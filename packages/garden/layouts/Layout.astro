@@ -84,7 +84,6 @@ const gtmId = import.meta.env.PROD && typeof site.marketing.gtm_id === 'string' 
         publicDir,
         overrides: { title: seoTitle, description: seoDescription },
         status: seoStatus,
-        original: info?.original ?? null,
         authors: w.authors,
       }}
       info={info}

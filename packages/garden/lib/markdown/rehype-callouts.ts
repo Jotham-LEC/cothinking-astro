@@ -1,8 +1,7 @@
 // `> [!NOTE]` blockquotes become callouts, as App\Markdown\Callouts did: the
 // blockquote's first paragraph opens with the marker; the rest of that line
 // is the title (plain text, the type's name when empty); everything after it
-// is the body. Worked on the tree, so a blockquote holding MDX nodes (an
-// `{expression}`, a component) is left as it is or keeps them in the body.
+// is the body.
 import type { Element, ElementContent, Root, Text } from 'hast';
 import { toString } from 'hast-util-to-string';
 import { h } from 'hastscript';

@@ -7,15 +7,8 @@ export type Seo = {
   description?: string;
   canonical?: string;
   og_type?: string;
-  og_title?: string;
-  og_description?: string;
-  image?: string;
-  max_snippet?: number;
   noindex?: boolean;
-  nofollow?: boolean;
   sitemap?: boolean;
-  nosnippet?: boolean;
-  json_ld?: string;
 };
 
 /** A published or draft entry of any collection, with its address worked out. */
@@ -32,7 +25,6 @@ export type Page = {
   draft: boolean;
   template: string | null;
   order: number | null;
-  parent: string | null;
   /** A note's post type (text, photo, link, quote, video). */
   type: string | null;
   seo: Seo;
@@ -58,8 +50,6 @@ type CollectionConfig = {
   schema?: string;
   types?: { handle: string; title: string }[];
   options?: Record<string, Record<string, string>>;
-  /** The site a collection's entries live on, when that is not this one (pieces reshared from it): they have no address here. */
-  origin?: string;
   /** How the Explorer groups the collection's pages: by year, or by its `category` select's options. */
   group_by?: 'year' | 'category';
   /** `with_content`: the Explorer lists only the pages with a body. */
