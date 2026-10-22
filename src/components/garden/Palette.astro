@@ -1,7 +1,7 @@
 ---
 // ⌘K search: the site's pages collection is listed up front; from two
 // characters scripts/site/palette.js asks Pagefind and builds the results.
-import type { Page, SiteConfig } from '../../lib/types.ts';
+import type { Page, SiteConfig } from '@lib/types.ts';
 type Props = { pages: Page[]; site: SiteConfig };
 const { pages, site } = Astro.props;
 const root = pages

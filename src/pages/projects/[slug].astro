@@ -1,8 +1,8 @@
 ---
 // An entry of the projects collection: the default template, nothing but the page.
 import { render } from 'astro:content';
-import { wiki } from '../../lib/load.ts';
-import Entry from '../../components/garden/Entry.astro';
+import { wiki } from '@lib/load.ts';
+import Entry from '@components/garden/Entry.astro';
 
 export async function getStaticPaths() {
   const w = await wiki();

@@ -40,6 +40,9 @@ export type Page = {
   data: Record<string, unknown>;
 };
 
+/** A page a reader can see: published, with an address (`published()` in pages.ts). */
+export type LivePage = Page & { url: string };
+
 /** What the import reads off a collection's YAML and blueprints. */
 type CollectionConfig = {
   title: string;

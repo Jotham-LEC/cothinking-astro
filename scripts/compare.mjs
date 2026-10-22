@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+// Migration only: delete once the Astro repo is the source.
+//
 // Compares the golden set (DEV_FILES/golden/pages, from the Laravel app) with
 // the build (dist/), page by page: head tags, JSON-LD, h1, eyebrow, status
 // line, heading ids, wiki links, callouts, images, breadcrumbs, Explorer rows,
@@ -27,8 +29,8 @@ const verbose = process.argv.includes('--verbose');
 //  - /search.json → Pagefind: not compared
 //  - GFM autolinks bare URLs: body links other than wiki links are not compared
 //  - 404 suggestions come from Pagefind in the browser: not compared; its og:url is the address asked for, which a static page cannot know
-//  - feeds are @astrojs/rss's: item bodies escaped rather than in CDATA, pubDate as `GMT` rather than `+0000`; Blade
-//    also indented the CDATA, wrote `<img />` and escaped quotes and ampersands as &quot;/&amp; where rehype writes
+//  - feeds are @astrojs/rss's: item bodies escaped rather than in CDATA, pubDate as `GMT` rather than `+0000`; the
+//    Laravel feed view also indented the CDATA, wrote `<img />` and escaped quotes and ampersands as &quot;/&amp; where rehype writes
 //    &#x26;. Decoded, the HTML and the dates are the same
 //  - the sitemap is @astrojs/sitemap's: /sitemap-index.xml + /sitemap-0.xml instead of /sitemap.xml, and robots.txt names the index
 //  - Explorer rows for note types and years: Laravel printed absolute addresses, Astro prints paths
@@ -155,9 +157,9 @@ function extract(html) {
 
 function feed(xml) {
   const src = normaliseHost(xml);
-  // Blade wrote item bodies in indented CDATA and @astrojs/rss escapes them; both
+  // Laravel wrote item bodies in indented CDATA and @astrojs/rss escapes them; both
   // decode to the same HTML. Then the HTML's own entity and spacing styles are
-  // evened out (Blade escaped quotes and apostrophes; rehype writes &#x26;).
+  // evened out (Laravel escaped quotes and apostrophes; rehype writes &#x26;).
   const decode = (s) =>
     s
       .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, (_, c) => c.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'))

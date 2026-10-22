@@ -1,6 +1,6 @@
 ---
 // A YouTube or Vimeo URL in its privacy-friendly player; any other host is a plain link.
-import type { Page } from '../../../lib/types.ts';
+import type { Page } from '@lib/types.ts';
 type Props = { note: Page };
 const { note } = Astro.props;
 const url = String(note.data.video_url ?? '');

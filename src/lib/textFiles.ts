@@ -39,7 +39,7 @@ export function robotsTxt(site: SiteConfig): string {
 export function sitemapEntries(pages: Page[], site: SiteConfig): { loc: string; lastmod: string | null }[] {
   return published(pages)
     .filter((p) => inSitemap(p, site))
-    .map((p) => ({ loc: absolute(site.url, p.url!), lastmod: p.updated ? atom(p.updated) : null }))
+    .map((p) => ({ loc: absolute(site.url, p.url), lastmod: p.updated ? atom(p.updated) : null }))
     .sort((a, b) => a.loc.localeCompare(b.loc));
 }
 
@@ -70,7 +70,7 @@ export async function llmsTxt(
         contentDescription(page, await htmlOf(page), { skipCreditLine: false });
       const description = text ? limit(plainText(text), 200) : null;
       lines.push(
-        `- [${page.title.replace(/\[/g, '(').replace(/\]/g, ')')}](${absolute(site.url, page.url!)})${description ? `: ${description}` : ''}`,
+        `- [${page.title.replace(/\[/g, '(').replace(/\]/g, ')')}](${absolute(site.url, page.url)})${description ? `: ${description}` : ''}`,
       );
     }
     lines.push('');

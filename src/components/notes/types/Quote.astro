@@ -1,8 +1,8 @@
 ---
 // The quote, large; the rule under it separates it from the note's text, when there is any.
-import { renderFeed } from '../../../lib/markdown/feed.ts';
-import { wiki } from '../../../lib/load.ts';
-import type { Page } from '../../../lib/types.ts';
+import { renderFeed } from '@lib/markdown/feed.ts';
+import { wiki } from '@lib/load.ts';
+import type { Page } from '@lib/types.ts';
 type Props = { note: Page };
 const { note } = Astro.props;
 const { titles } = await wiki();

@@ -1,13 +1,14 @@
-/* Styles for markup no view writes, so no view can carry a utility for it:
-   what Markdown rendering emits (app/Markdown/*.php, the importer's baked
-   HTML), what content authors write in raw HTML, what the JS builds (palette
-   results, hover previews) and the state classes it toggles on that markup.
-   Everything a view writes, including its states (`in-[.nav-open]:`,
+/* Styles for markup no component writes, so no component can carry a utility
+   for it: what the Markdown plugins emit (src/lib/markdown), what content
+   authors write in raw HTML, what the JS builds (palette results, hover
+   previews) and the state classes it toggles on that markup. Everything a
+   component writes, including its states (`in-[.nav-open]:`,
    `group-[.is-collapsed]/folder:`, `[&.is-active]:`, `print:`), is utilities
-   in the Blade views; rendered Markdown's own look is the
-   typography plugin, set up in components/prose.blade.php. Colours are tokens; a few rules are plain CSS
-   where @apply has nothing to say (masks, pseudo-elements, media queries).
-   Parts of this are adapted from Laradocs (app/Markdown/LICENSE-laradocs.md). */
+   in the .astro files; rendered Markdown's own look is the typography plugin,
+   set up in src/components/garden/Prose.astro. Colours are tokens; a few rules
+   are plain CSS where @apply has nothing to say (masks, pseudo-elements,
+   media queries). Parts of this are adapted from Laradocs
+   (src/scripts/LICENSE-laradocs.md). */
 @layer components {
   /* ── Prose extras the typography plugin does not do ─────────────── */
 

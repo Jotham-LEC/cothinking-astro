@@ -1,8 +1,8 @@
 ---
-// Title, meta tags and JSON-LD for a page (src/wiki/seo.ts), in the order the
+// Title, meta tags and JSON-LD for a page (src/lib/seo.ts), in the order the
 // Marketing Toolkit addon printed them.
-import { head, jsonLd, type HeadInput } from '../../lib/seo.ts';
-import type { PageInfo } from '../../lib/entry.ts';
+import { head, jsonLd, type HeadInput } from '@lib/seo.ts';
+import type { PageInfo } from '@lib/entry.ts';
 type Props = { input: HeadInput; info?: PageInfo | null };
 const { input, info } = Astro.props;
 const h = head(input);

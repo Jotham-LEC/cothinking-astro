@@ -5,22 +5,22 @@
 // default slot is the rendered body; `head` goes into the <head>.
 // `extraHeadings` are headings for the outline that the body lacks (a view's
 // own h2s). `path` is the address when it is not the entry's own (/notes/2).
-import { wiki } from '../../lib/load.ts';
-import { pageInfo } from '../../lib/entry.ts';
-import { backlinks } from '../../lib/graph.ts';
-import { pager } from '../../lib/pager.ts';
-import { toc, type Heading, type TocEntry } from '../../lib/toc.ts';
-import { day } from '../../lib/dates.ts';
-import type { Page } from '../../lib/types.ts';
-import Layout from '../../layouts/Layout.astro';
+import { wiki } from '@lib/load.ts';
+import { pageInfo } from '@lib/entry.ts';
+import { backlinks } from '@lib/graph.ts';
+import { pager } from '@lib/pager.ts';
+import { toc, type Heading, type TocEntry } from '@lib/toc.ts';
+import { day } from '@lib/dates.ts';
+import type { LivePage } from '@lib/types.ts';
+import Layout from '@layouts/Layout.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import PageHeader from './PageHeader.astro';
 import Prose from './Prose.astro';
 import Rail from './Rail.astro';
 
-type Props = { page: Page; path?: string; headings?: Heading[]; extraHeadings?: TocEntry[] };
+type Props = { page: LivePage; path?: string; headings?: Heading[]; extraHeadings?: TocEntry[] };
 const { page, headings = [], extraHeadings = [] } = Astro.props;
-const path = Astro.props.path ?? page.url!;
+const path = Astro.props.path ?? page.url;
 const w = await wiki();
 // The body as plain HTML, for a description from its first paragraph.
 const html = await w.htmlOf(page);

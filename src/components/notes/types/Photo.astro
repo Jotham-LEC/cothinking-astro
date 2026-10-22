@@ -1,9 +1,9 @@
 ---
 // Each photo at its own size (the media files are already shrunk on upload). Two or more sit in a grid.
 // `eager` on the note's own page, where the first photo is the main content.
-import { measure } from '../../../lib/markdown/rehype-images.ts';
-import { publicDir } from '../../../lib/paths.ts';
-import type { Page } from '../../../lib/types.ts';
+import { measure } from '@lib/markdown/rehype-images.ts';
+import { publicDir } from '@lib/paths.ts';
+import type { Page } from '@lib/types.ts';
 type Props = { note: Page; eager?: boolean };
 const { note, eager = false } = Astro.props;
 const photos = (Array.isArray(note.data.photos) ? (note.data.photos as string[]) : []).map((src) => ({

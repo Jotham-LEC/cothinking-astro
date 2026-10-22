@@ -3,20 +3,20 @@
 // page, and the `rail` slot on wide screens. Pass `page` for an entry's page, or `seoTitle`,
 // `seoDescription` and `seoStatus` for one without; `path` is the page's
 // address (never Astro.url). `statusline` is the status line's text.
-import { wiki } from '../lib/load.ts';
-import { headerLinks, markCurrent, menu, footerColumns } from '../lib/explorer.ts';
-import type { Page } from '../lib/types.ts';
-import type { PageInfo } from '../lib/entry.ts';
-import { publicDir } from '../lib/paths.ts';
-import Head from '../components/garden/Head.astro';
-import Header from '../components/garden/Header.astro';
-import Explorer from '../components/garden/Explorer.astro';
-import Palette from '../components/garden/Palette.astro';
-import Keys from '../components/garden/Keys.astro';
-import Statusline from '../components/garden/Statusline.astro';
-import regular from '../assets/fonts/aporetic-sans-regular.woff2?url';
-import bold from '../assets/fonts/aporetic-sans-bold.woff2?url';
-import extrabold from '../assets/fonts/aporetic-sans-extrabold.woff2?url';
+import { wiki } from '@lib/load.ts';
+import { headerLinks, markCurrent, menu, footerColumns } from '@lib/explorer.ts';
+import type { Page } from '@lib/types.ts';
+import type { PageInfo } from '@lib/entry.ts';
+import { publicDir } from '@lib/paths.ts';
+import Head from '@components/garden/Head.astro';
+import Header from '@components/garden/Header.astro';
+import Explorer from '@components/garden/Explorer.astro';
+import Palette from '@components/garden/Palette.astro';
+import Keys from '@components/garden/Keys.astro';
+import Statusline from '@components/garden/Statusline.astro';
+import regular from '@assets/fonts/aporetic-sans-regular.woff2?url';
+import bold from '@assets/fonts/aporetic-sans-bold.woff2?url';
+import extrabold from '@assets/fonts/aporetic-sans-extrabold.woff2?url';
 import '../styles/site.css';
 
 type Props = {

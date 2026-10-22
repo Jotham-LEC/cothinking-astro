@@ -1,5 +1,5 @@
-/*! Adapted from Laradocs (https://github.com/petebishwhip/laradocs), Copyright (c) Pete Bishop, MIT License: see app/Markdown/LICENSE-laradocs.md */
-// Every page's behaviour, one feature a file in resources/js/site/, started
+/*! Adapted from Laradocs (https://github.com/petebishwhip/laradocs), Copyright (c) Pete Bishop, MIT License: see src/scripts/LICENSE-laradocs.md */
+// Every page's behaviour, one feature a file in src/scripts/site/, started
 // once the page has loaded.
 import { initTheme } from './site/theme';
 import { initPanels } from './site/panels';

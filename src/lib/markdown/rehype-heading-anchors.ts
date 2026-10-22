@@ -6,6 +6,7 @@ import type { Element, Root } from 'hast';
 import { toString } from 'hast-util-to-string';
 import { h, s } from 'hastscript';
 import { visit } from 'unist-util-visit';
+import { named } from './named.ts';
 
 export const ANCHOR_PATH =
   'M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244';
@@ -33,7 +34,7 @@ const holdsLink = (node: Element): boolean => {
 };
 
 export default function rehypeHeadingAnchors() {
-  return (tree: Root) => {
+  return named('rehype-heading-anchors', (tree: Root) => {
     visit(tree, 'element', (node) => {
       if (!/^h[2-4]$/.test(node.tagName)) return;
       const id = node.properties?.id;
@@ -50,5 +51,5 @@ export default function rehypeHeadingAnchors() {
         node.children = [h('a', { href: `#${id}`, className: ['anchor'] }, [...node.children, anchorIcon()])];
       }
     });
-  };
+  });
 }

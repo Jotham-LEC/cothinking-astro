@@ -5,6 +5,7 @@ import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import { beforeAll, describe, expect, it } from 'vitest';
 import type { Root } from 'hast';
 import { renderFeed } from '../src/lib/markdown/feed.ts';
+import { named } from '../src/lib/markdown/named.ts';
 import rehypeCallouts from '../src/lib/markdown/rehype-callouts.ts';
 import { wikiRehypePlugins, wikiRemarkPlugins } from '../src/lib/markdown/index.ts';
 
@@ -168,6 +169,15 @@ describe('links, images and plain text', () => {
     expect(html).toContain('width="884" height="1200"');
     expect(html).not.toContain('zoomable');
     expect(html).toContain('<pre><code class="language-sh">ls\n</code></pre>');
+  });
+});
+
+describe('plugin errors', () => {
+  it('name the plugin and the file', () => {
+    const failing = named('rehype-example', () => {
+      throw new Error('boom');
+    });
+    expect(() => failing({}, { path: 'src/content/essays/x.md' })).toThrow('[rehype-example] src/content/essays/x.md: boom');
   });
 });
 

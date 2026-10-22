@@ -29,7 +29,7 @@ export function buildGraph(pages: Page[], collections: Collections, titles: Titl
     nodes: live.map((p) => ({
       id: idOf(p),
       title: p.title,
-      url: p.url!,
+      url: p.url,
       section: isChild(p, collections) ? p.collection : '',
       section_title: isChild(p, collections) ? (collections[p.collection]?.title ?? '') : '',
     })),

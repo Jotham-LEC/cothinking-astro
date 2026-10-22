@@ -2,13 +2,13 @@
 // /notes/type/{type}: the stream narrowed to one post type; only a type with
 // a published note gets a listing.
 import type { GetStaticPaths } from 'astro';
-import { wiki } from '../../../../lib/load.ts';
-import { byDateDesc, landingOf } from '../../../../lib/pages.ts';
-import { noteTypes } from '../../../../lib/noteTypes.ts';
-import Layout from '../../../../layouts/Layout.astro';
-import Breadcrumbs from '../../../../components/garden/Breadcrumbs.astro';
-import PageHeader from '../../../../components/garden/PageHeader.astro';
-import Stream from '../../../../components/notes/Stream.astro';
+import { wiki } from '@lib/load.ts';
+import { byDateDesc, landingOf } from '@lib/pages.ts';
+import { noteTypes } from '@lib/noteTypes.ts';
+import Layout from '@layouts/Layout.astro';
+import Breadcrumbs from '@components/garden/Breadcrumbs.astro';
+import PageHeader from '@components/garden/PageHeader.astro';
+import Stream from '@components/notes/Stream.astro';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const w = await wiki();

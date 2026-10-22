@@ -8,14 +8,14 @@ import { buildGraph, type Graph } from './graph.ts';
 import { renderFeed } from './markdown/feed.ts';
 import { published, toPages } from './pages.ts';
 import type { TitleIndex } from './titles.ts';
-import type { Collections, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
+import type { Collections, LivePage, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
 
 export type Wiki = {
   site: SiteConfig;
   collections: Collections;
   pages: Page[];
   /** Published pages with an address. */
-  live: Page[];
+  live: LivePage[];
   navigation: Record<string, NavItem[]>;
   redirects: { source: string; target: string }[];
   titles: TitleIndex;

@@ -1,8 +1,8 @@
 ---
 // The header: the logo, search, the `header` navigation, reader mode, the
 // theme toggle and the menu button.
-import type { SiteConfig } from '../../lib/types.ts';
-import type { Link } from '../../lib/explorer.ts';
+import type { SiteConfig } from '@lib/types.ts';
+import type { Link } from '@lib/explorer.ts';
 type Props = { site: SiteConfig; links: Link[] };
 const { site, links } = Astro.props;
 const last = links.length - 1;

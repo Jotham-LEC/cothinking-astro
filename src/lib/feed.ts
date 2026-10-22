@@ -70,7 +70,7 @@ export async function feedOptions(section: string | null, ctx: FeedContext): Pro
     items: await Promise.all(
       items.map(async (item) => ({
         title: item.title,
-        link: absolute(site.url, item.url!),
+        link: absolute(site.url, item.url),
         pubDate: item.date ?? undefined,
         description: await feedBody(item, ctx),
       })),

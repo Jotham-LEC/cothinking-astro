@@ -6,8 +6,8 @@ import { childrenOf, mountedOn, optionLabel } from './pages.ts';
 import type { Collections, Page } from './types.ts';
 
 /** Pieces grouped by the year of their date (display timezone), in the order given (newest first). */
-export function byYear(pieces: Page[]): [string, Page[]][] {
-  const groups = new Map<string, Page[]>();
+export function byYear<T extends Page>(pieces: T[]): [string, T[]][] {
+  const groups = new Map<string, T[]>();
   for (const p of pieces) {
     const y = p.date ? year(p.date) : '';
     groups.set(y, [...(groups.get(y) ?? []), p]);
@@ -24,7 +24,7 @@ export function years(page: Page, pages: Page[], collections: Collections): { ye
     year,
     pieces: pieces.map((p) => ({
       date: p.date,
-      url: p.url!,
+      url: p.url,
       title: p.title,
       outlet: optionLabel(collections, section, 'outlet', p.data.outlet),
     })),

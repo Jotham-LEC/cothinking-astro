@@ -2,7 +2,7 @@
 // the files on disk for `npm run check` and the tests) become Pages with
 // their addresses, and the helpers every other module shares.
 import { resolveUrls } from './urls.ts';
-import type { Collections, Page, RawEntry, Seo } from './types.ts';
+import type { Collections, LivePage, Page, RawEntry, Seo } from './types.ts';
 
 const asDate = (value: unknown): Date | null => {
   if (value instanceof Date) return value;
@@ -44,9 +44,10 @@ export function toPages(raws: RawEntry[], collections: Collections): Page[] {
 }
 
 /** The pages a reader can see: published, with an address. */
-export const published = (pages: Page[]): Page[] => pages.filter((p) => !p.draft && p.url !== null);
+export const published = (pages: Page[]): LivePage[] => pages.filter((p): p is LivePage => !p.draft && p.url !== null);
 
-export const byUrl = (pages: Page[]): Map<string, Page> => new Map(pages.filter((p) => p.url).map((p) => [p.url!, p]));
+export const byUrl = <T extends Page>(pages: T[]): Map<string, T> =>
+  new Map(pages.flatMap((p) => (p.url ? [[p.url, p] as const] : [])));
 
 /** Whether a page is a section's child (its collection is mounted on a landing page). */
 export const isChild = (page: Page, collections: Collections): boolean => Boolean(collections[page.collection]?.mount);
@@ -65,31 +66,31 @@ export function sectionOf(page: Page, collections: Collections): string | null {
 }
 
 /** The landing page a collection is mounted on. */
-export function landingOf(handle: string, pages: Page[], collections: Collections): Page | null {
+export function landingOf<T extends Page>(handle: string, pages: T[], collections: Collections): T | null {
   const mount = collections[handle]?.mount;
   return mount ? (pages.find((p) => p.collection === mount.collection && p.slug === mount.slug) ?? null) : null;
 }
 
 /** Newest first, then by title (Statamic's `date:desc|title:asc`). */
-export function byDateDesc(pages: Page[]): Page[] {
+export function byDateDesc<T extends Page>(pages: T[]): T[] {
   return [...pages].sort(
     (a, b) => (b.date?.getTime() ?? 0) - (a.date?.getTime() ?? 0) || a.title.localeCompare(b.title),
   );
 }
 
 /** Oldest first (the notes pager): the newest-first order reversed, so two pages sharing a date keep their relative order. */
-export function byDateAsc(pages: Page[]): Page[] {
+export function byDateAsc<T extends Page>(pages: T[]): T[] {
   return byDateDesc(pages).reverse();
 }
 
 /** A section's published pages: in tree order when orderable, else newest first. */
-export function childrenOf(handle: string, pages: Page[], collections: Collections): Page[] {
+export function childrenOf(handle: string, pages: Page[], collections: Collections): LivePage[] {
   const own = published(pages).filter((p) => p.collection === handle);
   return collections[handle]?.orderable ? [...own].sort((a, b) => (a.order ?? 0) - (b.order ?? 0)) : byDateDesc(own);
 }
 
 /** The home page: the root of the site's pages tree. */
-export const home = (pages: Page[]): Page | null => pages.find((p) => p.url === '/') ?? null;
+export const home = <T extends Page>(pages: T[]): T | null => pages.find((p) => p.url === '/') ?? null;
 
 /** The label of a select option (a publication's outlet). */
 export function optionLabel(

@@ -5,9 +5,10 @@ import type { Root } from 'hast';
 import { toString } from 'hast-util-to-string';
 import { visit } from 'unist-util-visit';
 import { uniqueSlugs } from './slug.ts';
+import { named } from './named.ts';
 
 export default function rehypeHeadingIds() {
-  return (tree: Root) => {
+  return named('rehype-heading-ids', (tree: Root) => {
     const taken: string[] = [];
     visit(tree, 'element', (node) => {
       if (typeof node.properties?.id === 'string' && node.properties.id !== '') taken.push(node.properties.id);
@@ -18,5 +19,5 @@ export default function rehypeHeadingIds() {
       node.properties ??= {};
       if (node.properties.id === undefined || node.properties.id === '') node.properties.id = slug(toString(node));
     });
-  };
+  });
 }

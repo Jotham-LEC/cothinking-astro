@@ -19,7 +19,7 @@
 @import './tokens.css';
 @import './components.css';
 
-/* Aporetic (SIL OFL, resources/fonts/aporetic/LICENSE.md), self-hosted and
+/* Aporetic (SIL OFL, src/assets/fonts/LICENSE.md), self-hosted and
    subset to Latin: Sans for everything (in 400 and 700 with italics, and an
    800 for headings, built from Aporetic's own Iosevka plan with that one
    weight added), Sans Mono for code. */
@@ -166,7 +166,7 @@
 
 /* Rendered Markdown: the typography plugin's colours, on the site's tokens.
    Its fonts, wrapping and the rest are element modifiers on the wrapper
-   (resources/views/components/prose.blade.php). */
+   (src/components/garden/Prose.astro). */
 .prose {
   --tw-prose-body: var(--color-fg);
   --tw-prose-headings: var(--color-heading);

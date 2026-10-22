@@ -25,7 +25,10 @@ const { pages, collections, site, titles } = project;
 const live = published(pages);
 const urls = byUrl(live);
 const page = (url: string) => urls.get(url)!;
+// The Laravel site's pages (`npm run golden`, git-ignored): the tests that compare with them skip without it, loudly.
 const golden = path.join(root, 'DEV_FILES/golden/pages');
+const hasGolden = fs.existsSync(golden);
+if (!hasGolden) console.warn('golden set missing: run `npm run golden`; the Laravel comparison tests are skipped.');
 
 describe('explorer', () => {
   const rows = explorerRows(project);
@@ -56,7 +59,7 @@ describe('explorer', () => {
     const typed = markCurrent(rows, null, '/notes/type/text');
     expect(typed.find((r) => r.title === 'Notes')!.children[0]!.isCurrent).toBe(true);
   });
-  it.skipIf(!fs.existsSync(golden))('matches the data-path list the Laravel site printed', () => {
+  it.skipIf(!hasGolden)('matches the data-path list the Laravel site printed', () => {
     const html = fs.readFileSync(path.join(golden, 'career.html'), 'utf8');
     const printed = [...html.matchAll(/data-path="([^"]*)"/g)].map((m) => m[1]!.replace('http://localhost:8004', ''));
     const ours = rows.flatMap(function paths(r): string[] {
@@ -78,7 +81,7 @@ describe('graph and backlinks', () => {
     expect(backlinks(graph, page('/sports')).map((b) => b.url)).toContain('/');
     expect(graph.links.some((l) => l.source === l.target)).toBe(false);
   });
-  it.skipIf(!fs.existsSync(golden))('matches /graph.json by url', () => {
+  it.skipIf(!hasGolden)('matches /graph.json by url', () => {
     const printed = JSON.parse(fs.readFileSync(path.join(golden, 'graph.json'), 'utf8'));
     const byId = Object.fromEntries(printed.nodes.map((n: { id: string; url: string }) => [n.id, n.url]));
     const theirs = printed.links
@@ -185,7 +188,7 @@ describe('pager, years, note types, breadcrumbs', () => {
 describe('head and generated files', () => {
   const input = (p: ReturnType<typeof page>, extra = {}) => ({
     page: p,
-    path: p.url!,
+    path: p.url,
     site,
     collections,
     pages: live,

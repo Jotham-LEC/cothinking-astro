@@ -2,14 +2,14 @@
 // drawn at build time for pages without an image of their own, and for the
 // rest too, so a page that drops its image keeps a card.
 import type { APIRoute, GetStaticPaths } from 'astro';
-import { wiki } from '../../lib/load.ts';
-import { cardFor } from '../../lib/share.ts';
-import { renderCard } from '../../lib/ogCard.ts';
-import { projectRoot } from '../../lib/paths.ts';
+import { wiki } from '@lib/load.ts';
+import { cardFor } from '@lib/share.ts';
+import { renderCard } from '@lib/ogCard.ts';
+import { projectRoot } from '@lib/paths.ts';
 
 export const getStaticPaths = (async () => {
   const w = await wiki();
-  return w.live.filter((p) => p.url !== '/').map((p) => ({ params: { uri: p.url!.slice(1) }, props: { page: p } }));
+  return w.live.filter((p) => p.url !== '/').map((p) => ({ params: { uri: p.url.slice(1) }, props: { page: p } }));
 }) satisfies GetStaticPaths;
 
 export const GET: APIRoute = async ({ props }) => {

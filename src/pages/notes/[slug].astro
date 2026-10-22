@@ -3,12 +3,12 @@
 // above its text. A text note is all text, so it adds nothing. A slug is
 // never a number, so none collides with /notes/2.
 import { render } from 'astro:content';
-import { wiki } from '../../lib/load.ts';
-import Entry from '../../components/garden/Entry.astro';
-import Photo from '../../components/notes/types/Photo.astro';
-import Link from '../../components/notes/types/Link.astro';
-import Quote from '../../components/notes/types/Quote.astro';
-import Video from '../../components/notes/types/Video.astro';
+import { wiki } from '@lib/load.ts';
+import Entry from '@components/garden/Entry.astro';
+import Photo from '@components/notes/types/Photo.astro';
+import Link from '@components/notes/types/Link.astro';
+import Quote from '@components/notes/types/Quote.astro';
+import Video from '@components/notes/types/Video.astro';
 
 export async function getStaticPaths() {
   const w = await wiki();
