@@ -241,6 +241,11 @@
     @apply text-base;
   }
 
+  /* The previewed page's title, set as its h1 is, without being one. */
+  .popover-title {
+    @apply text-heading font-heading text-2xl font-extrabold tracking-tight text-balance;
+  }
+
   /* Another site's card: its host, the full address, and a word that it leaves. */
   .popover-host {
     @apply text-accent text-xs font-semibold tracking-wider uppercase;

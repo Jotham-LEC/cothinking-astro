@@ -1,6 +1,7 @@
 ---
 title: Emails going to spam
 description: Why your company's emails end up in customers' spam folders, how to check the cause, and how to fix it yourself, or with my help.
+date: 2026-10-12
 updated: 2026-10-16T08:00:00+00:00
 order: 0
 what_i_do: I add the settings that show Gmail and Outlook your emails are genuine, and check every system that sends email in your company's name.

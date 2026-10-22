@@ -1,6 +1,7 @@
 ---
 title: Set up proper business email
 description: How to set up business email on your own domain with Google Workspace or Microsoft 365, and move your existing email across, yourself or with my help.
+date: 2026-10-08
 updated: 2026-10-20T08:00:00+00:00
 order: 2
 what_i_do: I set up Google Workspace or Microsoft 365 on your own domain, and move your existing email across.

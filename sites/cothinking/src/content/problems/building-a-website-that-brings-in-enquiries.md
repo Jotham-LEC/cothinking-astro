@@ -1,6 +1,7 @@
 ---
 title: Building a website that brings in enquiries
 description: Why a small-business website brings in no enquiries, how to check it, and what to fix before you decide to replace it.
+date: 2026-10-04
 updated: 2026-10-16T08:00:00+00:00
 order: 5
 what_i_do: I look at your current site first and tell you whether fixing it is enough. If it isn't, I build new websites at fixed package prices, listed on the Websites page.

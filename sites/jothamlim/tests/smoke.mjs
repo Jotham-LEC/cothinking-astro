@@ -134,6 +134,24 @@ async function run({ page, BASE, check, shots }) {
     .catch(() => '');
   check('palette search via Pagefind', hits > 0 && excerpt.includes('palette-mark'), `${hits} hits`);
   check('palette section header', (await page.locator('[data-palette-results] .palette-section').count()) > 0);
+  const aria = await page.evaluate(() => {
+    const input = document.querySelector('[data-palette-input]');
+    const active = document.getElementById(input?.getAttribute('aria-activedescendant') ?? '');
+    return {
+      combobox: input?.getAttribute('role') === 'combobox' && input.getAttribute('aria-controls') === 'palette-results',
+      listbox: document.getElementById('palette-results')?.getAttribute('role') === 'listbox',
+      active: active?.getAttribute('role') === 'option' && active.getAttribute('aria-selected') === 'true',
+    };
+  });
+  await page.keyboard.press('ArrowDown');
+  const moved = await page.evaluate(() => {
+    const id = document.querySelector('[data-palette-input]')?.getAttribute('aria-activedescendant') ?? '';
+    return (
+      document.querySelectorAll('[data-palette-results] [aria-selected="true"]').length === 1 &&
+      document.getElementById(id)?.querySelector('a.is-active') !== null
+    );
+  });
+  check('palette is a combobox over a listbox', aria.combobox && aria.listbox && aria.active && moved);
   check(
     'result url has no .html',
     !(await page.locator('[data-palette-results] li a').first().getAttribute('href'))?.endsWith('.html'),
@@ -194,6 +212,10 @@ async function run({ page, BASE, check, shots }) {
     'drawer focuses the current page',
     await page.evaluate(() => document.activeElement?.closest('#explorer') !== null),
   );
+  check(
+    'the page behind the drawer is inert',
+    await page.evaluate(() => document.getElementById('main')?.closest('[inert]') !== null),
+  );
   await page.screenshot({ path: `${shots}/mobile-drawer.png` });
   await page.keyboard.press('Control+KeyK');
   await page.waitForSelector('#palette[open]');
@@ -209,6 +231,7 @@ async function run({ page, BASE, check, shots }) {
   await page.click('button[popovertarget="explorer"]');
   await page.keyboard.press('Escape');
   check('escape closes the drawer', !(await page.locator('#explorer').evaluate((el) => el.matches(':popover-open'))));
+  check('a closed drawer leaves the page live', await page.evaluate(() => document.querySelector('[inert]') === null));
 
   // Without JavaScript the drawer still opens (declarative popover).
   const noJs = await page

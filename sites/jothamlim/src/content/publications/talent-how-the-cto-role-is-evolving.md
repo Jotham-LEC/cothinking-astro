@@ -19,7 +19,7 @@ However, a fatter pay cheque is followed by wildly shifting job requirements and
 
 “But things are now more agile. We need to wear different hats, such as considering the company’s finances and other operations, supporting the company leadership, and considering how technology can be used to pivot and transform the business.”
 
-### An exciting time to become a CTO
+## An exciting time to become a CTO
 
 The fundamental role of CTOs — which is to support the company’s technological operations — still applies today, Nambiar stresses. However, there has been an explosive growth of the cloud and other related industries, freeing up CTOs to focus on other core aspects of the business model.
 
@@ -39,7 +39,7 @@ More importantly, the tech revolution has reshaped how talents learn and impleme
 
 “One aspect that we can do better is to have a lot more cross-platform engagements. We need to mentor more technological leaders within organisations. It is one thing to hire more talent, but it’s important to give back as well, considering that I started my career without the same mentorship, leadership and community support.”
 
-### Common IT mistakes during the pandemic
+## Common IT mistakes during the pandemic
 
 When the pandemic happened, many local companies were left with little choice but to digitise many of their processes. If these unplanned transformations are rushed, it might be detrimental to the company’s long-term strategy. According to Nambiar, companies should pay attention to facilitating remote working.
 

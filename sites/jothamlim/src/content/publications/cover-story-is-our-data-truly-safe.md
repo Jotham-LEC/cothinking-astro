@@ -15,7 +15,7 @@ Surely, data privacy laws are on our side. Yet, an attempt at legal recourse wil
 
 Our current data privacy laws are ill-equipped to handle these sorts of delicate situations due to a concept known as data sovereignty. It is the idea that data is subject to the laws of the country where it is physically stored. Away from Malaysian shores, we are effectively relying on blind trust in the self-policing of the firms that store the data and international regulators.
 
-### Can our laws protect us?
+## Can our laws protect us?
 
 Although there are overlapping jurisdictions, our data privacy is primarily determined by the Personal Data Protection Act 2010 (PDPA). In it, there are clauses stating that a data user shall not transfer any personal data outside of Malaysia except under certain conditions.
 
@@ -49,7 +49,7 @@ For years, our data practices in both the public and private sectors have been s
 
 “That is why current laws need to be reviewed for enforcement agencies, be it by policing authorities or related ministries, to be held responsible for protecting these systems in the first place. Conversations around data protection need to happen, before we can dive deeper into protecting individual user privacy and related matters.”
 
-### An issue of enforcement
+## An issue of enforcement
 
 On the other hand, there is the matter of enforcing the existing policies, says M Satya Riayatsyah Syafruddin, CEO of ACASIA Communications Sdn Bhd.
 
@@ -71,7 +71,7 @@ ACASIA fills this gap by serving as a one-stop centre and a regional ICT solutio
 
 ![Cover Story: Is our data truly safe?](../../assets/media/the-edge/cover-story-is-our-data-truly-safe/DE6-dictionary-TEM1375_theedgemarkets.jpg)
 
-### The inevitability of the issue
+## The inevitability of the issue
 
 Malaysian organisations are now going through a transitionary period when it comes to data storage and governance. With many processes undergoing digitalisation, data and workloads are constantly being moved from on-premise servers to the cloud, and back to localised servers in the company — creating multi-generational data sprawls.
 

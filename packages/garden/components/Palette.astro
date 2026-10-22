@@ -2,7 +2,9 @@
 // ⌘K search: a native dialog (focus stays inside it, Esc and a click
 // outside close it, an open drawer is put away as it opens). The site's
 // pages are listed up front, in their order; from two characters
-// scripts/palette.ts asks Pagefind and builds the results.
+// scripts/palette.ts asks Pagefind and builds the results. The field and
+// the list are an ARIA combobox: the script points aria-activedescendant at
+// the active option.
 import type { SiteEntry } from '../lib/entry.ts';
 type Props = { live: SiteEntry[] };
 const { live } = Astro.props;
@@ -25,6 +27,10 @@ const root = live.filter((p) => p.collection === 'pages').sort((a, b) => (a.orde
       type="search"
       placeholder="Search pages…"
       aria-label="Search pages"
+      role="combobox"
+      aria-expanded="true"
+      aria-controls="palette-results"
+      aria-autocomplete="list"
       autocomplete="off"
       autofocus
       data-palette-input
@@ -45,10 +51,13 @@ const root = live.filter((p) => p.collection === 'pages').sort((a, b) => (a.orde
   {/* A stable floor and ceiling keep the panel from resizing as results swap. */}
   <ul
     class="[&_a]:flex [&_a]:flex-wrap [&_a]:items-baseline [&_a]:gap-3 [&_a]:px-4 [&_a]:py-2 [&_a]:text-sm [&_a]:text-fg [&_a]:no-underline [&_a:hover]:bg-bg-elev max-h-[50vh] min-h-32 [scrollbar-gutter:stable] overflow-y-auto py-1.5"
+    id="palette-results"
+    role="listbox"
+    aria-label="Pages"
     data-palette-results
   >
-    {root.map((p) => (
-      <li>
+    {root.map((p, i) => (
+      <li role="option" id={`palette-option-${i}`} aria-selected="false">
         <a href={p.url} data-label={p.title.toLowerCase()}>
           <span class="palette-title">{p.title}</span>
         </a>

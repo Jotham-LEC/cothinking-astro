@@ -31,7 +31,7 @@ Although this does not directly affect gameplay, the gaming industry has starte
 
 HyperDot, a game where players control a dot by avoiding obstacles. Eye-tracking allows players to control the dot without the use of traditional devices. (Photo by Tribe Games)
 
-### Developers taking action
+## Developers taking action
 
 It does not take an army of developers to introduce accessibility features. *HyperDot*, a minimal action arcade game nominated for the aforementioned award, was developed by solo developer Charles McGregor. In the game, players control a dot with the simple task of dodging obstacles.
 

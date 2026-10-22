@@ -29,7 +29,7 @@ In comparison, only 62% of the family businesses surveyed globally feel that the
 
 “As it is, in terms of digital skills competitiveness, Malaysia’s family businesses face the risk of being left behind in the digital space compared to their regional counterparts. Our survey revealed that 33% of Asia-Pacific respondents say that they have strong digital capabilities, compared to 41% in North America and 43% in Europe,” the report highlights.
 
-### Shifting towards NextGens and professionals
+## Shifting towards NextGens and professionals
 
 In this scenario in which Malaysian family businesses are playing catch-up with their global peers, NextGens are in a unique position to lead the family business digital transformation initiatives.
 
@@ -53,7 +53,7 @@ According to Fung, the pandemic era also marks another major shift within the mi
 
 ![Family Business: A shift in priorities](../../assets/media/the-edge/family-business-a-shift-in-priorities/DE8-charts-tem1367_theedgemarkets.jpg)
 
-### Bridging the digital gap
+## Bridging the digital gap
 
 Fung highlights that family businesses and non-family corporate entities may approach digital transformation differently, owing to the different business goals and objectives. She says in a family business environment, the company tends to prioritise company sustainability and will invest in projects that hold long-term value.
 

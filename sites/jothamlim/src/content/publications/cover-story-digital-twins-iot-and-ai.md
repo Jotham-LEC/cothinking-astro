@@ -25,7 +25,7 @@ Yet, the technology has been widely used and adopted by major companies worldwid
 
 Digital Edge spoke to experts to better understand the adoption trend of digital twin technology in the local market, and the opportunities and challenges presented to companies looking to implement this technology.
 
-### What is digital twin technology?
+## What is digital twin technology?
 
 Put simply, a digital twin is a virtual model or representation of a physical process, product or service, formed through the generation or collection of data — a process similar to the ideas presented in the 1999 science-fiction movie The Matrix.
 
@@ -49,7 +49,7 @@ Ryan Sim, a partner at the consulting arm of Ernst & Young Advisory Services Sdn
 
 ![Cover Story: Digital twins IoT and AI?](../../assets/media/the-edge/cover-story-digital-twins-iot-and-ai/DE6-sim-tem1358_theedgemarkets.jpg)
 
-### Digital twin market in Malaysia
+## Digital twin market in Malaysia
 
 According to Ngo, Asia is rapidly gaining awareness of digital twin technology but technological adoption is still in the preliminary stages, with many companies still conducting surveys or testing out proofs of concept.
 
@@ -67,7 +67,7 @@ He further points out that if the definition of digital twin technology were not
 
 Sim says digital twin technology, however, has become an umbrella term that encompasses solutions that vary wildly in structure and use cases and, ultimately, it depends on how the companies define the term and how the technology is used to benefit them.
 
-### Implementing digital twins
+## Implementing digital twins
 
 Although digital twin technology revolves around the usage of technical devices and complex data, Ngo points out that the biggest challenge in implementing the technology is not technical but, instead, in reshaping the company’s business processes and human resources to allow the technology to be useful.
 

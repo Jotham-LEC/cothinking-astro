@@ -112,7 +112,7 @@ build). The share cards read their four colours off `tokens.css`
   `title`, `date` on a dated collection, optional `description`, `image`
   (a file under `src/assets/media`, referenced relatively), `updated`,
   `draft: true`, `seo` (`title`, `description`, `canonical`, `og_type`,
-  `noindex`, `sitemap`). Headings start at `##`; `[[Title]]` links a page on
+  `noindex`, `sitemap`). Headings start at `##` (the check fails otherwise); `[[Title]]` links a page on
   either site; `> [!NOTE] Title` is a callout; raw HTML is allowed
   (`<img class="wiki-logo-light">`/`-dark` pairs, `<figure class="wiki-pdf">`,
   `<a class="button">`).

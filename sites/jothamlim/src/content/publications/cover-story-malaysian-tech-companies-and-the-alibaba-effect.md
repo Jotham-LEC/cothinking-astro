@@ -41,7 +41,7 @@ All of this is relevant to businesses here as China has been Malaysia’s larges
 
 Many local businesses have established long-term and strong business relationships with Chinese corporate entities. Despite the negative press China has received from Western media over the actions highlighted, conversations with experts and local businesses paint a significantly different picture of what it is actually like working with Chinese companies.
 
-### Weighing opportunities and risks
+## Weighing opportunities and risks
 
 Aemulus Holdings Bhd, which specialises in semiconductor testing equipment, for instance, has formed a joint venture (JV) with Chinese company Tangren Microtelligence Co Ltd to establish Tang Ming Sheng Shi (Jiashan) Technology Co Ltd (TMSS).
 
@@ -87,7 +87,7 @@ According to Reuters, these non-bank fintech players have captured a large segme
 
 In terms of the ease of doing business there, he says the bureaucratic process of setting up his JV company was part of the adaptive process of assimilating to the new foreign environment. However, it is essential for business owners to get their boots on the ground in China and be prepared to stay there long term to truly comprehend the business culture and values, he points out.
 
-### Context matters
+## Context matters
 
 Regarding the Western media’s negative portrayal of China’s actions towards the private sector, the Jeffrey Cheah Institute (JCI) on Southeast Asia president Dr Woo Wing Thye says context matters.
 

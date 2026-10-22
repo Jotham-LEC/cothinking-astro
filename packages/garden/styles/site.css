@@ -93,6 +93,10 @@
     scroll-behavior: smooth;
     /* Keep what focus or an anchor scrolls to clear of the sticky header (h-14). */
     scroll-padding-top: 4.5rem;
+    /* From lg the status line (h-6) is fixed at the bottom: keep focus clear of it too. */
+    @variant lg {
+      scroll-padding-bottom: 2rem;
+    }
   }
 
   body {

@@ -45,7 +45,7 @@ He adds that local property developers play an essential role in pushing the “
 
 He says there are many ways to incentivise consumers to be interested in property developments aimed at allowing residents to age in place, such as awareness campaigns, housing price subsidies, low interest rates, income tax rebates and exemptions from stamp duty and instrument of transfer.
 
-### Developer initiatives
+## Developer initiatives
 
 While some property developers have begun to focus on purpose-built housing for seniors in the form of retirement villages, others have taken steps to accommodate this growing customer segment through smart township planning and universal design concepts suitable for all members of the family.
 

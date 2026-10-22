@@ -65,7 +65,7 @@ Investing in gold bullion, however,  does have its downsides. Liew of Ace Capit
 
 Despite the rapid increase in the price of gold, most experts agree that gold bullion functions more as a store of wealth and a wealth preservation tool as opposed to an investment tool. Steven often tells his customers that they should not buy gold looking to earn a profit, but instead with the objective of not losing wealth due to the depreciation of fiat currency.
 
-### Investing in bullion
+## Investing in bullion
 
 Ermin Siow Der Ming, executive director of Poh Kong Jewellers Sdn Bhd, explains that there has been a surge in demand for gold bullion in recent weeks due to the spike in the price of gold.
 

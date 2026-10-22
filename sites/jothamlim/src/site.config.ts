@@ -59,13 +59,13 @@ export const site = {
   seo: {
     defaultDescription:
       "Hi! I'm Jotham, Head of Global Marketing at Moojing, a certified career coach, and I run CoThinking, my web, IT and marketing practice. I write about marketing, tech and work.",
-    twitterHandle: 'Jotham_LEC_',
     publisher: {
       type: 'Person',
       alternateName: ['Jotham Lim Ee Chen'],
       jobTitle: 'Head of Global Marketing',
+      worksFor: [{ name: 'Moojing', url: 'https://moojing-global.com' }],
       logo: '/media/profile-400.jpg',
-      sameAs: ['https://linkedin.com/in/jothamlec', 'https://github.com/Jotham-LEC', 'https://x.com/Jotham_Lim_'],
+      sameAs: ['https://linkedin.com/in/jothamlec', 'https://github.com/Jotham-LEC'],
     },
   },
   marketing: { gtmId: 'GTM-M5NLR7CX', robotsDisallow: ['/cp/'], allowAiTraining: true, allowAiSearch: true },

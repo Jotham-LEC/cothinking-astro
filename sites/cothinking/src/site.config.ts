@@ -118,7 +118,6 @@ export const site = {
   seo: {
     defaultDescription:
       'Web, IT and marketing for small businesses in Malaysia, all in one service. Start small, and pay only when you need something done.',
-    twitterHandle: 'Jotham_LEC_',
     publisher: {
       type: 'Organization',
       name: 'CoThinking',

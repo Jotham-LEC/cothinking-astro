@@ -1,6 +1,7 @@
 ---
 title: Website form not sending emails
 description: Why a website's contact form stops sending enquiries without anyone noticing, how to find where they stop, and how to fix it yourself, or with my help.
+date: 2026-10-07
 updated: 2026-10-16T08:00:00+00:00
 order: 1
 what_i_do: I find where your enquiries go missing and make sure every one reaches you.

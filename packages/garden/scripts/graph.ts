@@ -216,6 +216,8 @@ function createView(
     { passive: false },
   );
   on('pointerdown', (event) => {
+    // Only the main button drags or opens a page; a middle or right click is the browser's.
+    if (event.button !== 0) return;
     const p = point(event);
     const node = nodeAt(p);
     pressed = { node, start: p, view: { ...view }, moved: false };

@@ -23,7 +23,7 @@ Despite its growing prevalence, local cybersecurity experts are worried that awa
 
 “On the other hand, [the public] needs to have at least a basic understanding of the dark web, because cybercriminal activities and the dark web are closely related.”
 
-### So what exactly is the dark web?
+## So what exactly is the dark web?
 
 To move this conversation further, it is important to draw the distinction between the three levels of the internet — namely, the surface, deep and dark web.
 
@@ -53,7 +53,7 @@ There was also the high-profile case of Richard William Huckle, a serial sex off
 
 "While discussion around machine learning, artificial intelligence and automation is sexy for driving software margins, our real capability is to find the deepest, darkest and most secret places on both the internet and dark web.” - Minder (Photo by Groupsense)
 
-### Why do criminals love the dark web?
+## Why do criminals love the dark web?
 
 Observant readers may notice that the unique properties of the dark web can be replicated on the surface web. Not only does the surface web provide a multitude of encryption tools,  but virtual private networks and proxies can also help mask a user’s identity and digital footprint.
 
@@ -69,7 +69,7 @@ Fong Choong Fook, CEO of local penetration testing firm LE Global Services (LGMS
 
 Snippets from the dark web
 
-### Cybersecurity firms fight back
+## Cybersecurity firms fight back
 
 Fortunately, activities on the dark web did not go totally unnoticed. When GroupSense was founded in 2014, data breaches were the primary cybersecurity threat. The dark web had witnessed years of consecutive growth, as evidenced in the rising number of Bitcoin transactions and revenues within dark web markets.
 
@@ -109,7 +109,7 @@ After coming across leaked sensitive documents on the dark web, however, Fong is
 
 “This sort of data was supposed to be within the hospital network. When it is revealed outside the network, it means that the network is already compromised and other sensitive information could already be out there. Sometimes, we have to frame the data leak in a different perspective to make them understand how severe the problem is because normally, people do not take it that seriously,” Fong points out.
 
-### Limitations of dark web monitoring
+## Limitations of dark web monitoring
 
 The dark web is notoriously hard to navigate, with many leaked databases locked behind forums and sites that require special permission to access. Dark web links are also difficult to source, with the links themselves constantly being updated, sometimes even on a daily basis.
 

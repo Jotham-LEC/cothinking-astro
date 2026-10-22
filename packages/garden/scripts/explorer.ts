@@ -2,8 +2,10 @@
 // components/Drawer.astro): the chevron toggles a folder, and the browser
 // remembers which ones you opened or closed (the server opens the current
 // page's). Scroll position comes back too, so the tree does not jump between
-// pages. When the drawer opens, focus goes to the current page's link; when
-// the window grows into the column layout, an open drawer is put away.
+// pages. When the drawer opens, focus goes to the current page's link and
+// the page behind it (the main column, the rail, the footer) is inert until
+// it closes, as a popover is not modal; when the window grows into the
+// column layout, an open drawer is put away.
 export function initExplorer() {
   const explorer = document.getElementById('explorer');
   if (!explorer) return;
@@ -48,14 +50,23 @@ export function initExplorer() {
     { passive: true },
   );
 
+  const column = window.matchMedia('(min-width: 64rem)');
+  const room = explorer.closest('[data-room]') !== null;
+  const behind = [
+    document.getElementById('main')?.closest('.shell > *'),
+    document.getElementById('rail'),
+    document.querySelector('body > footer'),
+  ].filter((el): el is HTMLElement => el instanceof HTMLElement);
   explorer.addEventListener('toggle', (event) => {
-    if ((event as ToggleEvent).newState !== 'open') return;
+    const opened = (event as ToggleEvent).newState === 'open';
+    // From lg outside a room the Explorer is a column, not a drawer over the page.
+    for (const el of behind) el.inert = opened && (room || !column.matches);
+    if (!opened) return;
     const current =
       explorer.querySelector<HTMLElement>('[aria-current]') ?? explorer.querySelector<HTMLElement>('a, button');
     current?.focus();
   });
-  const column = window.matchMedia('(min-width: 64rem)');
   column.addEventListener('change', () => {
-    if (column.matches && !explorer.closest('[data-room]') && explorer.matches(':popover-open')) explorer.hidePopover();
+    if (column.matches && !room && explorer.matches(':popover-open')) explorer.hidePopover();
   });
 }

@@ -1,7 +1,8 @@
 ---
 // The Explorer's panel: a popover the header's menu button opens, which is
-// a drawer from the right below lg and in a room (light-dismissed, the page
-// behind it inert, no JavaScript needed to open it), and the sticky left
+// a drawer from the right below lg and in a room (light-dismissed, no
+// JavaScript needed to open it; a popover is not modal, so
+// scripts/explorer.ts makes the page behind it inert), and the sticky left
 // column from lg outside a room (styles/shell.css). It holds the header's
 // links the header has no room for yet (`menu`), then the Explorer tree.
 import type { Link, Row } from '../lib/explorer.ts';

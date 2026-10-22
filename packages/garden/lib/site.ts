@@ -55,7 +55,6 @@ export type SiteConfig = {
   otherSite: { name: string; url: string };
   seo: {
     defaultDescription: string;
-    twitterHandle?: string;
     /** Who is behind the site, for the JSON-LD: a Person or an Organization. */
     publisher: {
       type: 'Person' | 'Organization';
@@ -66,6 +65,8 @@ export type SiteConfig = {
       /** A public path: a Person's image, an Organization's logo (else the site's logo). */
       logo?: string;
       jobTitle?: string;
+      /** A Person's employers, as Organizations; an Organization's founder is the other site's Person. */
+      worksFor?: { name: string; url: string }[];
       telephone?: string;
       email?: string;
       address?: { locality?: string; region?: string; country?: string };

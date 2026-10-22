@@ -43,7 +43,7 @@ He explains that gaining access to the business’ networks is much more desirab
 
 ![Cover Story: Holding Data Hostage](../../assets/media/the-edge/cover-story-holding-data-hostage/DE6-CS-digitionary-tem1378_theedgemarkets.jpg)
 
-### No one is safe
+## No one is safe
 
 News headlines reinforce the optics that ransomware attacks are rare encounters reserved for large institutions flush with cash. Prolific victims include billion-dollar corporations such as Acer, JBS Foods and Colonial Pipelines. Local news media have reported attacks on companies such as Media Prima and AXA’s Asia Assistance division.
 
@@ -81,7 +81,7 @@ Lim advises organisations against paying ransomware hackers, a sentiment shared 
 
 “Don’t pay the ransom — easy to say, but far less easy to do when your organisation has ground to a halt because of a ransomware attack. Independent of any ethical considerations, paying the ransom is an ineffective way to get data back. If you do decide to pay, bear in mind that the adversaries will restore, on average, only two-thirds of your files.”
 
-### Need for ransomware negotiation
+## Need for ransomware negotiation
 
 Despite calls not to pay the ransom, organisations with no course for remediation are compelled to do so, giving rise to a new category of experts known as “ransomware negotiators”. One of them is Kurtis Minder, CEO of US-based cyber reconnaissance company GroupSense.
 

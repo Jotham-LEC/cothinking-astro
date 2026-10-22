@@ -1,6 +1,6 @@
 ---
 // /notes/type/{type}: the stream narrowed to one post type; only a type with
-// a published note gets a listing.
+// a published note gets a listing. Not indexed: /notes lists the same notes.
 import { getEntry } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import { garden } from '@garden/lib/load.ts';
@@ -30,7 +30,12 @@ const path =
   page.currentPage > 1 ? `/notes/type/${Astro.params.type}/${page.currentPage}` : `/notes/type/${Astro.params.type}`;
 ---
 
-<Layout path={path} seoTitle={`${title} notes`} seoDescription={`Every ${title.toLowerCase()} note, newest first.`}>
+<Layout
+  path={path}
+  seoTitle={`${title} notes`}
+  seoDescription={`Every ${title.toLowerCase()} note, newest first.`}
+  seoNoindex
+>
   <Fragment slot="head">
     {page.url.prev && <link rel="prev" href={page.url.prev} />}
     {page.url.next && <link rel="next" href={page.url.next} />}
