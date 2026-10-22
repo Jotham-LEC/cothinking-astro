@@ -19,7 +19,6 @@ import Related from '@site/components/Related.astro';
 import Timeline from '@site/components/Timeline.astro';
 const entry = (await getEntry('pages', 'how-i-work'))!;
 const g = await garden();
-const page = g.entry(entry);
 const testimonial = testimonialOf(await workEntries());
 const termsDate = new Date(terms.date).toLocaleDateString('en-GB', {
   day: 'numeric',
@@ -66,7 +65,7 @@ const outline = [
       <SectionHeading id="prices" title="What a job costs" />
       <Prices />
       <p class="mt-6">
-        <Email about={page.title}>Ask for a price</Email>
+        <Email about={entry.data.title}>Ask for a price</Email>
       </p>
     </section>
 
@@ -178,7 +177,7 @@ const outline = [
           email
         </a>{' '}
         or on
-        <a class="text-accent underline underline-offset-2" href={whatsappHref(page.title)}>
+        <a class="text-accent underline underline-offset-2" href={whatsappHref(entry.data.title)}>
           WhatsApp
         </a>
         .
@@ -203,6 +202,6 @@ const outline = [
       </p>
     </AboutMe>
 
-    <Enquiry about={page.title} />
+    <Enquiry about={entry.data.title} />
   </div>
 </Entry>

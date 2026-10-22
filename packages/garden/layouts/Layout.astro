@@ -3,7 +3,7 @@
 // column from there), the page, the `rail` slot, the palette, the keys
 // card, the status line and the footer. A `room` takes the full width and
 // keeps the Explorer as a drawer (with the header's links only). Pass
-// `page` for an entry's page, or `seoTitle`, `seoDescription` and
+// `entry` (one of Astro's) for an entry's page, or `seoTitle`, `seoDescription` and
 // `seoStatus` for one without (`seoTitle` also renames an entry's later
 // pages); `seoNoindex` keeps a page out of search engines; `path` is the page's address (never
 // Astro.url). `statusline` is the status line's text.
@@ -11,7 +11,6 @@
 // <Entry>, so its whole <main> is marked here.
 import { Font } from 'astro:assets';
 import { garden, site } from '../lib/load.ts';
-import type { SiteEntry } from '../lib/entry.ts';
 import type { PageInfo } from '../lib/info.ts';
 import { headerLinks, markCurrent, menu, panels, footerColumns } from '../lib/explorer.ts';
 import { seoFor } from '../lib/seo.ts';
@@ -26,7 +25,7 @@ import Statusline from '../components/Statusline.astro';
 import '@site/styles/site.css';
 
 type Props = {
-  page?: SiteEntry | null;
+  entry?: { collection: string; id: string } | null;
   info?: PageInfo | null;
   path: string;
   room?: boolean;
@@ -36,8 +35,9 @@ type Props = {
   seoNoindex?: boolean;
   statusline?: string | null;
 };
-const { page = null, info = null, path, room = false, seoStatus = 200, statusline = null } = Astro.props;
+const { entry = null, info = null, path, room = false, seoStatus = 200, statusline = null } = Astro.props;
 const g = await garden();
+const page = entry ? g.entry(entry) : null;
 const { live } = g;
 const head = seoFor(site, live, {
   page,

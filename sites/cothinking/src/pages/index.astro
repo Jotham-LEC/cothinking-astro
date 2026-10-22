@@ -1,16 +1,16 @@
 ---
 // cothink.ing's home page, a room. Its copy is written here.
 import { getEntry } from 'astro:content';
-import { garden } from '@garden/lib/load.ts';
-import { childrenOf } from '@garden/lib/entry.ts';
+import { urlOf } from '@garden/lib/load.ts';
 import Layout from '@garden/layouts/Layout.astro';
 import Prose from '@garden/components/Prose.astro';
 import SectionHeading from '@garden/components/SectionHeading.astro';
 import ComputerDesktop from '@site/assets/icons/computer-desktop.svg';
 import WrenchScrewdriver from '@site/assets/icons/wrench-screwdriver.svg';
 import { price } from '@site/lib/contact.ts';
+import { problemsInOrder } from '@site/lib/problems.ts';
 import { testimonialOf, workEntries } from '@site/lib/work.ts';
-import { prices, site } from '@site/site.config.ts';
+import { prices } from '@site/site.config.ts';
 import AboutMe from '@site/components/AboutMe.astro';
 import Email from '@site/components/Email.astro';
 import Enquiry from '@site/components/Enquiry.astro';
@@ -18,14 +18,13 @@ import ProblemList from '@site/components/ProblemList.astro';
 import QuoteBy from '@site/components/QuoteBy.astro';
 import Whatsapp from '@site/components/Whatsapp.astro';
 import WorkTiles from '@site/components/WorkTiles.astro';
-const g = await garden();
-const page = g.entry((await getEntry('pages', 'home'))!);
-const problems = childrenOf('problems', g.live, site).slice(0, 5);
+const home = (await getEntry('pages', 'home'))!;
+const problems = (await problemsInOrder()).slice(0, 5);
 const work = await workEntries();
 const testimonial = testimonialOf(work);
 ---
 
-<Layout page={page} path={page.url} room>
+<Layout entry={home} path={urlOf(home)} room>
   <div class="font-prose mx-auto max-w-6xl">
     <header class="lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-12" data-popover>
       <img
