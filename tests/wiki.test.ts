@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { atom, day, formatDate, rfc2822, year } from '../src/wiki/dates.ts';
-import { byDateDesc, childrenOf, mountedOn, sectionOf, toPages } from '../src/wiki/pages.ts';
-import { readTime, wordCount } from '../src/wiki/readTime.ts';
-import { titleIndex, resolveTitle } from '../src/wiki/titles.ts';
-import type { Collections } from '../src/wiki/types.ts';
+import { atom, day, formatDate, rfc2822, year } from '../src/lib/dates.ts';
+import { byDateDesc, childrenOf, mountedOn, sectionOf, toPages } from '../src/lib/pages.ts';
+import { readTime, wordCount } from '../src/lib/readTime.ts';
+import { titleIndex, resolveTitle } from '../src/lib/titles.ts';
+import type { Collections } from '../src/lib/types.ts';
 
 const collections: Collections = {
   pages: { title: 'Pages', route: '{parent_uri}/{slug}', dated: false, root: true, orderable: false },

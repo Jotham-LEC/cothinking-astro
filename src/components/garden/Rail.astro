@@ -1,9 +1,9 @@
 ---
 // The rail: the local graph, the outline (wide screens) and the pages that
 // link here; each hides when it has nothing.
-import type { Page } from '../wiki/types.ts';
-import type { TocEntry } from '../wiki/toc.ts';
-import type { GraphNode } from '../wiki/graph.ts';
+import type { Page } from '../../lib/types.ts';
+import type { TocEntry } from '../../lib/toc.ts';
+import type { GraphNode } from '../../lib/graph.ts';
 import GraphControls from './GraphControls.astro';
 type Props = { page: Page; toc: TocEntry[]; graphSection?: string | null; backlinks: GraphNode[] };
 const { page, toc, graphSection = null, backlinks } = Astro.props;

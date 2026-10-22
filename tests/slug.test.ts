@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { headingSlug, laravelSlug, uniqueSlugs } from '../src/wiki/markdown/slug.ts';
+import { headingSlug, laravelSlug, uniqueSlugs } from '../src/lib/markdown/slug.ts';
 
 const golden = path.resolve(__dirname, '../DEV_FILES/golden/heading-ids.json');
 

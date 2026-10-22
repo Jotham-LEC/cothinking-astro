@@ -1,7 +1,7 @@
 ---
 // One page of the stream: the cards, then newer/older links from Astro's paginate().
 import type { Page as Paginated } from 'astro';
-import type { Page } from '../../wiki/types.ts';
+import type { Page } from '../../lib/types.ts';
 import Card from './Card.astro';
 type Props = { page: Paginated<Page> };
 const { page } = Astro.props;

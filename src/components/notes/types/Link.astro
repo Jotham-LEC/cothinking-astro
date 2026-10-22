@@ -1,6 +1,6 @@
 ---
 // The linked page as a card: its preview image, title and host. The rule under it separates it from the note's text, when there is any.
-import type { Page } from '../../../wiki/types.ts';
+import type { Page } from '../../../lib/types.ts';
 type Props = { note: Page };
 const { note } = Astro.props;
 const url = String(note.data.link_url ?? '');

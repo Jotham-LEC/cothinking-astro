@@ -1,18 +1,19 @@
 import fs from 'node:fs';
 import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
 import YAML from 'yaml';
 
 // The collections' model (titles, mounts, note types, select options) comes
 // from the import (src/data/collections.yaml), so the enums below follow it.
-const collectionsConfig = YAML.parse(
-  fs.readFileSync(new URL('./data/collections.yaml', import.meta.url), 'utf8'),
-) as Record<string, { types?: { handle: string }[]; options?: Record<string, Record<string, string>> }>;
+const model = YAML.parse(fs.readFileSync(new URL('./data/collections.yaml', import.meta.url), 'utf8')) as Record<
+  string,
+  { types?: { handle: string }[]; options?: Record<string, Record<string, string>> }
+>;
 
 const enumOf = (values: string[] | undefined) =>
   values && values.length ? z.enum(values as [string, ...string[]]) : z.string();
-const noteTypes = collectionsConfig.notes?.types?.map((t) => t.handle);
-const outlets = Object.keys(collectionsConfig.publications?.options?.outlet ?? {});
+const noteTypes = model.notes?.types?.map((t) => t.handle);
+const outlets = Object.keys(model.publications?.options?.outlet ?? {});
 
 const publicFile = (file: string) => fs.existsSync(new URL(`../public${file}`, import.meta.url));
 
@@ -95,4 +96,100 @@ const publications = defineCollection({
   schema: z.object({ ...base, ...dated, outlet: enumOf(outlets) }).strict(),
 });
 
-export const collections = { pages, essays, notes, projects, publications };
+// ---- Data collections: what the import writes to src/data (Astro's file() loader reads YAML). ----
+
+/** The site: name, URL, locale, attributes, and the Brand, Marketing and Settings globals. One entry, `site`. */
+const site = defineCollection({
+  loader: file('src/data/site.yaml', { parser: (text) => ({ site: YAML.parse(text) }) }),
+  schema: z
+    .object({
+      handle: z.string(),
+      name: z.string(),
+      url: z.string().url(),
+      locale: z.string(),
+      lang: z.string(),
+      attributes: z
+        .object({
+          logo: z.string().optional(),
+          logo_dark: z.string().optional(),
+          favicon: z.string().optional(),
+          explorer: z.boolean().optional(),
+          closed_panels: z.array(z.string()).optional(),
+          pages: z.string().optional(),
+        })
+        .passthrough(),
+      feeds: z.array(z.string()).default([]),
+      other_sites: z.array(z.object({ handle: z.string(), name: z.string(), url: z.string().url() })).default([]),
+      settings: z.record(z.unknown()).default({}),
+      seo: z.record(z.unknown()).default({}),
+      marketing: z.record(z.unknown()).default({}),
+    })
+    .passthrough(),
+});
+
+/** Each content collection's model: title, route, mount, note types, select options, whether its pages are articles. Keyed by handle. */
+const collectionsConfig = defineCollection({
+  loader: file('src/data/collections.yaml'),
+  schema: z
+    .object({
+      title: z.string(),
+      route: z.string(),
+      dated: z.boolean(),
+      root: z.boolean(),
+      orderable: z.boolean(),
+      mount: z.object({ collection: z.string(), slug: z.string() }).optional(),
+      template: z.string().optional(),
+      og_type: z.string().optional(),
+      schema: z.string().optional(),
+      types: z.array(z.object({ handle: z.string(), title: z.string() })).optional(),
+      options: z.record(z.record(z.string())).optional(),
+    })
+    .strict(),
+});
+
+const navItem: z.ZodType<{ title?: string; entry?: string; url?: string; children?: unknown[] }> = z.lazy(() =>
+  z
+    .object({
+      title: z.string().optional(),
+      entry: z.string().optional(),
+      url: z.string().optional(),
+      children: z.array(navItem).optional(),
+    })
+    .strict(),
+);
+
+/** The navigations (explorer, header, footer), each a tree of items naming an entry (`collection/slug`) or a URL. */
+const navigation = defineCollection({
+  loader: file('src/data/navigation.yaml'),
+  schema: z.object({ items: z.array(navItem) }).strict(),
+});
+
+/** Old addresses and where they go; astro.config.mjs turns them into Astro redirects. */
+const redirects = defineCollection({
+  loader: file('src/data/redirects.yaml', {
+    parser: (text) => (YAML.parse(text) as { source: string; target: string }[]).map((r) => ({ id: r.source, ...r })),
+  }),
+  // The parser adds `id` (the source) for the loader; zod drops it from the data.
+  schema: z.object({ source: z.string(), target: z.string() }),
+});
+
+/** Who wrote an entry (an `author` field): Statamic's users, by slug. */
+const authors = defineCollection({
+  loader: file('src/data/authors.yaml'),
+  schema: z
+    .object({ id: z.string(), name: z.string(), bio: z.string().optional(), url: z.string().optional() })
+    .strict(),
+});
+
+export const collections = {
+  pages,
+  essays,
+  notes,
+  projects,
+  publications,
+  site,
+  collectionsConfig,
+  navigation,
+  redirects,
+  authors,
+};

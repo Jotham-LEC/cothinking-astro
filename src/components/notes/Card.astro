@@ -2,10 +2,10 @@
 // One note in the stream: a date badge linking to the note, the type icon
 // linking to that type's listing, then the post.
 import { render } from 'astro:content';
-import { wiki } from '../../wiki/load.ts';
-import { formatDate } from '../../wiki/dates.ts';
-import type { Page } from '../../wiki/types.ts';
-import Prose from '../../garden/Prose.astro';
+import { wiki } from '../../lib/load.ts';
+import { formatDate } from '../../lib/dates.ts';
+import type { Page } from '../../lib/types.ts';
+import Prose from '../garden/Prose.astro';
 import Icon from './Icon.astro';
 import Text from './types/Text.astro';
 import Photo from './types/Photo.astro';

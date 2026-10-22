@@ -2,7 +2,7 @@
 // brand's dark palette with a yellow left edge, the section label up top,
 // the title and its opening words, the site's name along the bottom beside a
 // round portrait. satori lays it out, resvg rasterises it; the fonts are the
-// repo's Aporetic woff2 files decompressed to TTF (src/garden/fonts/ttf).
+// repo's Aporetic woff2 files decompressed to TTF (src/assets/fonts/ttf).
 import fs from 'node:fs';
 import path from 'node:path';
 import { Resvg } from '@resvg/resvg-js';
@@ -23,7 +23,7 @@ export type CardInput = {
 let fonts: { name: string; data: Buffer; weight: 400 | 700 | 800; style: 'normal' }[] | null = null;
 
 function loadFonts(root: string) {
-  const dir = path.join(root, 'src/garden/fonts/ttf');
+  const dir = path.join(root, 'src/assets/fonts/ttf');
   fonts ??= [
     {
       name: 'Aporetic Sans',

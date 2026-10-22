@@ -14,13 +14,17 @@ How a page is built:
 
 1. **Content** is `src/content/{pages,essays,notes,projects,publications}/{slug}.md`
    (front matter + Markdown), validated by `src/content.config.ts` (zod,
-   strict: an unknown key fails the build). `src/data/` holds the site
-   (`site.yaml`: name, URL, locale, attributes, the Brand/Marketing/Settings
-   globals, `feeds`), the collections' model (`collections.yaml`: titles,
-   routes, mounts, note types, select options, which are articles), the
-   navigations (`navigation/*.yaml`), `redirects.yaml` and `titles.json`
-   (lower-cased title → address, both sites: the `[[wiki link]]` index).
-2. **The wiki layer** (`src/wiki/`, site-agnostic, no Astro imports except
+   strict: an unknown key fails the build). `src/data/` holds the **data
+   collections**, read by Astro's `file()` loader and validated in the same
+   file: `site.yaml` (name, URL, locale, attributes, the Brand/Marketing/
+   Settings globals, `feeds`), `collections.yaml` (each content collection's
+   title, route, mount, note types, select options, whether its pages are
+   articles), `navigation.yaml` (explorer, header, footer trees),
+   `redirects.yaml`, `authors.yaml`, and `titles.json` (lower-cased title →
+   address, both sites: the `[[wiki link]]` index, a plain JSON import).
+   `.astro/` is Astro's generated cache of all this (git-ignored): the source
+   is always the Markdown and YAML.
+2. **The wiki layer** (`src/lib/`, site-agnostic, no Astro imports except
    `load.ts`) turns entries into `Page`s with addresses (`pages.ts`,
    `urls.ts`), and computes the Explorer (`explorer.ts`), the graph and
    backlinks (`graph.ts`), the outline (`toc.ts`), the pager, the years, the
@@ -31,7 +35,7 @@ How a page is built:
    `load.ts` is the one Astro-side entry: `await wiki()` gives everything,
    computed once per build. `files.ts` loads the same model from disk for
    `npm run check`, the tests and `astro.config.mjs`.
-3. **The Markdown pipeline** (`src/wiki/markdown/`, wired in
+3. **The Markdown pipeline** (`src/lib/markdown/`, wired in
    `astro.config.mjs` through `@astrojs/markdown-remark`'s `unified()`
    processor): remark-wiki-link + `remark-wiki-links` (titles →
    `a.wiki-link` / `span.wiki-link-missing`), `remark-external-links`
@@ -43,13 +47,20 @@ How a page is built:
    `code-blocks.js` draws the chrome. `feed.ts` is the plain pipeline for
    feeds, descriptions and llms.txt. `.md` stays `.md` (two essays hold
    `{{ }}` in code blocks); `.mdx` works with the same plugins.
-4. **The shell** is `src/garden/` (site-agnostic components, scripts, styles,
-   fonts, icons; copy this folder and `src/wiki/` for cothink.ing):
-   `Layout.astro` (head, header, Explorer drawer/column, main, rail slot,
-   palette, keys, status line, footer, scripts), `Entry.astro` (breadcrumbs,
-   title, mobile outline, body in `Prose`, pager, "Last updated", rail) with
-   slots `before-body`, `after-body`, `after-article`, `body` and
-   `extraHeadings` for a view's own h2s. `Head.astro` prints `seo.ts`.
+4. **The shell** follows Astro's folders: `src/layouts/Layout.astro` (head,
+   header, Explorer drawer/column, main, rail slot, palette, keys, status
+   line, footer, scripts); `src/components/garden/` (the site-agnostic
+   pieces: `Entry.astro` with slots `before-body`, `after-body`,
+   `after-article`, `body` and `extraHeadings` for a view's own h2s, `Head`
+   printing `seo.ts`, `Header`, `Explorer`, `Rail`, `Palette`, `Keys`,
+   `Statusline`, `Breadcrumbs`, `PageHeader`, `Prose`, `ArchiveRow`,
+   `Button`, `HeadingLink`, `SectionHeading`, `GraphControls`);
+   `src/components/notes/` (the stream, this site's own); `src/styles/`
+   (`site.css`, `tokens.css`, `components.css`); `src/scripts/` (`site.js`
+   and `site/*.js`, `graph.js`); `src/assets/fonts/` (Aporetic woff2, and
+   `ttf/` for the share cards) and `src/assets/icons/` (Heroicons as SVG
+   components). cothink.ing copies `src/lib`, `src/layouts`,
+   `src/components/garden`, `src/styles`, `src/scripts` and `src/assets`.
 5. **Templates** are `src/pages/`: `index.astro` (home: latest 5),
    `[...slug].astro` (pages collection: `default`, `section`, `publications`),
    `essays|projects|publications/[slug].astro`, `notes/[slug].astro`,
@@ -57,12 +68,11 @@ How a page is built:
    `notes/type/[type]/[...page].astro`, `404.astro`, and the endpoints
    `graph.json`, `robots.txt`, `llms.txt`, `feed.xml`,
    `essays/feed.xml`, `notes/feed.xml`, `og.png`, `og/[...uri].png`.
-   `src/components/notes/` is the stream (cards, type blocks).
 
 Never use `Astro.url` for a page's address: `build.format: 'file'` makes it
 `/x.html`. Every component takes `path` or the `Page` and derives it. Paths
-to `public/` and the fonts in bundled code use `__PROJECT_ROOT__` (defined in
-`astro.config.mjs`), not `import.meta.url`.
+to `public/` and the TTFs in bundled code come from `src/lib/paths.ts`
+(`process.cwd()`), not `import.meta.url`, which points into `dist/` once bundled.
 
 ## Commands
 
@@ -75,7 +85,7 @@ npm run dev              # astro dev (http://localhost:4321); search and the 404
 npm run test             # vitest: slug against the golden heading ids, the Markdown tests, the wiki layer, the head model
 npm run golden           # capture every URL from the local Laravel app (php artisan serve --port=8004, APP_ENV=production)
 npm run compare          # golden vs dist, per page; `-- /essays` limits it; `--verbose` prints everything
-PREVIEW_URL=http://localhost:4321 PLAYWRIGHT_BROWSERS_PATH=$(cat DEV_FILES/playwright-browsers-path) PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1 node scripts/smoke.mjs   # browser smoke against the preview
+PREVIEW_URL=http://localhost:4321 node scripts/smoke.mjs   # browser smoke against the preview (Playwright's browsers come from NixOS: PLAYWRIGHT_BROWSERS_PATH in ~/Projects/nixos, modules/dev/toolchain.nix)
 ```
 
 ## Authoring
@@ -99,17 +109,19 @@ PREVIEW_URL=http://localhost:4321 PLAYWRIGHT_BROWSERS_PATH=$(cat DEV_FILES/playw
   `<figure class="wiki-pdf">`, `<a class="button">`). Callouts:
   `> [!NOTE] Title` with note, info, tip, important, warning, danger, caution.
 - Media is `public/media/…`; the resume is `public/resume/…`; the Aporetic
-  fonts are `src/garden/fonts/*.woff2` (hashed by Vite) and
-  `src/garden/fonts/ttf/*.ttf` (decompressed from them, for the share cards).
+  fonts are `src/assets/fonts/*.woff2` (hashed by Vite) and
+  `src/assets/fonts/ttf/*.ttf` (decompressed from them with fontTools, for
+  the share cards).
 
 ## What is native, what is custom
 
-Native: content collections (`glob` loader, zod, `render()`, `headings`),
+Native: content and data collections (`glob` and `file()` loaders, zod,
+`render()`, `headings`),
 `getStaticPaths`/`paginate`, endpoints, `redirects` (meta-refresh pages),
 MDX, `@astrojs/sitemap`, SVG components, `<script>` bundling,
 `is:inline`/`define:vars`, Tailwind through Vite, Pagefind through
 `astro-pagefind`. Custom and unavoidable: the
-Markdown plugins, `src/wiki/*`, the Pagefind glue in `palette.js`, the satori
+Markdown plugins, `src/lib/*`, the Pagefind glue in `palette.js`, the satori
 share cards, the import/golden/compare/smoke scripts.
 
 Deviations from the Laravel site, by design (see `scripts/compare.mjs`):
@@ -127,4 +139,5 @@ are filled in by the browser.
 && npm run compare`, then `npm run preview` and the browser: dark and light,
 the drawer below `lg`, a page with callouts/figures/a PDF, the palette, the
 graph, `/no-such-page`. `DEV_FILES/` (git-ignored) holds the import manifest,
-the golden set, screenshots and the Playwright browsers path.
+the golden set and screenshots. Tooling outside npm (Node, fontTools,
+Playwright's browsers) is declared in `~/Projects/nixos`, not installed ad hoc.

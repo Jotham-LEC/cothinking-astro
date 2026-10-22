@@ -3,8 +3,8 @@
 import path from 'node:path';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { renderFeed } from '../src/wiki/markdown/feed.ts';
-import { wikiRehypePlugins, wikiRemarkPlugins } from '../src/wiki/markdown/index.ts';
+import { renderFeed } from '../src/lib/markdown/feed.ts';
+import { wikiRehypePlugins, wikiRemarkPlugins } from '../src/lib/markdown/index.ts';
 
 const titles = { 'older essay': '/essays/older-essay', cothinking: 'https://cothink.ing/' };
 const publicDir = path.resolve(__dirname, '../public');

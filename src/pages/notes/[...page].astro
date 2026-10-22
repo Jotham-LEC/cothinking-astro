@@ -3,9 +3,9 @@
 // text, then the stream, 20 to a page, newest first.
 import { render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
-import { wiki } from '../../wiki/load.ts';
-import { byDateDesc, landingOf } from '../../wiki/pages.ts';
-import Entry from '../../garden/Entry.astro';
+import { wiki } from '../../lib/load.ts';
+import { byDateDesc, landingOf } from '../../lib/pages.ts';
+import Entry from '../../components/garden/Entry.astro';
 import Stream from '../../components/notes/Stream.astro';
 
 export const getStaticPaths = (async ({ paginate }) => {

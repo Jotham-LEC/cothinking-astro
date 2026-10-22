@@ -1,10 +1,10 @@
 ---
 // Each photo at its own size (the media files are already shrunk on upload). Two or more sit in a grid.
-import { measure } from '../../../wiki/markdown/rehype-images.ts';
-import type { Page } from '../../../wiki/types.ts';
+import { measure } from '../../../lib/markdown/rehype-images.ts';
+import { publicDir } from '../../../lib/paths.ts';
+import type { Page } from '../../../lib/types.ts';
 type Props = { note: Page };
 const { note } = Astro.props;
-const publicDir = __PROJECT_ROOT__ + 'public';
 const photos = (Array.isArray(note.data.photos) ? (note.data.photos as string[]) : []).map((src) => ({
   src,
   ...(measure(publicDir, src) ?? {}),

@@ -2,8 +2,8 @@
 // `~ / Section` breadcrumbs up to the current page's parent. A page with no
 // entry behind its address (a note type listing) sets `currentCrumb`, and the
 // last found crumb then shows as its parent.
-import { breadcrumbs } from '../wiki/breadcrumbs.ts';
-import type { Page } from '../wiki/types.ts';
+import { breadcrumbs } from '../../lib/breadcrumbs.ts';
+import type { Page } from '../../lib/types.ts';
 type Props = { url: string; pages: Page[]; currentCrumb?: boolean };
 const { url, pages, currentCrumb = false } = Astro.props;
 const crumbs = breadcrumbs(url, pages);

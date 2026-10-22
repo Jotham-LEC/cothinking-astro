@@ -3,10 +3,10 @@
 // Pagefind finds for the address's last segment, and the ways out, also as
 // plain buttons. The host, path and suggestions are filled in by the browser,
 // as a static page knows no address.
-import { wiki } from '../wiki/load.ts';
-import Layout from '../garden/Layout.astro';
-import PageHeader from '../garden/PageHeader.astro';
-import Button from '../garden/Button.astro';
+import { wiki } from '../lib/load.ts';
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/garden/PageHeader.astro';
+import Button from '../components/garden/Button.astro';
 const { site } = await wiki();
 const host = new URL(site.url).host;
 ---

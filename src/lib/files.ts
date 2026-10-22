@@ -7,7 +7,7 @@ import path from 'node:path';
 import matter from 'gray-matter';
 import YAML from 'yaml';
 import { toPages } from './pages.ts';
-import type { Collections, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
+import type { Author, Collections, NavItem, Page, RawEntry, SiteConfig } from './types.ts';
 import type { TitleIndex } from './titles.ts';
 
 export type Project = {
@@ -16,6 +16,7 @@ export type Project = {
   collections: Collections;
   pages: Page[];
   navigation: Record<string, NavItem[]>;
+  authors: Author[];
   redirects: { source: string; target: string }[];
   titles: TitleIndex;
 };
@@ -41,18 +42,15 @@ export function loadProject(root: string): Project {
     }
   }
   const navigation: Record<string, NavItem[]> = {};
-  const navDir = data('navigation');
-  if (fs.existsSync(navDir)) {
-    for (const file of fs.readdirSync(navDir).filter((f) => f.endsWith('.yaml'))) {
-      navigation[path.basename(file, '.yaml')] = readYaml<NavItem[]>(path.join(navDir, file), []);
-    }
-  }
+  for (const [name, nav] of Object.entries(readYaml<Record<string, { items: NavItem[] }>>(data('navigation.yaml'), {})))
+    navigation[name] = nav.items ?? [];
   return {
     root,
     site,
     collections,
     pages: toPages(raws, collections),
     navigation,
+    authors: readYaml<Author[]>(data('authors.yaml'), []),
     redirects: readYaml(data('redirects.yaml'), []),
     titles: fs.existsSync(data('titles.json')) ? JSON.parse(fs.readFileSync(data('titles.json'), 'utf8')) : {},
   };

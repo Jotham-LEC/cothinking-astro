@@ -5,15 +5,15 @@
 // default slot is the rendered body. `extraHeadings` are headings for the
 // outline that the body lacks (a view's own h2s).
 import { render } from 'astro:content';
-import { wiki } from '../wiki/load.ts';
-import { pageInfo } from '../wiki/entry.ts';
-import { backlinks } from '../wiki/graph.ts';
-import { pager } from '../wiki/pager.ts';
-import { toc, type Heading, type TocEntry } from '../wiki/toc.ts';
-import { day } from '../wiki/dates.ts';
-import { renderFeed } from '../wiki/markdown/feed.ts';
-import type { Page } from '../wiki/types.ts';
-import Layout from './Layout.astro';
+import { wiki } from '../../lib/load.ts';
+import { pageInfo } from '../../lib/entry.ts';
+import { backlinks } from '../../lib/graph.ts';
+import { pager } from '../../lib/pager.ts';
+import { toc, type Heading, type TocEntry } from '../../lib/toc.ts';
+import { day } from '../../lib/dates.ts';
+import { renderFeed } from '../../lib/markdown/feed.ts';
+import type { Page } from '../../lib/types.ts';
+import Layout from '../../layouts/Layout.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import PageHeader from './PageHeader.astro';
 import Prose from './Prose.astro';

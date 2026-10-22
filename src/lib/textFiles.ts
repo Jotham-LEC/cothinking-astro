@@ -3,7 +3,7 @@
 // site's name and default description, then each collection's listed pages
 // (newest change first) as Markdown links with their descriptions; every
 // page that is its own canonical address, with its last change (the XML itself is
-// @astrojs/sitemap's: src/wiki/sitemap.ts).
+// @astrojs/sitemap's: src/lib/sitemap.ts).
 import { atom } from './dates.ts';
 import { renderFeed } from './markdown/feed.ts';
 import { naturalTitle, published } from './pages.ts';
@@ -13,7 +13,7 @@ import type { Collections, Page, SiteConfig } from './types.ts';
 import type { TitleIndex } from './titles.ts';
 import { absolute } from './urls.ts';
 
-/** Where @astrojs/sitemap writes the index (src/wiki/sitemap.ts). */
+/** Where @astrojs/sitemap writes the index (src/lib/sitemap.ts). */
 export const SITEMAP_PATH = '/sitemap-index.xml';
 
 export const AI_TRAINING_AGENTS = ['GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended', 'CCBot'];

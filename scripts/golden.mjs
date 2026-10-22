@@ -2,22 +2,35 @@
 // Captures the golden set from the local Laravel app (`php artisan serve
 // --port=8004`, APP_ENV=production so robots and llms match production): every
 // URL in DEV_FILES/manifest.json plus the listings, feeds and generated files.
+// GOLDEN_BASE is the site's local address (cothink.ing: http://cothinking.localhost:8004).
 // Saved under DEV_FILES/golden/pages/ for scripts/compare.mjs.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadProject } from '../src/lib/files.ts';
+import { noteTypes } from '../src/lib/noteTypes.ts';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.GOLDEN_BASE ?? 'http://localhost:8004';
 const OUT = path.join(ROOT, 'DEV_FILES/golden/pages');
 
+// Addresses with no entry behind them: the section listings by post type, the
+// feeds and the generated files, from this project's site and collections.
+const project = loadProject(ROOT);
 export const EXTRA_URLS = [
-  '/notes',
-  '/notes/type/text',
-  '/notes/type/quote',
+  ...Object.entries(project.collections)
+    .filter(([, c]) => c.types && c.mount)
+    .flatMap(([handle, c]) => {
+      const landing = project.pages.find((p) => p.collection === c.mount.collection && p.slug === c.mount.slug);
+      return landing?.url
+        ? [
+            landing.url,
+            ...noteTypes(project.pages, project.collections, handle).map((t) => `${landing.url}/type/${t.handle}`),
+          ]
+        : [];
+    }),
   '/feed.xml',
-  '/essays/feed.xml',
-  '/notes/feed.xml',
+  ...project.site.feeds.map((section) => `/${section}/feed.xml`),
   '/graph.json',
   '/llms.txt',
   '/robots.txt',

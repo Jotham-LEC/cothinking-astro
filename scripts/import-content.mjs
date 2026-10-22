@@ -2,9 +2,12 @@
 // Imports the Laravel/Statamic repo's content into this project, re-runnably:
 // entries → src/content/{collection}/{slug}.md (slugs instead of UUIDs, the
 // date in front matter, trees folded into `order`), navigations, globals,
-// redirects → src/data, both sites' titles → src/data/titles.json, and with
-// --media the site's media folders → public/. Wipes src/content and src/data
-// first. LARAVEL and SITE come from the environment.
+// redirects → src/data, both sites' titles → src/data/titles.json, the
+// entries' authors (Statamic users, outside git) → src/data/authors.yaml, a
+// piece reshared from the other site → src/content/reshared/, and with
+// --media the site's media folders (and the reshared pieces' media) → public/.
+// Wipes src/content and src/data first. LARAVEL and SITE come from the
+// environment.
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -220,6 +223,14 @@ fs.rmSync(path.join(ROOT, 'src/content'), { recursive: true, force: true });
 fs.rmSync(path.join(ROOT, 'src/data'), { recursive: true, force: true });
 
 const report = { counts: {}, drafts: [], unresolved: [], noUrl: [] };
+const users = new Map();
+const usersDir = path.join(LARAVEL, 'storage/users');
+for (const file of exists(usersDir) ? fs.readdirSync(usersDir).filter((f) => f.endsWith('.yaml')) : []) {
+  const u = readYaml(path.join(usersDir, file));
+  if (u.id !== undefined) users.set(String(u.id), u);
+}
+const authors = new Map();
+const reshared = new Map();
 const manifest = [];
 const siteEntries = [...entries.values()].filter((e) => e.site === SITE);
 
@@ -256,6 +267,17 @@ for (const entry of siteEntries) {
   ]);
   for (const [key, value] of Object.entries(d)) {
     if (skip.has(key)) continue;
+    if (key === 'reshare' && entries.get([value].flat()[0])?.site !== SITE) {
+      const original = entries.get([value].flat()[0]);
+      if (original) fm.reshare = reshareFrom(original);
+      else report.unresolved.push(`${entry.url}: ${key} → ${value}`);
+      continue;
+    }
+    if (key === 'author') {
+      const slugs = [value].flat().map(String).map(authorOf).filter(Boolean);
+      if (slugs.length) fm.author = Array.isArray(value) ? slugs : slugs[0];
+      continue;
+    }
     if (REFERENCE_FIELDS.includes(key)) {
       const ids = Array.isArray(value) ? value : [value];
       const refs = ids
@@ -283,6 +305,41 @@ for (const entry of siteEntries) {
   if (entry.published && entry.url)
     manifest.push({ url: entry.url, collection: entry.collection, slug: entry.slug, title: d.title });
   if (entry.published && !entry.url) report.noUrl.push(`${entry.collection}/${entry.slug}`);
+}
+
+// Authors: the users an entry's `author` field names (storage/users/*.yaml, by
+// their `id`), as `{id: slug, name, bio, url}` for src/data/authors.yaml.
+function authorOf(id) {
+  const u = users.get(id);
+  if (!u?.name) {
+    report.unresolved.push(`author: user ${id} (storage/users)`);
+    return null;
+  }
+  const slug = String(u.name)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+  authors.set(slug, { id: slug, name: u.name, ...(u.bio ? { bio: u.bio } : {}), ...(u.url ? { url: u.url } : {}) });
+  return slug;
+}
+
+// A piece of the other site that an entry here reshares: copied into the
+// `reshared` collection with its address there (`url`), so the page can show
+// its text. Its media is copied with --media.
+function reshareFrom(original) {
+  const fm = { title: original.data.title };
+  if (original.data.description) fm.description = original.data.description;
+  if (original.date) fm.date = original.date;
+  if (original.data.updated_at)
+    fm.updated =
+      typeof original.data.updated_at === 'string'
+        ? original.data.updated_at
+        : new Date(original.data.updated_at).toISOString();
+  if (!original.published) fm.draft = true;
+  if (original.data.image) fm.image = `/media/${original.data.image}`;
+  fm.url = absolute(original);
+  reshared.set(original.slug, { fm, body: original.body, site: original.site });
+  return `reshared/${original.slug}`;
 }
 
 function cleanSeo(seo) {
@@ -320,6 +377,14 @@ function splitFrontMatter(raw, file) {
   return { data: YAML.parse(yamlText) ?? {}, body };
 }
 
+for (const [slug, { fm, body }] of reshared) {
+  write(
+    path.join(ROOT, 'src/content/reshared', `${slug}.md`),
+    `---\n${YAML.stringify(fm, { lineWidth: 0 })}---\n${body}`,
+  );
+  report.counts.reshared = (report.counts.reshared ?? 0) + 1;
+}
+
 // ------------------------------------------------- collections.yaml ----
 const siteCollections = {};
 for (const c of Object.values(collections).filter((c) => c.sites.includes(SITE))) {
@@ -340,7 +405,18 @@ for (const c of Object.values(collections).filter((c) => c.sites.includes(SITE))
   if (Object.keys(options).length) entry.options = options;
   siteCollections[c.handle] = entry;
 }
+// The reshared pieces: no address on this site (`origin` is the site they live on).
+if (reshared.size)
+  siteCollections.reshared = {
+    title: 'Reshared',
+    route: '{slug}',
+    dated: true,
+    root: false,
+    orderable: false,
+    origin: sites[[...reshared.values()][0].site].url,
+  };
 writeYaml(path.join(ROOT, 'src/data/collections.yaml'), siteCollections);
+writeYaml(path.join(ROOT, 'src/data/authors.yaml'), [...authors.values()]);
 
 // -------------------------------------------------------- navigation ----
 const navDir = path.join(LARAVEL, 'content/trees/navigation', SITE);
@@ -356,14 +432,14 @@ const navItem = (item) => {
   if (item.children?.length) out.children = item.children.map(navItem);
   return out;
 };
+// One file, a tree per navigation (Astro's file() loader reads a record of objects).
+const navigation = {};
 if (exists(navDir)) {
   for (const file of fs.readdirSync(navDir).filter((f) => f.endsWith('.yaml'))) {
-    writeYaml(
-      path.join(ROOT, 'src/data/navigation', file),
-      (readYaml(path.join(navDir, file)).tree ?? []).map(navItem),
-    );
+    navigation[path.basename(file, '.yaml')] = { items: (readYaml(path.join(navDir, file)).tree ?? []).map(navItem) };
   }
 }
+writeYaml(path.join(ROOT, 'src/data/navigation.yaml'), navigation);
 
 // ----------------------------------------------------------- globals ----
 function globalValues(handle) {
@@ -423,6 +499,19 @@ if (COPY_MEDIA) {
     }
     fs.rmSync(to, { recursive: true, force: true });
     fs.cpSync(from, to, { recursive: true, filter: (src) => !src.includes('/.meta') });
+  }
+  // The media a reshared piece shows, which lives with the other site's.
+  for (const { fm, body } of reshared.values()) {
+    const files = [fm.image, ...[...body.matchAll(/\/media\/[^\s)"'<>]+/g)].map((m) => m[0])].filter(Boolean);
+    for (const file of new Set(files.map((f) => decodeURIComponent(f)))) {
+      const from = path.join(LARAVEL, 'public', file);
+      if (!exists(from)) {
+        console.warn(`media: ${file} (reshared) not found`);
+        continue;
+      }
+      fs.mkdirSync(path.dirname(path.join(ROOT, 'public', file)), { recursive: true });
+      fs.copyFileSync(from, path.join(ROOT, 'public', file));
+    }
   }
 }
 

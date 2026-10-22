@@ -3,10 +3,9 @@
 // where it was first published, and the eyebrow (date and reading time, on a
 // section's pages only).
 import { day } from './dates.ts';
-import { isChild, mountedOn, pageByKey } from './pages.ts';
+import { addressOf, isChild, mountedOn, pageByKey } from './pages.ts';
 import { readTime } from './readTime.ts';
 import type { Collections, Page, SiteConfig } from './types.ts';
-import { absolute } from './urls.ts';
 
 /** Sections whose landing page's graph holds the whole section. */
 const GRAPH_SECTIONS = ['wiki', 'problems'];
@@ -56,7 +55,7 @@ export function pageInfo(page: Page, pages: Page[], collections: Collections, si
   const section = child ? page.collection : mountedOn(page, collections);
   const feed = section && site.feeds.includes(section) ? feedOf(section, site, collections) : null;
   const original = reshareOf(page, pages);
-  const source = page.seo.canonical || (original?.url ? absolute(site.url, original.url) : null);
+  const source = page.seo.canonical || (original ? addressOf(original, site.url) : null);
   const dated = (original ?? page).date;
   const dayText = dated ? day(dated) : null;
   const text = `${page.body} ${original?.body ?? ''}`.trim();

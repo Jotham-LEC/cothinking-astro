@@ -55,9 +55,14 @@ export type CollectionConfig = {
   schema?: string;
   types?: { handle: string; title: string }[];
   options?: Record<string, Record<string, string>>;
+  /** The site a collection's entries live on, when that is not this one (pieces reshared from it): they have no address here. */
+  origin?: string;
 };
 
 export type Collections = Record<string, CollectionConfig>;
+
+/** Who wrote an entry (its `author` field; src/data/authors.yaml). */
+export type Author = { id: string; name: string; bio?: string; url?: string };
 
 export type NavItem = { title?: string; entry?: string; url?: string; children?: NavItem[] };
 

@@ -1,13 +1,14 @@
 // The head model: what the Marketing Toolkit addon and App\Seo printed for a
 // page. Title, description, canonical, robots, Open Graph, Twitter and the
 // JSON-LD graph (WebSite, the publisher, WebPage or ProfilePage,
-// BreadcrumbList, Article, the editors' extra nodes).
+// BreadcrumbList, Article, the editors' extra nodes). A reshare sends search
+// engines to its original (App\Seo).
 import { breadcrumbs } from './breadcrumbs.ts';
 import { atom } from './dates.ts';
 import { plainText } from './markdown/feed.ts';
 import { measure } from './markdown/rehype-images.ts';
-import { byUrl, isChild } from './pages.ts';
-import type { Collections, Page, SiteConfig } from './types.ts';
+import { addressOf, byUrl, isChild } from './pages.ts';
+import type { Author, Collections, Page, SiteConfig } from './types.ts';
 import { absolute } from './urls.ts';
 
 export const TITLE_MAX = 60;
@@ -30,6 +31,10 @@ export type HeadInput = {
   publicDir?: string;
   overrides?: { title?: string | null; description?: string | null; noindex?: boolean; ogType?: string | null };
   status?: number;
+  /** The piece the page reshares (entry.ts `reshareOf`), which may live on the other site. */
+  original?: Page | null;
+  /** Who writes the site's articles (src/data/authors.yaml). */
+  authors?: Author[];
 };
 
 export type ShareImage = { url: string; width: number; height: number; alt: string | null };
@@ -117,7 +122,11 @@ export function contentDescription(page: Page, html?: string, { skipCreditLine =
   return first;
 }
 
-export function description({ page, site, html, overrides }: HeadInput): string | null {
+export function description(input: HeadInput): string | null {
+  const { page, site, html, overrides, original } = input;
+  // A reshare with nothing of its own to say is described as its original.
+  if (original && page && !overrides?.description && !page.description && page.body.trim() === '')
+    return description({ ...input, page: original, original: null, html: undefined });
   const text =
     overrides?.description ??
     page?.seo.description ??
@@ -130,7 +139,9 @@ export const url = ({ site, path }: HeadInput): string => absolute(site.url, pat
 
 export function canonical(input: HeadInput): string | null {
   if ((input.status ?? 200) >= 400) return null;
-  return input.page?.seo.canonical || url(input);
+  if (input.page?.seo.canonical) return input.page.seo.canonical;
+  const original = input.original ? addressOf(input.original, input.site.url) : null;
+  return original ?? url(input);
 }
 
 export function robots({ page, overrides, status }: HeadInput): string {
@@ -230,6 +241,9 @@ export function publisherNode(site: SiteConfig) {
     telephone: str(seo.telephone),
     email: str(seo.email),
     address: Object.keys(address).length ? { '@type': 'PostalAddress', ...address } : null,
+    areaServed: organization ? oneOrMany(list(seo.area_served)) : null,
+    foundingDate: organization ? str(seo.founding_date) : null,
+    contactPoint: organization ? contactPoints(seo.contact_points) : null,
     sameAs: list(seo.same_as),
   });
   if (person) {
@@ -254,6 +268,44 @@ export function publisherNode(site: SiteConfig) {
       };
   }
   return node;
+}
+
+/** The Brand global's contact points (customer service, sales…), each with a telephone or an email. */
+function contactPoints(rows: unknown): Record<string, unknown>[] {
+  if (!Array.isArray(rows)) return [];
+  return rows
+    .filter((row): row is Record<string, unknown> => Boolean(row) && typeof row === 'object')
+    .filter((row) => str(row.telephone) || str(row.email))
+    .map((row) =>
+      clean({
+        '@type': 'ContactPoint',
+        contactType: str(row.contact_type),
+        telephone: str(row.telephone),
+        email: str(row.email),
+      }),
+    );
+}
+
+/** The people an article names in its `author` field; one whose page is on a site of the owner's is that site's Person, by its id. */
+export function authorNodes(page: Page, site: SiteConfig, authors: Author[] = []): Record<string, unknown>[] {
+  const ids = [page.data.author]
+    .flat()
+    .map((a) => (a && typeof a === 'object' && 'id' in a ? String((a as { id: unknown }).id) : a))
+    .filter((a): a is string => typeof a === 'string' && a !== '');
+  const sites = [site.url, ...site.other_sites.map((s) => s.url)].map((u) => u.replace(/\/$/, ''));
+  return ids.flatMap((id) => {
+    const author = authors.find((a) => a.id === id);
+    if (!author?.name) return [];
+    const home = author.url ? sites.find((u) => author.url!.startsWith(u)) : undefined;
+    return [
+      clean({
+        ...(home ? { '@id': `${home}/#publisher` } : {}),
+        '@type': 'Person',
+        name: author.name,
+        url: str(author.url),
+      }),
+    ];
+  });
 }
 
 export function webPageNode(
@@ -299,6 +351,7 @@ export function articleNode(
   const { page, site, collections } = input;
   const type = page ? collections[page.collection]?.schema : null;
   if (!page || !type) return null;
+  const people = authorNodes(page, site, input.authors);
   return clean({
     '@type': type,
     '@id': `${url(input)}#article`,
@@ -307,7 +360,7 @@ export function articleNode(
     image: head.image ? [head.image.url] : null,
     datePublished: page.date ? atom(page.date) : null,
     dateModified: page.updated ? atom(page.updated) : null,
-    author: { '@id': publisherId(site) },
+    author: people.length ? people : { '@id': publisherId(site) },
     publisher: { '@id': publisherId(site) },
     mainEntityOfPage: { '@id': head.canonical ?? url(input) },
   });

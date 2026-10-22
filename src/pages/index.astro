@@ -1,11 +1,11 @@
 ---
 // The home page: what you write on the page, then the newest pages across every section.
 import { render } from 'astro:content';
-import { wiki } from '../wiki/load.ts';
-import { byDateDesc, home, isChild } from '../wiki/pages.ts';
-import Entry from '../garden/Entry.astro';
-import ArchiveRow from '../garden/ArchiveRow.astro';
-import HeadingLink from '../garden/HeadingLink.astro';
+import { wiki } from '../lib/load.ts';
+import { byDateDesc, home, isChild } from '../lib/pages.ts';
+import Entry from '../components/garden/Entry.astro';
+import ArchiveRow from '../components/garden/ArchiveRow.astro';
+import HeadingLink from '../components/garden/HeadingLink.astro';
 const w = await wiki();
 const page = home(w.pages);
 if (!page) throw new Error('No home page: the pages tree has no root.');

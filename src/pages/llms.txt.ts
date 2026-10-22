@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
-import { wiki } from '../wiki/load.ts';
-import { llmsTxt } from '../wiki/textFiles.ts';
+import { wiki } from '../lib/load.ts';
+import { llmsTxt } from '../lib/textFiles.ts';
 
 export const GET: APIRoute = async () => {
   const { pages, site, collections, titles } = await wiki();

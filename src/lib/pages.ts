@@ -2,7 +2,7 @@
 // the files on disk for `npm run check` and the tests) become Pages with
 // their addresses, and the helpers every other module shares.
 import { naturalCompare } from './natural.ts';
-import { resolveUrls } from './urls.ts';
+import { absolute, resolveUrls } from './urls.ts';
 import type { Collections, Page, RawEntry, Seo } from './types.ts';
 
 const asDate = (value: unknown): Date | null => {
@@ -42,6 +42,12 @@ export function toPages(raws: RawEntry[], collections: Collections): Page[] {
   const urls = resolveUrls(items, collections);
   for (const page of items) page.url = urls.get(page) ?? null;
   return items;
+}
+
+/** A page's full address: on this site, or for a piece of another site (an `origin` collection's), its `url` there. */
+export function addressOf(page: Page, siteUrl: string): string | null {
+  if (page.url) return absolute(siteUrl, page.url);
+  return typeof page.data.url === 'string' && /^https?:\/\//.test(page.data.url) ? page.data.url : null;
 }
 
 /** The pages a reader can see: published, with an address. */

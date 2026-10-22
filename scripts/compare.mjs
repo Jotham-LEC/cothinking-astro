@@ -9,12 +9,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse } from 'node-html-parser';
+import YAML from 'yaml';
 import { EXTRA_URLS, fileFor } from './golden.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const GOLDEN = path.join(ROOT, 'DEV_FILES/golden/pages');
 const DIST = path.join(ROOT, 'dist');
-const SITE = 'https://jothamlim.com';
+// This project's address; the golden pages print both sites' local hosts, mapped back below.
+const SITE = YAML.parse(fs.readFileSync(path.join(ROOT, 'src/data/site.yaml'), 'utf8')).url;
 const only = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 const verbose = process.argv.includes('--verbose');
 
@@ -39,7 +41,7 @@ const EXPECTED = {
 const normaliseHost = (s) =>
   s
     .replace(/http:\/\/cothinking\.localhost:8004/g, 'https://cothink.ing')
-    .replace(/http:\/\/localhost:8004/g, SITE)
+    .replace(/http:\/\/localhost:8004/g, 'https://jothamlim.com')
     .replace(/\?page=(\d+)/g, '/$1');
 const text = (el) => (el ? el.textContent.replace(/\s+/g, ' ').trim() : null);
 

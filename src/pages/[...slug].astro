@@ -4,11 +4,11 @@
 // `publications` (the archive by year). Home is index.astro; the notes
 // landing page is notes/[...page].astro, as it paginates.
 import { render } from 'astro:content';
-import { wiki } from '../wiki/load.ts';
-import { childrenOf, mountedOn } from '../wiki/pages.ts';
-import { years } from '../wiki/years.ts';
-import Entry from '../garden/Entry.astro';
-import ArchiveRow from '../garden/ArchiveRow.astro';
+import { wiki } from '../lib/load.ts';
+import { childrenOf, mountedOn } from '../lib/pages.ts';
+import { years } from '../lib/years.ts';
+import Entry from '../components/garden/Entry.astro';
+import ArchiveRow from '../components/garden/ArchiveRow.astro';
 
 export async function getStaticPaths() {
   const w = await wiki();

@@ -1,7 +1,7 @@
 ---
 // The Explorer: the whole site as one tree (src/wiki/explorer.ts). Folders
 // are closed unless they hold the current page; the JS remembers what you open.
-import type { Row } from '../wiki/explorer.ts';
+import type { Row } from '../../lib/explorer.ts';
 import ExplorerRows from './ExplorerRows.astro';
 type Props = { rows: Row[] };
 const { rows } = Astro.props;
