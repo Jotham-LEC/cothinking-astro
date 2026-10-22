@@ -73,126 +73,120 @@ function neighbourhood(data: Data, url: string, section: string | null): Local |
 const MIN_ZOOM = 0.3;
 const MAX_ZOOM = 4;
 
-/**
- * A graph drawn on a canvas, laid out by d3-force and interactive: the wheel
- * (or zoomBy) zooms about the pointer, dragging the background pans (a double
- * click there puts the view back), dragging a page pins it while the others
- * follow, and a press that does not move opens the page. `labels: 'all'`
- * names every page (the dialog); else only the current page and the one
- * under the pointer. Returns zoomBy and destroy, which stops the simulation
- * and drops the listeners.
- */
-function createView(
-  canvas: HTMLCanvasElement,
-  graph: Local,
-  colourOf: (node: Node) => string,
-  { labels = 'hover' }: { labels?: 'hover' | 'all' } = {},
-) {
-  // The canvas's CSS size (the rail's is square, the dialog's fills it) at the screen's pixel density.
-  const width = canvas.clientWidth || 272;
-  const height = canvas.clientHeight || width;
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = width * dpr;
-  canvas.height = height * dpr;
-  const ctx = canvas.getContext('2d')!;
-  const listeners = new AbortController();
-  const on = <K extends keyof HTMLElementEventMap>(
-    type: K,
-    handler: (event: HTMLElementEventMap[K]) => void,
-    options: AddEventListenerOptions = {},
-  ) => canvas.addEventListener(type, handler, { ...options, signal: listeners.signal });
+/** What the drawing and the pointer share: the canvas, the graph, how it is coloured, the view and the pointer's state. */
+type View = {
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  width: number;
+  height: number;
+  dpr: number;
+  graph: Local;
+  links: SimLink[];
+  colourOf: (node: Node) => string;
+  labels: 'hover' | 'all';
+  colors: ReturnType<typeof palette>;
+  view: { k: number; x: number; y: number };
+  hovered: SimNode | null;
+  radius: (node: Node) => number;
+  isCurrent: (node: Node) => boolean;
+};
 
-  const palette = () => ({
-    sections: Object.fromEntries(Object.entries(COLOURS).map(([token, className]) => [token, colorOf(className)])),
-    link: colorOf('text-subtle'),
-    ring: colorOf('text-heading'),
-    label: colorOf('text-fg'),
-  });
-  let colors = palette();
-  let view = { k: 1, x: 0, y: 0 };
-  let hovered: SimNode | null = null;
-  let pressed: { node: SimNode | null; start: { x: number; y: number }; view: typeof view; moved: boolean } | null =
-    null;
+const palette = () => ({
+  sections: Object.fromEntries(Object.entries(COLOURS).map(([token, className]) => [token, colorOf(className)])),
+  link: colorOf('text-subtle'),
+  ring: colorOf('text-heading'),
+  label: colorOf('text-fg'),
+});
 
-  const degree: Record<string, number> = {};
-  for (const link of graph.links) {
-    degree[link.source] = (degree[link.source] ?? 0) + 1;
-    degree[link.target] = (degree[link.target] ?? 0) + 1;
-  }
-  const isCurrent = (node: Node) => node.id === graph.current.id;
-  const radius = (node: Node) => 4 + Math.min(6, degree[node.id] ?? 0) + (isCurrent(node) ? 3 : 0);
-  const simLinks = graph.links.map((l) => ({ ...l })) as unknown as SimLink[];
-
-  // Spread in proportion to the canvas (the rail's is about 270px), with room for a label under every page when all are named.
-  const spread = Math.max(1, Math.min(width, height) / 270);
-  const simulation = forceSimulation(graph.nodes)
+/** The force layout, spread in proportion to the canvas (the rail's is about 270px), with room for a label under every page when all are named. */
+function createSimulation(v: View, onTick: () => void) {
+  const spread = Math.max(1, Math.min(v.width, v.height) / 270);
+  return forceSimulation(v.graph.nodes)
     .force(
       'link',
-      forceLink<SimNode, SimLink>(simLinks)
+      forceLink<SimNode, SimLink>(v.links)
         .id((node) => node.id)
         .distance(45 * spread),
     )
     .force('charge', forceManyBody().strength(-120 * spread))
-    .force('center', forceCenter(width / 2, height / 2))
+    .force('center', forceCenter(v.width / 2, v.height / 2))
     .force(
       'collide',
-      forceCollide<SimNode>().radius((node) => radius(node) + (labels === 'all' ? 40 : 14)),
+      forceCollide<SimNode>().radius((node) => v.radius(node) + (v.labels === 'all' ? 40 : 14)),
     )
-    .on('tick', render);
+    .on('tick', onTick);
+}
 
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    simulation.stop();
-    for (let i = 0; i < 200; i++) simulation.tick();
-    render();
+/** One frame: the links, the nodes (the current and hovered ones ringed), then the labels. */
+function drawGraph(v: View) {
+  const { ctx, view, colors } = v;
+  ctx.setTransform(v.dpr, 0, 0, v.dpr, 0, 0);
+  ctx.clearRect(0, 0, v.width, v.height);
+  ctx.translate(view.x, view.y);
+  ctx.scale(view.k, view.k);
+  ctx.lineWidth = 1 / view.k;
+  ctx.strokeStyle = colors.link;
+  for (const link of v.links) {
+    ctx.beginPath();
+    ctx.moveTo(link.source.x!, link.source.y!);
+    ctx.lineTo(link.target.x!, link.target.y!);
+    ctx.stroke();
   }
-
-  function render() {
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, width, height);
-    ctx.translate(view.x, view.y);
-    ctx.scale(view.k, view.k);
-    ctx.lineWidth = 1 / view.k;
-    ctx.strokeStyle = colors.link;
-    for (const link of simLinks) {
-      ctx.beginPath();
-      ctx.moveTo(link.source.x!, link.source.y!);
-      ctx.lineTo(link.target.x!, link.target.y!);
+  for (const node of v.graph.nodes) {
+    ctx.beginPath();
+    ctx.arc(node.x!, node.y!, v.radius(node), 0, Math.PI * 2);
+    ctx.fillStyle = colors.sections[v.colourOf(node)]!;
+    ctx.fill();
+    if (v.isCurrent(node) || node === v.hovered) {
+      ctx.lineWidth = (v.isCurrent(node) ? 2 : 1) / view.k;
+      ctx.strokeStyle = colors.ring;
       ctx.stroke();
     }
-    for (const node of graph.nodes) {
-      ctx.beginPath();
-      ctx.arc(node.x!, node.y!, radius(node), 0, Math.PI * 2);
-      ctx.fillStyle = colors.sections[colourOf(node)]!;
-      ctx.fill();
-      if (isCurrent(node) || node === hovered) {
-        ctx.lineWidth = (isCurrent(node) ? 2 : 1) / view.k;
-        ctx.strokeStyle = colors.ring;
-        ctx.stroke();
-      }
-    }
-    // Labels keep their size on screen at any zoom.
-    ctx.font = `${11 / view.k}px ${getComputedStyle(document.body).fontFamily}`;
-    ctx.textAlign = 'center';
-    ctx.fillStyle = colors.label;
-    for (const node of graph.nodes) {
-      if (labels !== 'all' && node !== hovered && !isCurrent(node)) continue;
-      const label = node.title.length > 28 ? `${node.title.slice(0, 27)}…` : node.title;
-      ctx.fillText(label, node.x!, node.y! + radius(node) + 14 / view.k);
-    }
   }
+  // Labels keep their size on screen at any zoom.
+  ctx.font = `${11 / view.k}px ${getComputedStyle(document.body).fontFamily}`;
+  ctx.textAlign = 'center';
+  ctx.fillStyle = colors.label;
+  for (const node of v.graph.nodes) {
+    if (v.labels !== 'all' && node !== v.hovered && !v.isCurrent(node)) continue;
+    const label = node.title.length > 28 ? `${node.title.slice(0, 27)}…` : node.title;
+    ctx.fillText(label, node.x!, node.y! + v.radius(node) + 14 / view.k);
+  }
+}
+
+/**
+ * The pointer: the wheel (or zoomBy) zooms about the pointer, dragging the background pans (a double click there puts
+ * the view back), dragging a page pins it while the others follow, and a press that does not move opens the page.
+ * Only the main button drags or opens a page; a middle or right click is the browser's. Returns zoomBy.
+ */
+function bindPointer(
+  v: View,
+  simulation: ReturnType<typeof createSimulation>,
+  render: () => void,
+  signal: AbortSignal,
+) {
+  const { canvas } = v;
+  const on = <K extends keyof HTMLElementEventMap>(
+    type: K,
+    handler: (event: HTMLElementEventMap[K]) => void,
+    options: AddEventListenerOptions = {},
+  ) => canvas.addEventListener(type, handler, { ...options, signal });
+  let pressed: { node: SimNode | null; start: { x: number; y: number }; view: View['view']; moved: boolean } | null =
+    null;
 
   // Where a pointer event falls, in the canvas and in the graph.
   function point(event: MouseEvent) {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    return { x, y, gx: (x - view.x) / view.k, gy: (y - view.y) / view.k };
+    return { x, y, gx: (x - v.view.x) / v.view.k, gy: (y - v.view.y) / v.view.k };
   }
   const nodeAt = (p: { gx: number; gy: number }) =>
-    graph.nodes.find((node) => Math.hypot(node.x! - p.gx, node.y! - p.gy) <= radius(node) + 4 / view.k) ?? null;
-  function zoomBy(factor: number, x = width / 2, y = height / 2) {
+    v.graph.nodes.find((node) => Math.hypot(node.x! - p.gx, node.y! - p.gy) <= v.radius(node) + 4 / v.view.k) ?? null;
+  function zoomBy(factor: number, x = v.width / 2, y = v.height / 2) {
+    const { view } = v;
     const k = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, view.k * factor));
-    view = { k, x: x - ((x - view.x) * k) / view.k, y: y - ((y - view.y) * k) / view.k };
+    v.view = { k, x: x - ((x - view.x) * k) / view.k, y: y - ((y - view.y) * k) / view.k };
     render();
   }
   function release(event: PointerEvent) {
@@ -200,11 +194,11 @@ function createView(
     const { node, moved } = pressed;
     pressed = null;
     if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
-    canvas.style.cursor = hovered ? 'pointer' : 'grab';
+    canvas.style.cursor = v.hovered ? 'pointer' : 'grab';
     if (node) {
       node.fx = node.fy = null;
       simulation.alphaTarget(0);
-      if (!moved && event.type === 'pointerup' && !isCurrent(node)) window.location.href = node.url;
+      if (!moved && event.type === 'pointerup' && !v.isCurrent(node)) window.location.href = node.url;
     }
   }
 
@@ -218,11 +212,10 @@ function createView(
     { passive: false },
   );
   on('pointerdown', (event) => {
-    // Only the main button drags or opens a page; a middle or right click is the browser's.
     if (event.button !== 0) return;
     const p = point(event);
     const node = nodeAt(p);
-    pressed = { node, start: p, view: { ...view }, moved: false };
+    pressed = { node, start: p, view: { ...v.view }, moved: false };
     canvas.setPointerCapture(event.pointerId);
     if (node) {
       node.fx = node.x;
@@ -239,7 +232,7 @@ function createView(
         pressed.node.fx = p.gx;
         pressed.node.fy = p.gy;
       } else {
-        view = {
+        v.view = {
           ...pressed.view,
           x: pressed.view.x + p.x - pressed.start.x,
           y: pressed.view.y + p.y - pressed.start.y,
@@ -249,8 +242,8 @@ function createView(
       return;
     }
     const node = nodeAt(p);
-    if (node !== hovered) {
-      hovered = node;
+    if (node !== v.hovered) {
+      v.hovered = node;
       canvas.style.cursor = node ? 'pointer' : 'grab';
       canvas.title = node ? node.title : '';
       render();
@@ -258,23 +251,74 @@ function createView(
   });
   on('pointerup', release);
   on('pointercancel', release);
-  // A double click on the background puts the view back.
   on('dblclick', (event) => {
     if (nodeAt(point(event))) return;
-    view = { k: 1, x: 0, y: 0 };
+    v.view = { k: 1, x: 0, y: 0 };
     render();
   });
   on('pointerleave', () => {
-    if (!pressed && hovered) {
-      hovered = null;
+    if (!pressed && v.hovered) {
+      v.hovered = null;
       render();
     }
   });
   canvas.style.cursor = 'grab';
+  return zoomBy;
+}
+
+/**
+ * A graph drawn on a canvas (drawGraph), laid out by d3-force (createSimulation) and interactive (bindPointer).
+ * `labels: 'all'` names every page (the dialog); else only the current page and the one under the pointer. Returns
+ * zoomBy and destroy, which stops the simulation and drops the listeners.
+ */
+function createView(
+  canvas: HTMLCanvasElement,
+  graph: Local,
+  colourOf: (node: Node) => string,
+  { labels = 'hover' }: { labels?: 'hover' | 'all' } = {},
+) {
+  // The canvas's CSS size (the rail's is square, the dialog's fills it) at the screen's pixel density.
+  const width = canvas.clientWidth || 272;
+  const height = canvas.clientHeight || width;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+
+  const degree: Record<string, number> = {};
+  for (const link of graph.links) {
+    degree[link.source] = (degree[link.source] ?? 0) + 1;
+    degree[link.target] = (degree[link.target] ?? 0) + 1;
+  }
+  const isCurrent = (node: Node) => node.id === graph.current.id;
+  const v: View = {
+    canvas,
+    ctx: canvas.getContext('2d')!,
+    width,
+    height,
+    dpr,
+    graph,
+    links: graph.links.map((l) => ({ ...l })) as unknown as SimLink[],
+    colourOf,
+    labels,
+    colors: palette(),
+    view: { k: 1, x: 0, y: 0 },
+    hovered: null,
+    radius: (node) => 4 + Math.min(6, degree[node.id] ?? 0) + (isCurrent(node) ? 3 : 0),
+    isCurrent,
+  };
+  const render = () => drawGraph(v);
+  const simulation = createSimulation(v, render);
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    simulation.stop();
+    for (let i = 0; i < 200; i++) simulation.tick();
+    render();
+  }
+  const listeners = new AbortController();
+  const zoomBy = bindPointer(v, simulation, render, listeners.signal);
 
   // New colours when the scheme changes: the header's toggle sets data-theme, and a reader following the system has the OS switch it.
   const recolor = () => {
-    colors = palette();
+    v.colors = palette();
     render();
   };
   const themes = new MutationObserver(recolor);
