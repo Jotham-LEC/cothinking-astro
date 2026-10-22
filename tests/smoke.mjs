@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-// A browser smoke run against `astro preview` (PREVIEW_URL, else :4321; Astro 7's
-// preview is a background server: `astro preview status` prints its address): console errors, theme toggle, the Pagefind palette, Explorer folders,
-// the graph, the keys card, heading anchors and the 404's suggestions, with
-// screenshots under DEV_FILES/screenshots/. Needs Playwright's browsers:
-// PLAYWRIGHT_BROWSERS_PATH (nixpkgs' playwright-driver.browsers).
+// `npm run test:smoke`: a browser run against `astro preview` (PREVIEW_URL,
+// else :4321; Astro 7's preview is a background server: `astro preview
+// status` prints its address). Console errors, theme toggle, code-block
+// chrome, the Pagefind palette, Explorer folders, the graph, the keys card,
+// heading anchors and the 404's suggestions, with screenshots under
+// DEV_FILES/screenshots/. Needs Playwright's browsers: PLAYWRIGHT_BROWSERS_PATH
+// (nixpkgs' playwright-driver.browsers).
 import fs from 'node:fs';
 import { chromium } from 'playwright';
 

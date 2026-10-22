@@ -3,7 +3,8 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { headingSlug, laravelSlug, uniqueSlugs } from '../src/lib/markdown/slug.ts';
 
-const golden = path.resolve(__dirname, '../DEV_FILES/golden/heading-ids.json');
+// Every heading id the Laravel site printed (scripts/dump-heading-ids.php), kept as a fixture.
+const golden = path.resolve(__dirname, 'fixtures/heading-ids.json');
 
 describe('laravelSlug', () => {
   it('matches Str::slug on the cases the Laravel tests name', () => {
@@ -18,7 +19,7 @@ describe('laravelSlug', () => {
     expect([slug('Notes'), slug('Notes'), slug('Notes')]).toEqual(['notes', 'notes-1', 'notes-2']);
   });
 
-  it.skipIf(!fs.existsSync(golden))('reproduces every heading id the Laravel site printed', () => {
+  it('reproduces every heading id the Laravel site printed', () => {
     const pages = JSON.parse(fs.readFileSync(golden, 'utf8')) as Record<
       string,
       { level: number; id: string; text: string }[]

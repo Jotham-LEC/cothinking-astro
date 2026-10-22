@@ -1,8 +1,10 @@
 #!/usr/bin/env node
+// Migration only: delete once the Astro repo is the source.
+//
 // Captures the golden set from the local Laravel app (`php artisan serve
 // --port=8004`, APP_ENV=production so robots and llms match production): every
 // URL in DEV_FILES/manifest.json plus the listings, feeds and generated files.
-// GOLDEN_BASE is the site's local address (cothink.ing: http://cothinking.localhost:8004).
+// GOLDEN_BASE is the app's local address (default http://localhost:8004).
 // Saved under DEV_FILES/golden/pages/ for scripts/compare.mjs.
 import fs from 'node:fs';
 import path from 'node:path';

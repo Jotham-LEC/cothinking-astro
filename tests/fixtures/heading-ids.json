@@ -1,0 +1,2101 @@
+{
+    "/essays/elements-of-a-good-working-culture": [
+        {
+            "level": 2,
+            "id": "pride",
+            "text": "Pride"
+        },
+        {
+            "level": 2,
+            "id": "people",
+            "text": "People"
+        },
+        {
+            "level": 3,
+            "id": "top-management",
+            "text": "Top Management"
+        },
+        {
+            "level": 3,
+            "id": "middle-management",
+            "text": "Middle Management"
+        },
+        {
+            "level": 2,
+            "id": "team-composition",
+            "text": "Team Composition"
+        },
+        {
+            "level": 2,
+            "id": "see-also",
+            "text": "See also"
+        }
+    ],
+    "/essays/writing-how-to-practice-correctly": [],
+    "/essays/misconceptions-about-group-decision-making-tips-for-better-business-communication": [
+        {
+            "level": 2,
+            "id": "misconception-1-the-best-ideas-come-from-group-brainstorming-sessions",
+            "text": "Misconception 1: The Best Ideas Come from Group Brainstorming Sessions"
+        },
+        {
+            "level": 2,
+            "id": "misconception-2-brainstorming-is-all-about-ideas-not-politics",
+            "text": "Misconception 2: Brainstorming is All About Ideas, Not Politics"
+        },
+        {
+            "level": 2,
+            "id": "misconception-3-the-best-ideas-come-from-group-discussions",
+            "text": "Misconception 3: The Best Ideas Come from Group Discussions"
+        },
+        {
+            "level": 2,
+            "id": "a-framework-for-improving-idea-quality-in-group-discussions",
+            "text": "A Framework for Improving Idea Quality in Group Discussions"
+        },
+        {
+            "level": 2,
+            "id": "conclusion-the-journey-toward-superior-group-decision-making",
+            "text": "Conclusion: The Journey Toward Superior Group Decision-Making"
+        }
+    ],
+    "/essays/being-personal-in-the-workplace": [
+        {
+            "level": 2,
+            "id": "question",
+            "text": "QUESTION"
+        },
+        {
+            "level": 2,
+            "id": "answer",
+            "text": "ANSWER"
+        }
+    ],
+    "/essays/overemphasising-creativity-will-hurt-your-business": [
+        {
+            "level": 2,
+            "id": "the-exhausted-vigor-of-innovative-ideas",
+            "text": "🪫 The Exhausted Vigor of Innovative Ideas"
+        },
+        {
+            "level": 2,
+            "id": "the-hierarchy-of-ideas-in-the-workplace",
+            "text": "🪜 The Hierarchy of Ideas in the Workplace"
+        },
+        {
+            "level": 2,
+            "id": "execution-trumps-ideation",
+            "text": "💪 Execution Trumps Ideation"
+        },
+        {
+            "level": 2,
+            "id": "the-fickleness-of-success",
+            "text": "💨 The Fickleness of Success"
+        },
+        {
+            "level": 2,
+            "id": "the-value-of-craftsmanship",
+            "text": "🔨 The Value of Craftsmanship"
+        },
+        {
+            "level": 2,
+            "id": "ideas-vs-execution-my-takeaway",
+            "text": "🧠 Ideas Vs Execution: My Takeaway"
+        }
+    ],
+    "/essays/why-writing-matters-to-everyone": [
+        {
+            "level": 2,
+            "id": "writing-helps-you-think",
+            "text": "Writing Helps You Think"
+        },
+        {
+            "level": 2,
+            "id": "writing-helps-us-figure-out-who-we-are-and-what-we-believe-in",
+            "text": "Writing Helps Us Figure Out Who We Are, and What We Believe In"
+        },
+        {
+            "level": 2,
+            "id": "closing-thoughts",
+            "text": "Closing Thoughts"
+        },
+        {
+            "level": 2,
+            "id": "see-also",
+            "text": "See also"
+        }
+    ],
+    "/essays/boosting-team-productivity-what-we-can-learn-from-university-projects": [
+        {
+            "level": 2,
+            "id": "the-horror",
+            "text": "🔪The Horror"
+        },
+        {
+            "level": 2,
+            "id": "how-teams-communicate",
+            "text": "🔊How Teams Communicate"
+        },
+        {
+            "level": 2,
+            "id": "how-work-is-assigned",
+            "text": "💼 How Work Is Assigned"
+        },
+        {
+            "level": 2,
+            "id": "how-projects-are-tracked",
+            "text": "🔍 How Projects Are Tracked"
+        },
+        {
+            "level": 2,
+            "id": "separating-people-problem-from-system-problems",
+            "text": "Separating People Problem From System problems"
+        }
+    ],
+    "/essays/3-soft-skills-to-put-in-your-resume-for-young-professionals-in-2023": [
+        {
+            "level": 2,
+            "id": "importance-of-roadmaps",
+            "text": "🗺️ Importance of Roadmaps"
+        },
+        {
+            "level": 2,
+            "id": "the-primordial-skills",
+            "text": "♟️ The Primordial Skills"
+        },
+        {
+            "level": 2,
+            "id": "diagnosing",
+            "text": "🔍 Diagnosing"
+        },
+        {
+            "level": 2,
+            "id": "persistence",
+            "text": "🔨 Persistence"
+        },
+        {
+            "level": 2,
+            "id": "pitching",
+            "text": "🗣️ Pitching"
+        },
+        {
+            "level": 2,
+            "id": "closing-thoughts",
+            "text": "🧠 Closing Thoughts"
+        },
+        {
+            "level": 2,
+            "id": "see-also",
+            "text": "See also"
+        }
+    ],
+    "/essays/3-book-reccomendations-for-young-professionals": [
+        {
+            "level": 2,
+            "id": "flowers-for-algernon-by-daniel-keyes",
+            "text": "Flowers for Algernon by Daniel Keyes"
+        },
+        {
+            "level": 2,
+            "id": "triggers-by-marshall-goldsmith-atomic-habits-by-james-clear",
+            "text": "Triggers by Marshall Goldsmith & Atomic Habits by James Clear"
+        },
+        {
+            "level": 2,
+            "id": "mans-search-for-meaning-by-dr-viktor-frankl",
+            "text": "Man’s Search for Meaning by Dr Viktor Frankl"
+        }
+    ],
+    "/essays/ai-has-come-but-i-will-still-be-here": [
+        {
+            "level": 2,
+            "id": "ai-cant-contextualise",
+            "text": "AI Can’t Contextualise"
+        },
+        {
+            "level": 2,
+            "id": "ai-cant-organize",
+            "text": "AI Can’t Organize"
+        },
+        {
+            "level": 2,
+            "id": "ai-cant-dabble-in-politics",
+            "text": "AI Can’t Dabble in Politics"
+        },
+        {
+            "level": 2,
+            "id": "a-conversation-about-being-irrelevant",
+            "text": "A Conversation About Being Irrelevant"
+        },
+        {
+            "level": 2,
+            "id": "see-also",
+            "text": "See also"
+        }
+    ],
+    "/essays/side-projects-within-the-workplace": [
+        {
+            "level": 2,
+            "id": "why-bother",
+            "text": "Why Bother?"
+        }
+    ],
+    "/essays/building-a-personal-website-why-i-chose-obsidian-publish": [
+        {
+            "level": 2,
+            "id": "why-i-need-a-personal-website",
+            "text": "Why I Need a Personal Website"
+        },
+        {
+            "level": 3,
+            "id": "requirements-for-the-website",
+            "text": "Requirements for the Website"
+        },
+        {
+            "level": 2,
+            "id": "why-obsidian-publish-for-my-personal-website",
+            "text": "Why Obsidian Publish for My Personal Website?"
+        },
+        {
+            "level": 3,
+            "id": "the-barrier-to-publishing-is-non-existent",
+            "text": "The Barrier to Publishing Is Non-existent"
+        },
+        {
+            "level": 3,
+            "id": "it-is-the-most-trusted-way-to-build-a-digital-garden",
+            "text": "It Is the Most Trusted Way to Build a Digital Garden"
+        },
+        {
+            "level": 3,
+            "id": "fast-loading-speeds-and-somewhat-seo-optimised",
+            "text": "Fast Loading Speeds and (Somewhat) SEO Optimised"
+        },
+        {
+            "level": 3,
+            "id": "obsidian-publish-looks-unique",
+            "text": "Obsidian Publish Looks Unique"
+        },
+        {
+            "level": 2,
+            "id": "why-you-shouldnt-use-obsidian-publish",
+            "text": "Why You Shouldn’t Use Obsidian Publish"
+        },
+        {
+            "level": 3,
+            "id": "obsidian-is-not-your-markdown-editor-of-choice",
+            "text": "Obsidian Is Not Your Markdown Editor of Choice"
+        },
+        {
+            "level": 3,
+            "id": "you-want-a-more-professional-website",
+            "text": "You Want a More “Professional” Website"
+        },
+        {
+            "level": 3,
+            "id": "you-are-looking-for-direct-automation",
+            "text": "You Are Looking for Direct Automation"
+        },
+        {
+            "level": 2,
+            "id": "thoughts-on-other-platforms",
+            "text": "Thoughts on Other Platforms"
+        },
+        {
+            "level": 3,
+            "id": "wordpress-with-elementor",
+            "text": "WordPress With Elementor"
+        },
+        {
+            "level": 3,
+            "id": "squarespace",
+            "text": "Squarespace"
+        },
+        {
+            "level": 3,
+            "id": "ghost",
+            "text": "Ghost"
+        },
+        {
+            "level": 3,
+            "id": "substack",
+            "text": "Substack"
+        },
+        {
+            "level": 2,
+            "id": "closing-thoughts-tips",
+            "text": "Closing Thoughts & Tips"
+        },
+        {
+            "level": 2,
+            "id": "see-also",
+            "text": "See also"
+        }
+    ],
+    "/essays/guide-to-being-a-new-manager-alignment": [
+        {
+            "level": 2,
+            "id": "step-1-alignment",
+            "text": "Step 1: Alignment"
+        },
+        {
+            "level": 3,
+            "id": "getting-an-overview",
+            "text": "🔍 Getting an Overview"
+        },
+        {
+            "level": 4,
+            "id": "business-model-canvas",
+            "text": "Business Model Canvas"
+        },
+        {
+            "level": 4,
+            "id": "value-proposition-canvas-vpc",
+            "text": "Value Proposition Canvas VPC"
+        },
+        {
+            "level": 3,
+            "id": "validating-your-understanding",
+            "text": "✅ Validating Your Understanding"
+        }
+    ],
+    "/essays/why-everyone-should-learn-task-management": [
+        {
+            "level": 2,
+            "id": "it-helps-us-prioritise",
+            "text": "It Helps Us Prioritise"
+        },
+        {
+            "level": 2,
+            "id": "prioritisation-tips-for-task-management",
+            "text": "Prioritisation Tips for Task Management"
+        },
+        {
+            "level": 3,
+            "id": "eisenhower-matrix",
+            "text": "Eisenhower Matrix"
+        },
+        {
+            "level": 3,
+            "id": "time-blocking",
+            "text": "Time Blocking"
+        },
+        {
+            "level": 3,
+            "id": "breaking-up-large-projects",
+            "text": "Breaking up Large Projects"
+        },
+        {
+            "level": 2,
+            "id": "it-frees-up-mental-space",
+            "text": "It Frees up Mental Space"
+        },
+        {
+            "level": 3,
+            "id": "are-people-who-manage-tasks-just-nerds",
+            "text": "Are People Who Manage Tasks Just Nerds?"
+        },
+        {
+            "level": 2,
+            "id": "it-helps-you-become-more-fulfilled",
+            "text": "It Helps You Become More Fulfilled"
+        },
+        {
+            "level": 2,
+            "id": "it-keeps-track-of-your-personal-development",
+            "text": "It Keeps Track of Your Personal Development"
+        },
+        {
+            "level": 3,
+            "id": "final-thoughts",
+            "text": "Final Thoughts"
+        }
+    ],
+    "/essays/ive-experimented-with-personal-productivity-for-18-months-heres-what-ive-learned": [
+        {
+            "level": 2,
+            "id": "picking-out-an-ecosystem",
+            "text": "Picking Out an Ecosystem"
+        },
+        {
+            "level": 3,
+            "id": "1-create-a-list-of-requirements-and-priorities",
+            "text": "1. Create a List of Requirements and priorities"
+        },
+        {
+            "level": 3,
+            "id": "2-decide-if-you-want-an-integrated-system-or-a-best-of-breed",
+            "text": "2. Decide if You Want an Integrated System or a best-of-breed"
+        },
+        {
+            "level": 3,
+            "id": "3-abuse-the-free-trials",
+            "text": "3. Abuse the Free trials"
+        },
+        {
+            "level": 2,
+            "id": "workflow-matters-more-than-technology",
+            "text": "Workflow Matters More Than Technology"
+        },
+        {
+            "level": 2,
+            "id": "the-role-of-fun-and-readiness-in-productivity",
+            "text": "The Role of Fun and Readiness in Productivity"
+        },
+        {
+            "level": 2,
+            "id": "output-is-the-only-thing-that-matters",
+            "text": "Output Is the Only Thing That Matters"
+        },
+        {
+            "level": 2,
+            "id": "see-also",
+            "text": "See also"
+        }
+    ],
+    "/essays/plight-of-the-malaysian-young-adults": [],
+    "/essays/will-chatgpt-replace-writers": [
+        {
+            "level": 2,
+            "id": "new-guns-same-battlefield",
+            "text": "New Guns, Same Battlefield"
+        },
+        {
+            "level": 2,
+            "id": "how-the-sausage-is-made",
+            "text": "How the Sausage Is Made"
+        },
+        {
+            "level": 2,
+            "id": "it-boils-down-to-the-state-of-ai-development",
+            "text": "It Boils Down to the State of A.I. Development"
+        },
+        {
+            "level": 2,
+            "id": "adapting-to-change",
+            "text": "Adapting to Change"
+        }
+    ],
+    "/essays/how-competitive-shooters-made-me-a-better-leader": [
+        {
+            "level": 2,
+            "id": "working-with-bad-teammates",
+            "text": "🚫 Working With “Bad” Teammates"
+        },
+        {
+            "level": 2,
+            "id": "team-communication",
+            "text": "🔈Team Communication"
+        },
+        {
+            "level": 2,
+            "id": "role-of-in-game-leaders",
+            "text": "👑 Role of In-Game Leaders"
+        },
+        {
+            "level": 2,
+            "id": "role-of-fun",
+            "text": "🧸 Role of Fun"
+        },
+        {
+            "level": 3,
+            "id": "the-people-ive-come-across-who-love-their-day-jobs-have-only-one-thing-in-common",
+            "text": "The People I’ve Come Across Who Love Their Day Jobs Have Only One Thing in Common"
+        },
+        {
+            "level": 2,
+            "id": "role-of-luck",
+            "text": "🎲 Role of Luck"
+        },
+        {
+            "level": 2,
+            "id": "closing-thoughts",
+            "text": "🧠 Closing Thoughts"
+        }
+    ],
+    "/essays/after-18-months-being-a-marketing-manager": [
+        {
+            "level": 2,
+            "id": "10-the-pride-of-building-a-fearless-department",
+            "text": "1.0—The Pride of Building a Fearless Department"
+        },
+        {
+            "level": 2,
+            "id": "20-proper-departmental-bureaucracy-yields-compounding-returns",
+            "text": "2.0—Proper Departmental Bureaucracy Yields Compounding Returns"
+        },
+        {
+            "level": 3,
+            "id": "21-systems-of-information",
+            "text": "2.1—Systems Of Information"
+        },
+        {
+            "level": 3,
+            "id": "22-systems-of-communication",
+            "text": "2.2—Systems Of Communication"
+        },
+        {
+            "level": 3,
+            "id": "23-side-tangent",
+            "text": "2.3—Side Tangent"
+        },
+        {
+            "level": 2,
+            "id": "30-accepting-issues-outside-my-control",
+            "text": "3.0—Accepting Issues Outside My Control"
+        },
+        {
+            "level": 2,
+            "id": "see-also",
+            "text": "See also"
+        }
+    ],
+    "/essays/why-i-chose-hugo-for-my-personal-website": [
+        {
+            "level": 2,
+            "id": "hugo-my-current-cms-of-choice",
+            "text": "Hugo: My Current CMS of Choice"
+        },
+        {
+            "level": 2,
+            "id": "notion-superso",
+            "text": "Notion & Super.so"
+        },
+        {
+            "level": 2,
+            "id": "substack-ghost",
+            "text": "Substack & Ghost"
+        },
+        {
+            "level": 2,
+            "id": "wordpress",
+            "text": "WordPress"
+        },
+        {
+            "level": 2,
+            "id": "obsidian-publish",
+            "text": "Obsidian Publish"
+        },
+        {
+            "level": 2,
+            "id": "in-conclusion",
+            "text": "In Conclusion"
+        }
+    ],
+    "/essays/why-am-i-migrating-to-micro-blog": [
+        {
+            "level": 2,
+            "id": "motive",
+            "text": "Motive"
+        },
+        {
+            "level": 2,
+            "id": "how-i-came-across-microblog",
+            "text": "How I came across Micro.Blog"
+        }
+    ],
+    "/essays/content-creation-working-past-the-cringe": [],
+    "/essays/guide-publishing-to-hugo-jekyll-remotely-via-ios": [
+        {
+            "level": 2,
+            "id": "a-much-more-elegant-solution",
+            "text": "A Much More Elegant Solution"
+        },
+        {
+            "level": 2,
+            "id": "shortcut-in-action",
+            "text": "Shortcut in Action"
+        }
+    ],
+    "/essays/doom-emacs-a-text-editing-playground-i-didnt-know-i-needed": [
+        {
+            "level": 2,
+            "id": "so-why-emacs",
+            "text": "So Why Emacs?"
+        },
+        {
+            "level": 3,
+            "id": "plain-text-files",
+            "text": "Plain Text Files"
+        },
+        {
+            "level": 3,
+            "id": "vim-motion",
+            "text": "Vim Motion"
+        },
+        {
+            "level": 3,
+            "id": "ease-of-entry",
+            "text": "Ease of Entry"
+        },
+        {
+            "level": 3,
+            "id": "cost-savings",
+            "text": "Cost Savings"
+        },
+        {
+            "level": 3,
+            "id": "aesthetics",
+            "text": "Aesthetics"
+        },
+        {
+            "level": 2,
+            "id": "final-thoughts",
+            "text": "Final Thoughts"
+        }
+    ],
+    "/essays/recovering-redacted-content-its-scary": [
+        {
+            "level": 2,
+            "id": "non-destructive-editing-images-and-text",
+            "text": "Non-destructive Editing — Images and Text"
+        },
+        {
+            "level": 3,
+            "id": "reverse-engineering-text",
+            "text": "Reverse Engineering Text"
+        },
+        {
+            "level": 3,
+            "id": "image-de-blurring",
+            "text": "Image De-blurring"
+        },
+        {
+            "level": 2,
+            "id": "black-bar-redaction",
+            "text": "Black Bar Redaction"
+        },
+        {
+            "level": 2,
+            "id": "obfuscating-passwords-using-asterisks",
+            "text": "Obfuscating Passwords Using Asterisks"
+        },
+        {
+            "level": 2,
+            "id": "recovering-cropped-screenshots",
+            "text": "Recovering Cropped Screenshots"
+        },
+        {
+            "level": 2,
+            "id": "the-proper-way-of-redaction",
+            "text": "The Proper Way of Redaction"
+        },
+        {
+            "level": 2,
+            "id": "writers-note",
+            "text": "Writer’s Note"
+        }
+    ],
+    "/essays/ive-time-tracked-for-a-week-what-ive-learnt-made-me-uncomfortable": [
+        {
+            "level": 2,
+            "id": "see-also",
+            "text": "See also"
+        }
+    ],
+    "/essays/an-entrepreneur-s-guide-to-effective-time-tracking": [
+        {
+            "level": 2,
+            "id": "why-you-should-time-track",
+            "text": "Why You Should Time Track"
+        },
+        {
+            "level": 3,
+            "id": "certain-industries-require-it",
+            "text": "Certain Industries Require It"
+        },
+        {
+            "level": 3,
+            "id": "combat-procrastination-by-injecting-awareness",
+            "text": "Combat Procrastination by Injecting Awareness"
+        },
+        {
+            "level": 3,
+            "id": "strategic-data-insights",
+            "text": "Strategic Data Insights"
+        },
+        {
+            "level": 3,
+            "id": "avoid-the-feeling-of-being-stuck-in-life",
+            "text": "Avoid the Feeling of Being Stuck in Life"
+        },
+        {
+            "level": 2,
+            "id": "why-time-tracking-is-difficult",
+            "text": "Why Time Tracking is Difficult"
+        },
+        {
+            "level": 2,
+            "id": "tools-for-time-tracking",
+            "text": "Tools for Time-Tracking"
+        },
+        {
+            "level": 3,
+            "id": "editors-pick-atracker",
+            "text": "Editor's Pick: ATracker"
+        },
+        {
+            "level": 4,
+            "id": "no-real-need-for-time-tracking-on-laptop-devices",
+            "text": "No Real Need for Time-Tracking on Laptop Devices"
+        },
+        {
+            "level": 4,
+            "id": "always-in-view",
+            "text": "Always in View"
+        },
+        {
+            "level": 4,
+            "id": "its-speed-is-unmatched",
+            "text": "Its Speed is Unmatched"
+        },
+        {
+            "level": 4,
+            "id": "i-like-their-monetisation-policies",
+            "text": "I Like Their Monetisation Policies"
+        },
+        {
+            "level": 4,
+            "id": "other-bells-and-whistles",
+            "text": "Other Bells and Whistles"
+        },
+        {
+            "level": 4,
+            "id": "minor-complaints",
+            "text": "Minor Complaints"
+        },
+        {
+            "level": 2,
+            "id": "a-note-about-automatic-vs-manual-time-tracking",
+            "text": "A Note About: Automatic vs Manual Time-Tracking"
+        },
+        {
+            "level": 3,
+            "id": "automatic-time-tracking",
+            "text": "Automatic Time-Tracking"
+        },
+        {
+            "level": 3,
+            "id": "why-i-prefer-manual-time-tracking",
+            "text": "Why I Prefer Manual Time-Tracking"
+        },
+        {
+            "level": 3,
+            "id": "how-i-structure-my-time-tracking",
+            "text": "How I Structure My Time-Tracking"
+        },
+        {
+            "level": 2,
+            "id": "general-tips",
+            "text": "General Tips"
+        },
+        {
+            "level": 3,
+            "id": "it-is-not-the-absolute-data-that-matters-its-the-trends",
+            "text": "It is Not the Absolute Data That Matters — It's the Trends"
+        },
+        {
+            "level": 3,
+            "id": "its-okay-to-hit-a-hard-reset",
+            "text": "It's Okay to Hit a Hard Reset"
+        },
+        {
+            "level": 2,
+            "id": "quick-thoughts-on-alternate-apps",
+            "text": "Quick Thoughts on Alternate Apps"
+        },
+        {
+            "level": 3,
+            "id": "timery-toggltrack",
+            "text": "Timery / TogglTrack"
+        },
+        {
+            "level": 3,
+            "id": "timing",
+            "text": "Timing"
+        },
+        {
+            "level": 3,
+            "id": "rizeio",
+            "text": "Rize.io"
+        },
+        {
+            "level": 3,
+            "id": "timelines",
+            "text": "Timelines"
+        },
+        {
+            "level": 3,
+            "id": "timemator",
+            "text": "Timemator"
+        },
+        {
+            "level": 2,
+            "id": "writers-note",
+            "text": "Writer's Note"
+        },
+        {
+            "level": 2,
+            "id": "see-also",
+            "text": "See also"
+        }
+    ],
+    "/essays/blast-stack": [
+        {
+            "level": 2,
+            "id": "what-blast-is",
+            "text": "What BLaST is"
+        },
+        {
+            "level": 2,
+            "id": "simpler-to-use-from-the-clients-point-of-view",
+            "text": "Simpler to use, from the client's point of view"
+        },
+        {
+            "level": 2,
+            "id": "cheaper-to-host-and-run",
+            "text": "Cheaper to host and run"
+        },
+        {
+            "level": 2,
+            "id": "safer-to-operate-and-run",
+            "text": "Safer to operate and run"
+        },
+        {
+            "level": 2,
+            "id": "not-locked-in-to-me",
+            "text": "Not locked in to me"
+        },
+        {
+            "level": 2,
+            "id": "vibe-coding-a-site-yourself",
+            "text": "Vibe-coding a site yourself"
+        },
+        {
+            "level": 2,
+            "id": "for-developers",
+            "text": "For developers"
+        },
+        {
+            "level": 2,
+            "id": "when-blast-is-the-wrong-choice",
+            "text": "When BLaST is the wrong choice"
+        }
+    ],
+    "/essays/utm-naming-convention": [
+        {
+            "level": 2,
+            "id": "the-five-parameters-you-need",
+            "text": "The five parameters you need"
+        },
+        {
+            "level": 2,
+            "id": "values-are-case-sensitive",
+            "text": "Values are case sensitive"
+        },
+        {
+            "level": 2,
+            "id": "medium-decides-the-channel",
+            "text": "Medium decides the channel"
+        },
+        {
+            "level": 2,
+            "id": "five-rules",
+            "text": "Five rules"
+        },
+        {
+            "level": 2,
+            "id": "the-template",
+            "text": "The template"
+        },
+        {
+            "level": 2,
+            "id": "keep-every-link-in-one-sheet",
+            "text": "Keep every link in one sheet"
+        },
+        {
+            "level": 2,
+            "id": "how-to-start",
+            "text": "How to start"
+        },
+        {
+            "level": 2,
+            "id": "what-i-have-seen",
+            "text": "What I have seen"
+        }
+    ],
+    "/essays/whatsapp-to-crm": [
+        {
+            "level": 2,
+            "id": "why-whatsapp-enquiries-go-missing",
+            "text": "Why WhatsApp enquiries go missing"
+        },
+        {
+            "level": 2,
+            "id": "the-business-app-or-the-api",
+            "text": "The Business app or the API"
+        },
+        {
+            "level": 2,
+            "id": "tag-every-whatsapp-button",
+            "text": "Tag every WhatsApp button"
+        },
+        {
+            "level": 2,
+            "id": "three-ways-to-get-the-chat-into-the-crm",
+            "text": "Three ways to get the chat into the CRM"
+        },
+        {
+            "level": 2,
+            "id": "where-to-start",
+            "text": "Where to start"
+        },
+        {
+            "level": 2,
+            "id": "what-i-have-seen",
+            "text": "What I have seen"
+        }
+    ],
+    "/notes/writing-shorter": [
+        {
+            "level": 2,
+            "id": "see-also",
+            "text": "See also"
+        }
+    ],
+    "/notes/omnifocus-is-not-a-todo-app-its-a-can-do-app": [
+        {
+            "level": 2,
+            "id": "of4-helps-me-take-a-scrying-approach-to-task-management",
+            "text": "OF4 Helps Me Take a “scrying” Approach to Task Management"
+        }
+    ],
+    "/notes/changing-jobs-for-the-eighth-time": [],
+    "/notes/saving-a-vibe-coded-app": [],
+    "/notes/the-value-of-authenticity": [],
+    "/notes/the-most-correct-stance-on-ai": [
+        {
+            "level": 2,
+            "id": "tldr",
+            "text": "TL:DR"
+        }
+    ],
+    "/notes/finding-leads": [],
+    "/notes/2026-09-24-2056": [],
+    "/essays": [],
+    "/projects": [
+        {
+            "level": 2,
+            "id": "marketing-operations",
+            "text": "Marketing operations"
+        },
+        {
+            "level": 2,
+            "id": "websites",
+            "text": "Websites"
+        },
+        {
+            "level": 2,
+            "id": "open-source-and-tooling",
+            "text": "Open source and tooling"
+        },
+        {
+            "level": 2,
+            "id": "personal",
+            "text": "Personal"
+        }
+    ],
+    "/sports": [],
+    "/notes": [],
+    "/publications": [],
+    "/career": [
+        {
+            "level": 2,
+            "id": "about",
+            "text": "About"
+        },
+        {
+            "level": 2,
+            "id": "career",
+            "text": "Career"
+        },
+        {
+            "level": 2,
+            "id": "projects",
+            "text": "Projects"
+        },
+        {
+            "level": 2,
+            "id": "education",
+            "text": "Education"
+        },
+        {
+            "level": 2,
+            "id": "credentials",
+            "text": "Credentials"
+        },
+        {
+            "level": 2,
+            "id": "interests",
+            "text": "Interests"
+        }
+    ],
+    "/": [
+        {
+            "level": 2,
+            "id": "profile",
+            "text": "Profile"
+        }
+    ],
+    "/cv": [],
+    "/projects/single-source-of-truth": [
+        {
+            "level": 2,
+            "id": "conventions",
+            "text": "Conventions"
+        },
+        {
+            "level": 2,
+            "id": "links",
+            "text": "Links"
+        }
+    ],
+    "/projects/greyline": [
+        {
+            "level": 2,
+            "id": "links",
+            "text": "Links"
+        }
+    ],
+    "/projects/agent-run-digests": [
+        {
+            "level": 2,
+            "id": "decisions",
+            "text": "Decisions"
+        },
+        {
+            "level": 2,
+            "id": "links",
+            "text": "Links"
+        }
+    ],
+    "/projects/command-and-control-workbench": [
+        {
+            "level": 2,
+            "id": "constraints",
+            "text": "Constraints"
+        },
+        {
+            "level": 2,
+            "id": "document-kits",
+            "text": "Document kits"
+        },
+        {
+            "level": 2,
+            "id": "links",
+            "text": "Links"
+        }
+    ],
+    "/projects/jothamlim-com": [
+        {
+            "level": 2,
+            "id": "decisions",
+            "text": "Decisions"
+        },
+        {
+            "level": 2,
+            "id": "time-machine",
+            "text": "Time Machine"
+        },
+        {
+            "level": 2,
+            "id": "links",
+            "text": "Links"
+        }
+    ],
+    "/projects/marketing-toolkit": [
+        {
+            "level": 2,
+            "id": "links",
+            "text": "Links"
+        }
+    ],
+    "/projects/laravel-offsite-backup": [
+        {
+            "level": 2,
+            "id": "links",
+            "text": "Links"
+        }
+    ],
+    "/publications/entrepreneur-insight-may-2019": [],
+    "/publications/property-insight-may-2019": [],
+    "/publications/property-insight-febmar-2019": [],
+    "/publications/entrepreneur-insight-aug-2019": [],
+    "/publications/property-insight-aug-2019": [],
+    "/publications/financial-hacks-learning-how-to-trade": [],
+    "/publications/trends-digital-payments-in-southeast-asia-expected-to-cross-us-1-trill": [],
+    "/publications/trends-finance-and-the-real-economy-necessary-to-resolve-funding-gaps": [],
+    "/publications/property-insight-oct-2019": [],
+    "/publications/trends-global-dealmaking-and-ipos-expected-to-rebound-in-2021": [],
+    "/publications/outlook-overweight-on-fixed-income-as-us-china-trade-tiff-continues-sa": [],
+    "/publications/precious-metals-gold-continues-to-shine": [],
+    "/publications/trends-investors-overly-optimistic-about-withdrawal-of-retirement-savi": [],
+    "/publications/fixed-income-lack-of-high-yield-bonds-hindering-market-growth": [],
+    "/publications/solutions-forecasting-share-prices-with-ai-powered-supercomputer": [],
+    "/publications/trends-global-ipo-market-contracts-due-to-geopolitical-uncertainty": [],
+    "/publications/robo-advisory-platforms-road-bumps-and-silver-linings": [],
+    "/publications/investing-a-review-of-m-reits": [],
+    "/publications/cover-story-will-reits-in-asia-pacific-continue-to-deliver": [],
+    "/publications/standard-chartered-offers-interest-only-option-to-clients-affected-by": [],
+    "/publications/advertising-marketing-offline-advertising-making-a-comeback": [],
+    "/publications/circular-economy-akzonobel-s-favourite-colour-green": [],
+    "/publications/precious-metals-negative-yielding-bonds-drive-demand-for-gold": [],
+    "/publications/digital-health-treating-industry-woes-one-issue-at-a-time": [],
+    "/publications/thewall-ageing-populations-expected-to-impact-fiscal-policies-says-moo": [],
+    "/publications/thewall-asia-set-to-be-world-s-no-2-wealth-hub-in-five-years-says-knig": [],
+    "/publications/eastspring-investments-bhd-six-fund-awards": [],
+    "/publications/manulife-investment-management-m-bhd-one-fund-award": [],
+    "/publications/rhb-asset-management-sdn-bhd-three-fund-awards": [],
+    "/publications/entrepreneurship-automating-accounting-for-small-businesses": [],
+    "/publications/ai-chatbots-more-than-just-customer-support": [],
+    "/publications/blockchain-fighting-counterfeits-through-digital-means": [],
+    "/publications/funds-prs-providers-welcome-liberalisation-measures": [],
+    "/publications/local-cosmetics-brand-pivots-to-hand-sanitisers-to-survive-crisis": [],
+    "/publications/e-commerce-player-sees-four-times-sales-growth-during-mco": [],
+    "/publications/family-business-a-second-look-at-the-next-generation-of-family-busines": [],
+    "/publications/queuing-app-that-acts-as-social-distancing-tool": [],
+    "/publications/adulting-how-millennials-and-gen-z-are-coping-financially-during-the-o": [],
+    "/publications/soft-space-first-to-join-visa-s-fintech-fast-track-program-in-malaysia": [],
+    "/publications/industry-4-0-unlocking-the-potential-of-augmented-reality": [],
+    "/publications/pott-glasses-on-its-way-to-becoming-malaysia-s-first-fully-online-eyew": [],
+    "/publications/fund-focus-companies-with-strong-intangible-assets-expected-to-stay-re": [],
+    "/publications/nexea-introduces-initiative-to-help-smes-digitise-their-businesses": [],
+    "/publications/capbay-partners-with-thelorry-to-offer-inclusive-financing-for-sme-lor": [],
+    "/publications/demand-for-digital-marketing-services-spikes-among-smes": [],
+    "/publications/alibaba-com-witnesses-growth-spike-in-b2b-segment-during-covid-19-cris": [],
+    "/publications/medical-health-and-wellness-e-commerce-platform-now-offers-vendors-fre": [],
+    "/publications/livein-addresses-challenges-within-room-rental-market-during-covid-19": [],
+    "/publications/silver-lining-for-malaysian-job-market": [],
+    "/publications/high-growth-for-mobile-shopping-apps-but-asia-pacific-has-shopping-fat": [],
+    "/publications/mco-a-big-win-for-online-food-deliveries-and-cloud-kitchens": [],
+    "/publications/helping-single-mothers-through-mco-via-entrepreneurship": [],
+    "/publications/hospitality-industry-shows-signs-of-recovery-says-homestay-operator": [],
+    "/publications/work-from-home-model-leads-to-mid-sized-companies-seeking-better-data": [],
+    "/publications/dangers-of-rapid-digitalisation": [
+        {
+            "level": 2,
+            "id": "tips-and-tricks",
+            "text": "Tips and tricks"
+        }
+    ],
+    "/publications/trends-bumpy-ride-for-insurance-sector-amid-global-pandemic": [],
+    "/publications/trends-bcg-a-different-wealth-management-industry-by-2040": [],
+    "/publications/gold-backed-etfs-saw-record-breaking-inflows-says-world-gold-council": [],
+    "/publications/thewall-shiny-outlook-for-silver": [],
+    "/publications/cover-story-getting-personal": [],
+    "/publications/intheknow-transition-bonds": [
+        {
+            "level": 2,
+            "id": "in-a-nutshell",
+            "text": "In a nutshell"
+        },
+        {
+            "level": 2,
+            "id": "companies-that-have-issued-transition-bonds",
+            "text": "Companies that have issued transition bonds"
+        },
+        {
+            "level": 2,
+            "id": "growing-industry",
+            "text": "Growing industry"
+        },
+        {
+            "level": 2,
+            "id": "the-challenges",
+            "text": "The challenges"
+        }
+    ],
+    "/publications/keeping-track": [
+        {
+            "level": 2,
+            "id": "panasonic-manufacturing-malaysia-bhd",
+            "text": "Panasonic Manufacturing Malaysia Bhd"
+        },
+        {
+            "level": 2,
+            "id": "heineken-malaysia-bhd",
+            "text": "Heineken Malaysia Bhd"
+        }
+    ],
+    "/publications/investing-idea-adding-e-commerce-stocks-to-your-cart": [
+        {
+            "level": 2,
+            "id": "the-e-commerce-rally",
+            "text": "The e-commerce rally"
+        },
+        {
+            "level": 2,
+            "id": "short-term-headwinds",
+            "text": "Short-term headwinds"
+        }
+    ],
+    "/publications/trends-fintech-funding-in-asia-pacific-saw-spike-in-2q-led-by-southeas": [],
+    "/publications/thewall-riding-the-bull-run-with-gold-bullion": [
+        {
+            "level": 3,
+            "id": "investing-in-bullion",
+            "text": "Investing in bullion"
+        },
+        {
+            "level": 2,
+            "id": "scams-and-how-to-identify-counterfeit-gold",
+            "text": "Scams and how to identify counterfeit gold"
+        }
+    ],
+    "/publications/intheknow-what-is-basic-income": [
+        {
+            "level": 2,
+            "id": "free-cash-for-all",
+            "text": "Free cash for all?"
+        },
+        {
+            "level": 2,
+            "id": "why-is-bi-important",
+            "text": "Why is BI important?"
+        },
+        {
+            "level": 2,
+            "id": "case-studies",
+            "text": "Case studies"
+        },
+        {
+            "level": 2,
+            "id": "arguments-against-bi",
+            "text": "Arguments against BI"
+        }
+    ],
+    "/publications/solutions-malaysia-s-first-home-grown-robo-advisory-platform": [
+        {
+            "level": 2,
+            "id": "investing-via-the-platform",
+            "text": "Investing VIA the platform"
+        }
+    ],
+    "/publications/cover-story-consumers-more-vulnerable-to-scams-during-pandemic": [
+        {
+            "level": 3,
+            "id": "what-to-do-if-you-become-a-victim",
+            "text": "What to do if you become a victim"
+        },
+        {
+            "level": 3,
+            "id": "evolving-scams",
+            "text": "Evolving scams"
+        },
+        {
+            "level": 2,
+            "id": "what-ofs-does",
+            "text": "What OFS does"
+        }
+    ],
+    "/publications/market-experts-bullish-on-gold-miner-stocks": [],
+    "/publications/trends-malaysian-households-increasingly-richer-says-allianz-report": [
+        {
+            "level": 2,
+            "id": "2019-a-bumper-year",
+            "text": "2019 a bumper year"
+        }
+    ],
+    "/publications/property-developers-initiatives-to-help-seniors-age-in-place": [
+        {
+            "level": 3,
+            "id": "developer-initiatives",
+            "text": "Developer initiatives"
+        },
+        {
+            "level": 2,
+            "id": "retirement-villages-in-malaysia",
+            "text": "Retirement villages in Malaysia"
+        }
+    ],
+    "/publications/blooming-in-adversity": [
+        {
+            "level": 2,
+            "id": "taking-back-control",
+            "text": "Taking back control"
+        }
+    ],
+    "/publications/tech-talk-much-room-for-improvement-in-open-data-policy": [
+        {
+            "level": 2,
+            "id": "still-a-long-way-to-go",
+            "text": "Still a long way to go"
+        },
+        {
+            "level": 2,
+            "id": "non-open-data",
+            "text": "‘Non-open’ data"
+        },
+        {
+            "level": 2,
+            "id": "lack-of-updates",
+            "text": "Lack of updates"
+        },
+        {
+            "level": 2,
+            "id": "additional-work-required",
+            "text": "Additional work required"
+        }
+    ],
+    "/publications/cover-story-fighting-digital-ad-fraud": [],
+    "/publications/ai-keep-your-eyes-on-the-road": [],
+    "/publications/software-malaysian-firm-develops-world-s-first-cloud-based-electrical": [],
+    "/publications/listicle-5-tech-gadgets-to-combat-loneliness": [
+        {
+            "level": 2,
+            "id": "1-hexa-robot-planter",
+            "text": "1  Hexa Robot Planter"
+        },
+        {
+            "level": 2,
+            "id": "2-bond-touch-bracelet",
+            "text": "2  Bond Touch Bracelet"
+        },
+        {
+            "level": 2,
+            "id": "3-hb-ring",
+            "text": "3  HB Ring"
+        },
+        {
+            "level": 2,
+            "id": "4-friendship-lamp",
+            "text": "4  Friendship Lamp"
+        },
+        {
+            "level": 2,
+            "id": "5-robotic-pets",
+            "text": "5  Robotic pets"
+        }
+    ],
+    "/publications/government-selangor-steps-up-digitalisation-efforts": [],
+    "/publications/listicle-4-easy-skills-for-entrepreneurs-to-pick-up": [
+        {
+            "level": 2,
+            "id": "1-rhetoric",
+            "text": "1  RHETORIC"
+        },
+        {
+            "level": 2,
+            "id": "leadership",
+            "text": "Leadership"
+        },
+        {
+            "level": 2,
+            "id": "2-python",
+            "text": "2  PYTHON"
+        },
+        {
+            "level": 2,
+            "id": "programming-language",
+            "text": "Programming Language"
+        },
+        {
+            "level": 2,
+            "id": "3-product-photography",
+            "text": "3  PRODUCT PHOTOGRAPHY"
+        },
+        {
+            "level": 2,
+            "id": "marketing",
+            "text": "Marketing"
+        },
+        {
+            "level": 2,
+            "id": "4-financial-literacy",
+            "text": "4  FINANCIAL LITERACY"
+        },
+        {
+            "level": 2,
+            "id": "business-knowledge",
+            "text": "Business knowledge"
+        }
+    ],
+    "/publications/doctoroncall-championing-digital-healthcare-during-the-pandemic": [],
+    "/publications/mhub-digitalising-the-property-market": [],
+    "/publications/wealth-key-investment-themes-in-a-recovery-year": [
+        {
+            "level": 2,
+            "id": "multi-year-recovery",
+            "text": "Multi-year recovery"
+        },
+        {
+            "level": 2,
+            "id": "markets-could-be-overly-optimistic-on-vaccine-news",
+            "text": "Markets could be overly optimistic on vaccine news"
+        }
+    ],
+    "/publications/e-commerce-easing-the-transitional-pains-of-setting-up-an-online-busin": [
+        {
+            "level": 2,
+            "id": "standing-out-in-a-crowded-space",
+            "text": "Standing out in a crowded space"
+        }
+    ],
+    "/publications/digitalisation-pandemic-pushes-tech-upgrade-in-last-old-school-frontie": [
+        {
+            "level": 2,
+            "id": "beyond-just-digital-payments",
+            "text": "Beyond just digital payments"
+        }
+    ],
+    "/publications/listicle-4-books-to-read-in-2021": [
+        {
+            "level": 2,
+            "id": "1-barking-up-the-wrong-treeby-eric-barker",
+            "text": "1  Barking Up the Wrong Treeby Eric Barker"
+        },
+        {
+            "level": 2,
+            "id": "2-think-like-a-freak-by-steven-d-levitt-and-stephen-j-dubner",
+            "text": "2  Think Like a Freak by Steven D Levitt and Stephen J Dubner"
+        },
+        {
+            "level": 2,
+            "id": "3-relationships-by-the-school-of-life",
+            "text": "3  Relationships by The School of Life"
+        },
+        {
+            "level": 2,
+            "id": "4-getting-to-yes-negotiating-agreement-without-giving-in-by-roger-fisher-and-william-ury",
+            "text": "4  Getting to Yes: Negotiating Agreement without Giving in by Roger Fisher and William Ury"
+        }
+    ],
+    "/publications/cover-story-digital-twins-iot-and-ai": [
+        {
+            "level": 3,
+            "id": "what-is-digital-twin-technology",
+            "text": "What is digital twin technology?"
+        },
+        {
+            "level": 3,
+            "id": "digital-twin-market-in-malaysia",
+            "text": "Digital twin market in Malaysia"
+        },
+        {
+            "level": 3,
+            "id": "implementing-digital-twins",
+            "text": "Implementing digital twins"
+        },
+        {
+            "level": 2,
+            "id": "digital-twin-use-cases",
+            "text": "Digital twin use cases"
+        }
+    ],
+    "/publications/industry-4-0-sme-digitalisation-are-government-initiatives-really-effe": [
+        {
+            "level": 2,
+            "id": "policy-execution-leaves-much-to-be-desired",
+            "text": "Policy execution leaves much to be desired"
+        },
+        {
+            "level": 2,
+            "id": "growing-interest-in-digitalisation",
+            "text": "Growing interest in digitalisation"
+        }
+    ],
+    "/publications/innovation-taking-matters-into-their-own-hands-secondary-students-batt": [],
+    "/publications/techtalk-hiring-digital-talent-during-mco-2-0": [
+        {
+            "level": 3,
+            "id": "1-going-global-due-to-lack-of-quality-talent",
+            "text": "1  Going global due to lack of quality talent"
+        },
+        {
+            "level": 3,
+            "id": "2-mco-as-a-catalyst-for-job-changes",
+            "text": "2  MCO as a catalyst for job changes"
+        },
+        {
+            "level": 3,
+            "id": "3-beyond-hiring-onboarding-and-managing-new-recruits",
+            "text": "3  Beyond hiring — onboarding and managing new recruits"
+        },
+        {
+            "level": 2,
+            "id": "dictionary",
+            "text": "Dictionary"
+        }
+    ],
+    "/publications/malaysia-digital-economy-blueprint-still-many-gaps-in-open-data-policy": [
+        {
+            "level": 2,
+            "id": "does-the-blueprint-address-real-open-data-challenges",
+            "text": "Does the blueprint address real open data challenges?"
+        }
+    ],
+    "/publications/experts-call-for-data-initiatives-to-be-prioritised": [
+        {
+            "level": 2,
+            "id": "malaysia-as-the-regions-data-broker",
+            "text": "Malaysia as the REGION’S  data broker"
+        },
+        {
+            "level": 2,
+            "id": "open-data-policy-needs-to-be-addressed",
+            "text": "Open data policy needs to be addressed"
+        },
+        {
+            "level": 2,
+            "id": "data-initiatives-require-more-third-party-involvement",
+            "text": "Data initiatives require more third-party Involvement"
+        }
+    ],
+    "/publications/iwd-gender-gap-why-flexible-working-arrangements-are-important": [
+        {
+            "level": 2,
+            "id": "climbing-the-corporate-ladder-one-rung-at-a-time",
+            "text": "Climbing the corporate ladder, one rung at a time"
+        }
+    ],
+    "/publications/wfh-hybrid-working-is-the-future-of-remote-working-providers": [
+        {
+            "level": 2,
+            "id": "hybrid-working-status-quo",
+            "text": "Hybrid working status quo"
+        },
+        {
+            "level": 2,
+            "id": "four-key-trends-in-work-arrangements",
+            "text": "Four key trends in work arrangements"
+        },
+        {
+            "level": 2,
+            "id": "more-than-just-communication",
+            "text": "More than just communication"
+        }
+    ],
+    "/publications/cover-story-the-slow-and-steady-route-to-digital-transformation": [
+        {
+            "level": 3,
+            "id": "talent-versus-labour",
+            "text": "Talent versus labour"
+        },
+        {
+            "level": 3,
+            "id": "beyond-production-lines",
+            "text": "Beyond production lines"
+        },
+        {
+            "level": 2,
+            "id": "a-primer-on-automation",
+            "text": "A primer on automation"
+        }
+    ],
+    "/publications/ai-using-analytics-to-stem-the-rising-tide-of-corporate-fraud-in-malay": [
+        {
+            "level": 2,
+            "id": "malaysian-companies-urged-to-take-action",
+            "text": "Malaysian companies urged to take action"
+        },
+        {
+            "level": 2,
+            "id": "covid-19-contributes-to-rising-fraud-cases",
+            "text": "Covid-19 contributes to rising fraud cases"
+        }
+    ],
+    "/publications/wfh-implementing-the-right-infrastructure-for-remote-working": [
+        {
+            "level": 2,
+            "id": "sunrise-industry-for-monitoring-solutions",
+            "text": "Sunrise industry for monitoring solutions"
+        }
+    ],
+    "/publications/inter-pacific-asset-management-wins-award-for-best-mixed-asset-fund": [],
+    "/publications/manulife-investment-management-bags-two-awards": [],
+    "/publications/two-awards-for-maybank-asset-management": [],
+    "/publications/family-business-a-shift-in-priorities": [
+        {
+            "level": 3,
+            "id": "shifting-towards-nextgens-and-professionals",
+            "text": "Shifting towards NextGens and professionals"
+        },
+        {
+            "level": 3,
+            "id": "bridging-the-digital-gap",
+            "text": "Bridging the digital gap"
+        },
+        {
+            "level": 2,
+            "id": "case-studies-of-family-business-digitalisation-initiatives",
+            "text": "Case studies of family business digitalisation initiatives"
+        }
+    ],
+    "/publications/cover-story-malaysian-tech-companies-and-the-alibaba-effect": [
+        {
+            "level": 3,
+            "id": "weighing-opportunities-and-risks",
+            "text": "Weighing opportunities and risks"
+        },
+        {
+            "level": 3,
+            "id": "context-matters",
+            "text": "Context matters"
+        },
+        {
+            "level": 2,
+            "id": "business-as-usual",
+            "text": "Business as usual"
+        }
+    ],
+    "/publications/digital-transformation-the-value-of-intelligent-operations-versus-busi": [
+        {
+            "level": 2,
+            "id": "lixil-locates-intelligent-operations-hub-in-malaysia",
+            "text": "LIXIL locates intelligent operations hub in Malaysia"
+        }
+    ],
+    "/publications/sustainability-solutions-bringing-environmentally-friendly-packaging-i": [
+        {
+            "level": 2,
+            "id": "from-dust-to-dust",
+            "text": "From dust to dust"
+        }
+    ],
+    "/publications/geek-speak-the-things-my-girlfriend-and-i-argue-about": [
+        {
+            "level": 2,
+            "id": "active-learning",
+            "text": "ACTIVE LEARNING"
+        },
+        {
+            "level": 2,
+            "id": "personalised-lesson-plan",
+            "text": "PERSONALISED LESSON PLAN"
+        },
+        {
+            "level": 2,
+            "id": "body-doubling",
+            "text": "BODY-DOUBLING"
+        }
+    ],
+    "/publications/listicle-5-bizarre-things-you-can-buy-online": [
+        {
+            "level": 2,
+            "id": "1-fried-chicken-phone-case",
+            "text": "1  Fried chicken phone case"
+        },
+        {
+            "level": 2,
+            "id": "2-squeeze-acne-toypimple-popper",
+            "text": "2  Squeeze acne toy/pimple popper"
+        },
+        {
+            "level": 2,
+            "id": "3-bluetooth-gloves",
+            "text": "3  Bluetooth gloves"
+        },
+        {
+            "level": 2,
+            "id": "4-toilet-night-light",
+            "text": "4  Toilet night light"
+        },
+        {
+            "level": 2,
+            "id": "5-enter-key-pillow",
+            "text": "5  ‘Enter’ key pillow"
+        }
+    ],
+    "/publications/e-commerce-out-of-the-darkness-and-into-digital": [
+        {
+            "level": 2,
+            "id": "race-against-time",
+            "text": "Race against time"
+        }
+    ],
+    "/publications/ocbc-bank-ramping-up-digitalisation-efforts-during-the-pandemic": [
+        {
+            "level": 2,
+            "id": "digital-adoption-road-bumps",
+            "text": "Digital adoption road bumps"
+        }
+    ],
+    "/publications/wfh-whatever-happened-to-office-equipment": [],
+    "/publications/cover-story-is-our-data-truly-safe": [
+        {
+            "level": 3,
+            "id": "can-our-laws-protect-us",
+            "text": "Can our laws protect us?"
+        },
+        {
+            "level": 3,
+            "id": "an-issue-of-enforcement",
+            "text": "An issue of enforcement"
+        },
+        {
+            "level": 3,
+            "id": "the-inevitability-of-the-issue",
+            "text": "The inevitability of the issue"
+        },
+        {
+            "level": 2,
+            "id": "what-can-be-done-today",
+            "text": "What can be done today?"
+        }
+    ],
+    "/publications/digital-accessibility-democratising-video-games": [
+        {
+            "level": 3,
+            "id": "developers-taking-action",
+            "text": "Developers taking action"
+        },
+        {
+            "level": 2,
+            "id": "thoughts-from-an-accessibility-consultant",
+            "text": "Thoughts from an accessibility consultant"
+        }
+    ],
+    "/publications/is-the-national-4ir-policy-missing-its-mark": [],
+    "/publications/medtech-no-more-pins-and-needles-in-blood-glucose-testing": [
+        {
+            "level": 2,
+            "id": "malaysian-pride",
+            "text": "Malaysian pride"
+        }
+    ],
+    "/publications/geek-speak-memories-light-the-corners-of-my-dna": [],
+    "/publications/cover-story-holding-data-hostage": [
+        {
+            "level": 3,
+            "id": "no-one-is-safe",
+            "text": "No one is safe"
+        },
+        {
+            "level": 3,
+            "id": "need-for-ransomware-negotiation",
+            "text": "Need for ransomware negotiation"
+        },
+        {
+            "level": 2,
+            "id": "ransomware-flavour-of-the-month",
+            "text": "Ransomware flavour of the month"
+        },
+        {
+            "level": 2,
+            "id": "ransomware-subpractices",
+            "text": "Ransomware subpractices"
+        },
+        {
+            "level": 2,
+            "id": "tips-and-advice",
+            "text": "Tips and advice"
+        }
+    ],
+    "/publications/edutech-quick-maths-with-big-data": [],
+    "/publications/ip-uncovering-hurdles-behind-patent-filing-process": [
+        {
+            "level": 2,
+            "id": "the-process",
+            "text": "The process"
+        }
+    ],
+    "/publications/listicle-dipping-your-toe-into-live-streaming": [
+        {
+            "level": 2,
+            "id": "1-youtube-live",
+            "text": "1  YouTube Live"
+        },
+        {
+            "level": 2,
+            "id": "2-facebook-live",
+            "text": "2  Facebook Live"
+        },
+        {
+            "level": 2,
+            "id": "3-instagram-live",
+            "text": "3  Instagram Live"
+        },
+        {
+            "level": 2,
+            "id": "4-vimeo-livestream",
+            "text": "4  Vimeo Livestream"
+        }
+    ],
+    "/publications/tech-myths-5g-towers-affect-your-health": [],
+    "/publications/democratech-can-technology-make-petitions-relevant-again": [
+        {
+            "level": 2,
+            "id": "just-a-number",
+            "text": "Just a number"
+        },
+        {
+            "level": 2,
+            "id": "using-tech-where-it-matters",
+            "text": "Using tech where it matters"
+        },
+        {
+            "level": 2,
+            "id": "walk-the-talk",
+            "text": "Walk the talk"
+        }
+    ],
+    "/publications/talent-how-the-cto-role-is-evolving": [
+        {
+            "level": 3,
+            "id": "an-exciting-time-to-become-a-cto",
+            "text": "An exciting time to become a CTO"
+        },
+        {
+            "level": 3,
+            "id": "common-it-mistakes-during-the-pandemic",
+            "text": "Common IT mistakes during the pandemic"
+        },
+        {
+            "level": 2,
+            "id": "the-road-to-cto",
+            "text": "The road to CTO"
+        }
+    ],
+    "/publications/cover-story-the-dark-web-rises": [
+        {
+            "level": 3,
+            "id": "so-what-exactly-is-the-dark-web",
+            "text": "So what exactly is the dark web?"
+        },
+        {
+            "level": 3,
+            "id": "why-do-criminals-love-the-dark-web",
+            "text": "Why do criminals love the dark web?"
+        },
+        {
+            "level": 3,
+            "id": "cybersecurity-firms-fight-back",
+            "text": "Cybersecurity firms fight back"
+        },
+        {
+            "level": 3,
+            "id": "limitations-of-dark-web-monitoring",
+            "text": "Limitations of dark web monitoring"
+        },
+        {
+            "level": 2,
+            "id": "urgent-need-for-malaysian-dark-web-task-force",
+            "text": "Urgent need for Malaysian dark web task force"
+        },
+        {
+            "level": 2,
+            "id": "the-hitchhikers-guide-to-the-dark-web",
+            "text": "The Hitchhiker’s Guide to the Dark Web"
+        },
+        {
+            "level": 3,
+            "id": "setting-up-the-tor-browser",
+            "text": "Setting up the Tor browser"
+        }
+    ],
+    "/publications/digital-transformation-work-with-a-streamlined-solution-not-a-frankens": [
+        {
+            "level": 2,
+            "id": "dangers-of-the-status-quo",
+            "text": "Dangers of the status quo"
+        },
+        {
+            "level": 2,
+            "id": "faux-digital-transformation",
+            "text": "Faux digital transformation"
+        },
+        {
+            "level": 2,
+            "id": "optimistic-in-malaysia",
+            "text": "Optimistic in Malaysia"
+        }
+    ],
+    "/publications/listicle-open-data-platforms-every-malaysian-data-scientist-should-kno": [
+        {
+            "level": 2,
+            "id": "1-malaysia-open-data-portal",
+            "text": "1  Malaysia Open Data Portal"
+        },
+        {
+            "level": 2,
+            "id": "2-kaggle",
+            "text": "2  Kaggle"
+        },
+        {
+            "level": 2,
+            "id": "3-oecd-ilibrary",
+            "text": "3  OECD iLibrary"
+        },
+        {
+            "level": 2,
+            "id": "4-national-property-information-centre",
+            "text": "4  National Property Information Centre"
+        },
+        {
+            "level": 2,
+            "id": "5-asia-open-data-portal",
+            "text": "5  Asia Open Data Portal"
+        }
+    ],
+    "/publications/tech-myths-do-samsung-phones-still-explode": [],
+    "/publications/e-hailing-is-airasia-ride-coming-in-at-the-right-time": [
+        {
+            "level": 2,
+            "id": "driver-shortage",
+            "text": "Driver shortage"
+        },
+        {
+            "level": 2,
+            "id": "a-balancing-act",
+            "text": "A balancing act"
+        },
+        {
+            "level": 2,
+            "id": "competing-with-giants",
+            "text": "Competing with giants"
+        }
+    ],
+    "/publications/digital-payments-b2b-segment-slow-to-adopt-cashless-methods": [
+        {
+            "level": 2,
+            "id": "difficulties-in-penetrating-the-b2b-segment",
+            "text": "Difficulties in penetrating the B2B segment"
+        },
+        {
+            "level": 2,
+            "id": "using-e-wallets-in-the-gig-economy",
+            "text": "Using e-wallets in the gig economy"
+        },
+        {
+            "level": 2,
+            "id": "riding-the-b2b-e-commerce-wave",
+            "text": "Riding the B2B e-commerce wave"
+        }
+    ],
+    "/publications/proptech-using-data-to-optimise-the-rental-market": [
+        {
+            "level": 2,
+            "id": "doing-things-differently",
+            "text": "Doing things differently"
+        },
+        {
+            "level": 2,
+            "id": "the-race-for-more-data",
+            "text": "The race for more data"
+        }
+    ],
+    "/publications/integrity-tech-tackling-match-fixing-with-tech": [
+        {
+            "level": 2,
+            "id": "how-match-fixing-works",
+            "text": "How match-fixing works"
+        },
+        {
+            "level": 2,
+            "id": "how-match-fixing-can-be-resolved",
+            "text": "How match-fixing can be resolved"
+        },
+        {
+            "level": 2,
+            "id": "a-challenge-beyond-technology",
+            "text": "A challenge beyond technology"
+        }
+    ],
+    "/publications/cybersecurity-no-savings-from-pirated-software": [
+        {
+            "level": 2,
+            "id": "why-now",
+            "text": "Why now?"
+        },
+        {
+            "level": 2,
+            "id": "gradual-decline-in-piracy",
+            "text": "Gradual decline in piracy"
+        }
+    ],
+    "/publications/local-twitch-streamers-carve-out-personal-space-on-internet": [
+        {
+            "level": 2,
+            "id": "the-cosplaying-streamer",
+            "text": "The cosplaying streamer"
+        },
+        {
+            "level": 2,
+            "id": "sharing-is-caring",
+            "text": "Sharing is caring"
+        },
+        {
+            "level": 2,
+            "id": "the-streaming-entrepreneur",
+            "text": "The streaming entrepreneur"
+        },
+        {
+            "level": 2,
+            "id": "discovering-oneself-through-streaming",
+            "text": "Discovering oneself through streaming"
+        },
+        {
+            "level": 2,
+            "id": "shaping-communities",
+            "text": "Shaping communities"
+        }
+    ],
+    "/publications/disruption-adapting-to-new-age-of-ai-tools": [
+        {
+            "level": 2,
+            "id": "new-guns-same-battlefield",
+            "text": "New guns, same battlefield"
+        },
+        {
+            "level": 2,
+            "id": "how-the-sausage-is-made",
+            "text": "How the sausage is made"
+        },
+        {
+            "level": 2,
+            "id": "adapting-to-change",
+            "text": "Adapting to change"
+        }
+    ],
+    "/publications/china-retailers-spruce-stores-price-wars-persist": [],
+    "/publications/china-beauty-market-h1-2026": [],
+    "/publications/cover-story-from-the-silver-to-the-digital-screen-the-business-of-crea": [
+        {
+            "level": 2,
+            "id": "internationalising-malaysian-content",
+            "text": "Internationalising Malaysian content"
+        },
+        {
+            "level": 2,
+            "id": "breaking-down-films-into-pure-digital-content",
+            "text": "Breaking down films into pure digital content"
+        },
+        {
+            "level": 2,
+            "id": "merging-the-two-cs-creativity-and-commercialisation",
+            "text": "Merging the two Cs — creativity and commercialisation"
+        }
+    ],
+    "/publications/offence-and-defence-the-new-arms-race-in-cybersecurity": [
+        {
+            "level": 2,
+            "id": "evolution-of-ai-adoption-in-cybersecurity",
+            "text": "Evolution of AI adoption in cybersecurity"
+        },
+        {
+            "level": 2,
+            "id": "approaching-problem-from-hardware-point-of-view",
+            "text": "Approaching problem from hardware point of view"
+        },
+        {
+            "level": 2,
+            "id": "countering-deepfake-and-gen-ai-attacks",
+            "text": "Countering deepfake and Gen AI attacks"
+        },
+        {
+            "level": 2,
+            "id": "shifting-human-resource-and-regulatory-requirements",
+            "text": "Shifting human resource and regulatory requirements"
+        }
+    ]
+}

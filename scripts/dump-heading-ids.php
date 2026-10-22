@@ -1,4 +1,6 @@
 <?php
+// Migration only: delete once the Astro repo is the source.
+//
 // Run inside the Laravel repo:
 //   OUT=~/Projects/jothamlim.com-astro/DEV_FILES/golden/heading-ids.json php artisan tinker --execute 'include "'$PWD'/../jothamlim.com-astro/scripts/dump-heading-ids.php";'
 // Writes, for every published jothamlim.com page, the ids and text of the
