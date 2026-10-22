@@ -70,7 +70,8 @@ to `public/` and the fonts in bundled code use `__PROJECT_ROOT__` (defined in
 npm run import           # Laravel repo → src/content + src/data (LARAVEL, SITE env; --media copies public files); re-runnable
 npm run check            # the content rules (wiki links, media, routes, front matter, unique titles); rewrites src/data/titles.json
 npm run build && npm run preview   # a background server (`astro preview status` / `stop`); :4321, or the next free port
-npm run dev              # astro dev; search uses the last build's /pagefind
+npm run dev              # astro dev (http://localhost:4321); search and the 404's suggestions use the last build's /pagefind, so build once first
+                         # there is no global `astro`: use `npm run …` or `npx astro …`
 npm run test             # vitest: slug against the golden heading ids, the Markdown tests, the wiki layer, the head model
 npm run golden           # capture every URL from the local Laravel app (php artisan serve --port=8004, APP_ENV=production)
 npm run compare          # golden vs dist, per page; `-- /essays` limits it; `--verbose` prints everything

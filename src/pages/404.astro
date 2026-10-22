@@ -99,7 +99,8 @@ const host = new URL(site.url).host;
         search.hidden = false;
         root.querySelector('[data-not-found-guess]')!.textContent = guess;
         const list = root.querySelector('[data-not-found-suggestions]')!;
-        import(/* @vite-ignore */ '/pagefind/pagefind.js')
+        const pagefindUrl = '/pagefind/pagefind.js';
+        import(/* @vite-ignore */ pagefindUrl)
           .then(async (pagefind) => {
             await pagefind.init();
             const found = await pagefind.search(guess);

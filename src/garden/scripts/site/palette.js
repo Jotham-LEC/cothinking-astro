@@ -58,10 +58,13 @@ export function initPalette(beforeOpen) {
 
   // Full-text matches come from Pagefind's index of the last build; if that
   // fails (astro dev before any build), typing filters the pre-rendered titles instead.
+  // The path is a variable so Vite leaves the import to the browser: the index
+  // exists only after a build (astro-pagefind serves the last one in dev).
+  var pagefindUrl = '/pagefind/pagefind.js';
   var pagefind = null;
   function engine() {
     if (!pagefind) {
-      pagefind = import(/* @vite-ignore */ '/pagefind/pagefind.js').then(function (module) {
+      pagefind = import(/* @vite-ignore */ pagefindUrl).then(function (module) {
         return module.init().then(function () {
           return module;
         });
