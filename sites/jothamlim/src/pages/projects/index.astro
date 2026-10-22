@@ -1,22 +1,19 @@
 ---
 // /projects: the landing page's text, then every project newest first.
 import { getEntry, render } from 'astro:content';
-import { garden } from '@garden/lib/load.ts';
-import { childrenOf } from '@garden/lib/entry.ts';
 import Entry from '@garden/components/Entry.astro';
 import ArchiveRow from '@garden/components/ArchiveRow.astro';
-import { site } from '@site/site.config.ts';
-const g = await garden();
+import { newestFirst } from '@site/lib/listing.ts';
 const landing = (await getEntry('pages', 'projects'))!;
 const { Content, headings } = await render(landing);
-const listing = childrenOf('projects', g.live, site);
+const listing = await newestFirst('projects');
 ---
 
 <Entry entry={landing} headings={headings}>
   <Content />
   <ul slot="after-body" class="not-prose list-none p-0" data-archive>
     {listing.map((piece) => (
-      <ArchiveRow date={piece.date} url={piece.url} title={piece.title} />
+      <ArchiveRow entry={piece} />
     ))}
   </ul>
 </Entry>

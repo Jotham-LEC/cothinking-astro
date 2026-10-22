@@ -1,16 +1,13 @@
 ---
 // The home page: what you write on the page, then the newest pages across every section.
 import { getEntry, render } from 'astro:content';
-import { garden } from '@garden/lib/load.ts';
-import { byDateDesc, isChild } from '@garden/lib/entry.ts';
 import Entry from '@garden/components/Entry.astro';
 import ArchiveRow from '@garden/components/ArchiveRow.astro';
 import HeadingLink from '@garden/components/HeadingLink.astro';
-import { site } from '@site/site.config.ts';
-const g = await garden();
+import { latest as newest } from '@site/lib/listing.ts';
 const home = (await getEntry('pages', 'home'))!;
 const { Content, headings } = await render(home);
-const latest = byDateDesc(g.live.filter((p) => isChild(p, site))).slice(0, 5);
+const latest = await newest(5);
 ---
 
 <Entry entry={home} headings={headings} extraHeadings={[{ level: 2, id: 'latest', text: 'Latest' }]}>
@@ -21,7 +18,7 @@ const latest = byDateDesc(g.live.filter((p) => isChild(p, site))).slice(0, 5);
     </h2>
     <ul class="not-prose list-none p-0">
       {latest.map((entry) => (
-        <ArchiveRow date={entry.date} url={entry.url} title={entry.title} />
+        <ArchiveRow entry={entry} />
       ))}
     </ul>
   </Fragment>

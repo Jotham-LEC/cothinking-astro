@@ -1,28 +1,28 @@
 ---
 // One note in the stream: a date badge linking to the note, the type icon
 // linking to that type's listing, then the post.
-import { getEntry, render } from 'astro:content';
+import { render, type CollectionEntry } from 'astro:content';
 import { formatDate } from '@garden/lib/dates.ts';
-import type { SiteEntry } from '@garden/lib/entry.ts';
+import { urlOf } from '@garden/lib/load.ts';
 import Prose from '@garden/components/Prose.astro';
 import { site } from '@site/site.config.ts';
 import Icon from './Icon.astro';
 import Quote from './Quote.astro';
-type Props = { note: SiteEntry };
+type Props = { note: CollectionEntry<'notes'> };
 const { note } = Astro.props;
-const type = note.type ?? 'text';
+const { type, title, quote, cite, date: posted } = note.data;
 const typeTitle = site.collections.notes.types[type as keyof typeof site.collections.notes.types] ?? type;
-const posted = note.date!;
-const { Content } = await render((await getEntry('notes', note.id))!);
-const hasContent = note.body.trim() !== '';
+const url = urlOf(note);
+const { Content } = await render(note);
+const hasContent = (note.body ?? '').trim() !== '';
 ---
 
-<article class="grid gap-4 sm:grid-cols-[3.5rem_minmax(0,1fr)]" data-type={type} aria-label={note.title}>
+<article class="grid gap-4 sm:grid-cols-[3.5rem_minmax(0,1fr)]" data-type={type} aria-label={title}>
   <div class="flex items-center justify-between sm:flex-col sm:justify-start sm:gap-3 sm:pt-2">
     <a
       class="text-fg hover:text-accent flex items-baseline gap-1.5 leading-none uppercase no-underline sm:flex-col sm:items-center sm:gap-0"
-      href={note.url}
-      aria-label={`${note.title}, ${formatDate(posted, 'j F Y')}`}
+      href={url}
+      aria-label={`${title}, ${formatDate(posted, 'j F Y')}`}
     >
       <span class="text-xs tracking-[0.12em]" data-month>
         {formatDate(posted, 'M')}
@@ -38,13 +38,13 @@ const hasContent = note.body.trim() !== '';
     </a>
   </div>
   <div class="rounded-site border-rule bg-bg-elev overflow-hidden border">
-    {type === 'quote' && <Quote quote={note.quote ?? ''} cite={note.cite} />}
+    {type === 'quote' && <Quote quote={quote ?? ''} cite={cite} />}
     {(type === 'text' || hasContent) && (
       <div class="px-6 py-5">
         {type === 'text' && (
           <h2 class="text-heading font-heading mb-4 text-xl font-extrabold" data-note-title>
-            <a class="hover:text-accent no-underline" href={note.url}>
-              {note.title}
+            <a class="hover:text-accent no-underline" href={url}>
+              {title}
             </a>
           </h2>
         )}

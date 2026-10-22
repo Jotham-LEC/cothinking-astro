@@ -4,23 +4,19 @@
 import { getEntry } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import { garden } from '@garden/lib/load.ts';
-import { byDateDesc } from '@garden/lib/entry.ts';
-import { noteTypesInUse } from '@garden/lib/explorer.ts';
 import Layout from '@garden/layouts/Layout.astro';
 import Breadcrumbs from '@garden/components/Breadcrumbs.astro';
 import PageHeader from '@garden/components/PageHeader.astro';
 import Stream from '@site/components/Stream.astro';
+import { newestFirst } from '@site/lib/listing.ts';
 import { site } from '@site/site.config.ts';
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const g = await garden();
-  return noteTypesInUse(g.live, 'notes', site.collections.notes.types).flatMap(([handle, title]) =>
-    paginate(byDateDesc(g.live.filter((p) => p.collection === 'notes' && p.type === handle)), {
-      pageSize: 20,
-      params: { type: handle },
-      props: { title },
-    }),
-  );
+  const notes = await newestFirst('notes');
+  return Object.entries(site.collections.notes.types).flatMap(([handle, title]) => {
+    const own = notes.filter((n) => n.data.type === handle);
+    return own.length ? paginate(own, { pageSize: 20, params: { type: handle }, props: { title } }) : [];
+  });
 }) satisfies GetStaticPaths;
 
 const { page, title } = Astro.props;
