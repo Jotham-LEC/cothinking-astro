@@ -1,0 +1,54 @@
+---
+// Work entries (`clients`) as tiles: a client with a write-up links to its
+// case study, else to its live site. `narrow` for a reading column. The
+// screenshots are cropped from the top to 800 × 450.
+import type { LivePage } from '@garden/lib/types.ts';
+import { mediaImage } from '@site/lib/images.ts';
+type Props = { clients: LivePage[]; narrow?: boolean };
+const { clients, narrow = false } = Astro.props;
+const tiles = await Promise.all(
+  clients.map(async (client) => {
+    const written = client.body.trim() !== '';
+    return {
+      client,
+      written,
+      href: written ? client.url : typeof client.data.website === 'string' ? client.data.website : null,
+      meta: [client.data.year, client.data.kind].filter(Boolean).join(' · '),
+      image: client.image
+        ? await mediaImage(client.image, { width: 800, height: 450, crop: 'top', quality: 75 })
+        : null,
+    };
+  }),
+);
+---
+
+<ul class:list={['mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2', { 'lg:grid-cols-3': !narrow }]}>
+  {tiles.map(({ client, written, href, meta, image }) => (
+    <li class="group relative">
+      {image && (
+        <img
+          src={image.src}
+          alt=""
+          width={image.attributes.width}
+          height={image.attributes.height}
+          loading="lazy"
+          decoding="async"
+          class="rounded-site border-rule group-hover:border-rule-strong aspect-video w-full border object-cover object-top"
+        />
+      )}
+      <p class="text-muted mt-4 font-sans text-xs">{meta}</p>
+      <h3 class="text-heading group-hover:text-accent font-heading mt-1 text-lg font-extrabold">
+        {href ? (
+          <a class="no-underline" href={href}>
+            <span class="absolute inset-0" />
+            {client.title}
+            <span aria-hidden="true">{written ? ' →' : ' ↗'}</span>
+          </a>
+        ) : (
+          client.title
+        )}
+      </h3>
+      {client.description && <p class="text-muted mt-2 text-sm">{client.description}</p>}
+    </li>
+  ))}
+</ul>

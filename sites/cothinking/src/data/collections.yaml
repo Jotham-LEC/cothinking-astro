@@ -1,0 +1,63 @@
+cothinking_pages:
+  title: CoThinking pages
+  route: "{parent_uri}/{slug}"
+  dated: false
+  root: true
+  orderable: false
+  template: cothinking/page
+problems:
+  title: Problems I fix
+  route: /{slug}
+  dated: false
+  root: false
+  orderable: true
+  mount:
+    collection: cothinking_pages
+    slug: problem-statements
+  template: cothinking/problem
+  og_type: article
+  schema: Article
+  graph_section: true
+  graph_colour: notes
+wiki:
+  title: Wiki
+  route: "{mount}/{slug}"
+  dated: true
+  root: false
+  orderable: false
+  mount:
+    collection: cothinking_pages
+    slug: wiki
+  template: cothinking/wiki-entry
+  og_type: article
+  schema: Article
+  options:
+    category:
+      choosing-a-provider: Choosing a provider
+      email-and-security: Email and security
+      leads-and-measurement: Enquiries and customers
+      search: Search and AI visibility
+      ownership-and-compliance: Ownership and compliance
+      setting-up-it: Setting up IT
+  group_by: category
+  graph_section: true
+  graph_colour: essays
+work:
+  title: Work
+  route: "{mount}/{slug}"
+  dated: false
+  root: false
+  orderable: true
+  mount:
+    collection: cothinking_pages
+    slug: work
+  template: cothinking/case-study
+  explorer: with_content
+  graph_colour: projects
+reshared:
+  title: Reshared
+  route: "{slug}"
+  dated: true
+  root: false
+  orderable: false
+  origin: https://jothamlim.com

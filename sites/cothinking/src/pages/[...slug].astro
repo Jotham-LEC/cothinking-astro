@@ -1,0 +1,34 @@
+---
+// The site's own pages (but home, index.astro) and the problems I fix, which
+// live at the top level too, each by its template (src/components/templates).
+import { wiki } from '@garden/lib/load.ts';
+import HowIWork from '@site/components/templates/HowIWork.astro';
+import Page from '@site/components/templates/Page.astro';
+import Problem from '@site/components/templates/Problem.astro';
+import Problems from '@site/components/templates/Problems.astro';
+import Websites from '@site/components/templates/Websites.astro';
+import Wiki from '@site/components/templates/Wiki.astro';
+import Work from '@site/components/templates/Work.astro';
+
+const TEMPLATES = {
+  'cothinking/page': Page,
+  'cothinking/problems': Problems,
+  'cothinking/problem': Problem,
+  'cothinking/wiki': Wiki,
+  'cothinking/work': Work,
+  'cothinking/how-i-work': HowIWork,
+  'cothinking/websites': Websites,
+};
+
+export async function getStaticPaths() {
+  const w = await wiki();
+  return w.live
+    .filter((p) => ['cothinking_pages', 'problems'].includes(p.collection) && p.url !== '/')
+    .map((p) => ({ params: { slug: p.url.slice(1) }, props: { page: p } }));
+}
+const { page } = Astro.props;
+const Template = TEMPLATES[(page.template ?? 'cothinking/page') as keyof typeof TEMPLATES];
+if (!Template) throw new Error(`${page.url}: no view for the template ${page.template}.`);
+---
+
+<Template page={page} />

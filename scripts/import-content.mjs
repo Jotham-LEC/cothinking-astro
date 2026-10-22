@@ -174,6 +174,8 @@ for (const c of Object.values(collections)) {
         data,
         body,
         file,
+        // Statamic's lastModified without an `updated_at`: the file's modification time.
+        modified: fs.statSync(path.join(dir, file)).mtime,
         published: data.published !== false,
         url: null,
         order: null,
@@ -263,7 +265,8 @@ for (const entry of siteEntries) {
   fm.title = d.title;
   if (d.description) fm.description = d.description;
   if (entry.date) fm.date = entry.date;
-  if (d.updated_at) fm.updated = typeof d.updated_at === 'string' ? d.updated_at : new Date(d.updated_at).toISOString();
+  const updated = d.updated_at ?? entry.modified;
+  fm.updated = typeof updated === 'string' ? updated : new Date(updated).toISOString().replace(/\.\d{3}Z$/, '+00:00');
   if (!entry.published) {
     fm.draft = true;
     report.drafts.push(entry.url ?? entry.slug);
@@ -310,6 +313,10 @@ for (const entry of siteEntries) {
         })
         .filter(Boolean);
       if (refs.length) fm[key] = Array.isArray(value) ? refs : refs[0];
+      continue;
+    }
+    if (key === 'quote_photo' && typeof value === 'string') {
+      fm.quote_photo = `/media/${value}`;
       continue;
     }
     if (key === 'photos' && Array.isArray(value)) {

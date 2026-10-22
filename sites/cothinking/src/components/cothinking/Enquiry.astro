@@ -1,0 +1,22 @@
+---
+// The "Get in touch" block: a heading, a line, then email and WhatsApp, both naming `about`.
+import SectionHeading from '@garden/components/SectionHeading.astro';
+import Email from './Email.astro';
+import Whatsapp from './Whatsapp.astro';
+type Props = { title?: string; intro?: string; about?: string | null };
+const {
+  title = 'Get in touch',
+  intro = 'Tell me what is happening. I will reply with what I think is wrong and a fixed price, before any work starts.',
+  about = null,
+} = Astro.props;
+---
+
+<section class="rounded-site border-rule bg-bg-elev mt-20 border p-6 sm:p-10" aria-labelledby="get-in-touch">
+  <SectionHeading id="get-in-touch" title={title} />
+  <p class="text-muted mt-3 max-w-3xl">{intro}</p>
+  <p class="text-muted mt-3 max-w-3xl">I usually reply within a day or two. If it is urgent, WhatsApp is quicker.</p>
+  <p class="mt-5 flex flex-wrap gap-3">
+    <Email about={about} />
+    <Whatsapp about={about} secondary />
+  </p>
+</section>

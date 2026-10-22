@@ -1,0 +1,29 @@
+---
+// A page of cothink.ing (`cothinking/page`), as a room: its text in a reading
+// column, then the way to get in touch.
+import { render } from 'astro:content';
+import { wiki } from '@garden/lib/load.ts';
+import type { LivePage } from '@garden/lib/types.ts';
+import Layout from '@garden/layouts/Layout.astro';
+import PageHeader from '@garden/components/PageHeader.astro';
+import Prose from '@garden/components/Prose.astro';
+import { emailHref } from '@site/lib/contact.ts';
+type Props = { page: LivePage };
+const { page } = Astro.props;
+const w = await wiki();
+const { Content } = await render(w.entryOf(page));
+---
+
+<Layout page={page} path={page.url} html={await w.htmlOf(page)} room>
+  <article class="mx-auto max-w-[72ch]">
+    <PageHeader title={page.title} />
+    <Prose data-popover>
+      <Content />
+    </Prose>
+    <p class="border-rule text-muted mt-10 border-t pt-5 font-sans text-sm">
+      <a class="text-accent" href={emailHref(w.site, page.title)}>
+        Work with me →
+      </a>
+    </p>
+  </article>
+</Layout>

@@ -7,6 +7,9 @@ import { description, ogTitle } from './seo.ts';
 import type { LivePage } from './types.ts';
 import type { CardInput } from './ogCard.ts';
 
+/** The author's portrait on every card, on both sites (config('site.logo') in the Laravel app). */
+const PORTRAIT = '/media/profile-400.jpg';
+
 export async function cardFor(page: LivePage, w: Wiki): Promise<CardInput> {
   const { site, collections } = w;
   const section = isChild(page, collections) ? (collections[page.collection]?.title ?? null) : null;
@@ -17,6 +20,6 @@ export async function cardFor(page: LivePage, w: Wiki): Promise<CardInput> {
     title: page.seo.og_title ?? ogTitle(input),
     description: page.seo.og_description ?? description(input),
     url: site.name,
-    portrait: site.attributes.logo ?? null,
+    portrait: PORTRAIT,
   };
 }

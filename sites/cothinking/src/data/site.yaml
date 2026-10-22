@@ -1,0 +1,60 @@
+handle: cothinking
+name: CoThinking
+url: https://cothink.ing
+locale: en_MY
+lang: en
+attributes:
+  logo: /images/cothinking/logo.svg
+  logo_dark: /images/cothinking/logo-dark.svg
+  favicon: /images/cothinking/favicon.svg
+  explorer: false
+  closed_panels:
+    - explorer
+  pages: cothinking_pages
+feeds: []
+other_sites:
+  - handle: jothamlim
+    name: Jotham Lim
+    url: https://jothamlim.com
+settings:
+  footer_text: "Thinkers Collective Enterprise (trading as CoThinking), Petaling Jaya, Selangor · SSM 202503229808 (PG0575749-P) · WhatsApp: 017-642 1337"
+  starter_price: 3900
+  starter_list_price: 6500
+  complete_price: 5900
+  complete_list_price: 9900
+  care_plan_core: 130
+  care_plan_complete: 230
+  email: jotham@cothink.ing
+  whatsapp_number: "60176421337"
+  whatsapp_display: 017-642 1337
+  terms_version: 3
+  terms_date: 2026-10-20
+seo:
+  site_name: CoThinking
+  default_description: Web, IT and marketing for small businesses in Malaysia, all in one service. Start small, and pay only when you need something done.
+  publisher_type:
+    - Organization
+  publisher_name: CoThinking
+  publisher_description: Web, IT and marketing for small businesses in Malaysia, all in one service. Start small, and pay only when you need something done.
+  legal_name: Thinkers Collective Enterprise
+  area_served:
+    - Malaysia
+  email: jotham@cothink.ing
+  telephone: +60 17-642 1337
+  contact_points:
+    - id: wa7cP1nt
+      contact_type: customer service
+      telephone: +60 17-642 1337
+      email: jotham@cothink.ing
+  address_locality: Petaling Jaya
+  address_region: Selangor
+  address_country: MY
+  title_separator: "|"
+  title_site_name: true
+  twitter_handle: Jotham_LEC_
+marketing:
+  robots_disallow:
+    - /cp/
+  allow_ai_training: true
+  allow_ai_search: true
+  gtm_id: GTM-K59BBZ9S

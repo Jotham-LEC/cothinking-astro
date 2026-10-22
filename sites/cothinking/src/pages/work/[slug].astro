@@ -1,0 +1,13 @@
+---
+// An entry of the work collection: the CaseStudy view (src/components/templates).
+import { wiki } from '@garden/lib/load.ts';
+import CaseStudy from '@site/components/templates/CaseStudy.astro';
+
+export async function getStaticPaths() {
+  const w = await wiki();
+  return w.live.filter((p) => p.collection === 'work').map((p) => ({ params: { slug: p.slug }, props: { page: p } }));
+}
+const { page } = Astro.props;
+---
+
+<CaseStudy page={page} />

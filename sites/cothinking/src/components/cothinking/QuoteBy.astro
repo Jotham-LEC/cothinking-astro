@@ -1,0 +1,30 @@
+---
+// Who gave a testimonial (`client`, a Work entry): a square photo when the
+// entry has one (`quote_photo`, cropped to 96px), then the name and the role.
+import type { Page } from '@garden/lib/types.ts';
+import { mediaImage } from '@site/lib/images.ts';
+type Props = { client: Page; class?: string };
+const { client, class: className } = Astro.props;
+const photo =
+  typeof client.data.quote_photo === 'string'
+    ? await mediaImage(client.data.quote_photo, { width: 96, height: 96, crop: 'center', quality: 80 })
+    : null;
+---
+
+<figcaption class:list={['text-muted flex items-center gap-3 font-sans text-sm', className]}>
+  {photo && (
+    <img
+      src={photo.src}
+      alt=""
+      width="48"
+      height="48"
+      loading="lazy"
+      decoding="async"
+      class="rounded-site border-rule size-12 shrink-0 border object-cover"
+    />
+  )}
+  <span>
+    <span class="text-heading font-semibold">{String(client.data.quote_by ?? '')}</span>,{' '}
+    {String(client.data.quote_role ?? '')}
+  </span>
+</figcaption>

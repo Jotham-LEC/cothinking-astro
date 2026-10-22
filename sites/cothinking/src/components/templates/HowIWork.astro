@@ -1,0 +1,207 @@
+---
+// The How I work page (`cothinking/how-i-work`): its copy is this view, in Entry's `body` slot.
+import { wiki } from '@garden/lib/load.ts';
+import { childrenOf } from '@garden/lib/pages.ts';
+import type { LivePage } from '@garden/lib/types.ts';
+import Entry from '@garden/components/Entry.astro';
+import Prose from '@garden/components/Prose.astro';
+import SectionHeading from '@garden/components/SectionHeading.astro';
+import { price, whatsappHref } from '@site/lib/contact.ts';
+import { relatedPages } from '@site/lib/related.ts';
+import AboutMe from '@site/components/cothinking/AboutMe.astro';
+import Email from '@site/components/cothinking/Email.astro';
+import Enquiry from '@site/components/cothinking/Enquiry.astro';
+import Prices from '@site/components/cothinking/Prices.astro';
+import QuoteBy from '@site/components/cothinking/QuoteBy.astro';
+import Related from '@site/components/cothinking/Related.astro';
+import Timeline from '@site/components/cothinking/Timeline.astro';
+type Props = { page: LivePage };
+const { page } = Astro.props;
+const w = await wiki();
+const { site } = w;
+const testimonial = childrenOf('work', w.live, w.collections).find((c) => typeof c.data.quote === 'string');
+const termsDate = new Date(String(site.settings.terms_date)).toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+const jobs: [string, string | null][] = [
+  ['Emails going to spam', '/emails-going-to-spam'],
+  ['A website form that stopped sending enquiries', '/website-form-not-sending-emails'],
+  [
+    'Appearing more on Google searches, with a Google Business Profile and the search basics on your website',
+    '/get-your-business-on-google',
+  ],
+  ['Recovering your domain from an old vendor', '/recover-your-domain-from-an-old-vendor'],
+  ['Business email for your team', '/set-up-business-email'],
+  ['Changes to your website', null],
+];
+// The outline: the view's own h2s (Blade read them off the rendered body).
+const outline = [
+  ['prices', 'What a job costs'],
+  ['how-a-job-runs', 'How a job runs'],
+  ['common-jobs', 'Jobs I am often asked to do'],
+  ['care-plan', 'Care Plans'],
+  ['terms', 'The terms, in short'],
+  ...(relatedPages(page.data.related_wiki, w.live).length ? [['related-wiki', 'Read more on the Wiki']] : []),
+  ['about-me', 'About me'],
+  ['get-in-touch', 'Get in touch'],
+].map(([id, text]) => ({ level: 2, id: id!, text: text! }));
+---
+
+<Entry page={page} extraHeadings={outline}>
+  <div class="font-prose" slot="body">
+    <Prose>
+      <p>
+        Every job has a fixed price, which I give you in writing before I start. The price holds even if the work takes
+        me longer than I expected. It changes only if the job does, and then only after you agree. You pay once a month
+        for the jobs I finished, so a quiet month costs nothing. The only monthly fee is an optional Care Plan for a
+        website I built.
+      </p>
+    </Prose>
+
+    <section class="mt-16" aria-labelledby="prices">
+      <SectionHeading id="prices" title="What a job costs" />
+      <Prices />
+      <p class="mt-6">
+        <Email about={page.title}>Ask for a price</Email>
+      </p>
+    </section>
+
+    <section class="mt-16" aria-labelledby="how-a-job-runs">
+      <SectionHeading id="how-a-job-runs" title="How a job runs" />
+      <Timeline
+        vertical
+        steps={[
+          {
+            title: 'You send the problem',
+            text: 'By WhatsApp or email, in your own words. The form below works too.',
+          },
+          {
+            title: 'I send you a price',
+            text: 'A fixed price in writing, with what it covers, usually within a day or two.',
+          },
+          {
+            title: 'You approve it',
+            text: 'I start once you say yes. If the job turns out bigger than we thought, I stop and ask before going on. For the first job, you also sign a one-page engagement letter.',
+          },
+          {
+            title: 'I do the work',
+            text: 'I fix what you asked me to fix. If I notice something else along the way, I will tell you and quote for it separately, and whether to go ahead is your decision. When I finish, I tell you what I found and what I changed.',
+          },
+          {
+            title: 'You get one bill',
+            text: 'Early each month, for the jobs finished, at the prices you approved. It is due in 14 days.',
+          },
+        ]}
+      />
+      <p class="text-muted mt-8 max-w-3xl">
+        Waiting on others, such as a registrar or an old vendor, costs you nothing extra.
+      </p>
+    </section>
+
+    <section class="mt-16 max-w-3xl" aria-labelledby="common-jobs">
+      <SectionHeading id="common-jobs" title="Jobs I am often asked to do" />
+      <p class="mt-6">
+        These are the jobs owners bring me most often. Each linked one has its own page, if you want to see what is
+        involved.
+      </p>
+      <Prose class="mt-4">
+        <ul>
+          {jobs.map(([job, href]) => (
+            <li>{href ? <a href={href}>{job}</a> : job}</li>
+          ))}
+        </ul>
+      </Prose>
+    </section>
+
+    <section class="mt-16" aria-labelledby="care-plan">
+      <SectionHeading id="care-plan" title="Care Plans" />
+      <p class="mt-4 max-w-3xl">
+        If I built your site, a Care Plan keeps it hosted, backed up, updated, and monitored. Changes to the site are
+        priced like any other job, so you pay only for the changes you ask for. Every website I build comes with its
+        first 3 months of the Care Plan free, and in that time I fix, at no charge, anything that doesn't work as we
+        agreed. After those 3 months there is no support unless you subscribe to a Care Plan.
+      </p>
+      <div class="mt-8 grid gap-6 md:grid-cols-2">
+        <article class="rounded-site border-rule bg-bg-elev border p-6">
+          <h3 class="text-heading font-heading text-lg font-extrabold">Care Plan Core</h3>
+          <p class="mt-2 font-sans">
+            <span class="text-heading text-3xl font-extrabold">RM{price(site, 'care_plan_core')}</span>
+            <span class="text-muted">a month, for a Starter Website</span>
+          </p>
+          <p class="text-muted mt-3 text-sm">
+            Hosting, daily off-site backups, updates and security fixes, and monitoring that alerts me, not you.
+          </p>
+        </article>
+        <article class="rounded-site border-accent bg-bg-elev border-2 p-6">
+          <h3 class="text-heading font-heading text-lg font-extrabold">Care Plan Complete</h3>
+          <p class="mt-2 font-sans">
+            <span class="text-heading text-3xl font-extrabold">RM{price(site, 'care_plan_complete')}</span>
+            <span class="text-muted">a month, for a Complete Website</span>
+          </p>
+          <p class="text-muted mt-3 text-sm">
+            Everything in Core, on a bigger server, plus a monthly check that your enquiry form works and a visitor
+            report every quarter.
+          </p>
+        </article>
+      </div>
+      <p class="text-muted mt-6 max-w-3xl">
+        If the site goes down or is hacked, I start on it the same day, on a best-effort basis. You can leave with 30
+        days' notice, and I hand over everything.
+      </p>
+    </section>
+
+    <section class="mt-16 max-w-3xl" aria-labelledby="terms">
+      <SectionHeading id="terms" title="The terms, in short" />
+      <p class="mt-4">
+        Before I start, we sign a one-page engagement letter with my Terms of Service attached. The signed terms are
+        what count. This is a summary of version {String(site.settings.terms_version)}, dated {termsDate}:
+      </p>
+      <Prose class="mt-4">
+        <ul>
+          <li>Every job has a fixed price that you approve in writing. It changes only if the job changes.</li>
+          <li>Your domain, email, and accounts stay in your name.</li>
+          <li>What I make is yours once it is paid for. Your data is always yours.</li>
+          <li>
+            Payments more than 14 days overdue carry interest of 1% a month, and new work pauses at 30 days. I never
+            switch off a live site to chase a bill.
+          </li>
+          <li>You can stop at any time. A Care Plan needs 30 days' notice.</li>
+        </ul>
+      </Prose>
+      <p class="mt-4">
+        To read the full Terms before you sign anything, ask me by
+        <a class="text-accent underline underline-offset-2" href={`mailto:${String(site.settings.email)}`}>
+          email
+        </a>{' '}
+        or on
+        <a class="text-accent underline underline-offset-2" href={whatsappHref(site, page.title)}>
+          WhatsApp
+        </a>
+        .
+      </p>
+    </section>
+
+    <Related keys={page.data.related_wiki} id="related-wiki" title="Read more on the Wiki" />
+
+    <AboutMe heading="About me" id="about-me" class="border-rule mt-16 border-t pt-10">
+      {testimonial && (
+        <figure class="border-accent font-prose mt-5 border-l-4 pl-4">
+          <blockquote class="text-heading">
+            <p>“{String(testimonial.data.quote)}”</p>
+          </blockquote>
+          <QuoteBy client={testimonial} class="mt-3" />
+        </figure>
+      )}
+      <p class="mt-4 font-sans text-sm">
+        <a class="text-accent" href="/work/ultimate-circle">
+          How I took a distributor's accounts back from its old vendor →
+        </a>
+      </p>
+    </AboutMe>
+
+    <Enquiry about={page.title} />
+  </div>
+</Entry>

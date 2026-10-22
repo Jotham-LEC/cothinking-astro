@@ -1,0 +1,39 @@
+---
+// My photo and bio (home and How I work), the page's slot, then a link to my
+// career on jothamlim.com.
+import Prose from '@garden/components/Prose.astro';
+import { wiki } from '@garden/lib/load.ts';
+type Props = { heading: string; id: string; class?: string };
+const { heading, id, class: className } = Astro.props;
+const { site } = await wiki();
+const jothamlim = site.other_sites.find((s) => s.handle === 'jothamlim')?.url ?? 'https://jothamlim.com';
+---
+
+<section class:list={['flex max-w-3xl flex-col gap-5 sm:flex-row sm:items-start', className]} aria-labelledby={id}>
+  <img
+    src="/media/profile-400.jpg"
+    alt=""
+    width="400"
+    height="400"
+    loading="lazy"
+    class="size-20 shrink-0 rounded-full"
+  />
+  <div>
+    <h2 id={id} class="text-heading font-heading text-xl font-extrabold">
+      {heading}
+    </h2>
+    <Prose class="mt-2">
+      <p>
+        I'm currently the Head of Global Marketing at Moojing, a China-based market-intelligence company. I also run
+        CoThinking, a web, IT and marketing consultancy based in Petaling Jaya. Before that I was a business journalist
+        at The Edge Malaysia, where I interviewed more than 700 business leaders.
+      </p>
+    </Prose>
+    <slot />
+    <p class="mt-4 font-sans text-sm">
+      <a class="text-accent" href={`${jothamlim}/career`}>
+        My career and credentials, on jothamlim.com ↗
+      </a>
+    </p>
+  </div>
+</section>

@@ -1,0 +1,14 @@
+---
+// A WhatsApp button whose message names the page (`about`), else the site.
+// `secondary` as on <Button>; the slot replaces the label.
+import Button from '@garden/components/Button.astro';
+import { wiki } from '@garden/lib/load.ts';
+import { whatsappHref } from '@site/lib/contact.ts';
+type Props = { about?: string | null; secondary?: boolean };
+const { about = null, secondary = false } = Astro.props;
+const { site } = await wiki();
+---
+
+<Button href={whatsappHref(site, about)} secondary={secondary}>
+  {Astro.slots.has('default') ? <slot /> : 'Message me on WhatsApp'}
+</Button>

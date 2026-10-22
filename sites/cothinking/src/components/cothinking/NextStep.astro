@@ -1,0 +1,24 @@
+---
+// The closing panel: an offer to take care of it, then email and WhatsApp,
+// both naming `about` (the page, unless a view names another).
+import LightBulb from '@site/assets/icons/light-bulb.svg';
+import Email from './Email.astro';
+import Whatsapp from './Whatsapp.astro';
+type Props = { about: string | null };
+const { about } = Astro.props;
+---
+
+<aside
+  id="next-step"
+  class="not-prose rounded-site border-rule bg-bg-elev mt-12 flex flex-col gap-4 border p-5 font-sans sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-6"
+  aria-label="Next step"
+>
+  <p class="text-heading flex items-center gap-3 font-semibold">
+    <LightBulb class="text-accent size-6 shrink-0" />
+    If you would rather I took care of this for you, tell me what is happening.
+  </p>
+  <div class="flex shrink-0 flex-wrap gap-3 self-start sm:self-auto">
+    <Email about={about}>Send a message</Email>
+    <Whatsapp about={about} secondary />
+  </div>
+</aside>

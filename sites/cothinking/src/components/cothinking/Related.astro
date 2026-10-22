@@ -1,0 +1,28 @@
+---
+// Links from a page to others (`keys`: `collection/slug`, from a field such
+// as `related_pages` or `related_wiki`), A–Z under a heading (`title`), or
+// nothing when none is published.
+import { wiki } from '@garden/lib/load.ts';
+import { relatedPages } from '@site/lib/related.ts';
+type Props = { keys: unknown; id: string; title: string };
+const { keys, id, title } = Astro.props;
+const links = relatedPages(keys, (await wiki()).live);
+---
+
+{links.length > 0 && (
+  <section class="mt-12" aria-labelledby={id}>
+    <h2 id={id} class="text-heading font-heading text-lg font-extrabold">
+      {title}
+    </h2>
+    <ul class="border-rule divide-rule mt-4 divide-y border-y">
+      {links.map((link) => (
+        <li class="py-3">
+          <a class="text-accent font-sans font-semibold" href={link.url}>
+            {link.title}
+          </a>
+          {link.description && <p class="text-muted mt-1 text-sm">{link.description}</p>}
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

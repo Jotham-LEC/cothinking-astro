@@ -1,0 +1,25 @@
+---
+// The problems I fix, one linked row each; `withLine` adds `what_i_do`. Titles
+// look like headings but are not, or the outline would repeat the list.
+import type { LivePage } from '@garden/lib/types.ts';
+type Props = { problems: LivePage[]; withLine?: boolean };
+const { problems, withLine = false } = Astro.props;
+---
+
+<ul class="border-rule divide-rule mt-8 divide-y border-y font-sans">
+  {problems.map((problem) => (
+    <li>
+      <a class="group hover:bg-bg-elev block px-2 py-4 no-underline" href={problem.url}>
+        <span class="text-heading group-hover:text-accent font-heading text-lg font-extrabold">
+          <span class="text-accent mr-2" aria-hidden="true">
+            →
+          </span>
+          {problem.title}
+        </span>
+        {withLine && typeof problem.data.what_i_do === 'string' && (
+          <span class="text-muted mt-1 block text-sm">{problem.data.what_i_do}</span>
+        )}
+      </a>
+    </li>
+  ))}
+</ul>

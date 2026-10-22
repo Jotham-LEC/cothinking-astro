@@ -1,0 +1,58 @@
+---
+// A client (`work`), as a room: the eyebrow, title, screenshot (1280px wide
+// at most) and numbers, the write-up, the live site and the closing panel.
+import { render } from 'astro:content';
+import { wiki } from '@garden/lib/load.ts';
+import type { LivePage } from '@garden/lib/types.ts';
+import Layout from '@garden/layouts/Layout.astro';
+import PageHeader from '@garden/components/PageHeader.astro';
+import Prose from '@garden/components/Prose.astro';
+import { mediaImage } from '@site/lib/images.ts';
+import NextStep from '@site/components/cothinking/NextStep.astro';
+import WorkStats from '@site/components/cothinking/WorkStats.astro';
+type Props = { page: LivePage };
+const { page } = Astro.props;
+const w = await wiki();
+const { Content } = await render(w.entryOf(page));
+const eyebrow =
+  (typeof page.data.eyebrow === 'string' && page.data.eyebrow) ||
+  [page.data.year, page.data.kind].filter(Boolean).join(' · ');
+const shot = page.image ? await mediaImage(page.image, { width: 1280, quality: 80 }) : null;
+const website = typeof page.data.website === 'string' ? page.data.website : null;
+---
+
+<Layout page={page} path={page.url} html={await w.htmlOf(page)} room>
+  <article class="mx-auto max-w-[72ch]">
+    <PageHeader title={page.title} eyebrow={eyebrow} />
+
+    {shot && (
+      <img
+        src={shot.src}
+        alt={`${page.title}’s website`}
+        width={shot.attributes.width}
+        height={shot.attributes.height}
+        fetchpriority="high"
+        class="rounded-site border-rule w-full border"
+      />
+    )}
+
+    <WorkStats stats={page.data.stats} />
+
+    <Prose class="mt-10" data-popover>
+      <Content />
+    </Prose>
+
+    <p class="border-rule text-muted mt-10 flex flex-wrap gap-x-6 gap-y-2 border-t pt-5 font-sans text-sm">
+      {website && (
+        <a class="text-accent" href={website}>
+          Visit the live site ↗
+        </a>
+      )}
+      <a class="text-accent" href="/work">
+        More work →
+      </a>
+    </p>
+
+    <NextStep about={page.title} />
+  </article>
+</Layout>

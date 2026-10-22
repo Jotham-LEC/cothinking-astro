@@ -7,8 +7,8 @@
   },
   "scripts": {
     "astro": "astro",
-    "build": "npm run build:jothamlim",
-    "check": "npm run check:jothamlim",
+    "build": "npm run build:jothamlim && npm run build:cothinking",
+    "check": "npm run check:jothamlim && npm run check:cothinking",
     "test": "vitest run",
     "format": "prettier --write .",
     "dev:jothamlim": "cd sites/jothamlim && astro dev",
@@ -18,7 +18,15 @@
     "import:jothamlim": "SITE=jothamlim node scripts/import-content.mjs",
     "golden:jothamlim": "SITE=jothamlim node scripts/golden.mjs",
     "compare:jothamlim": "SITE=jothamlim node scripts/compare.mjs",
-    "smoke:jothamlim": "SITE=jothamlim node tests/smoke.mjs"
+    "smoke:jothamlim": "SITE=jothamlim node tests/smoke.mjs",
+    "dev:cothinking": "cd sites/cothinking && astro dev",
+    "build:cothinking": "astro build --root sites/cothinking",
+    "preview:cothinking": "cd sites/cothinking && astro preview",
+    "check:cothinking": "astro sync --root sites/cothinking && SITE=cothinking node scripts/check-content.ts && astro check --root sites/cothinking",
+    "import:cothinking": "SITE=cothinking node scripts/import-content.mjs",
+    "golden:cothinking": "SITE=cothinking node scripts/golden.mjs",
+    "compare:cothinking": "SITE=cothinking node scripts/compare.mjs",
+    "smoke:cothinking": "SITE=cothinking node tests/smoke.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.4",

@@ -33,6 +33,13 @@ const verbose = process.argv.includes('--verbose');
 //    &#x26;. Decoded, the HTML and the dates are the same
 //  - the sitemap is @astrojs/sitemap's: /sitemap-index.xml + /sitemap-0.xml instead of /sitemap.xml, and robots.txt names the index
 //  - Explorer rows for note types and years: Laravel printed absolute addresses, Astro prints paths
+//  - images Glide resized (/img/asset/…) are astro:assets' (/_astro/…): compared by file name, size and attributes
+//  - GFM task lists: remark-gfm adds the contains-task-list and task-list-item classes and writes
+//    `<input type="checkbox" disabled>` where Laravel wrote `<input disabled="" type="checkbox">`; the same list
+//  - the golden's own-site links: a link to this site's production address was external on the local Laravel
+//    site, as was the host of a piece it reshares ("Originally published at localhost"); not counted
+//  - an Article's author Person: the golden's sites are local addresses, so the Laravel app could not match the
+//    author's production URL to a site and left out its `@id` (the site's Person); the build has it
 const EXPECTED = {
   skipMeta: /^(og:image|og:image:width|og:image:height|og:image:alt|twitter:image)$/,
   skipJsonLdKeys: ['image', 'primaryImageOfPage', 'thumbnailUrl'],
@@ -43,6 +50,11 @@ const normaliseHost = (s) =>
     .replace(/http:\/\/cothinking\.localhost:8004/g, 'https://cothink.ing')
     .replace(/http:\/\/localhost:8004/g, 'https://jothamlim.com')
     .replace(/\?page=(\d+)/g, '/$1');
+// A resized image by its file's name: Glide's /img/asset/{base64}/{name}?… and astro:assets' /_astro/{name}.{hash}.
+const imageName = (src) =>
+  src
+    ?.replace(/^\/img\/asset\/[^/]+\/([^?]+)\?.*$/, 'resized $1')
+    .replace(/^\/_astro\/([^.]+)\.[\w-]+?(?:_[\w-]+)?\.(\w+)$/, 'resized $1.$2');
 const text = (el) => (el ? el.textContent.replace(/\s+/g, ' ').trim() : null);
 
 function extract(html) {
@@ -59,13 +71,17 @@ function extract(html) {
   for (const s of head?.querySelectorAll('script[type="application/ld+json"]') ?? []) {
     try {
       const data = JSON.parse(s.textContent);
-      const strip = (node) => {
-        if (Array.isArray(node)) return node.map(strip);
+      const strip = (node, key) => {
+        if (Array.isArray(node)) return node.map((n) => strip(n, key));
+        if (node && typeof node === 'object' && key === 'author' && node['@type'] === 'Person') {
+          const { '@id': _, ...rest } = node;
+          node = rest;
+        }
         if (node && typeof node === 'object')
           return Object.fromEntries(
             Object.entries(node)
               .filter(([k]) => !EXPECTED.skipJsonLdKeys.includes(k))
-              .map(([k, v]) => [k, strip(v)]),
+              .map(([k, v]) => [k, strip(v, k)]),
           );
         return node;
       };
@@ -96,7 +112,7 @@ function extract(html) {
     ],
     h1: text(main.querySelector('h1')),
     eyebrow: text(main.querySelector('header p.text-accent')),
-    source: text(main.querySelector('header p.text-muted')),
+    source: text(main.querySelector('header p.text-muted'))?.replace(/ at localhost,/, ' at jothamlim.com,') ?? null,
     statusline: text(root.querySelector('[data-status-scroll]')?.previousElementSibling),
     headings: article
       .querySelectorAll('h2[id], h3[id], h4[id]')
@@ -105,7 +121,7 @@ function extract(html) {
       .querySelectorAll('a.wiki-link')
       .map((a) => `${a.getAttribute('href')} ${a.classList.contains('external-link') ? '(external)' : ''} ${text(a)}`),
     missing: article.querySelectorAll('.wiki-link-missing').map((s) => s.getAttribute('data-title')),
-    externalLinks: article.querySelectorAll('a.external-link').length,
+    externalLinks: article.querySelectorAll('a.external-link').filter((a) => a.getAttribute('href') !== SITE).length,
     callouts: article
       .querySelectorAll('.callout')
       .map((c) => `${c.getAttribute('class')} | ${text(c.querySelector('.callout-title'))}`),
@@ -113,7 +129,7 @@ function extract(html) {
       .querySelectorAll('img')
       .map(
         (i) =>
-          `${i.getAttribute('src')} ${i.getAttribute('width')}x${i.getAttribute('height')} ${i.getAttribute('loading')} ${i.getAttribute('fetchpriority') ?? ''} ${(i.getAttribute('class') ?? '').includes('zoomable') ? 'zoomable' : ''} fig:${i.parentNode?.tagName === 'FIGURE' ? text(i.parentNode.querySelector('figcaption')) : '-'}`,
+          `${imageName(i.getAttribute('src'))} ${i.getAttribute('width')}x${i.getAttribute('height')} ${i.getAttribute('loading')} ${i.getAttribute('fetchpriority') ?? ''} ${(i.getAttribute('class') ?? '').includes('zoomable') ? 'zoomable' : ''} fig:${i.parentNode?.tagName === 'FIGURE' ? text(i.parentNode.querySelector('figcaption')) : '-'}`,
       ),
     figures: article.querySelectorAll('figure.figure figcaption').map(text),
     breadcrumbs: text(main.querySelector('nav[aria-label="Breadcrumb"]')),
@@ -179,6 +195,8 @@ function feed(xml) {
       .replace(/&#x3C;/gi, '&lt;')
       .replace(/&#x3E;|&gt;/gi, '>')
       .replace(/\s*\/>/g, '>')
+      .replace(/ class="(contains-task-list|task-list-item)"/g, '')
+      .replace(/<input type="checkbox" disabled>/g, '<input disabled="" type="checkbox">')
       .replace(/>\s+</g, '><')
       .replace(/\s+/g, ' ')
       .trim();

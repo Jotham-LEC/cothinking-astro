@@ -1,0 +1,10 @@
+---
+// An h2 a view writes itself, a link to itself like the Markdown headings (HeadingLink).
+import HeadingLink from './HeadingLink.astro';
+type Props = { id: string; title: string };
+const { id, title } = Astro.props;
+---
+
+<h2 id={id} class="text-heading font-heading scroll-mt-20 text-2xl font-extrabold tracking-tight sm:text-3xl">
+  <HeadingLink id={id} title={title} />
+</h2>

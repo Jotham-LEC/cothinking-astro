@@ -1,0 +1,16 @@
+---
+// A case study's numbers (the Work entry's `stats`), each value over its label.
+type Props = { stats: unknown };
+const stats = Array.isArray(Astro.props.stats) ? (Astro.props.stats as { value: string; label: string }[]) : [];
+---
+
+{stats.length > 0 && (
+  <dl class="mt-8 grid grid-cols-3 gap-4">
+    {stats.map((stat) => (
+      <div class="flex flex-col gap-1">
+        <dt class="text-muted text-sm">{stat.label}</dt>
+        <dd class="text-accent order-first font-sans text-2xl font-bold sm:text-3xl">{stat.value}</dd>
+      </div>
+    ))}
+  </dl>
+)}
