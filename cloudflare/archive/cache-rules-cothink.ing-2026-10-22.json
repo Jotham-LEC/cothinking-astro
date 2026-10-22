@@ -1,0 +1,40 @@
+{
+  "description": "",
+  "id": "d6d77b2bedf44dbf987b90d4e79ac900",
+  "kind": "zone",
+  "last_updated": "2026-10-21T07:04:24.974245Z",
+  "name": "default",
+  "phase": "http_request_cache_settings",
+  "rules": [
+    {
+      "action": "set_cache_settings",
+      "action_parameters": {
+        "browser_ttl": {
+          "mode": "respect_origin"
+        },
+        "cache": true,
+        "edge_ttl": {
+          "default": 7200,
+          "mode": "override_origin",
+          "status_code_ttl": [
+            {
+              "status_code_range": {
+                "from": 400,
+                "to": 599
+              },
+              "value": -1
+            }
+          ]
+        }
+      },
+      "description": "HTML at the edge for 2 h (AGENTS.md, Deployment > Cloudflare)",
+      "enabled": true,
+      "expression": "(http.host eq \"cothink.ing\" and not starts_with(http.request.uri.path, \"/cp\") and not starts_with(http.request.uri.path, \"/!/\") and not http.request.uri.query contains \"token=\")",
+      "id": "6324ad0c3b7e46bbbbff99f87a2a12bd",
+      "last_updated": "2026-10-21T07:04:24.974245Z",
+      "ref": "6324ad0c3b7e46bbbbff99f87a2a12bd",
+      "version": "2"
+    }
+  ],
+  "version": "2"
+}

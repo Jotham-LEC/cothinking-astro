@@ -1,0 +1,4 @@
+# Response headers for Cloudflare static assets (read at deploy, not served).
+# Vite names /_astro/ files by their content, so a browser can keep them for a year.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

@@ -261,6 +261,13 @@ VPS were removed (their values: `DEV_FILES/cloudflare-dns-before-cutover.json`).
 With a route, the `*.workers.dev` addresses are off. `www.cothink.ing`,
 `coach.*`, `dev.*`, `blog.*` and the MX/TXT records were not touched.
 
+Caching: Cloudflare caches the Workers' assets at the edge and replaces them
+on each deploy; pages are `max-age=0, must-revalidate`, and `/_astro/*` (named
+by content) is cached for a year through each site's `public/_headers`. There
+are no zone Cache Rules for the sites: the Laravel-era "HTML at the edge for
+2 h" rule is disabled on both zones (it would serve pages stale after a
+deploy) and archived in `cloudflare/archive/`.
+
 Locally, `wrangler dev` (in `sites/<site>`) needs `steam-run` on NixOS
 (`steam-run npx wrangler dev`): workerd is a generic Linux binary.
 
