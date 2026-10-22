@@ -122,7 +122,8 @@ const host = new URL(site.url).host;
               li.append(a, title);
               list.appendChild(li);
             }
-            root.querySelector<HTMLElement>(pages.length ? '[data-not-found-some]' : '[data-not-found-none]')!.hidden = false;
+            root.querySelector<HTMLElement>(pages.length ? '[data-not-found-some]' : '[data-not-found-none]')!.hidden =
+              false;
           })
           .catch(() => (root.querySelector<HTMLElement>('[data-not-found-none]')!.hidden = false));
       }

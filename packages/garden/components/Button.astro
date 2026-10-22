@@ -3,7 +3,9 @@
 // (`.button` and `.button-secondary`, styles/components.css, which Markdown
 // uses too as `<a class="button">`). A link with `href`, else a <button>.
 import type { HTMLAttributes } from 'astro/types';
-type Props = { secondary?: boolean } & (({ href: string } & HTMLAttributes<'a'>) | ({ href?: undefined } & HTMLAttributes<'button'>));
+type Props = { secondary?: boolean } & (
+  ({ href: string } & HTMLAttributes<'a'>) | ({ href?: undefined } & HTMLAttributes<'button'>)
+);
 const { secondary = false, class: className, ...rest } = Astro.props;
 const classes = ['not-prose button', { 'button-secondary': secondary }, className];
 ---

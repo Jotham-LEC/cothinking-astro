@@ -15,15 +15,23 @@ beforeAll(async () => {
     gfm: true,
     smartypants: false,
     syntaxHighlight: { type: 'shiki' },
-    shikiConfig: { themes: { light: 'gruvbox-light-soft', dark: 'gruvbox-dark-soft' }, defaultColor: false, transformers: [codeBlock()] },
+    shikiConfig: {
+      themes: { light: 'gruvbox-light-soft', dark: 'gruvbox-dark-soft' },
+      defaultColor: false,
+      transformers: [codeBlock()],
+    },
   });
   render = async (md) => (await processor.render(md)).code;
 });
 
 describe('headings and callouts', () => {
   it('gives a heading a unique GitHub-style id and makes it a link to itself', async () => {
-    const html = await render('## 10. The pride & joy\n\n## Notes\n\n## Notes\n\n### See [the docs](/docs)\n\n## 🚀 Launch');
-    expect(html).toContain('<h2 id="10-the-pride--joy"><a href="#10-the-pride--joy" class="anchor">10. The pride &#x26; joy</a></h2>');
+    const html = await render(
+      '## 10. The pride & joy\n\n## Notes\n\n## Notes\n\n### See [the docs](/docs)\n\n## 🚀 Launch',
+    );
+    expect(html).toContain(
+      '<h2 id="10-the-pride--joy"><a href="#10-the-pride--joy" class="anchor">10. The pride &#x26; joy</a></h2>',
+    );
     expect(html).toContain(
       'See <a href="/docs">the docs</a><a href="#see-the-docs" class="anchor" aria-label="Link to this section: See the docs"></a>',
     );
@@ -33,7 +41,9 @@ describe('headings and callouts', () => {
   });
 
   it('collects the opening paragraphs as the excerpt', async () => {
-    const { metadata } = await processor.render('> [!NOTE]\n> First.\n\nSecond **bold**.\n\n```\ncode\n```\n\nThird.\n\nFourth.');
+    const { metadata } = await processor.render(
+      '> [!NOTE]\n> First.\n\nSecond **bold**.\n\n```\ncode\n```\n\nThird.\n\nFourth.',
+    );
     expect(metadata.frontmatter.paragraphs).toEqual(['First.', 'Second bold.', 'Third.']);
   });
 
@@ -67,7 +77,6 @@ describe('headings and callouts', () => {
       /<li>[\s\S]*<div class="callout callout-tip" role="note"><div class="callout-title">In a list<\/div>/,
     );
   });
-
 });
 
 describe('wiki links', () => {
@@ -130,5 +139,3 @@ describe('links, images and plain text', () => {
     expect(html).toContain('--shiki-dark:');
   });
 });
-
-

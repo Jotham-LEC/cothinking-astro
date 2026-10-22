@@ -13,7 +13,9 @@ export function initPopovers() {
     if (link.closest('nav, .not-prose, [data-stream]') || link.matches('.anchor, .button')) return false;
     if (link.classList.contains('external-link')) return true;
     // Another page of this site: not a file, and not a jump within this page.
-    return link.origin === location.origin && link.pathname !== location.pathname && !/\.[a-z0-9]+$/i.test(link.pathname);
+    return (
+      link.origin === location.origin && link.pathname !== location.pathname && !/\.[a-z0-9]+$/i.test(link.pathname)
+    );
   });
   if (!links.length) return;
   const cache = new Map<string, Promise<HTMLElement | null>>();
@@ -57,7 +59,11 @@ export function initPopovers() {
   function preview(link: HTMLAnchorElement): Promise<HTMLElement | null> {
     if (link.classList.contains('external-link')) return Promise.resolve(sitePreview(link));
     const key = link.href.split('#')[0]!;
-    if (!cache.has(key)) cache.set(key, pagePreview(key).catch(() => null));
+    if (!cache.has(key))
+      cache.set(
+        key,
+        pagePreview(key).catch(() => null),
+      );
     return cache.get(key)!;
   }
 

@@ -29,7 +29,8 @@ export function initKeys() {
 
   // A held key repeats, and smooth scrolling would lag behind it.
   const behavior = (instant = false): ScrollBehavior => (instant || reduced.matches ? 'instant' : 'smooth');
-  const lines = (n: number) => n * (parseFloat(getComputedStyle(document.querySelector('main') ?? document.body).lineHeight) || 24);
+  const lines = (n: number) =>
+    n * (parseFloat(getComputedStyle(document.querySelector('main') ?? document.body).lineHeight) || 24);
 
   document.addEventListener('keydown', (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey || e.defaultPrevented || !enabled()) return;
@@ -91,7 +92,10 @@ export function initKeys() {
 
   const kbd = document.querySelector('[data-kbd-trigger]');
   if (kbd) {
-    const platform = (navigator as Navigator & { userAgentData?: { platform?: string } }).userAgentData?.platform ?? navigator.platform ?? '';
+    const platform =
+      (navigator as Navigator & { userAgentData?: { platform?: string } }).userAgentData?.platform ??
+      navigator.platform ??
+      '';
     if (!/mac/i.test(platform)) kbd.textContent = 'Ctrl+K';
   }
 }

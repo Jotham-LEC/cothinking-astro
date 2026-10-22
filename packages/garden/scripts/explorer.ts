@@ -50,7 +50,8 @@ export function initExplorer() {
 
   explorer.addEventListener('toggle', (event) => {
     if ((event as ToggleEvent).newState !== 'open') return;
-    const current = explorer.querySelector<HTMLElement>('[aria-current]') ?? explorer.querySelector<HTMLElement>('a, button');
+    const current =
+      explorer.querySelector<HTMLElement>('[aria-current]') ?? explorer.querySelector<HTMLElement>('a, button');
     current?.focus();
   });
   const column = window.matchMedia('(min-width: 64rem)');

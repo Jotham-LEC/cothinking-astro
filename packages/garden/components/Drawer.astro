@@ -26,7 +26,10 @@ const { rows, menu, room } = Astro.props;
     <XMark class="size-5" aria-hidden="true" />
   </button>
   {/* The column is a frame that holds its rule; the tree scrolls inside it. */}
-  <div class:list={['h-full overflow-y-auto px-4 pt-20 pb-8', { 'lg:pt-10 lg:pr-5 lg:pl-0': !room }]} data-explorer-scroll>
+  <div
+    class:list={['h-full overflow-y-auto px-4 pt-20 pb-8', { 'lg:pt-10 lg:pr-5 lg:pl-0': !room }]}
+    data-explorer-scroll
+  >
     {menu.length > 0 && (
       <nav class="border-rule mb-6 border-b pb-4 text-sm xl:hidden" aria-label="Menu" data-drawer-menu>
         <ul class="space-y-1">

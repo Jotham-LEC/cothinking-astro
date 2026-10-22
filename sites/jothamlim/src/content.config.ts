@@ -9,11 +9,11 @@ const pages = defineCollection({
   loader: loader('pages'),
   schema: ({ image }) =>
     z
-    .object({
-      ...base(image),
-      order: z.number().int(),
-    })
-    .strict(),
+      .object({
+        ...base(image),
+        order: z.number().int(),
+      })
+      .strict(),
 });
 
 const essays = defineCollection({
@@ -25,14 +25,14 @@ const notes = defineCollection({
   loader: loader('notes'),
   schema: ({ image }) =>
     z
-    .object({
-      ...base(image),
-      ...dated,
-      type: enumOf(Object.keys(site.collections.notes.types)).default('text'),
-      quote: z.string().optional(),
-      cite: z.string().optional(),
-    })
-    .strict(),
+      .object({
+        ...base(image),
+        ...dated,
+        type: enumOf(Object.keys(site.collections.notes.types)).default('text'),
+        quote: z.string().optional(),
+        cite: z.string().optional(),
+      })
+      .strict(),
 });
 
 const projects = defineCollection({

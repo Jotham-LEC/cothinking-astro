@@ -57,7 +57,13 @@ const site: SiteConfig = {
   marketing: { robotsDisallow: ['/cp/'], allowAiTraining: false, allowAiSearch: true },
 };
 const urlOf = (collection: string, id: string) =>
-  collection === 'pages' ? (id === 'home' ? '/' : `/${id}`) : collection === 'problems' ? `/${id}` : `/${collection}/${id}`;
+  collection === 'pages'
+    ? id === 'home'
+      ? '/'
+      : `/${id}`
+    : collection === 'problems'
+      ? `/${id}`
+      : `/${collection}/${id}`;
 
 const raws: RawEntry[] = [
   { collection: 'pages', id: 'home', data: { title: 'Home', order: 0 }, body: 'See [[About]] and [[Newer]].' },
@@ -73,16 +79,29 @@ const raws: RawEntry[] = [
   {
     collection: 'essays',
     id: 'newer',
-    data: { title: 'Newer', date: new Date('2024-05-06T00:00:00Z'), series: 's', part: 2, seo: { canonical: 'https://x.test/n' } },
+    data: {
+      title: 'Newer',
+      date: new Date('2024-05-06T00:00:00Z'),
+      series: 's',
+      part: 2,
+      seo: { canonical: 'https://x.test/n' },
+    },
     body: '',
   },
-  { collection: 'essays', id: 'draft', data: { title: 'Draft', date: new Date('2025-01-01T00:00:00Z'), draft: true }, body: '' },
+  {
+    collection: 'essays',
+    id: 'draft',
+    data: { title: 'Draft', date: new Date('2025-01-01T00:00:00Z'), draft: true },
+    body: '',
+  },
   { collection: 'problems', id: 'spam', data: { title: 'Spam', order: 1 }, body: '' },
   { collection: 'problems', id: 'slow', data: { title: 'Slow', order: 0 }, body: '' },
 ];
 const entries = raws.map((r) => toSiteEntry(r, urlOf));
 const live = published(entries);
-const other = [toSiteEntry({ collection: 'pages', id: 'other-page', data: { title: 'Other Page' } }, (_c, id) => `/${id}`)];
+const other = [
+  toSiteEntry({ collection: 'pages', id: 'other-page', data: { title: 'Other Page' } }, (_c, id) => `/${id}`),
+];
 const titles = titleIndex(live, other, site.otherSite.url);
 const at = (url: string) => live.find((e) => e.url === url)!;
 
@@ -91,7 +110,9 @@ describe('entries', () => {
     expect(at('/').collection).toBe('pages');
     expect(at('/essays/older')).toMatchObject({ title: 'Older Essay', author: 'me', series: 's', part: 1, type: null });
     expect(live.map((e) => e.id)).not.toContain('draft');
-    expect(toSiteEntry({ collection: 'notes', id: 'n', data: { title: 'N', date: '2024-01-01' } }, urlOf)).toMatchObject({
+    expect(
+      toSiteEntry({ collection: 'notes', id: 'n', data: { title: 'N', date: '2024-01-01' } }, urlOf),
+    ).toMatchObject({
       type: 'text',
       date: new Date('2024-01-01'),
     });
@@ -174,7 +195,10 @@ describe('links and the graph', () => {
       { source: 'pages/home', target: 'essays/newer' },
       { source: 'pages/about', target: 'pages/home' },
     ]);
-    expect(graph.nodes.find((n) => n.id === 'essays/older')).toMatchObject({ section: 'essays', section_title: 'Essays' });
+    expect(graph.nodes.find((n) => n.id === 'essays/older')).toMatchObject({
+      section: 'essays',
+      section_title: 'Essays',
+    });
     expect(backlinks(graph, at('/about')).map((b) => b.url)).toEqual(['/']);
   });
 });
@@ -228,7 +252,13 @@ describe('head and generated files', () => {
     expect(home.title).toBe('Garden');
     expect(home.canonical).toBe('https://garden.test');
     expect(home.image?.url).toBe('https://garden.test/og.png');
-    const listing = head({ page: null, path: '/essays/type/x', site, live, overrides: { title: 'X', description: 'D' } });
+    const listing = head({
+      page: null,
+      path: '/essays/type/x',
+      site,
+      live,
+      overrides: { title: 'X', description: 'D' },
+    });
     expect(listing.title).toBe('X | Garden');
     expect(listing.graph.map((n) => n['@type'])).toEqual(['WebSite', 'Person']);
     expect(head({ page: null, path: '/404', site, live, status: 404 })).toMatchObject({
@@ -256,7 +286,13 @@ describe('head and generated files', () => {
 
 describe('content check', () => {
   const run = (extra: RawEntry[] = []) =>
-    check({ root: '/nowhere', site, urlOf, raws: [...raws, ...extra], other: { entries: other, url: site.otherSite.url } });
+    check({
+      root: '/nowhere',
+      site,
+      urlOf,
+      raws: [...raws, ...extra],
+      other: { entries: other, url: site.otherSite.url },
+    });
   it('passes a sound site', () => {
     expect(run()).toEqual([]);
   });

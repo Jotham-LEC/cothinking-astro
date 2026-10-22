@@ -45,7 +45,8 @@ export type Head = {
   graph: Record<string, unknown>[];
 };
 
-const oneOrMany = (values: string[] = []) => (values.length === 0 ? undefined : values.length === 1 ? values[0] : values);
+const oneOrMany = (values: string[] = []) =>
+  values.length === 0 ? undefined : values.length === 1 ? values[0] : values;
 const clean = (node: Record<string, unknown>) =>
   Object.fromEntries(
     Object.entries(node).filter(([, v]) => v !== null && v !== undefined && !(Array.isArray(v) && v.length === 0)),
@@ -96,7 +97,10 @@ export function contentDescription(page: SiteEntry, { skipCreditLine = true } = 
 export function description(input: HeadInput): string | null {
   const { page, site, overrides } = input;
   const text =
-    overrides?.description ?? page?.seo.description ?? (page ? contentDescription(page) : null) ?? site.seo.defaultDescription;
+    overrides?.description ??
+    page?.seo.description ??
+    (page ? contentDescription(page) : null) ??
+    site.seo.defaultDescription;
   return limit(squish(text), DESCRIPTION_MAX);
 }
 
@@ -131,7 +135,12 @@ export function image(input: HeadInput): ShareImage | null {
     return { url: absolute(site.url, page.image.src), width: page.image.width, height: page.image.height, alt: null };
   const subject = page ?? byUrl(live).get('/') ?? null;
   if (!subject) return null;
-  return { url: absolute(site.url, cardUrl(subject.url)), width: IMAGE_WIDTH, height: IMAGE_HEIGHT, alt: subject.title };
+  return {
+    url: absolute(site.url, cardUrl(subject.url)),
+    width: IMAGE_WIDTH,
+    height: IMAGE_HEIGHT,
+    alt: subject.title,
+  };
 }
 
 function websiteNode(site: SiteConfig) {
@@ -188,7 +197,9 @@ function authorNodes(page: SiteEntry, site: SiteConfig): Record<string, unknown>
   if (!author) return [];
   const sites = [site.url, site.otherSite.url].map((u) => u.replace(/\/$/, ''));
   const home = author.url ? sites.find((u) => author.url!.startsWith(u)) : undefined;
-  return [clean({ ...(home ? { '@id': `${home}/#publisher` } : {}), '@type': 'Person', name: author.name, url: author.url })];
+  return [
+    clean({ ...(home ? { '@id': `${home}/#publisher` } : {}), '@type': 'Person', name: author.name, url: author.url }),
+  ];
 }
 
 function webPageNode(

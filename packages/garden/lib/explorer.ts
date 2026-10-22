@@ -112,7 +112,11 @@ export function byCategory(
 }
 
 /** The post types with a published entry, as `[handle, title]` in the config's order. */
-export function noteTypesInUse(live: SiteEntry[], collection: string, types: Record<string, string>): [string, string][] {
+export function noteTypesInUse(
+  live: SiteEntry[],
+  collection: string,
+  types: Record<string, string>,
+): [string, string][] {
   const inUse = new Set(live.filter((e) => e.collection === collection).map((e) => e.type));
   return Object.entries(types).filter(([handle]) => inUse.has(handle));
 }
@@ -158,7 +162,11 @@ export function menu(live: SiteEntry[], site: SiteConfig, currentUrl: string | n
 }
 
 /** Whether a page has an Explorer (every page but a room) and a drawer (the Explorer, or a menu of more than one link). */
-export function panels(live: SiteEntry[], site: SiteConfig, room: boolean): { hasExplorer: boolean; hasDrawer: boolean } {
+export function panels(
+  live: SiteEntry[],
+  site: SiteConfig,
+  room: boolean,
+): { hasExplorer: boolean; hasDrawer: boolean } {
   const hasExplorer = !room;
   return { hasExplorer, hasDrawer: hasExplorer || headerLinks(live, site, null).length > 1 };
 }

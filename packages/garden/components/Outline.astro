@@ -9,7 +9,11 @@ const { entries, variant } = Astro.props;
 ---
 
 {entries.length > 0 && variant === 'details' && (
-  <details class="group rounded-site border-rule bg-bg-elev mb-8 border text-sm xl:hidden" data-toc data-pagefind-ignore>
+  <details
+    class="group rounded-site border-rule bg-bg-elev mb-8 border text-sm xl:hidden"
+    data-toc
+    data-pagefind-ignore
+  >
     <summary class="text-heading flex cursor-pointer items-center gap-2 px-4 py-2.5 font-medium marker:content-none">
       <span>On this page</span>
       <span class="bg-accent-soft text-accent rounded-full px-2 text-xs">{entries.length}</span>

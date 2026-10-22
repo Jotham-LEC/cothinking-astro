@@ -15,5 +15,10 @@ export function paletteFrom(css: string): Palette {
     if (!m) throw new Error(`styles/tokens.css: no hex value for --${token}.`);
     return m[1]!;
   };
-  return { background: dark('site-bg'), heading: dark('site-heading'), muted: dark('site-muted'), accent: plain('brand-yellow') };
+  return {
+    background: dark('site-bg'),
+    heading: dark('site-heading'),
+    muted: dark('site-muted'),
+    accent: plain('brand-yellow'),
+  };
 }

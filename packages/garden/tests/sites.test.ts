@@ -39,7 +39,15 @@ describe.each(loaded)('$name', (s) => {
     expect(other).not.toBeNull();
   });
   it('passes the content check', () => {
-    expect(check({ root: s.root, site: s.site, urlOf: s.urlOf, raws, other: { entries: otherEntries, url: s.site.otherSite.url } })).toEqual([]);
+    expect(
+      check({
+        root: s.root,
+        site: s.site,
+        urlOf: s.urlOf,
+        raws,
+        other: { entries: otherEntries, url: s.site.otherSite.url },
+      }),
+    ).toEqual([]);
   });
   it('has a home page and a landing page for every section', () => {
     const urls = byUrl(live);

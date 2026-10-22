@@ -32,7 +32,10 @@ const decode = (text) =>
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&amp;/g, '&');
-const text = (html) => decode(html.replace(/<[^>]*>/g, '')).replace(/\s+/g, ' ').trim();
+const text = (html) =>
+  decode(html.replace(/<[^>]*>/g, ''))
+    .replace(/\s+/g, ' ')
+    .trim();
 const attr = (tag, name) => {
   const m = new RegExp(`\\s${name}="([^"]*)"`).exec(tag);
   return m ? decode(m[1]) : null;

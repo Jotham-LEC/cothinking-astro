@@ -68,7 +68,11 @@ const asString = (value: unknown): string | null => (typeof value === 'string' &
 const asNumber = (value: unknown): number | null => (typeof value === 'number' ? value : null);
 const asImage = (value: unknown): SiteEntry['image'] => {
   const v = value as { src?: unknown; width?: unknown; height?: unknown } | null;
-  return v && typeof v === 'object' && typeof v.src === 'string' && typeof v.width === 'number' && typeof v.height === 'number'
+  return v &&
+    typeof v === 'object' &&
+    typeof v.src === 'string' &&
+    typeof v.width === 'number' &&
+    typeof v.height === 'number'
     ? { src: v.src, width: v.width, height: v.height }
     : null;
 };

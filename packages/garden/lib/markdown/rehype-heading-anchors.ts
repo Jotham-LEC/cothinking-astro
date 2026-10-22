@@ -24,7 +24,11 @@ export default function rehypeHeadingAnchors() {
       if (typeof id !== 'string' || id === '') return;
       if (holdsLink(node)) {
         node.children.push(
-          h('a', { href: `#${id}`, className: ['anchor'], ariaLabel: `Link to this section: ${toString(node).trim()}` }),
+          h('a', {
+            href: `#${id}`,
+            className: ['anchor'],
+            ariaLabel: `Link to this section: ${toString(node).trim()}`,
+          }),
         );
       } else {
         node.children = [h('a', { href: `#${id}`, className: ['anchor'] }, node.children)];

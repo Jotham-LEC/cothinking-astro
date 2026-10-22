@@ -22,9 +22,15 @@ const arrow = '[clip-path:polygon(0_0,calc(100%_-_0.5rem)_0,100%_50%,calc(100%_-
     aria-hidden="true"
     data-pagefind-ignore
   >
-    <span class:list={['bg-status-mode text-fg relative z-10 flex items-center pr-3.5 pl-2 font-semibold', arrow]} data-status-mode />
     <span
-      class:list={['bg-button-bg text-button-fg -ml-2 flex min-w-0 items-center gap-1.5 pr-4 pl-4 font-semibold', arrow]}
+      class:list={['bg-status-mode text-fg relative z-10 flex items-center pr-3.5 pl-2 font-semibold', arrow]}
+      data-status-mode
+    />
+    <span
+      class:list={[
+        'bg-button-bg text-button-fg -ml-2 flex min-w-0 items-center gap-1.5 pr-4 pl-4 font-semibold',
+        arrow,
+      ]}
     >
       <span>~</span>
       {segments.map((segment) => (

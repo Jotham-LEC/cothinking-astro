@@ -7,7 +7,11 @@ import type { SiteEntry } from '@garden/lib/entry.ts';
 type Props = { problems: (SiteEntry | CollectionEntry<'problems'>)[]; withLine?: boolean };
 const { problems, withLine = false } = Astro.props;
 const g = await garden();
-const rows = problems.map((p) => ('data' in p ? { url: g.entry(p).url, title: p.data.title, line: p.data.what_i_do } : { url: p.url, title: p.title, line: undefined }));
+const rows = problems.map((p) =>
+  'data' in p
+    ? { url: g.entry(p).url, title: p.data.title, line: p.data.what_i_do }
+    : { url: p.url, title: p.title, line: undefined },
+);
 ---
 
 <ul class="border-rule divide-rule mt-8 divide-y border-y font-sans">

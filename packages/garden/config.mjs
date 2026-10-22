@@ -18,7 +18,11 @@ import { sitemapOptions } from './lib/sitemap.ts';
  * @param {'normal' | 'italic'} style
  * @returns {{ weight: number, style: 'normal' | 'italic', src: [URL] }}
  */
-const font = (file, weight, style) => ({ weight, style, src: [new URL(`./assets/fonts/${file}.woff2`, import.meta.url)] });
+const font = (file, weight, style) => ({
+  weight,
+  style,
+  src: [new URL(`./assets/fonts/${file}.woff2`, import.meta.url)],
+});
 
 /**
  * @param {object} options

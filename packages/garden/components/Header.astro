@@ -11,12 +11,11 @@ import Sun from '../assets/icons/sun.svg';
 type Props = { site: SiteConfig; room: boolean; hasExplorer: boolean; hasDrawer: boolean; links: Link[] };
 const { site, room, hasExplorer, hasDrawer, links } = Astro.props;
 const last = links.length - 1;
-const icon = 'text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11';
+const icon =
+  'text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 items-center justify-center rounded-lg pointer-coarse:size-11';
 ---
 
-<header
-  class="border-rule bg-bg/90 sticky top-0 z-30 flex min-h-14 flex-wrap items-center gap-1 border-b px-4 backdrop-blur sm:gap-3 sm:px-6 print:hidden"
->
+<header class="border-rule bg-bg/90 sticky top-0 z-30 flex min-h-14 flex-wrap items-center gap-1 border-b px-4 backdrop-blur sm:gap-3 sm:px-6 print:hidden">
   <a class="text-heading flex shrink-0 items-center gap-2.5 font-semibold whitespace-nowrap no-underline" href="/">
     {/* The site's logo: a wordmark with its dark-mode twin, or a portrait beside the name.
         Below 400px a wordmark's favicon stands in for it; below 360px the logo goes. */}
@@ -29,8 +28,20 @@ const icon = 'text-muted hover:bg-bg-elev hover:text-fg flex size-9 shrink-0 ite
           width="28"
           height="28"
         />
-        <img class="light-only h-7 w-auto max-[399px]:hidden!" src={site.logo} alt={site.name} width="122" height="28" />
-        <img class="dark-only h-7 w-auto max-[399px]:hidden!" src={site.logoDark} alt={site.name} width="122" height="28" />
+        <img
+          class="light-only h-7 w-auto max-[399px]:hidden!"
+          src={site.logo}
+          alt={site.name}
+          width="122"
+          height="28"
+        />
+        <img
+          class="dark-only h-7 w-auto max-[399px]:hidden!"
+          src={site.logoDark}
+          alt={site.name}
+          width="122"
+          height="28"
+        />
       </>
     ) : (
       <>

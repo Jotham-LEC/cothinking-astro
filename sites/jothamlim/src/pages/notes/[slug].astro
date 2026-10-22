@@ -19,7 +19,11 @@ const { Content, headings } = await render(entry);
 
 <Entry entry={entry} headings={headings}>
   {entry.data.type === 'quote' && (
-    <div slot="before-body" class="not-prose rounded-site border-rule bg-bg-elev overflow-hidden border" data-type="quote">
+    <div
+      slot="before-body"
+      class="not-prose rounded-site border-rule bg-bg-elev overflow-hidden border"
+      data-type="quote"
+    >
       <Quote quote={entry.data.quote ?? ''} cite={entry.data.cite} />
     </div>
   )}

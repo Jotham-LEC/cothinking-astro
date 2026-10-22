@@ -171,8 +171,12 @@ export function initPalette() {
       return;
     }
     if (!palette.open) return;
-    // Vim's Ctrl-n / Ctrl-p; plain j and k would be typed into the field.
-    if (e.ctrlKey && (e.key === 'n' || e.key === 'p')) {
+    // The search field swallows Escape to clear itself; the dialog must close all the same.
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      palette.close();
+    } else if (e.ctrlKey && (e.key === 'n' || e.key === 'p')) {
+      // Vim's Ctrl-n / Ctrl-p; plain j and k would be typed into the field.
       e.preventDefault();
       setActive(activeIndex + (e.key === 'n' ? 1 : -1));
     } else if (e.key === 'ArrowDown') {

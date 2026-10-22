@@ -6,7 +6,14 @@
 // colour (a legend under the canvas names them); the current page is larger
 // and ringed. Colours come from the site's tokens, read off probe elements
 // so light and dark mode both apply.
-import { forceCenter, forceCollide, forceLink, forceManyBody, forceSimulation, type SimulationNodeDatum } from 'd3-force';
+import {
+  forceCenter,
+  forceCollide,
+  forceLink,
+  forceManyBody,
+  forceSimulation,
+  type SimulationNodeDatum,
+} from 'd3-force';
 
 type Node = { id: string; title: string; url: string; section: string; section_title: string };
 type Link = { source: string; target: string };
@@ -48,7 +55,9 @@ function neighbourhood(data: Data, url: string, section: string | null): Local |
   if (near.size < 2) return null;
   const links = data.links.filter((link) => near.has(link.source) && near.has(link.target));
   const tied = new Set(
-    links.flatMap((link) => (link.source === current.id || link.target === current.id ? [link.source, link.target] : [])),
+    links.flatMap((link) =>
+      link.source === current.id || link.target === current.id ? [link.source, link.target] : [],
+    ),
   );
   return {
     current,
@@ -100,7 +109,8 @@ function createView(
   let colors = palette();
   let view = { k: 1, x: 0, y: 0 };
   let hovered: SimNode | null = null;
-  let pressed: { node: SimNode | null; start: { x: number; y: number }; view: typeof view; moved: boolean } | null = null;
+  let pressed: { node: SimNode | null; start: { x: number; y: number }; view: typeof view; moved: boolean } | null =
+    null;
 
   const degree: Record<string, number> = {};
   for (const link of graph.links) {
@@ -225,7 +235,11 @@ function createView(
         pressed.node.fx = p.gx;
         pressed.node.fy = p.gy;
       } else {
-        view = { ...pressed.view, x: pressed.view.x + p.x - pressed.start.x, y: pressed.view.y + p.y - pressed.start.y };
+        view = {
+          ...pressed.view,
+          x: pressed.view.x + p.x - pressed.start.x,
+          y: pressed.view.y + p.y - pressed.start.y,
+        };
         render();
       }
       return;
@@ -326,7 +340,9 @@ function mountGraph(mount: HTMLElement, data: Data) {
   let large: ReturnType<typeof createView> | null = null;
   railFrame.querySelector('[data-graph-expand]')!.addEventListener('click', () => {
     dialog.showModal();
-    large = createView(dialog.querySelector<HTMLCanvasElement>('[data-graph-canvas]')!, make()!, colourOf, { labels: 'all' });
+    large = createView(dialog.querySelector<HTMLCanvasElement>('[data-graph-canvas]')!, make()!, colourOf, {
+      labels: 'all',
+    });
   });
   dialog.querySelector('[data-graph-zoom-in]')!.addEventListener('click', () => large?.zoomBy(1.25));
   dialog.querySelector('[data-graph-zoom-out]')!.addEventListener('click', () => large?.zoomBy(0.8));

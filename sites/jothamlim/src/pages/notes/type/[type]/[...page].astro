@@ -26,7 +26,8 @@ export const getStaticPaths = (async ({ paginate }) => {
 const { page, title } = Astro.props;
 const g = await garden();
 const landing = (await getEntry('pages', 'notes'))!;
-const path = page.currentPage > 1 ? `/notes/type/${Astro.params.type}/${page.currentPage}` : `/notes/type/${Astro.params.type}`;
+const path =
+  page.currentPage > 1 ? `/notes/type/${Astro.params.type}/${page.currentPage}` : `/notes/type/${Astro.params.type}`;
 ---
 
 <Layout path={path} seoTitle={`${title} notes`} seoDescription={`Every ${title.toLowerCase()} note, newest first.`}>

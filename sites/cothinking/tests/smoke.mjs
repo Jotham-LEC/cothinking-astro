@@ -1,8 +1,9 @@
-// cothink.ing's smoke steps (`npm run smoke`, against `astro preview` on PREVIEW_URL, else :4332): the rooms (terminal
-// ground, no rail, the drawer at every width), the panels starting open and reader mode,
-// the wiki's categories and its section-wide graph, the series pager, the
-// Pagefind palette and the 404's suggestions, with screenshots of rooms and
-// garden pages in light and dark.
+// cothink.ing's smoke steps (`npm run smoke`, against `astro preview` on
+// PREVIEW_URL, else :4332): the rooms (terminal ground, no rail, the drawer
+// at every width, with and without JavaScript), the panels starting open
+// and reader mode, the wiki's categories and its section-wide graph, the
+// series pager, the Pagefind palette and the 404's suggestions, with
+// screenshots of rooms and garden pages in light and dark.
 import { fileURLToPath } from 'node:url';
 import { smoke } from '../../../packages/garden/tests/smoke.mjs';
 
@@ -23,17 +24,18 @@ async function run({ page, BASE, check, shots }) {
   check(
     'home is a room',
     await page.evaluate(
-      () => document.body.hasAttribute('data-room') && document.body.classList.contains('bg-terminal'),
+      () =>
+        document.querySelector('.shell')?.hasAttribute('data-room') && document.body.classList.contains('bg-terminal'),
     ),
   );
-  check('a room has no rail', (await page.locator('[data-rail]').count()) === 0);
+  check('a room has no rail', (await page.locator('#rail').count()) === 0);
   check('work tiles', (await page.locator('main ul li img[width="800"]').count()) === 3);
   await both(page, shots, 'home');
 
   // The drawer opens in a room at a desktop width (lg; the menu button goes at xl).
   await page.setViewportSize({ width: 1100, height: 900 });
-  await page.click('[data-menu]');
-  check('room drawer opens at lg', await page.evaluate(() => document.body.classList.contains('nav-open')));
+  await page.click('button[popovertarget="explorer"]');
+  check('room drawer opens at lg', await page.locator('#explorer').evaluate((el) => el.matches(':popover-open')));
   check('room drawer lists the menu', (await page.locator('[data-drawer-menu] a').count()) >= 5);
   await page.screenshot({ path: `${shots}/home-drawer.png` });
   await page.keyboard.press('Escape');
@@ -53,7 +55,7 @@ async function run({ page, BASE, check, shots }) {
     'explorer starts open',
     !(await page.evaluate(() => document.documentElement.hasAttribute('data-hide-explorer'))),
   );
-  check('explorer visible', await page.locator('[data-explorer]').isVisible());
+  check('explorer column visible', await page.locator('#explorer').isVisible());
   await page.click('[data-reader-toggle]');
   check(
     'reader mode hides panels',
@@ -65,7 +67,7 @@ async function run({ page, BASE, check, shots }) {
   );
   await page.click('[data-reader-toggle]');
   check('wiki categories', (await page.locator('main article h2[id]').count()) === 6);
-  await page.locator('[data-rail]').scrollIntoViewIfNeeded();
+  await page.locator('#rail').scrollIntoViewIfNeeded();
   await page.waitForTimeout(1000);
   check('wiki graph shown', await page.locator('[data-graph]').isVisible());
   check(
@@ -74,7 +76,7 @@ async function run({ page, BASE, check, shots }) {
   );
   await both(page, shots, 'wiki');
 
-  // A series' pager.
+  // A series' pager, and the byline.
   await page.goto(`${BASE}/wiki/boring-office-part-2-the-keys`, { waitUntil: 'networkidle' });
   check(
     'series pager previous',
@@ -85,6 +87,12 @@ async function run({ page, BASE, check, shots }) {
     (await page.locator('main a[rel="next"]').getAttribute('href')) === '/wiki/boring-office-part-3-password-managers',
   );
   check('byline', (await page.locator('main a[rel="author"]').textContent())?.trim() === 'Jotham Lim');
+  await page.goto(`${BASE}/wiki/boring-office-part-3-password-managers`, { waitUntil: 'networkidle' });
+  check(
+    'light and dark diagram pair',
+    (await page.locator('main img.wiki-logo-light').count()) >= 1 &&
+      (await page.locator('main img.wiki-logo-dark').count()) >= 1,
+  );
   await both(page, shots, 'wiki-entry');
 
   // A problem page: the offer under the title.
@@ -97,7 +105,7 @@ async function run({ page, BASE, check, shots }) {
 
   // Palette on Pagefind.
   await page.keyboard.press('Control+KeyK');
-  await page.waitForSelector('[data-palette]:not([hidden])');
+  await page.waitForSelector('#palette[open]');
   await page.fill('[data-palette-input]', 'dmarc');
   await page
     .waitForFunction(() => document.querySelectorAll('[data-palette-results] .palette-excerpt').length > 0, null, {
@@ -117,12 +125,36 @@ async function run({ page, BASE, check, shots }) {
   check('404 suggestions', (await page.locator('[data-not-found-suggestions] li').count()) > 0);
   await page.screenshot({ path: `${shots}/404.png` });
 
-  // Mobile drawer on a garden page.
+  // The drawer on a garden page below lg; the keys card over it.
   await page.setViewportSize({ width: 390, height: 800 });
   await page.goto(`${BASE}/wiki/speed-to-lead`, { waitUntil: 'networkidle' });
-  await page.click('[data-menu]');
-  check('drawer opens on mobile', await page.evaluate(() => document.body.classList.contains('nav-open')));
+  await page.click('button[popovertarget="explorer"]');
+  check('drawer opens on mobile', await page.locator('#explorer').evaluate((el) => el.matches(':popover-open')));
   await page.screenshot({ path: `${shots}/mobile-drawer.png` });
+  await page.keyboard.press('Escape');
+  await page.keyboard.type('?');
+  await page.waitForTimeout(200);
+  check('keys card opens after the drawer', await page.locator('#keys').evaluate((d) => d.open));
+  check(
+    'keys card over the drawer leaves it closed',
+    !(await page.locator('#explorer').evaluate((el) => el.matches(':popover-open'))),
+  );
+  await page.keyboard.press('Escape');
+
+  // Without JavaScript the room's drawer still opens (declarative popover).
+  const noJs = await page
+    .context()
+    .browser()
+    .newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 800 } });
+  const plain = await noJs.newPage();
+  await plain.goto(`${BASE}/`, { waitUntil: 'load' });
+  await plain.click('button[popovertarget="explorer"]');
+  check(
+    'room drawer opens without JavaScript',
+    await plain.locator('#explorer').evaluate((el) => el.matches(':popover-open')),
+  );
+  check('menu links reachable without JavaScript', (await plain.locator('[data-drawer-menu] a').count()) >= 5);
+  await noJs.close();
 }
 
 await smoke({
