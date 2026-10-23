@@ -13,7 +13,7 @@ Does a healthy working culture require employees to be personal with each other,
 *ANSWER*
 --------
 
-Spending over 80 hours a week surrounded by colleagues, no doubt personal boundaries will be chipped away gradually. Some would be delighted to share their newborn baby photos or stories of troubles at home, venturing into [TMI territory](https://www.dictionary.com/browse/tmi). However, there are just as many who would dread at the idea of sharing anything personal, so much so that the [anxiety would manifest into adverse physical reactions](https://www.intrepidmentalhealth.com/blog/10-most-common-physical-symptoms-of-anxiety) —gut wrenches and all that.
+Spending over 80 hours a week surrounded by colleagues, no doubt personal boundaries will be chipped away gradually. Some would be delighted to share their newborn baby photos or stories of troubles at home, venturing into [TMI territory](https://www.dictionary.com/browse/tmi). However, there are just as many who would dread at the idea of sharing anything personal, so much so that the [anxiety would manifest into adverse physical reactions](https://www.intrepidmentalhealth.com/10-most-common-physical-symptoms-of-anxiety) —gut wrenches and all that.
 
 It is clear that *there are no definite answers* here. In fact, doing so would be borderline irresponsible.
 

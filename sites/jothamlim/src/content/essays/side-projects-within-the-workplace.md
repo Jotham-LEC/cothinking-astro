@@ -1,5 +1,6 @@
 ---
 title: Side Projects Within the Workplace
+description: "Why I pitched Freedom Fridays to my department: a day for side projects, as long as the work gets done, because growth needs room for error."
 date: 2023-06-18
 updated: 2026-10-03T16:29:26+00:00
 image: ../../assets/media/essays/side-projects-within-the-workplace/2888b7e8-23fa-43de-baa1-85db223766a0_4480x2520.webp

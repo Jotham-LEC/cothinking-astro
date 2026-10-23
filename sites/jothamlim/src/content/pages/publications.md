@@ -1,6 +1,6 @@
 ---
 title: Publications
-description: My journalism archive.
+description: "My journalism archive: articles for The Edge Malaysia (2019–2021), magazine pieces, reports I've published, and press mentions."
 updated: 2026-10-06T08:01:30+00:00
 order: 5
 ---

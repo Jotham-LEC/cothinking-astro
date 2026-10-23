@@ -1,5 +1,6 @@
 ---
 title: Why I Chose Hugo for My Personal Website
+description: "Why I built my personal website with Hugo: fast, free to host, and written in Markdown from my Obsidian vault, after trying many other platforms."
 date: 2024-01-22
 updated: 2026-10-03T16:29:26+00:00
 image: ../../assets/media/essays/why-i-chose-hugo-for-my-personal-website/5051263d-0072-40ce-8505-f8e51376a265_1880x1058.webp

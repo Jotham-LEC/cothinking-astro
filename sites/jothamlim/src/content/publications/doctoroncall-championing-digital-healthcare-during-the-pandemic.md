@@ -11,7 +11,7 @@ This article first appeared in Digital Edge, The Edge Malaysia Weekly on Decembe
 
 While other companies are struggling as a result of the Covid-19 pandemic, digital healthcare platform DoctorOnCall is actually thriving. The platform provides online medical consultation, delivers medication through its online pharmacy, hosts a medical specialist search and booking engine and features health articles and a medical information database, among other things.
 
-In February this year, just before the Movement Control Order was announced, it partnered with the Ministry of Health (MoH) to establish a virtual health advisory portal to help address Covid-19’s risk communication needs. This portal is still available at www.moh.gov.my and www.doctoroncall.com.my/coronavirus.
+In February this year, just before the Movement Control Order was announced, it partnered with the Ministry of Health (MoH) to establish a virtual health advisory portal to help address Covid-19’s risk communication needs. This portal is still available at www.moh.gov.my and [www.doctoroncall.com.my/coronavirus](https://web.archive.org/web/20250717092318/https://www.doctoroncall.com.my/coronavirus).
 
 Through the portal, users are able to quickly see if they have contracted the Covid-19 virus by answering a series of online questions, or alternatively, consult a specialist through the platform for free, reducing the need to physically seek medical advice at a clinic or hospital.
 

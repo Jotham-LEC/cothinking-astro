@@ -3,6 +3,8 @@ title: I've Experimented With Personal Productivity for 18 Months — Here's Wha
 date: 2023-11-01
 updated: 2026-10-03T16:29:26+00:00
 image: ../../assets/media/essays/ive-experimented-with-personal-productivity-for-18-months-heres-what-ive-learned/a23b8d94-e032-4c48-8126-2f9d23596455_1920x1080.webp
+seo:
+  title: 18 months of personal productivity experiments
 ---
 
 ![](../../assets/media/essays/ive-experimented-with-personal-productivity-for-18-months-heres-what-ive-learned/a23b8d94-e032-4c48-8126-2f9d23596455_1920x1080.webp)I am obsessed with productivity systems. From Ali Abdaal to James Clear, Keep Productive to Cal Newport… task apps, calendars, daily planners, and personal knowledge management—if it exists in the Apple ecosystem, chances are I’ve tried it before.

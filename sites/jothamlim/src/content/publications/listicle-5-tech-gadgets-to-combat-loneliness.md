@@ -21,7 +21,7 @@ While under the sun, Hexa’s head can rotate a full 360 degrees to help each le
 
 Using its six nimble legs, the Hexa can move in any direction and around objects. It also uses infrared sensors, distance sensors and even a high-resolution night vision camera to detect and understand its surroundings.
 
-https://www.vincross.com/en/hexa
+[https://www.vincross.com/en/hexa](https://web.archive.org/web/20210108051636/https://www.vincross.com/en/hexa)
 
 ![Listicle: 5 tech gadgets to combat loneliness](../../assets/media/the-edge/listicle-5-tech-gadgets-to-combat-loneliness/DE2-Bond-Touch-Bracelet-tem1347_theedgemarkets.jpg)
 

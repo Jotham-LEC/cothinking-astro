@@ -86,7 +86,7 @@ from `lib/seo.ts`.
   allows, as llms.txt does.
 - **The Markdown pipeline** (`lib/markdown/index.ts`, in `config.mjs`): remark
   `wiki-links`; rehype `external-links`, `clean-heading-ids` (GitHub-style, emoji
-  cleaned; Astro keeps them), `callouts`, `excerpt` (the first paragraphs, for
+  cleaned; Astro keeps them), `callouts`, `task-lists` (a task item's checkbox labelled with its text), `excerpt` (the first paragraphs, for
   descriptions), `heading-anchors` (the icon is CSS). Astro does the rest:
   GFM, Shiki in both themes inside the chrome `shiki-code-block.ts` draws, raw
   HTML, images, `headings`.
@@ -149,7 +149,7 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
 | `/llms.txt` | `llms.txt.ts` | the site for language models (`lib/textFiles.ts`) |
 | `/og.png` | `og.png.ts` | the home page's share card (`lib/ogCard.ts`) |
 | `/og/<path>.png` | `og/[...uri].png.ts` | every other page's share card |
-| `/robots.txt` | `robots.txt.ts` | every crawler allowed, and the sitemap (`lib/textFiles.ts`) |
+| `/robots.txt` | `robots.txt.ts` | the base file: every crawler allowed, and the sitemap (`lib/textFiles.ts`); which bots to turn away is the zone's, not the repo's (cothink.ing's Cloudflare managed robots.txt puts its AI-training block in front of it) |
 
 ## Recipes
 
@@ -250,8 +250,10 @@ pull requests only build). `npm run deploy -w sites/<site>` is the manual
 fallback: it builds with `--force` and runs `wrangler deploy` through
 `op run --env-file=cloudflare.env`, whose one line is the 1Password
 reference of a scoped token (`CLOUDFLARE_API_TOKEN=op://CoThinking/Cloudflare/CF Workers API`),
-never a value. `/_astro/*` is cached a year by `public/_headers`;
-pages are revalidated. Locally, `wrangler dev` needs `steam-run` on NixOS.
+never a value. `public/_headers` caches `/_astro/*` a year (pages are revalidated) and
+sets the security headers on every response (HSTS without subdomains,
+`nosniff`, a referrer policy, `SAMEORIGIN` framing, a permissions policy;
+no CSP yet). Locally, `wrangler dev` needs `steam-run` on NixOS.
 
 ## Glossary
 

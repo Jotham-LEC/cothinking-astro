@@ -29,7 +29,7 @@ The amendment is [Act A1727](https://lom.agc.gov.my/ilims/upload/portal/akta/out
 
 ## The 2010 basics still apply
 
-These were already in the [Personal Data Protection Act 2010](https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2024/07/UNDANG-UNDANG-MALAYSIA_AKTA_PERLINDUNGAN_DATA_PERIBADI_2010_709_MALAY_AND-ENG_V2022.pdf), and marketing teams still get them wrong:
+These were already in the [Personal Data Protection Act 2010](https://web.archive.org/web/20261004120509/https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2024/07/UNDANG-UNDANG-MALAYSIA_AKTA_PERLINDUNGAN_DATA_PERIBADI_2010_709_MALAY_AND-ENG_V2022.pdf), and marketing teams still get them wrong:
 
 - **A notice in Malay and English** (s. 7(3)). An English-only form is a gap.
 - **Say why you collect the data**, who you share it with, and how to reach you, when you first collect it (s. 7).
@@ -37,12 +37,12 @@ These were already in the [Personal Data Protection Act 2010](https://www.pdp.go
 
 ## Report a breach within 72 hours
 
-Section 12B requires you to notify the Commissioner "as soon as practicable", and to tell affected people without unnecessary delay if the breach is likely to cause them significant harm. The Commissioner's [Data Breach Notification Guideline](https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DBN_ENG.pdf) (25 February 2025) sets the numbers:
+Section 12B requires you to notify the Commissioner "as soon as practicable", and to tell affected people without unnecessary delay if the breach is likely to cause them significant harm. The Commissioner's [Data Breach Notification Guideline](https://web.archive.org/web/20260209180751/https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DBN_ENG.pdf) (25 February 2025) sets the numbers:
 
 <img class="wiki-logo-light" src="/media/diagrams/pdpa-for-marketing-and-sales-breach.svg" alt="A breach is reported to the Commissioner within 72 hours, affected people are told within seven days of that, and every breach stays in the register for two years" loading="lazy" decoding="async">
 <img class="wiki-logo-dark" src="/media/diagrams/pdpa-for-marketing-and-sales-breach-dark.svg" alt="" loading="lazy" decoding="async">
 
-- **72 hours** from the breach to notify the Commissioner, through the [online form](https://www.pdp.gov.my/ppdpv1/en/report-dbn/). If you are late, explain why in writing.
+- **72 hours** from the breach to notify the Commissioner, through the [online form](https://daftar.pdp.gov.my/v1/dbn). If you are late, explain why in writing.
 - **Seven days** after that to tell the affected people.
 - **Significant harm** includes a risk of financial loss or identity fraud, sensitive personal data, and any breach affecting **more than 1,000 people**. Most marketing databases cross that line.
 - **A register** of every breach, including those you didn't report, kept for at least two years.
@@ -57,7 +57,7 @@ Marketing breaches rarely look like hacking:
 
 ## Do you need a data protection officer?
 
-Section 12A requires a DPO, and the Commissioner's [DPO guideline](https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DPO_ENG.pdf) limits it to processing that involves any of these:
+Section 12A requires a DPO, and the Commissioner's [DPO guideline](https://web.archive.org/web/20260209181523/https://www.pdp.gov.my/ppdpv1/wp-content/uploads/2025/08/GP_DPO_ENG.pdf) limits it to processing that involves any of these:
 
 - personal data of **more than 20,000** people;
 - sensitive personal data, including financial information, of **more than 10,000** people;
@@ -73,7 +73,7 @@ The DPO:
 - can be part-time, or outsourced under a service contract;
 - should be resident in Malaysia (at least 180 days a year) or easily contactable;
 - should be proficient in Malay and English;
-- must be registered with the Commissioner within 21 days of appointment, on the [DPO registration page](https://www.pdp.gov.my/ppdpv1/en/data-protection-officer-registration-guide/).
+- must be registered with the Commissioner within 21 days of appointment, on the [DPO registration page](https://web.archive.org/web/20260410220242/https://www.pdp.gov.my/ppdpv1/en/data-protection-officer-registration-guide/).
 
 ## Data portability
 

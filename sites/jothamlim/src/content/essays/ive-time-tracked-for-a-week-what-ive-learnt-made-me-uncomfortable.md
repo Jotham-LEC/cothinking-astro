@@ -3,6 +3,8 @@ title: I’ve time-tracked for a week. What I’ve learnt made me uncomfortable.
 date: 2024-06-25
 updated: 2026-10-15T01:20:18+00:00
 image: ../../assets/media/essays/ive-time-tracked-for-a-week-what-ive-learnt-made-me-uncomfortable/e626a296-2b96-44f8-85e6-3c1f93ad87c7_649x1200.webp
+seo:
+  title: A week of time-tracking made me uncomfortable
 ---
 
 I’ve started time-tracking 2 weeks ago after being inspired by the Cortex Podcast by Mike and CGP Grey.

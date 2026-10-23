@@ -1,6 +1,6 @@
 ---
 title: Career
-description: Background, career timeline and interests.
+description: "My background, career timeline and interests: media and journalism, data science, film production, and leading B2B marketing for tech companies."
 updated: 2026-10-15T09:03:14+00:00
 order: 1
 ---

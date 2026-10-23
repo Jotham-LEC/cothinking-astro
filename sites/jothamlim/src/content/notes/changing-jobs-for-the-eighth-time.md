@@ -1,5 +1,6 @@
 ---
 title: Changing Jobs for the Eighth Time
+description: "At 28, on my eighth job change: starting CoThinking, a B2B tech marketing firm, and looking back at every job that led here."
 date: 2024-02-15T00:00:00Z
 updated: 2026-10-03T16:17:26+00:00
 image: ../../assets/media/notes/changing-jobs-for-the-eighth-time.webp
