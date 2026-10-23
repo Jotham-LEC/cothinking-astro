@@ -252,8 +252,9 @@ fallback: it builds with `--force` and runs `wrangler deploy` through
 reference of a scoped token (`CLOUDFLARE_API_TOKEN=op://CoThinking/Cloudflare/CF Workers API`),
 never a value. `public/_headers` caches `/_astro/*` a year (pages are revalidated) and
 sets the security headers on every response (HSTS without subdomains,
-`nosniff`, a referrer policy, `SAMEORIGIN` framing, a permissions policy;
-no CSP yet). Locally, `wrangler dev` needs `steam-run` on NixOS.
+`nosniff`, a referrer policy, `SAMEORIGIN` framing, a same-origin opener
+policy, a permissions policy, and a CSP that leaves scripts alone:
+`frame-ancestors`, `base-uri`, `object-src`, `upgrade-insecure-requests`). Locally, `wrangler dev` needs `steam-run` on NixOS.
 
 ## Glossary
 
