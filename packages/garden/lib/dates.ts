@@ -34,8 +34,3 @@ export function badge(date: Date): { month: string; day: string } {
   const p = parts(date, 'en-US', { month: 'short', day: 'numeric' });
   return { month: p.month!, day: p.day! };
 }
-
-/** Atom/ISO 8601 in UTC with a `+00:00` offset, as Carbon's toAtomString. */
-export function atom(date: Date): string {
-  return date.toISOString().replace(/\.\d{3}Z$/, '+00:00');
-}

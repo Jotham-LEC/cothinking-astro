@@ -3,7 +3,6 @@
 // lastmod. The integration writes /sitemap-index.xml and /sitemap-0.xml,
 // which robots.txt names.
 import type { SitemapOptions } from '@astrojs/sitemap';
-import { atom } from './dates.ts';
 import type { SiteEntry } from './entry.ts';
 import { inSitemap } from './seo.ts';
 import { absolute, type SiteConfig } from './site.ts';
@@ -13,7 +12,7 @@ export function sitemapOptions(entries: SiteEntry[], site: SiteConfig): SitemapO
   const listed = new Map(
     entries
       .filter((p) => inSitemap(p, site))
-      .map((p) => [key(absolute(site.url, p.url)), p.updated ? atom(p.updated) : null]),
+      .map((p) => [key(absolute(site.url, p.url)), p.updated?.toISOString() ?? null]),
   );
   return {
     filter: (url) => listed.has(key(url)),

@@ -1,6 +1,9 @@
 // jothamlim.com: what the garden needs to know about the site (the shape is
 // garden/lib/site.ts), and the site's own settings.
 import type { SiteConfig } from '@garden/lib/site.ts';
+// The business line is cothink.ing's, written once there. Relative: astro.config.mjs loads this file before the
+// aliases exist.
+import { businessLine } from '../../cothinking/src/lib/contact.ts';
 
 export const site = {
   name: 'Jotham Lim',
@@ -9,8 +12,7 @@ export const site = {
   lang: 'en',
   logo: '/media/profile-400.jpg',
   favicon: '/favicon.svg',
-  footerText:
-    'Thinkers Collective Enterprise (trading as CoThinking), Petaling Jaya, Selangor · SSM 202503229808 (PG0575749-P) · WhatsApp: 017-642 1337',
+  footerText: businessLine,
   collections: {
     pages: { title: 'Pages', order: 'order' },
     essays: { title: 'Essays', landing: 'essays', article: true, feed: true, order: 'date', graphColour: 1 },
@@ -64,7 +66,6 @@ export const site = {
       alternateName: ['Jotham Lim Ee Chen'],
       jobTitle: 'Head of Global Marketing',
       worksFor: [{ name: 'Moojing', url: 'https://moojing-global.com' }],
-      logo: '/media/profile-400.jpg',
       sameAs: ['https://linkedin.com/in/jothamlec', 'https://github.com/Jotham-LEC'],
     },
   },

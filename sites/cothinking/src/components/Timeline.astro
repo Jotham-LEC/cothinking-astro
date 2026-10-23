@@ -1,7 +1,8 @@
 ---
 // Steps as a timeline (each `title` and `text`): down the page on a phone,
 // across it from md (unless `vertical`, for a narrow reading column), joined
-// by a line through numbered dots.
+// by a line through numbered dots. Across, a column per step: the two callers
+// have 4 and 5 (a class per count, written out so Tailwind generates it).
 type Props = { steps: { title: string; text: string }[]; vertical?: boolean };
 const { steps, vertical = false } = Astro.props;
 const across = !vertical;
@@ -14,7 +15,6 @@ const across = !vertical;
     {
       'md:before:top-4 md:before:right-0 md:before:bottom-auto md:before:left-0 md:before:h-px md:before:w-full':
         across,
-      'md:grid-cols-3': across && steps.length === 3,
       'md:grid-cols-4': across && steps.length === 4,
       'md:grid-cols-5': across && steps.length === 5,
     },

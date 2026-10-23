@@ -52,7 +52,8 @@ from `lib/seo.ts`.
   inside `lib/` and the garden's components: **a site's view works on Astro
   entries** (`CollectionEntry<'x'>`, `entry.data.*`), gets an address from
   `urlOf(entry)` (`lib/load.ts`), and hands the entry to `<Entry entry>` or
-  `<Layout entry>`, which look up the rest; no site view awaits `garden()`.
+  `<Layout entry>`, which look up the rest; no site view awaits `garden()`
+  (a site's feed endpoint does, to hand it to `lib/feed.ts`).
   `descriptionOf(entry)` (`lib/entry.ts`) is what a page is about everywhere:
   the head, the share card, llms.txt and listing cards. A view gets it with
   `describe(entry)` (`lib/load.ts`), the one bridge from an Astro entry to
@@ -174,16 +175,18 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
   `[slug].astro`'s `OWN` list. For a section feed, `feed: true` (the
   `<link rel="alternate">` to `/<collection>/feed.xml`, by the collection's
   name, not its `path`) and the endpoint itself,
-  `src/pages/<collection>/feed.xml.ts` (copy jothamlim's essays one). Its graph colour is `graphColour`, 1 to 5, the
+  `src/pages/<collection>/feed.xml.ts` (copy jothamlim's essays one: an
+  endpoint, not a view, so it passes `await garden()` to `feedOptions`). Its graph colour is `graphColour`, 1 to 5, the
   `--site-graph-<n>` tokens in `styles/tokens.css` (5 is the site's own
   pages); a sixth would be a token there, its `--color-graph-6` line in
   `styles/site.css` and its class in `scripts/graph.ts` `COLOURS`.
 - **A behaviour**: a `scripts/<name>.ts` exporting `init<Name>()`, imported
   by a `<script>` in the component that owns the markup. `init<Name>()`
   only finds the markup and binds the listeners; the handlers are
-  module-level functions over one small state object (`palette.ts`
-  `Palette`, `popovers.ts` `Previews`, `keys.ts` `Keys`, `graph.ts`
-  `Pointer`). Talk to another
+  module-level functions, over one small state object where they share
+  one (`palette.ts` `Palette`, `popovers.ts` `Previews`, `keys.ts` `Keys`,
+  `graph.ts` `Pointer`, `outline.ts` `Outline`), or over the element
+  (`explorer.ts`). Talk to another
   component through the platform (`showModal()`, `hidePopover()`).
 - **A site**: `sites/<name>/` with `astro.config.mjs`, `tsconfig.json`,
   `wrangler.jsonc`, `cloudflare.env`, `package.json`, `src/site.config.ts`,

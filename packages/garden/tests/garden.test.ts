@@ -4,7 +4,7 @@
 import { describe, expect, it } from 'vitest';
 import { breadcrumbs, parents } from '../lib/breadcrumbs.ts';
 import { check } from '../lib/check.ts';
-import { atom, badge, day, longDate, year } from '../lib/dates.ts';
+import { badge, day, longDate, year } from '../lib/dates.ts';
 import {
   byDateDesc,
   byYear,
@@ -182,6 +182,11 @@ describe('explorer and navigation', () => {
     expect(marked[2]!.isOpen).toBe(true);
     expect(marked[2]!.children.find((c) => c.isCurrent)?.url).toBe('/essays/older');
     expect(marked[1]!.isOpen).toBe(false);
+    // A later page of a landing (/essays/2) opens its folder, but is not the landing itself.
+    const later = markCurrent(rows, at('/essays'), '/essays/2');
+    expect(later[2]!.isOpen).toBe(true);
+    expect(later[2]!.isCurrent).toBe(false);
+    expect(markCurrent(rows, at('/essays'), '/essays')[2]!.isCurrent).toBe(true);
   });
   it('groups by category, in the config order, A–Z, the rest as Other, on either entry model', () => {
     // Astro's entries keep their fields in `data`, as a site's view holds them.
@@ -299,8 +304,11 @@ describe('head and generated files', () => {
     expect(essay.ogType).toBe('article');
     expect(essay.robots).toBe('max-snippet:-1, max-image-preview:large, max-video-preview:-1');
     expect(essay.graph.map((n) => n['@type'])).toEqual(['WebSite', 'Person', 'WebPage', 'BreadcrumbList', 'Article']);
+    // The other site's Person by its id, typed and named for a reader of this page alone; no url to disagree.
     expect(essay.graph.find((n) => n['@type'] === 'Article')!.author).toEqual({
       '@id': 'https://other.test/#publisher',
+      '@type': 'Person',
+      name: 'Me',
     });
     const own = { ...site, author: undefined };
     expect(head(input(at('/essays/older'), { site: own })).graph.find((n) => n['@type'] === 'Article')!.author).toEqual(
@@ -342,8 +350,8 @@ describe('head and generated files', () => {
       worksFor: [{ '@type': 'Organization', name: 'Firm', url: 'https://firm.test' }],
     });
     const org: SiteConfig = { ...site, seo: { ...site.seo, publisher: { type: 'Organization' } } };
-    // The other site's Person by its id only: that site's own graph describes it.
-    expect(person(org).founder).toEqual({ '@id': 'https://other.test/#publisher' });
+    // The other site's Person by its id, typed and named; that site's own graph describes the rest.
+    expect(person(org).founder).toEqual({ '@id': 'https://other.test/#publisher', '@type': 'Person', name: 'Other' });
     expect(person(org).worksFor).toBeUndefined();
   });
   it('points og:url where rel=canonical points, and keeps a listing out of search when asked', () => {
@@ -473,7 +481,6 @@ describe('dates and read time', () => {
     expect(badge(late)).toEqual({ month: 'Oct', day: '8' });
     expect(badge(new Date('2026-09-24T12:00:00Z'))).toEqual({ month: 'Sep', day: '24' });
     expect(longDate(new Date('2026-10-20'))).toBe('20 October 2026');
-    expect(atom(new Date('2023-01-18T00:00:00Z'))).toBe('2023-01-18T00:00:00+00:00');
   });
   it('counts words as Statamic did', () => {
     expect(wordCount("Don't count <b>tags</b>, 0 or punctuation... but 10 yes")).toBe(8);

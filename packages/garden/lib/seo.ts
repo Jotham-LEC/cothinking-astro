@@ -3,7 +3,6 @@
 // BreadcrumbList, Article). A piece first published elsewhere sends search
 // engines there (`seo.canonical`).
 import { breadcrumbs } from './breadcrumbs.ts';
-import { atom } from './dates.ts';
 import { byUrl, descriptionOf, type SiteEntry } from './entry.ts';
 import { absolute, cardUrl, type SiteConfig } from './site.ts';
 
@@ -104,7 +103,7 @@ function robots({ page, overrides, status }: HeadInput): string {
 function ogType(input: HeadInput): string {
   const { page, site } = input;
   if (isHome(input)) return page?.seo.og_type === 'profile' ? 'profile' : 'website';
-  return page?.seo.og_type ?? (isArticle(page, site) ? 'article' : 'website');
+  return isArticle(page, site) ? 'article' : 'website';
 }
 
 /** The share image: the entry's `image`, else the generated card; a listing without an entry shares the home page's. */
@@ -137,7 +136,7 @@ function websiteNode(site: SiteConfig) {
 function publisherNode(site: SiteConfig) {
   const p = site.seo.publisher;
   const person = p.type === 'Person';
-  const logo = absolute(site.url, p.logo ?? site.logo);
+  const logo = absolute(site.url, site.logo);
   const address = clean({
     addressLocality: p.address?.locality,
     addressRegion: p.address?.region,
@@ -165,13 +164,19 @@ function publisherNode(site: SiteConfig) {
         ),
     sameAs: p.sameAs,
     worksFor: person ? (p.worksFor ?? []).map((o) => ({ '@type': 'Organization', name: o.name, url: o.url })) : null,
-    founder: person ? null : { '@id': publisherId(site.otherSite) },
+    founder: person ? null : personRef(site.otherSite, site.otherSite.name),
   });
 }
 
+/**
+ * The other site's Person, by its `@id`, with the type and name a reader of this page alone needs (its full node,
+ * `url` and all, is on that site).
+ */
+const personRef = (other: { url: string }, name: string) => ({ '@id': publisherId(other), '@type': 'Person', name });
+
 /** Who wrote an article: the site's `author`, the owner, whom the other site describes (its publisher), else this site's publisher. */
 function authorNode(site: SiteConfig): Record<string, unknown> {
-  return { '@id': site.author ? publisherId(site.otherSite) : publisherId(site) };
+  return site.author ? personRef(site.otherSite, site.author.name) : { '@id': publisherId(site) };
 }
 
 function webPageNode(
@@ -222,8 +227,8 @@ function articleNode(
     headline: page.title,
     description: head.description,
     image: head.image ? [head.image.url] : null,
-    datePublished: page.date ? atom(page.date) : null,
-    dateModified: page.updated ? atom(page.updated) : null,
+    datePublished: page.date?.toISOString() ?? null,
+    dateModified: page.updated?.toISOString() ?? null,
     author: authorNode(site),
     publisher: { '@id': publisherId(site) },
     mainEntityOfPage: { '@id': head.canonical ?? url(input) },
@@ -261,8 +266,8 @@ export function head(input: HeadInput): Head {
     siteName: site.name,
     locale: site.locale,
     image: img,
-    published: article && page?.date ? atom(page.date) : null,
-    modified: article && page?.updated ? atom(page.updated) : null,
+    published: article && page?.date ? page.date.toISOString() : null,
+    modified: article && page?.updated ? page.updated.toISOString() : null,
     graph,
   };
 }
