@@ -41,7 +41,11 @@ export type SiteConfig = {
   /** `en_MY`: Open Graph's locale. */
   locale: string;
   lang: string;
-  /** Public paths: the logo (a portrait, or a wordmark with its dark twin) and the favicon. */
+  /**
+   * Public paths: the logo and the favicon. With `logoDark`, the logo is a wordmark the header draws; without, a
+   * portrait, which the header draws from the garden's assets/portrait.jpg instead. Either way the JSON-LD names it:
+   * an Organization's `logo`, a Person's `image`.
+   */
   logo: string;
   logoDark?: string;
   favicon: string;
@@ -63,8 +67,6 @@ export type SiteConfig = {
       alternateName?: string[];
       description?: string;
       legalName?: string;
-      /** A public path: a Person's image, an Organization's logo (else the site's logo). */
-      logo?: string;
       jobTitle?: string;
       /** A Person's employers, as Organizations; an Organization's founder is the other site's Person. */
       worksFor?: { name: string; url: string }[];

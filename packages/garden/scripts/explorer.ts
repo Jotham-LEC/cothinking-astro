@@ -6,16 +6,15 @@
 // the page behind it (the main column, the rail, the footer) is inert until
 // it closes, as a popover is not modal; when the window grows into the
 // column layout, an open drawer is put away.
-export function initExplorer() {
-  const explorer = document.getElementById('explorer');
-  if (!explorer) return;
-  const STATE_KEY = 'explorer';
-  const SCROLL_KEY = 'explorer-scroll';
+const STATE_KEY = 'explorer';
+const SCROLL_KEY = 'explorer-scroll';
+
+/** Each folder's chevron, and the open or closed state the browser remembers for it. */
+function bindFolders(explorer: HTMLElement) {
   let state: Record<string, boolean> = {};
   try {
     state = JSON.parse(localStorage.getItem(STATE_KEY) || '{}') || {};
   } catch {}
-
   for (const li of explorer.querySelectorAll<HTMLElement>('li[data-path]')) {
     const button = li.querySelector<HTMLButtonElement>(':scope > div > button');
     if (!button) continue;
@@ -33,8 +32,10 @@ export function initExplorer() {
       } catch {}
     });
   }
+}
 
-  // The tree scrolls inside the column, which only frames it.
+/** The tree scrolls inside the column, which only frames it: its position comes back on the next page. */
+function keepScroll(explorer: HTMLElement) {
   const scroller = explorer.querySelector<HTMLElement>('[data-explorer-scroll]') ?? explorer;
   try {
     const saved = sessionStorage.getItem(SCROLL_KEY);
@@ -49,7 +50,10 @@ export function initExplorer() {
     },
     { passive: true },
   );
+}
 
+/** The open drawer: the page behind it inert and focus on the current page; put away when the column takes over. */
+function bindDrawer(explorer: HTMLElement) {
   const column = window.matchMedia('(min-width: 64rem)');
   const room = explorer.closest('[data-room]') !== null;
   const behind = [
@@ -69,4 +73,12 @@ export function initExplorer() {
   column.addEventListener('change', () => {
     if (column.matches && !room && explorer.matches(':popover-open')) explorer.hidePopover();
   });
+}
+
+export function initExplorer() {
+  const explorer = document.getElementById('explorer');
+  if (!explorer) return;
+  bindFolders(explorer);
+  keepScroll(explorer);
+  bindDrawer(explorer);
 }

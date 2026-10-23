@@ -4,7 +4,7 @@
 // the JSON-LD below build on.
 import type { SiteConfig } from '@garden/lib/site.ts';
 // Relative: astro.config.mjs loads this file before the @site alias exists.
-import { contact, emailHref, telephone, whatsappHref } from './lib/contact.ts';
+import { businessLine, contact, emailHref, telephone, whatsappHref } from './lib/contact.ts';
 
 export const site = {
   name: 'CoThinking',
@@ -14,7 +14,7 @@ export const site = {
   logo: '/images/cothinking/logo.svg',
   logoDark: '/images/cothinking/logo-dark.svg',
   favicon: '/images/cothinking/favicon.svg',
-  footerText: `Thinkers Collective Enterprise (trading as CoThinking), Petaling Jaya, Selangor · SSM 202503229808 (PG0575749-P) · WhatsApp: ${contact.phone}`,
+  footerText: businessLine,
   collections: {
     pages: { title: 'CoThinking pages', order: 'order' },
     problems: {

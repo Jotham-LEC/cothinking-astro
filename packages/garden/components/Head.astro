@@ -38,7 +38,7 @@ const ld = jsonLd(h.graph);
   </>
 )}
 {ld && <script type="application/ld+json" set:html={ld} />}
-<meta name="author" content={site.name} />
+<meta name="author" content={site.author?.name ?? site.name} />
 <link href={site.favicon} rel="icon" type="image/svg+xml" />
 <link rel="alternate" type="application/rss+xml" title={site.name} href={`${site.url}/feed.xml`} />
 {feed && <link rel="alternate" type="application/rss+xml" title={feed.title} href={`${site.url}${feed.url}`} />}

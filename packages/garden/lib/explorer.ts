@@ -130,13 +130,17 @@ export function noteTypesInUse(
   return Object.entries(types).filter(([handle]) => inUse.has(handle));
 }
 
-/** Marks the current page's row and opens every row holding it. A type's listing has no page, so it is current by address. */
+/**
+ * Marks the current page's row and opens every row holding it. A type's listing has no page, so it is current by
+ * address. A page at another address than its entry's (/notes/2) opens the entry's row but is not that page.
+ */
 export function markCurrent(rows: Row[], current: SiteEntry | null, url: string): Row[] {
   const currentId = current ? keyOf(current) : null;
   return rows.map((r) => {
     const children = markCurrent(r.children, current, url);
-    const isCurrent = r.id !== null ? r.id === currentId : r.kind === 'type' && r.url === url;
-    return { ...r, children, isCurrent, isOpen: isCurrent || children.some((c) => c.isCurrent || c.isOpen) };
+    const isEntry = r.id !== null && r.id === currentId;
+    const isCurrent = r.id !== null ? isEntry && r.url === url : r.kind === 'type' && r.url === url;
+    return { ...r, children, isCurrent, isOpen: isEntry || isCurrent || children.some((c) => c.isCurrent || c.isOpen) };
   });
 }
 
