@@ -4,9 +4,10 @@
    `@theme inline` hands every --site-* token to the utilities by reference,
    so `text-accent` emits var(--site-accent). The tokens are light-dark()
    values, so there is no dark: variant anywhere: colour follows color-scheme,
-   which the theme toggle flips on <html data-theme>. Classes that PHP or the
-   JS emit (callouts, code blocks, state) live in components.css,
-   because the class scanner cannot see them. */
+   which the theme toggle flips on <html data-theme>. Classes no component
+   writes (the Markdown plugins' callouts and code blocks, raw HTML in the
+   content, what the scripts build) live in components.css, because the
+   class scanner cannot see them. */
 @import 'tailwindcss' source(none);
 
 /* The garden's own files; each site's stylesheet adds its pages and components. */
@@ -36,7 +37,7 @@
   }
 }
 
-/* A room's ground (body[data-room]), drawn like a CRT: scanlines and a + on
+/* A room's ground (`<body class="bg-terminal">` around `.shell[data-room]`), drawn like a CRT: scanlines and a + on
    every character cell, fixed to the screen so the page scrolls over them.
    The + is an SVG mask over a token colour, so the SVG carries no colour of
    its own. Cards keep their solid fill and read as panes on top. */

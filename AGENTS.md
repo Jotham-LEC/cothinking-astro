@@ -66,7 +66,9 @@ from `lib/seo.ts`.
   `feed`, `order`, `explorer` (`all`, `with-body`, `by-year`,
   `by-category`, `by-type`), `categories`, `types` (a collection with types
   is a stream of posts: paged by date, no "last updated"), `graphSection`
-  and `graphColour` say the rest. The garden names no collection.
+  and `graphColour` say the rest. The garden names one collection, `pages`
+  (the plain pages: `pages/home` is `/`, a landing page is a `pages` entry,
+  the palette lists them first); every other one is the config's.
 - **Addresses** come from `urlFor(site)` (`lib/entry.ts`): `pages/home` is
   `/`, a page is `/<id>`, any other entry `<path>/<id>`. It is pure, so the
   Astro config and the tests use it too. `[[wiki links]]` resolve against a title
@@ -97,7 +99,13 @@ from `lib/seo.ts`.
   `@garden/*` → `packages/garden/*`), which Astro turns into Vite aliases
   (https://docs.astro.build/en/guides/imports/#aliases). So one garden file
   imports whichever site is being built, and `content.config.ts` can import
-  `@garden/content.ts`. `config.mjs` sets `markdown.processor: unified()`
+  `@garden/content.ts` and `site.css` can `@import '@garden/styles/site.css'`.
+  The aliases exist once Vite is set up, so the files that set it up use
+  relative paths: `astro.config.mjs` (to `config.mjs` and both
+  `site.config.ts`) and what `site.config.ts` imports (cothinking's
+  `lib/contact.ts`). The workspace package `@cothinking/garden` is a
+  dependency of each site only so that npm installs its dependencies;
+  nothing imports it by that name. `config.mjs` sets `markdown.processor: unified()`
   instead of Astro 7's default Sätteri, because the plugins above are remark
   and rehype plugins.
 - **Never use `Astro.url`** for a page's address: `build.format: 'file'`
@@ -143,8 +151,8 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
 - **A page**: `src/content/<collection>/<id>.md` (`[a-z0-9-]` only) with
   `title`, `date` on a dated collection, optional `description`, `image`
   (a file under `src/assets/media`, referenced relatively), `updated`,
-  `draft: true`, `seo` (`title`, `description`, `canonical`, `og_type`,
-  `noindex`; a noindex page is left out of the sitemap and llms.txt). Headings start at `##` (the check fails otherwise); `[[Title]]` links a page on
+  `draft: true`, `seo` (`title`, `description`, `canonical`, `og_type`
+  (only `profile`, on a person's home page), `noindex`; a noindex page is left out of the sitemap and llms.txt). Headings start at `##` (the check fails otherwise); `[[Title]]` links a page on
   either site; `> [!NOTE] Title` is a callout; raw HTML is allowed
   (`<img class="wiki-logo-light">`/`-dark` pairs, `<figure class="wiki-pdf">`,
   `<a class="button">`).
@@ -159,7 +167,10 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
   under the landing page), a landing page and its `explorer` item, a
   page file for its route (`src/pages/<landing>/[slug].astro`), and the
   landing's own view (`src/pages/<landing>/index.astro`) with its id in
-  `[slug].astro`'s `OWN` list. Its graph colour is `graphColour`, 1 to 5, the
+  `[slug].astro`'s `OWN` list. For a section feed, `feed: true` (the
+  `<link rel="alternate">` to `/<collection>/feed.xml`, by the collection's
+  name, not its `path`) and the endpoint itself,
+  `src/pages/<collection>/feed.xml.ts` (copy jothamlim's essays one). Its graph colour is `graphColour`, 1 to 5, the
   `--site-graph-<n>` tokens in `styles/tokens.css` (5 is the site's own
   pages); a sixth would be a token there, its `--color-graph-6` line in
   `styles/site.css` and its class in `scripts/graph.ts` `COLOURS`.
@@ -168,7 +179,9 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
   component through the platform (`showModal()`, `hidePopover()`).
 - **A site**: `sites/<name>/` with `astro.config.mjs`, `tsconfig.json`,
   `wrangler.jsonc`, `cloudflare.env`, `package.json`, `src/site.config.ts`,
-  `src/content.config.ts`, `src/styles/site.css`, `src/pages/`; name it in
+  `src/content.config.ts`, `src/styles/site.css`, `src/pages/`, and a
+  `pages` collection with a `home` entry (the garden's one named
+  collection: `/`); name it in
   the other site's `site.config.ts` `otherSite` (`folder` is its folder
   under `sites/`) and import its config as `otherSite` in the other site's
   `astro.config.mjs`. Give it a dev and a
@@ -218,7 +231,8 @@ Each site is a Worker of static assets (`wrangler.jsonc`: `dist/`,
 `not_found_handling: "404-page"`, `html_handling: "drop-trailing-slash"`),
 a Custom Domain at jothamlim.com and cothink.ing, both in the owner's
 account (`account_id`). **Every push to `main` deploys both**
-(`.github/workflows/deploy.yml`: check, the garden's tests, a forced build,
+(`.github/workflows/deploy.yml`: check, a forced build, the garden's tests
+(after the build, so the test that every entry has its page in `dist/` runs),
 the site's build tests, then `wrangler deploy`, with the repository secret
 `CLOUDFLARE_API_TOKEN`, a token scoped to Workers Scripts and the two zones;
 pull requests only build). `npm run deploy -w sites/<site>` is the manual

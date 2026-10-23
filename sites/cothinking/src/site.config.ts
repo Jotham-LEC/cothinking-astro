@@ -1,7 +1,10 @@
 // cothink.ing: what the garden needs to know about the site (the shape is
-// garden/lib/site.ts), and the site's own settings: how to get in touch,
-// the prices and the terms.
+// garden/lib/site.ts), and the site's own settings: the prices and the terms.
+// How to get in touch is lib/contact.ts, which the navigation, the footer and
+// the JSON-LD below build on.
 import type { SiteConfig } from '@garden/lib/site.ts';
+// Relative: astro.config.mjs loads this file before the @site alias exists.
+import { contact, emailHref, telephone, whatsappHref } from './lib/contact.ts';
 
 export const site = {
   name: 'CoThinking',
@@ -11,8 +14,7 @@ export const site = {
   logo: '/images/cothinking/logo.svg',
   logoDark: '/images/cothinking/logo-dark.svg',
   favicon: '/images/cothinking/favicon.svg',
-  footerText:
-    'Thinkers Collective Enterprise (trading as CoThinking), Petaling Jaya, Selangor · SSM 202503229808 (PG0575749-P) · WhatsApp: 017-642 1337',
+  footerText: `Thinkers Collective Enterprise (trading as CoThinking), Petaling Jaya, Selangor · SSM 202503229808 (PG0575749-P) · WhatsApp: ${contact.phone}`,
   collections: {
     pages: { title: 'CoThinking pages', order: 'order' },
     problems: {
@@ -59,8 +61,8 @@ export const site = {
       { entry: 'pages/how-i-work' },
       { entry: 'pages/work' },
       { entry: 'pages/wiki' },
-      { title: 'WhatsApp', url: 'https://wa.me/60176421337?text=Hi%20Jotham%2C%20I%20found%20you%20on%20cothink.ing.' },
-      { title: 'Get in touch', url: 'mailto:jotham@cothink.ing?subject=Enquiry%20from%20cothink.ing' },
+      { title: 'WhatsApp', url: whatsappHref() },
+      { title: 'Get in touch', url: emailHref() },
     ],
     footer: [
       {
@@ -77,12 +79,9 @@ export const site = {
       {
         title: 'Get in touch',
         children: [
-          { title: 'jotham@cothink.ing', url: 'mailto:jotham@cothink.ing' },
-          { title: 'Send an enquiry', url: 'mailto:jotham@cothink.ing?subject=Enquiry%20from%20cothink.ing' },
-          {
-            title: 'WhatsApp: 017-642 1337',
-            url: 'https://wa.me/60176421337?text=Hi%20Jotham%2C%20I%20found%20you%20on%20cothink.ing.',
-          },
+          { title: contact.email, url: `mailto:${contact.email}` },
+          { title: 'Send an enquiry', url: emailHref() },
+          { title: `WhatsApp: ${contact.phone}`, url: whatsappHref() },
         ],
       },
       {
@@ -124,18 +123,15 @@ export const site = {
       description:
         'Web, IT and marketing for small businesses in Malaysia, all in one service. Start small, and pay only when you need something done.',
       legalName: 'Thinkers Collective Enterprise',
-      telephone: '+60 17-642 1337',
-      email: 'jotham@cothink.ing',
+      telephone,
+      email: contact.email,
       address: { locality: 'Petaling Jaya', region: 'Selangor', country: 'MY' },
       areaServed: ['Malaysia'],
-      contactPoints: [{ contactType: 'customer service', telephone: '+60 17-642 1337', email: 'jotham@cothink.ing' }],
+      contactPoints: [{ contactType: 'customer service', telephone, email: contact.email }],
     },
   },
   marketing: { gtmId: 'GTM-K59BBZ9S' },
 } satisfies SiteConfig;
-
-/** How to get in touch: the views write mailto: and wa.me links from these (src/lib/contact.ts). */
-export const contact = { email: 'jotham@cothink.ing', whatsappNumber: '60176421337', whatsappDisplay: '017-642 1337' };
 
 /** Prices in RM, as printed by the Websites and How I work pages. */
 export const prices = {

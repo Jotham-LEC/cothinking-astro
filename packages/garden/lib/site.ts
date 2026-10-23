@@ -50,7 +50,7 @@ export type SiteConfig = {
   navigation: { explorer: NavItem[]; header: NavItem[]; footer: NavItem[] };
   /** Old addresses and where they go: Astro writes each as a meta-refresh page (garden/config.mjs). */
   redirects?: Record<string, string>;
-  /** Who writes the articles, for the byline and the JSON-LD: the owner, named as on the other site. Absent when the publisher is the author (a Person). */
+  /** Who writes the articles, for the byline: the owner, named as on the other site, whose publisher (a Person) the JSON-LD names by `@id`. Absent when the publisher is the author. */
   author?: { name: string; url: string; bio: string };
   /** The owner's other site, and its folder under sites/: `[[wiki links]]` reach its pages, and the JSON-LD names it. */
   otherSite: { name: string; url: string; folder: string };

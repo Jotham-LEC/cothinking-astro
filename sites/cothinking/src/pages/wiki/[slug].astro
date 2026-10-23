@@ -24,7 +24,7 @@ const problem = childrenOf('problems', g.live, site).find((p) => related.has(`pr
 
 <Entry entry={entry} headings={headings}>
   {author && (
-    <p slot="before-body" class="not-prose text-muted -mt-4 mb-8 font-sans text-sm">
+    <p slot="after-title" class="text-muted mb-8 font-sans text-sm">
       By{' '}
       <a class="text-accent" href={author.url} rel="author">
         {author.name}
