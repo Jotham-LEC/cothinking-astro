@@ -2,7 +2,6 @@
 // /websites: its copy is this file, in Entry's `body` slot; the prices come
 // from site.config.ts.
 import { getEntry } from 'astro:content';
-import { garden } from '@garden/lib/load.ts';
 import Entry from '@garden/components/Entry.astro';
 import Prose from '@garden/components/Prose.astro';
 import SectionHeading from '@garden/components/SectionHeading.astro';
@@ -16,7 +15,6 @@ import Related from '@site/components/Related.astro';
 import Timeline from '@site/components/Timeline.astro';
 import WorkTiles from '@site/components/WorkTiles.astro';
 const entry = (await getEntry('pages', 'websites'))!;
-const g = await garden();
 const clients = (await workEntries()).slice(0, 3);
 // The outline: the view's own h2s (the old site read them off the rendered body).
 const outline = [
@@ -26,7 +24,7 @@ const outline = [
   ['after-launch', 'After launch'],
   ['custom-web-apps', 'Custom web apps'],
   ...(clients.length ? [['websites', 'Websites I have built']] : []),
-  ...(relatedPages(entry.data.related_wiki, g.live).length ? [['related-wiki', 'Read more on the Wiki']] : []),
+  ...((await relatedPages(entry.data.related_wiki)).length ? [['related-wiki', 'Read more on the Wiki']] : []),
   ['get-in-touch', 'Ask about a website'],
 ].map(([id, text]) => ({ level: 2, id: id!, text: text! }));
 ---

@@ -78,7 +78,7 @@ export function explorerRows(live: SiteEntry[], site: SiteConfig): Row[] {
             ),
           );
         case 'by-category':
-          return byCategory(pages, config.categories ?? {}).map((c) =>
+          return byCategory(pages, config.categories ?? {}, (e) => e).map((c) =>
             group(
               c.title,
               `${landing.url}#${c.handle}`,
@@ -97,18 +97,25 @@ export function explorerRows(live: SiteEntry[], site: SiteConfig): Row[] {
   return navRows(site.navigation.explorer);
 }
 
-/** Entries by their `category`, in the categories' order, each A–Z; the rest last as "Other". */
-export function byCategory(
-  entries: SiteEntry[],
+/**
+ * Entries by their `category`, in the categories' order, each A–Z; the rest last as "Other".
+ * `fields` reads an entry's title and category: the entry itself for a SiteEntry, `entry.data` for one of Astro's.
+ */
+export function byCategory<T>(
+  entries: T[],
   categories: Record<string, string>,
-): { handle: string; title: string; entries: SiteEntry[] }[] {
-  const sorted = [...entries].sort((a, b) => naturalCompare(a.title, b.title));
-  const out: { handle: string; title: string; entries: SiteEntry[] }[] = [];
+  fields: (entry: T) => { title: string; category?: string | null },
+): { handle: string; title: string; entries: T[] }[] {
+  const sorted = [...entries].sort((a, b) => naturalCompare(fields(a).title, fields(b).title));
+  const out: { handle: string; title: string; entries: T[] }[] = [];
   for (const [handle, title] of Object.entries(categories)) {
-    const own = sorted.filter((e) => e.category === handle);
+    const own = sorted.filter((e) => fields(e).category === handle);
     if (own.length) out.push({ handle, title, entries: own });
   }
-  const other = sorted.filter((e) => !(e.category && e.category in categories));
+  const other = sorted.filter((e) => {
+    const category = fields(e).category;
+    return !(category && category in categories);
+  });
   if (other.length) out.push({ handle: 'other', title: 'Other', entries: other });
   return out;
 }

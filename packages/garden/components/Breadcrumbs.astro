@@ -1,10 +1,9 @@
 ---
 // `~ / Section` breadcrumbs up to the current page's parent (`parents`).
 import { parents } from '../lib/breadcrumbs.ts';
-import type { SiteEntry } from '../lib/entry.ts';
-type Props = { url: string; live: SiteEntry[] };
-const { url, live } = Astro.props;
-const crumbs = parents(url, live);
+import { garden } from '../lib/load.ts';
+type Props = { url: string };
+const crumbs = parents(Astro.props.url, (await garden()).live);
 ---
 
 <nav class="text-muted mb-4 flex flex-wrap items-center gap-x-1.5 text-sm" aria-label="Breadcrumb" data-pagefind-ignore>

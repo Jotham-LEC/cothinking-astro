@@ -1,18 +1,22 @@
 ---
 // /wiki: the landing page's text, then every wiki entry under its category,
 // A to Z (the Explorer's grouping, `explorer: 'by-category'`).
-import { getEntry, render } from 'astro:content';
-import { garden } from '@garden/lib/load.ts';
+import { getCollection, getEntry, render } from 'astro:content';
+import { describe, urlOf } from '@garden/lib/load.ts';
 import { byCategory } from '@garden/lib/explorer.ts';
-import { childrenOf, descriptionOf } from '@garden/lib/entry.ts';
 import Entry from '@garden/components/Entry.astro';
 import HeadingLink from '@garden/components/HeadingLink.astro';
 import NextStep from '@site/components/NextStep.astro';
 import { site } from '@site/site.config.ts';
 const entry = (await getEntry('pages', 'wiki'))!;
-const g = await garden();
 const { Content, headings } = await render(entry);
-const categories = byCategory(childrenOf('wiki', g.live, site), site.collections.wiki.categories ?? {});
+const wiki = await Promise.all(
+  (await getCollection('wiki', (e) => !e.data.draft)).map(async (page) => ({
+    page,
+    description: await describe(page),
+  })),
+);
+const categories = byCategory(wiki, site.collections.wiki.categories, ({ page }) => page.data);
 ---
 
 <Entry
@@ -28,12 +32,12 @@ const categories = byCategory(childrenOf('wiki', g.live, site), site.collections
           <HeadingLink id={category.handle} title={category.title} />
         </h2>
         <ul class="not-prose border-rule divide-rule divide-y border-y">
-          {category.entries.map((entry) => (
+          {category.entries.map(({ page, description }) => (
             <li class="py-4">
-              <a class="text-accent font-sans font-semibold" href={entry.url}>
-                {entry.title}
+              <a class="text-accent font-sans font-semibold" href={urlOf(page)}>
+                {page.data.title}
               </a>
-              {descriptionOf(entry) && <p class="text-muted mt-1">{descriptionOf(entry)}</p>}
+              {description && <p class="text-muted mt-1">{description}</p>}
             </li>
           ))}
         </ul>

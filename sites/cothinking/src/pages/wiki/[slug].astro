@@ -2,11 +2,10 @@
 // A wiki entry: the byline (the site's `author`) under the title; after the
 // text, the `related_pages`, the author box and the closing panel.
 import { getCollection, render } from 'astro:content';
-import { garden } from '@garden/lib/load.ts';
-import { childrenOf } from '@garden/lib/entry.ts';
 import Entry from '@garden/components/Entry.astro';
 import NextStep from '@site/components/NextStep.astro';
 import Related from '@site/components/Related.astro';
+import { problemsInOrder } from '@site/lib/problems.ts';
 import { site } from '@site/site.config.ts';
 
 export async function getStaticPaths() {
@@ -14,12 +13,11 @@ export async function getStaticPaths() {
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 const { entry } = Astro.props;
-const g = await garden();
 const { Content, headings } = await render(entry);
 const { author } = site;
 // The closing panel names the first related problem (in the tree's order), else this entry.
 const related = new Set(entry.data.related_pages ?? []);
-const problem = childrenOf('problems', g.live, site).find((p) => related.has(`problems/${p.id}`));
+const problem = (await problemsInOrder()).find((p) => related.has(`problems/${p.id}`));
 ---
 
 <Entry entry={entry} headings={headings}>
@@ -47,6 +45,6 @@ const problem = childrenOf('problems', g.live, site).find((p) => related.has(`pr
         </>
       )}
     </footer>
-    <NextStep about={problem?.title ?? entry.data.title} />
+    <NextStep about={(problem ?? entry).data.title} />
   </Fragment>
 </Entry>

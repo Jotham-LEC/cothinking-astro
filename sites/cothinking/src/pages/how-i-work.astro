@@ -2,7 +2,6 @@
 // /how-i-work: its copy is this file, in Entry's `body` slot; the landing
 // entry gives the title and the head.
 import { getEntry } from 'astro:content';
-import { garden } from '@garden/lib/load.ts';
 import { longDate } from '@garden/lib/dates.ts';
 import Entry from '@garden/components/Entry.astro';
 import Prose from '@garden/components/Prose.astro';
@@ -19,7 +18,6 @@ import QuoteBy from '@site/components/QuoteBy.astro';
 import Related from '@site/components/Related.astro';
 import Timeline from '@site/components/Timeline.astro';
 const entry = (await getEntry('pages', 'how-i-work'))!;
-const g = await garden();
 const testimonial = testimonialOf(await workEntries());
 const termsDate = longDate(new Date(terms.date));
 const jobs: [string, string | null][] = [
@@ -40,7 +38,7 @@ const outline = [
   ['common-jobs', 'Jobs I am often asked to do'],
   ['care-plan', 'Care Plans'],
   ['terms', 'The terms, in short'],
-  ...(relatedPages(entry.data.related_wiki, g.live).length ? [['related-wiki', 'Read more on the Wiki']] : []),
+  ...((await relatedPages(entry.data.related_wiki)).length ? [['related-wiki', 'Read more on the Wiki']] : []),
   ['about-me', 'About me'],
   ['get-in-touch', 'Get in touch'],
 ].map(([id, text]) => ({ level: 2, id: id!, text: text! }));
