@@ -50,7 +50,7 @@ const section = info.section ? (site.collections[info.section]?.title ?? info.se
   statusline={info.readTime ? `${info.readTime} min read` : null}
 >
   <slot name="head" slot="head" />
-  {!info.isHome && <Breadcrumbs url={path} live={g.live} />}
+  {!info.isHome && <Breadcrumbs url={path} />}
 
   <div
     data-pagefind-body={searchable ? '' : undefined}

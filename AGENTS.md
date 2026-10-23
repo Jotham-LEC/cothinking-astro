@@ -31,7 +31,7 @@ sites/<site>/          one Astro root each: jothamlim, cothinking
   public/              what is served as is: PDFs and their previews, the SVG diagram pairs, favicons, _headers
   src/pages/           the site's own routes: one file per view, [slug].astro for the plain pages (the shared ones are injected)
   src/components/      the site's own views; src/styles/site.css imports the garden's and adds its @source folders
-  src/lib/             the site's own helpers on Astro entries (jothamlim: listing.ts, the archives' order; cothinking: problems, work, contact, related)
+  src/lib/             the site's own helpers on Astro entries (jothamlim: listing.ts, the archives' order; cothinking: problems and work in order, related (reference fields), contact (the email and phone, written once))
   tests/               build.test.ts (reads dist/), smoke.mjs (Playwright against the preview)
 scripts/               snapshot.mjs and diff-snapshot.mjs: compare two builds page by page
 ```
@@ -52,8 +52,12 @@ from `lib/seo.ts`.
   inside `lib/` and the garden's components: **a site's view works on Astro
   entries** (`CollectionEntry<'x'>`, `entry.data.*`), gets an address from
   `urlOf(entry)` (`lib/load.ts`), and hands the entry to `<Entry entry>` or
-  `<Layout entry>`, which look up the rest. `descriptionOf(entry)` (`lib/entry.ts`) is what a page is
-  about everywhere: the head, the share card, llms.txt and listing cards.
+  `<Layout entry>`, which look up the rest; no site view awaits `garden()`.
+  `descriptionOf(entry)` (`lib/entry.ts`) is what a page is about everywhere:
+  the head, the share card, llms.txt and listing cards. A view gets it with
+  `describe(entry)` (`lib/load.ts`), the one bridge from an Astro entry to
+  its SiteEntry, since the opening paragraphs exist only there; for order it
+  sorts on `entry.data` (`order`, the title with `naturalCompare`).
 - **The site's config is imported, never passed.** A site's views import
   `site` from `@site/site.config.ts` (with its literal types); the garden's
   components and routes import `site` from `lib/load.ts` (the same object,

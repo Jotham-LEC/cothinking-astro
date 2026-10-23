@@ -3,7 +3,6 @@
 // a published note gets a listing. Not indexed: /notes lists the same notes.
 import { getEntry } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
-import { garden } from '@garden/lib/load.ts';
 import Layout from '@garden/layouts/Layout.astro';
 import Breadcrumbs from '@garden/components/Breadcrumbs.astro';
 import PageHeader from '@garden/components/PageHeader.astro';
@@ -20,7 +19,6 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page, title } = Astro.props;
-const g = await garden();
 const landing = (await getEntry('pages', 'notes'))!;
 const path =
   page.currentPage > 1 ? `/notes/type/${Astro.params.type}/${page.currentPage}` : `/notes/type/${Astro.params.type}`;
@@ -36,7 +34,7 @@ const path =
     {page.url.prev && <link rel="prev" href={page.url.prev} />}
     {page.url.next && <link rel="next" href={page.url.next} />}
   </Fragment>
-  <Breadcrumbs url={path} live={g.live} />
+  <Breadcrumbs url={path} />
   <PageHeader title={title} eyebrow={landing.data.title} />
   <Stream page={page} />
 </Layout>

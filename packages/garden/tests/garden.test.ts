@@ -17,7 +17,7 @@ import {
   type RawEntry,
 } from '../lib/entry.ts';
 import { fullUrls, pageOnly } from '../lib/feed.ts';
-import { explorerRows, headerLinks, markCurrent, menu, panels, urlsIn } from '../lib/explorer.ts';
+import { byCategory, explorerRows, headerLinks, markCurrent, menu, panels, urlsIn } from '../lib/explorer.ts';
 import { backlinks, buildGraph } from '../lib/graph.ts';
 import { pageInfo } from '../lib/info.ts';
 import { linkedPages, localTargets, wikiLinksIn } from '../lib/links.ts';
@@ -182,6 +182,21 @@ describe('explorer and navigation', () => {
     expect(marked[2]!.isOpen).toBe(true);
     expect(marked[2]!.children.find((c) => c.isCurrent)?.url).toBe('/essays/older');
     expect(marked[1]!.isOpen).toBe(false);
+  });
+  it('groups by category, in the config order, A–Z, the rest as Other, on either entry model', () => {
+    // Astro's entries keep their fields in `data`, as a site's view holds them.
+    const astro = [
+      { id: 'b', data: { title: 'Beta', category: 'x' } },
+      { id: 'n', data: { title: 'None' } },
+      { id: 'a', data: { title: 'Alpha', category: 'x' } },
+      { id: 'y', data: { title: 'Why', category: 'y' } },
+    ];
+    const groups = byCategory(astro, { y: 'Y', x: 'X' }, (e) => e.data);
+    expect(groups.map((g) => [g.title, g.entries.map((e) => e.id)])).toEqual([
+      ['Y', ['y']],
+      ['X', ['a', 'b']],
+      ['Other', ['n']],
+    ]);
   });
   it('gives the header its links, the drawer what the Explorer lacks, and a room only a drawer', () => {
     expect(headerLinks(live, site, '/about').map((l) => `${l.url}${l.isCurrent ? '*' : ''}`)).toEqual([

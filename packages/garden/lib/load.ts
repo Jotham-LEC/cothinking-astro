@@ -8,7 +8,7 @@ import { getCollection, getEntry, render, type CollectionKey } from 'astro:conte
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 // `@site/*` is the site being built: each site's tsconfig.json maps it to its own src/ (AGENTS.md, "Aliases").
 import { site as config } from '@site/site.config.ts';
-import { keyOf, published, toSiteEntry, urlFor, type SiteEntry } from './entry.ts';
+import { descriptionOf, keyOf, published, toSiteEntry, urlFor, type SiteEntry } from './entry.ts';
 import { explorerRows, type Row } from './explorer.ts';
 import { buildGraph, type Graph } from './graph.ts';
 import type { SiteConfig } from './site.ts';
@@ -19,6 +19,13 @@ export const site: SiteConfig = config;
 
 /** Where one of Astro's entries lives on this site (`urlFor` with the site's config). */
 export const urlOf = (entry: { collection: string; id: string }): string => urlFor(site)(entry.collection, entry.id);
+
+/**
+ * What one of Astro's entries is about: `descriptionOf` its SiteEntry (its own description, else its opening
+ * paragraphs, which only the Markdown pipeline knows). The bridge for a site's view, which never holds a SiteEntry.
+ */
+export const describe = async (entry: { collection: string; id: string }): Promise<string | null> =>
+  descriptionOf((await garden()).entry(entry));
 
 export type Garden = {
   /** The entries a reader can see. */
