@@ -1,7 +1,9 @@
 ---
 // The header: the logo, search, the `header` navigation, reader mode, the
 // theme toggle and the menu button that opens the Explorer's drawer.
+import { Image } from 'astro:assets';
 import { site } from '../lib/load.ts';
+import portrait from '../assets/portrait.jpg';
 import type { Link } from '../lib/explorer.ts';
 import Bars from '../assets/icons/bars-3.svg';
 import BookOpen from '../assets/icons/book-open.svg';
@@ -17,8 +19,9 @@ const icon =
 
 <header class="border-rule bg-bg/90 sticky top-0 z-30 flex min-h-14 flex-wrap items-center gap-1 border-b px-4 backdrop-blur sm:gap-3 sm:px-6 print:hidden">
   <a class="text-heading flex shrink-0 items-center gap-2.5 font-semibold whitespace-nowrap no-underline" href="/">
-    {/* The site's logo: a wordmark with its dark-mode twin, or a portrait beside the name.
-        Below 400px a wordmark's favicon stands in for it; below 360px the logo goes. */}
+    {/* The site's logo: a wordmark with its dark-mode twin, or the owner's portrait beside the name
+        (the garden's assets/portrait.jpg, drawn at 2x its 28px; the site's `logo` keeps the public
+        copy for the JSON-LD). Below 400px a wordmark's favicon stands in for it; below 360px the logo goes. */}
     {site.logoDark ? (
       <>
         <img
@@ -45,7 +48,7 @@ const icon =
       </>
     ) : (
       <>
-        <img class="size-7 rounded-full" src={site.logo} alt="" width="400" height="400" />
+        <Image class="size-7 rounded-full" src={portrait} alt="" width={56} height={56} loading="eager" />
         {/* Below 380px the name gives way to "Work with me"; screen readers still hear it. */}
         <span class="max-[380px]:sr-only">{site.name}</span>
       </>

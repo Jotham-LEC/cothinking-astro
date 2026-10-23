@@ -20,15 +20,15 @@ packages/garden/       @cothinking/garden: the shared code and its runtime depen
   components/          22 .astro components; layouts/Layout.astro is the shell
   scripts/             one TypeScript module per client behaviour, each imported by the component that owns the markup
   styles/              tokens.css (the only colours), shell.css (the grid and its states), components.css, site.css
-  assets/              fonts (woff2 for the pages, ttf for the cards), icons (SVG components), portrait.jpg
+  assets/              fonts (woff2 for the pages, ttf for the cards), icons (SVG components), portrait.jpg (the header, the share cards, cothink.ing's About me)
   tests/               markdown, garden (the lib on a made-up site), sites (both real sites), tokens
 sites/<site>/          one Astro root each: jothamlim, cothinking
   astro.config.mjs     gardenConfig(...) with the site's config and the other site's
   src/site.config.ts   the site: name, URL, collections, navigation, redirects, author, SEO, GTM (`satisfies SiteConfig`)
   src/content.config.ts  the collections' schemas (zod, strict)
   src/content/<collection>/<id>.md   the pages
-  src/assets/media/    the pictures the content embeds (Astro optimises them)
-  public/              what is served as is: PDFs and their previews, the SVG diagram pairs, favicons, _headers
+  src/assets/          the pictures the views draw with <Image> (cothink.ing's hero), icons, and media/: the pictures the content embeds (Astro optimises them all)
+  public/              what is served as is: PDFs and their previews, the SVG diagram pairs, favicons, logos, _headers, and jothamlim's /media/profile-400.jpg (a stable URL for the JSON-LD and the home page)
   src/pages/           the site's own routes: one file per view, [slug].astro for the plain pages (the shared ones are injected)
   src/components/      the site's own views; src/styles/site.css imports the garden's and adds its @source folders
   src/lib/             the site's own helpers on Astro entries (jothamlim: listing.ts, the archives' order; cothinking: problems and work in order, related (reference fields), contact (the email and phone, written once))

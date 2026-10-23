@@ -1,12 +1,14 @@
 ---
 // cothink.ing's home page, a room. Its copy is written here.
 import { getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import { urlOf } from '@garden/lib/load.ts';
 import Layout from '@garden/layouts/Layout.astro';
 import Prose from '@garden/components/Prose.astro';
 import SectionHeading from '@garden/components/SectionHeading.astro';
 import ComputerDesktop from '@site/assets/icons/computer-desktop.svg';
 import WrenchScrewdriver from '@site/assets/icons/wrench-screwdriver.svg';
+import desk from '@site/assets/jotham-desk.webp';
 import { price } from '@site/lib/contact.ts';
 import { problemsInOrder } from '@site/lib/problems.ts';
 import { testimonialOf, workEntries } from '@site/lib/work.ts';
@@ -27,12 +29,14 @@ const testimonial = testimonialOf(work);
 <Layout entry={home} path={urlOf(home)} room>
   <div class="font-prose mx-auto max-w-6xl">
     <header class="lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-12" data-popover>
-      <img
-        src="/images/cothinking/jotham-desk.webp"
+      {/* The page's largest paint: `priority` loads it first (eager, fetchpriority="high").
+          It is at most 384px wide, and about 450px beside the text from lg. */}
+      <Image
+        src={desk}
         alt="Jotham Lim at his desk, with a client's website and its code open side by side on his laptop"
-        width="960"
-        height="960"
-        fetchpriority="high"
+        widths={[480, 960]}
+        sizes="(min-width: 1024px) 452px, 384px"
+        priority
         class="rounded-site border-rule bg-bg-elev mb-8 aspect-[3/2] w-full max-w-sm border object-cover object-[50%_30%] lg:order-last lg:col-span-5 lg:mb-0 lg:aspect-auto lg:max-w-none"
       />
       <div class="max-w-3xl lg:col-span-7 lg:max-w-none">
