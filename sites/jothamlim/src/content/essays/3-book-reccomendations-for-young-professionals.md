@@ -46,7 +46,7 @@ When a man is stripped away from everything—his wealth, qualifications, family
 
 It suggests that we can find the meaning of life through its **pursuit**, which is deeply rooted in human suffering. Each man has his owns circumstances; and his own cross to bear, thus making each suffering unique and personal to the person. There’s no YouTube tutorial that teaches you how to become you.
 
-The idea of God reveals itself through [efforts that overcome said suffering](https://utpjournals.press/doi/full/10.3138/uram.36.1-2.65), be it through work (doing something significant), through love, or through courage during difficult times. Therein lies the relation between ethics and Frankl’s conception of God—Willpower overcoming fate; “good” overcoming “evil”.
+The idea of God reveals itself through [efforts that overcome said suffering](https://utppublishing.com/doi/full/10.3138/uram.36.1-2.65), be it through work (doing something significant), through love, or through courage during difficult times. Therein lies the relation between ethics and Frankl’s conception of God—Willpower overcoming fate; “good” overcoming “evil”.
 
 I’d say that this book is a very interesting take on Nietzsche’s idea of “the man who knows the **why** can bear any **how**.” Even within the cold winter, malnourished and broken, despite knowing that his wife is probably dead—even the angelic “idea” of his wife is enough to keep him alive. The courage and hope to see his wife again is the cross he has to bear.
 

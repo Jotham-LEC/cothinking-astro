@@ -121,7 +121,7 @@ This newsletter dragged on longer than expected, so I’ll break it into two par
 
 For instance, what happens if one of the social butterflies decides to leave the company? What if the path to profitability involves breaking the rules and ethics the company tried so hard to cultivate?
 
-Hence, in part two, I’ll discuss how **Systems** and **Agency** play a key role in developing healthy company cultures. It is more predictable, measurable, and actionable within a set amount of time. So, please do [sign up to my newsletter](https://thecabinet.substack.com/p/coming-soon?utm_source=substack&utm_medium=web%2Creader2&utm_campaign=reader2%3Futm_source%3D%2Fsearch%2Fthecabiner&showWelcome=true) for regular updates and written pieces!
+Hence, in part two, I’ll discuss how **Systems** and **Agency** play a key role in developing healthy company cultures. It is more predictable, measurable, and actionable within a set amount of time. So, please do [sign up to my newsletter](https://thecabinet.substack.com/) for regular updates and written pieces!
 
 Cheers,
 
