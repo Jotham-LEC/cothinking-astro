@@ -36,7 +36,7 @@ const path =
     {page.url.prev && <link rel="prev" href={page.url.prev} />}
     {page.url.next && <link rel="next" href={page.url.next} />}
   </Fragment>
-  <Breadcrumbs url={path} live={g.live} currentCrumb />
+  <Breadcrumbs url={path} live={g.live} />
   <PageHeader title={title} eyebrow={landing.data.title} />
   <Stream page={page} />
 </Layout>

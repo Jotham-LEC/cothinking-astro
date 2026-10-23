@@ -12,7 +12,8 @@ export type Seo = {
   description?: string;
   /** Where the piece was first published: search engines are sent there. */
   canonical?: string;
-  og_type?: string;
+  /** `profile` on the home page of a person's site (`og:type` and the ProfilePage). */
+  og_type?: 'profile';
   noindex?: boolean;
 };
 

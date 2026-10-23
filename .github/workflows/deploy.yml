@@ -1,6 +1,6 @@
-# Every push to main deploys both sites: check and tests first, then a forced
-# build (Astro reuses rendered Markdown until a file or the config changes)
-# and `wrangler deploy` of dist/ to each Worker. The one secret is
+# Every push to main deploys both sites: check, a forced build (Astro reuses
+# rendered Markdown until a file or the config changes), the tests against
+# it, and `wrangler deploy` of dist/ to each Worker. The one secret is
 # CLOUDFLARE_API_TOKEN, a token scoped to Workers Scripts: Edit on the
 # owner's account (the account id is in each wrangler.jsonc). Pull requests
 # only build. `npm run deploy -w sites/<site>` stays the manual fallback.
@@ -31,8 +31,9 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - run: npm run check -w sites/${{ matrix.site }}
-      - run: npx vitest run packages/garden/tests
       - run: npm run build -w sites/${{ matrix.site }} -- --force
+      # After the build, so the garden's dist test (a page for every entry) runs too.
+      - run: npx vitest run packages/garden/tests
       - run: npx vitest run sites/${{ matrix.site }}/tests
       - if: github.event_name != 'pull_request'
         run: npx wrangler deploy

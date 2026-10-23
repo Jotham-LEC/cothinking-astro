@@ -2,7 +2,7 @@
 // helpers, the Explorer, the graph, the pager, breadcrumbs, the head model
 // and the generated text files.
 import { describe, expect, it } from 'vitest';
-import { breadcrumbs } from '../lib/breadcrumbs.ts';
+import { breadcrumbs, parents } from '../lib/breadcrumbs.ts';
 import { check } from '../lib/check.ts';
 import { atom, badge, day, longDate, year } from '../lib/dates.ts';
 import {
@@ -244,9 +244,14 @@ describe('pager, breadcrumbs, info, outline', () => {
     expect(pager(notes[0]!, notes, posts).next?.id).toBe('n1');
     expect(pager(notes[0]!, notes, site)).toEqual({ previous: null, next: null });
   });
-  it('walks the address for breadcrumbs', () => {
+  it('walks the address for breadcrumbs, and draws the parents only', () => {
     expect(breadcrumbs('/essays/older', live).map((c) => c.url)).toEqual(['/', '/essays', '/essays/older']);
     expect(breadcrumbs('/essays/type/x', live).map((c) => c.url)).toEqual(['/', '/essays']);
+    expect(parents('/essays/older', live).map((c) => c.url)).toEqual(['/', '/essays']);
+    expect(parents('/essays', live).map((c) => c.url)).toEqual(['/']);
+    // A page with no entry at its address keeps its parent: a type listing, a later page of a landing.
+    expect(parents('/essays/type/x', live).map((c) => c.url)).toEqual(['/', '/essays']);
+    expect(parents('/essays/2', live).map((c) => c.url)).toEqual(['/', '/essays']);
   });
   it('describes a page: eyebrow, feed, source, graph section', () => {
     const info = pageInfo(at('/essays/older'), site);
@@ -279,9 +284,9 @@ describe('head and generated files', () => {
     expect(essay.ogType).toBe('article');
     expect(essay.robots).toBe('max-snippet:-1, max-image-preview:large, max-video-preview:-1');
     expect(essay.graph.map((n) => n['@type'])).toEqual(['WebSite', 'Person', 'WebPage', 'BreadcrumbList', 'Article']);
-    expect(essay.graph.find((n) => n['@type'] === 'Article')!.author).toEqual([
-      { '@id': 'https://other.test/#publisher', '@type': 'Person', name: 'Me', url: 'https://other.test/me' },
-    ]);
+    expect(essay.graph.find((n) => n['@type'] === 'Article')!.author).toEqual({
+      '@id': 'https://other.test/#publisher',
+    });
     const own = { ...site, author: undefined };
     expect(head(input(at('/essays/older'), { site: own })).graph.find((n) => n['@type'] === 'Article')!.author).toEqual(
       { '@id': 'https://garden.test/#publisher' },
@@ -322,9 +327,8 @@ describe('head and generated files', () => {
       worksFor: [{ '@type': 'Organization', name: 'Firm', url: 'https://firm.test' }],
     });
     const org: SiteConfig = { ...site, seo: { ...site.seo, publisher: { type: 'Organization' } } };
-    expect(person(org)).toMatchObject({
-      founder: { '@type': 'Person', '@id': 'https://other.test/#publisher' },
-    });
+    // The other site's Person by its id only: that site's own graph describes it.
+    expect(person(org).founder).toEqual({ '@id': 'https://other.test/#publisher' });
     expect(person(org).worksFor).toBeUndefined();
   });
   it('points og:url where rel=canonical points, and keeps a listing out of search when asked', () => {

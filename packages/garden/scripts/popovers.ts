@@ -35,11 +35,10 @@ export function initPopovers() {
       const clone = part.cloneNode(true) as HTMLElement;
       for (const el of clone.querySelectorAll('[id]')) el.id = `popover-${el.id}`;
       for (const el of clone.querySelectorAll('script')) el.remove();
-      // The card is not that page: its #links lead there, its pictures are not buttons, and its title is no second h1.
+      // The card is not that page: its #links lead there, and its title is no second h1. (Its
+      // pictures are no zoom buttons either: zoom.ts marks only the pictures already on this page.)
       for (const a of clone.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'))
         a.setAttribute('href', `${url}${a.getAttribute('href')}`);
-      for (const img of clone.querySelectorAll('.zoomable'))
-        for (const name of ['role', 'tabindex', 'aria-label', 'aria-pressed']) img.removeAttribute(name);
       for (const h1 of clone.querySelectorAll('h1')) {
         const title = document.createElement('p');
         title.className = 'popover-title';

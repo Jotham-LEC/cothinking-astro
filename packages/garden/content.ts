@@ -5,13 +5,13 @@ import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 import type { SchemaContext } from 'astro:content';
 
-/** The SEO group: a title and description of its own, where it was first published, and whether to index it. */
+/** The SEO group: a title and description of its own, where it was first published, `profile` for a home page about a person, and whether to index it. */
 const seo = z
   .object({
     title: z.string(),
     description: z.string(),
     canonical: z.url(),
-    og_type: z.string(),
+    og_type: z.enum(['profile']),
     noindex: z.boolean(),
   })
   .partial()

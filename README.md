@@ -6,7 +6,7 @@ that share one layer of code, `packages/garden`.
 
 ## Quick start
 
-You need Node 22.22 or newer and npm.
+You need Node 22.23.4 or newer (what Astro 7.4 requires; CI uses 24) and npm.
 
 ```sh
 npm install

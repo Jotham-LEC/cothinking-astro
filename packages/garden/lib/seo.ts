@@ -57,9 +57,9 @@ export function limit(text: string, length: number): string {
   return (space > 0 ? cut.slice(0, space) : cut).replace(/[ ,.;:–—-]+$/, '') + '…';
 }
 
-const home = (site: SiteConfig) => `${site.url.replace(/\/$/, '')}/`;
+const home = (site: { url: string }) => `${site.url.replace(/\/$/, '')}/`;
 const websiteId = (site: SiteConfig) => `${home(site)}#website`;
-const publisherId = (site: SiteConfig) => `${home(site)}#publisher`;
+const publisherId = (site: { url: string }) => `${home(site)}#publisher`;
 const isHome = ({ path }: HeadInput) => path === '/';
 const isArticle = (page: SiteEntry | null, site: SiteConfig) =>
   page !== null && (site.collections[page.collection]?.article ?? false);
@@ -143,8 +143,6 @@ function publisherNode(site: SiteConfig) {
     addressRegion: p.address?.region,
     addressCountry: p.address?.country,
   });
-  const other = site.otherSite;
-  const otherId = `${other.url.replace(/\/$/, '')}/#publisher`;
   return clean({
     '@type': p.type,
     '@id': publisherId(site),
@@ -167,19 +165,13 @@ function publisherNode(site: SiteConfig) {
         ),
     sameAs: p.sameAs,
     worksFor: person ? (p.worksFor ?? []).map((o) => ({ '@type': 'Organization', name: o.name, url: o.url })) : null,
-    founder: person ? null : { '@type': 'Person', '@id': otherId, name: other.name, url: other.url },
+    founder: person ? null : { '@id': publisherId(site.otherSite) },
   });
 }
 
-/** Who wrote an article: the site's `author` (the owner, the other site's Person by its id when their page is there), else the publisher. */
-function authorNode(site: SiteConfig): Record<string, unknown> | Record<string, unknown>[] {
-  const author = site.author;
-  if (!author) return { '@id': publisherId(site) };
-  const sites = [site.url, site.otherSite.url].map((u) => u.replace(/\/$/, ''));
-  const home = sites.find((u) => author.url.startsWith(u));
-  return [
-    clean({ ...(home ? { '@id': `${home}/#publisher` } : {}), '@type': 'Person', name: author.name, url: author.url }),
-  ];
+/** Who wrote an article: the site's `author`, the owner, whom the other site describes (its publisher), else this site's publisher. */
+function authorNode(site: SiteConfig): Record<string, unknown> {
+  return { '@id': site.author ? publisherId(site.otherSite) : publisherId(site) };
 }
 
 function webPageNode(
