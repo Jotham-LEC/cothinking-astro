@@ -154,6 +154,112 @@ function drawGraph(v: View) {
   }
 }
 
+/** The pointer's state: the view it moves, the layout it pulls, and the press in progress (a page or the background). */
+type Pointer = {
+  v: View;
+  simulation: ReturnType<typeof createSimulation>;
+  render: () => void;
+  pressed: { node: SimNode | null; start: { x: number; y: number }; view: View['view']; moved: boolean } | null;
+};
+
+/** Where a pointer event falls, in the canvas and in the graph. */
+function point(v: View, event: MouseEvent) {
+  const rect = v.canvas.getBoundingClientRect();
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+  return { x, y, gx: (x - v.view.x) / v.view.k, gy: (y - v.view.y) / v.view.k };
+}
+
+const nodeAt = (v: View, p: { gx: number; gy: number }) =>
+  v.graph.nodes.find((node) => Math.hypot(node.x! - p.gx, node.y! - p.gy) <= v.radius(node) + 4 / v.view.k) ?? null;
+
+/** Zooms by `factor` about (x, y), the canvas's centre unless given, within MIN_ZOOM and MAX_ZOOM. */
+function zoomAbout(s: Pointer, factor: number, x = s.v.width / 2, y = s.v.height / 2) {
+  const { view } = s.v;
+  const k = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, view.k * factor));
+  s.v.view = { k, x: x - ((x - view.x) * k) / view.k, y: y - ((y - view.y) * k) / view.k };
+  s.render();
+}
+
+function onWheel(s: Pointer, event: WheelEvent) {
+  event.preventDefault();
+  const p = point(s.v, event);
+  zoomAbout(s, Math.exp(-event.deltaY * 0.002), p.x, p.y);
+}
+
+/** A press with the main button: on a page, pins it and wakes the layout; else starts a pan. */
+function press(s: Pointer, event: PointerEvent) {
+  if (event.button !== 0) return;
+  const { v } = s;
+  const p = point(v, event);
+  const node = nodeAt(v, p);
+  s.pressed = { node, start: p, view: { ...v.view }, moved: false };
+  v.canvas.setPointerCapture(event.pointerId);
+  if (node) {
+    node.fx = node.x;
+    node.fy = node.y;
+    s.simulation.alphaTarget(0.3).restart();
+  }
+  v.canvas.style.cursor = 'grabbing';
+}
+
+/** While pressed, drags the page or pans the view; else marks the page under the pointer. */
+function move(s: Pointer, event: PointerEvent) {
+  const { v, pressed } = s;
+  const p = point(v, event);
+  if (pressed) {
+    pressed.moved = pressed.moved || Math.hypot(p.x - pressed.start.x, p.y - pressed.start.y) > 4;
+    if (pressed.node) {
+      pressed.node.fx = p.gx;
+      pressed.node.fy = p.gy;
+    } else {
+      v.view = {
+        ...pressed.view,
+        x: pressed.view.x + p.x - pressed.start.x,
+        y: pressed.view.y + p.y - pressed.start.y,
+      };
+      s.render();
+    }
+    return;
+  }
+  const node = nodeAt(v, p);
+  if (node !== v.hovered) {
+    v.hovered = node;
+    v.canvas.style.cursor = node ? 'pointer' : 'grab';
+    v.canvas.title = node ? node.title : '';
+    s.render();
+  }
+}
+
+/** The end of a press: lets a dragged page go; a press on another page that did not move opens it. */
+function release(s: Pointer, event: PointerEvent) {
+  if (!s.pressed) return;
+  const { v } = s;
+  const { node, moved } = s.pressed;
+  s.pressed = null;
+  if (v.canvas.hasPointerCapture(event.pointerId)) v.canvas.releasePointerCapture(event.pointerId);
+  v.canvas.style.cursor = v.hovered ? 'pointer' : 'grab';
+  if (node) {
+    node.fx = node.fy = null;
+    s.simulation.alphaTarget(0);
+    if (!moved && event.type === 'pointerup' && !v.isCurrent(node)) window.location.href = node.url;
+  }
+}
+
+/** A double click on the background puts the view back. */
+function reset(s: Pointer, event: MouseEvent) {
+  if (nodeAt(s.v, point(s.v, event))) return;
+  s.v.view = { k: 1, x: 0, y: 0 };
+  s.render();
+}
+
+function leave(s: Pointer) {
+  if (!s.pressed && s.v.hovered) {
+    s.v.hovered = null;
+    s.render();
+  }
+}
+
 /**
  * The pointer: the wheel (or zoomBy) zooms about the pointer, dragging the background pans (a double click there puts
  * the view back), dragging a page pins it while the others follow, and a press that does not move opens the page.
@@ -165,105 +271,21 @@ function bindPointer(
   render: () => void,
   signal: AbortSignal,
 ) {
-  const { canvas } = v;
+  const s: Pointer = { v, simulation, render, pressed: null };
   const on = <K extends keyof HTMLElementEventMap>(
     type: K,
     handler: (event: HTMLElementEventMap[K]) => void,
     options: AddEventListenerOptions = {},
-  ) => canvas.addEventListener(type, handler, { ...options, signal });
-  let pressed: { node: SimNode | null; start: { x: number; y: number }; view: View['view']; moved: boolean } | null =
-    null;
-
-  // Where a pointer event falls, in the canvas and in the graph.
-  function point(event: MouseEvent) {
-    const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    return { x, y, gx: (x - v.view.x) / v.view.k, gy: (y - v.view.y) / v.view.k };
-  }
-  const nodeAt = (p: { gx: number; gy: number }) =>
-    v.graph.nodes.find((node) => Math.hypot(node.x! - p.gx, node.y! - p.gy) <= v.radius(node) + 4 / v.view.k) ?? null;
-  function zoomBy(factor: number, x = v.width / 2, y = v.height / 2) {
-    const { view } = v;
-    const k = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, view.k * factor));
-    v.view = { k, x: x - ((x - view.x) * k) / view.k, y: y - ((y - view.y) * k) / view.k };
-    render();
-  }
-  function release(event: PointerEvent) {
-    if (!pressed) return;
-    const { node, moved } = pressed;
-    pressed = null;
-    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
-    canvas.style.cursor = v.hovered ? 'pointer' : 'grab';
-    if (node) {
-      node.fx = node.fy = null;
-      simulation.alphaTarget(0);
-      if (!moved && event.type === 'pointerup' && !v.isCurrent(node)) window.location.href = node.url;
-    }
-  }
-
-  on(
-    'wheel',
-    (event) => {
-      event.preventDefault();
-      const p = point(event);
-      zoomBy(Math.exp(-event.deltaY * 0.002), p.x, p.y);
-    },
-    { passive: false },
-  );
-  on('pointerdown', (event) => {
-    if (event.button !== 0) return;
-    const p = point(event);
-    const node = nodeAt(p);
-    pressed = { node, start: p, view: { ...v.view }, moved: false };
-    canvas.setPointerCapture(event.pointerId);
-    if (node) {
-      node.fx = node.x;
-      node.fy = node.y;
-      simulation.alphaTarget(0.3).restart();
-    }
-    canvas.style.cursor = 'grabbing';
-  });
-  on('pointermove', (event) => {
-    const p = point(event);
-    if (pressed) {
-      pressed.moved = pressed.moved || Math.hypot(p.x - pressed.start.x, p.y - pressed.start.y) > 4;
-      if (pressed.node) {
-        pressed.node.fx = p.gx;
-        pressed.node.fy = p.gy;
-      } else {
-        v.view = {
-          ...pressed.view,
-          x: pressed.view.x + p.x - pressed.start.x,
-          y: pressed.view.y + p.y - pressed.start.y,
-        };
-        render();
-      }
-      return;
-    }
-    const node = nodeAt(p);
-    if (node !== v.hovered) {
-      v.hovered = node;
-      canvas.style.cursor = node ? 'pointer' : 'grab';
-      canvas.title = node ? node.title : '';
-      render();
-    }
-  });
-  on('pointerup', release);
-  on('pointercancel', release);
-  on('dblclick', (event) => {
-    if (nodeAt(point(event))) return;
-    v.view = { k: 1, x: 0, y: 0 };
-    render();
-  });
-  on('pointerleave', () => {
-    if (!pressed && v.hovered) {
-      v.hovered = null;
-      render();
-    }
-  });
-  canvas.style.cursor = 'grab';
-  return zoomBy;
+  ) => v.canvas.addEventListener(type, handler, { ...options, signal });
+  on('wheel', (event) => onWheel(s, event), { passive: false });
+  on('pointerdown', (event) => press(s, event));
+  on('pointermove', (event) => move(s, event));
+  on('pointerup', (event) => release(s, event));
+  on('pointercancel', (event) => release(s, event));
+  on('dblclick', (event) => reset(s, event));
+  on('pointerleave', () => leave(s));
+  v.canvas.style.cursor = 'grab';
+  return (factor: number, x?: number, y?: number) => zoomAbout(s, factor, x, y);
 }
 
 /**
