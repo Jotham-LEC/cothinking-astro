@@ -149,7 +149,7 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
 | `/llms.txt` | `llms.txt.ts` | the site for language models (`lib/textFiles.ts`) |
 | `/og.png` | `og.png.ts` | the home page's share card (`lib/ogCard.ts`) |
 | `/og/<path>.png` | `og/[...uri].png.ts` | every other page's share card |
-| `/robots.txt` | `robots.txt.ts` | every crawler allowed, and the sitemap (`lib/textFiles.ts`) |
+| `/robots.txt` | `robots.txt.ts` | the base file: every crawler allowed, and the sitemap (`lib/textFiles.ts`); which bots to turn away is the zone's, not the repo's (cothink.ing's Cloudflare managed robots.txt puts its AI-training block in front of it) |
 
 ## Recipes
 
