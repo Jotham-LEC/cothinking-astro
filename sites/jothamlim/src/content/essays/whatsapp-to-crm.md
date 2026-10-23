@@ -25,7 +25,7 @@ Many Malaysian B2B buyers skip the contact form: they tap the green button and a
 | Ad click data a CRM can read | No | Yes, for Click to WhatsApp ads |
 
 - **Business app.** Has [labels, quick replies, greeting and away messages, a catalogue, and short links and QR codes](https://whatsappbusiness.com/products/business-app-features/). The number of linked devices has changed more than once; check WhatsApp's Help Center.
-- **Business Platform.** What CRM integrations and shared-inbox tools use. Meta has [charged per message since 1 July 2025](https://developers.facebook.com/docs/whatsapp/pricing/): marketing templates always cost money; utility and authentication templates cost money outside the customer service window; ordinary replies are free. The window stays open for 24 hours after the customer's last message; outside it, you can send only an approved template. Meta publishes its rate cards in ringgit on the same page.
+- **Business Platform.** What CRM integrations and shared-inbox tools use. Meta has [charged per message since 1 July 2025](https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing): marketing templates always cost money; utility and authentication templates cost money outside the customer service window; ordinary replies are free. The window stays open for 24 hours after the customer's last message; outside it, you can send only an approved template. Meta publishes its rate cards in ringgit on the same page.
 - **Both at once ("coexistence").** Some tools can [connect an existing Business app number to the API](https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/onboarding-business-app-users/), so staff keep using the app while the CRM sees every message. Broadcast lists become read-only, disappearing and view-once messages are switched off in one-to-one chats, group chats do not sync, and only six months of history comes across. Ask the vendor whether its tool supports this before you buy.
 
 ## Tag every WhatsApp button
@@ -62,7 +62,7 @@ Use the words of your `utm_source` and `utm_campaign` values, so the WhatsApp an
 2. **A messaging tool on the API.** Most CRMs sold in Malaysia have a WhatsApp integration or work with a shared-inbox tool that does. A new chat creates or matches a contact, the conversation sits on the record, and leads are assigned by rule.
 3. **Your own integration.** The API's webhooks deliver each incoming message to your system. A message from a Click to WhatsApp ad carries a [`referral` object](https://developers.facebook.com/documentation/business-messaging/whatsapp/webhooks/overview/) with the ad's ID (`source_id`), a link to the ad, and a click ID (`ctwa_clid`): better attribution than any prefilled code.
 
-If you reply within 24 hours to a message from a Click to WhatsApp ad, a [free entry point window](https://developers.facebook.com/docs/whatsapp/pricing/) opens for 72 hours, in which every message is free. Another reason to reply quickly; see [[Speed to lead: why the first reply decides the deal|speed to lead]].
+If you reply within 24 hours to a message from a Click to WhatsApp ad, a [free entry point window](https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing) opens for 72 hours, in which every message is free. Another reason to reply quickly; see [[Speed to lead: why the first reply decides the deal|speed to lead]].
 
 ## Where to start
 
