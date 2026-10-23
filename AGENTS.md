@@ -86,7 +86,7 @@ from `lib/seo.ts`.
   allows, as llms.txt does.
 - **The Markdown pipeline** (`lib/markdown/index.ts`, in `config.mjs`): remark
   `wiki-links`; rehype `external-links`, `clean-heading-ids` (GitHub-style, emoji
-  cleaned; Astro keeps them), `callouts`, `excerpt` (the first paragraphs, for
+  cleaned; Astro keeps them), `callouts`, `task-lists` (a task item's checkbox labelled with its text), `excerpt` (the first paragraphs, for
   descriptions), `heading-anchors` (the icon is CSS). Astro does the rest:
   GFM, Shiki in both themes inside the chrome `shiki-code-block.ts` draws, raw
   HTML, images, `headings`.
@@ -250,8 +250,10 @@ pull requests only build). `npm run deploy -w sites/<site>` is the manual
 fallback: it builds with `--force` and runs `wrangler deploy` through
 `op run --env-file=cloudflare.env`, whose one line is the 1Password
 reference of a scoped token (`CLOUDFLARE_API_TOKEN=op://CoThinking/Cloudflare/CF Workers API`),
-never a value. `/_astro/*` is cached a year by `public/_headers`;
-pages are revalidated. Locally, `wrangler dev` needs `steam-run` on NixOS.
+never a value. `public/_headers` caches `/_astro/*` a year (pages are revalidated) and
+sets the security headers on every response (HSTS without subdomains,
+`nosniff`, a referrer policy, `SAMEORIGIN` framing, a permissions policy;
+no CSP yet). Locally, `wrangler dev` needs `steam-run` on NixOS.
 
 ## Glossary
 

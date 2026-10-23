@@ -1,5 +1,6 @@
 ---
 title: Writing Shorter
+description: "I have a habit of writing long. My plan to write shorter: fewer images, daily publishing, and permission to suck."
 date: 2023-02-18T00:00:00Z
 updated: 2026-10-03T16:17:26+00:00
 image: ../../assets/media/notes/writing-shorter.webp

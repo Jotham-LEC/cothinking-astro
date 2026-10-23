@@ -1,6 +1,6 @@
 ---
 title: Resume
-description: My one-page resume, as a PDF.
+description: "My one-page resume as a PDF: B2B marketing leadership, journalism, data science and film production."
 updated: 2026-10-15T08:55:51+00:00
 order: 7
 ---

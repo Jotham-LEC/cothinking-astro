@@ -117,6 +117,15 @@ describe('links, images and plain text', () => {
     expect(html.split('external-link').length - 1).toBe(1); // the raw-HTML button is left alone
   });
 
+  it("labels a task item's checkbox with the item's text, without its nested list", async () => {
+    const html = await render('- [ ] Turn on `2FA` for them\n  - [x] Nested one\n- [x] Done');
+    expect(html).toContain('aria-label="Turn on 2FA for them"');
+    expect(html).toContain('aria-label="Nested one"');
+    expect(html).toContain('aria-label="Done"');
+    const loose = await render('- [ ] First\n\n- [ ] Second');
+    expect(loose).toContain('aria-label="First"');
+  });
+
   it('leaves Antlers-looking text, dollar amounts, dashes and quotes alone', async () => {
     expect(await render('Write `{{ title }}` and {{ title }}.')).toContain('{{ title }}');
     expect(await render('Worth US$3.8 billion, rising to US$35.8 billion.')).toContain(

@@ -49,7 +49,7 @@ I specify “the most trusted way” because there are other markdown static sit
 
 ### Fast Loading Speeds and (Somewhat) SEO Optimised
 
-SEO used to be a major problem for Obsidian Publish, but a bulk of it has been resolved [in the latest update](https://forum.obsidian.md/t/obsidian-publish-now-offers-more-for-less-a-lower-price-with-new-features-improved-seo-and-accessibility/58272). It now obtains high scores on Lighthouse metrics, and it looks wonderful both on mobile and desktop.
+SEO used to be a major problem for Obsidian Publish, but a bulk of it has been resolved [in the latest update](https://obsidian.md/blog/obsidian-publish-now-offers-more-for-less/). It now obtains high scores on Lighthouse metrics, and it looks wonderful both on mobile and desktop.
 
 The site takes a hit on performance—depending on browser extensions and image format and file size, but it is far more impressive than many other industry contenders.
 

@@ -1,5 +1,6 @@
 ---
 title: Why Writing Matters to Everyone
+description: Long-form writing may look dead, but I keep coming back to it. Why writing helps you think, and why you should write for yourself.
 date: 2023-01-18
 updated: 2026-10-03T16:29:26+00:00
 image: ../../assets/media/essays/why-writing-matters-to-everyone/fbd6c828-0245-480c-86a7-830a2e6e4f7e_1456x819.webp

@@ -17,7 +17,7 @@ Launched on May 21 this year, Medcare International (Medcare-Int.com) is an onli
 
 Hoo stresses that this new policy is not a temporary measure, and is set to be a permanent part of the company’s business model. He believes that starting an e-commerce business should never be a burden for small and micro-entrepreneurs, and it should not be costly.
 
-Vendors who are interested in registering on the platform can go to https://medcare-int.com/vendor-register/
+Vendors who are interested in registering on the platform can go to [https://medcare-int.com/vendor-register/](https://web.archive.org/web/20220520174126/https://medcare-int.com/vendor-register/)
 
 Hoo claims that Medcare International is currently the largest online platform in Southeast Asia that specializes in medical, health and wellness products, as there are no other online marketplaces operating in this niche.
 

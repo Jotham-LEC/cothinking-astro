@@ -14,7 +14,7 @@ order: 6
 - 2025-09-13 — IHH Healthcare x Singapore Sea Regatta 2025
 - 2025-08-03 — [IJM Allianz Duo Highway Challenge 2025](https://www.ijmhighwayrun.com/)
 - 2025-07-26 — [REDLINE Fitness Games Kuala Lumpur 2025](https://my.raceresult.com/351787/)
-- 2025-06-20 — [40th Melaka International Dragon Boat Festival 2025](https://jomevents.com/calendar-of-events/40th-melaka-international-dragon-boat-festival-2025/)
+- 2025-06-20 — 40th Melaka International Dragon Boat Festival 2025
 - 2025-06-01 — [2025 Guangzhou International Dragon Boat Invitational Tournament](https://www.newsgd.com/node_99363c4f3b/0260edddd9.shtml)
 - 2025-05-24 — [BYD HYROX Bangkok](https://www.bitec.co.th/event/hyrox-bangkok)
 - 2024-12-28 — [BMW Wheelcorp Premium iX Electric Night Run Powered by JomRun®](https://www.jomrun.com/event/BMW-Wheelcorp-Premium-iX-Electric-Night-Run-Powered-by-JomRun)

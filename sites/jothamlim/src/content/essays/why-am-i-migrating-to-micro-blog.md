@@ -38,7 +38,7 @@ Getting my website “Indiefied” wasn’t difficult, and there are many resour
 
 My site passed many of the [micropub.rocks](https://micropub.rocks/) tests, but I can’t connect it to iA writer for easy content publishing.
 
-Not to mention, I dislike how fragile everything was. My site was held up by a ton of providers like GitHub, Cloudflare Pages, Netlify, [Webmentions.io](https://webmentions.io/), [Brid.gy](https://brid.gy/), IndieAuth…
+Not to mention, I dislike how fragile everything was. My site was held up by a ton of providers like GitHub, Cloudflare Pages, Netlify, [Webmention.io](https://webmention.io/), [Brid.gy](https://brid.gy/), IndieAuth…
 
 Knowing how each of these services works with each other is amazing, but they represent points of failure that need to be tackled in the future. I foresee myself spending hours troubleshooting issues rather than learning new things.
 

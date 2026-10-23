@@ -3,6 +3,8 @@ title: 3 Soft Skills to Put in Your Resume for Young Professionals in 2023
 date: 2023-03-31
 updated: 2026-10-03T16:29:26+00:00
 image: ../../assets/media/essays/3-soft-skills-to-put-in-your-resume-for-young-professionals-in-2023/b0626e51-f7a3-4102-af53-318e9c8e5bc4_1122x631.webp
+seo:
+  title: "3 soft skills for a young professional's resume"
 ---
 
 ![](../../assets/media/essays/3-soft-skills-to-put-in-your-resume-for-young-professionals-in-2023/b0626e51-f7a3-4102-af53-318e9c8e5bc4_1122x631.webp)Companies seem to place a strong emphasis on hard skills in the workplace—which is evident in most job descriptions I come across online.

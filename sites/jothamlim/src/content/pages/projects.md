@@ -1,6 +1,6 @@
 ---
 title: Projects
-description: Things I have built, and how I work.
+description: "Things I have built and how I work: marketing systems, websites and tools I made single-handedly, and why each is shaped the way it is."
 updated: 2026-10-15T06:26:38+00:00
 order: 4
 ---

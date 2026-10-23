@@ -3,6 +3,8 @@ title: Doom Emacs – a Text Editing Playground I Didn’t Know I Needed
 date: 2024-03-22
 updated: 2026-10-03T16:29:26+00:00
 image: ../../assets/media/essays/doom-emacs-a-text-editing-playground-i-didnt-know-i-needed/8da9e6f1-43a1-48e3-9542-e7b8284dd5ef_5003x2814.webp
+seo:
+  title: "Doom Emacs: a text-editing playground"
 ---
 
 ![Doom Emacs, with its start screen on the left and my Org-mode config file open on the right.](../../assets/media/essays/doom-emacs-a-text-editing-playground-i-didnt-know-i-needed/8da9e6f1-43a1-48e3-9542-e7b8284dd5ef_5003x2814.webp)
@@ -52,9 +54,9 @@ Why bother with imitations when I can go directly to the source? If only I had v
 
 I won’t lie – the aesthetics of Doom Emacs is perhaps the main driver of my switch from Obsidian. It began when I stumbled upon the [Hugo.386](https://gitlab.com/jmfergeau/hugo.386) website theme, which emulates the old-school MS-DOS aesthetic.
 
-Expressing my love for the design would be an understatement, and I spent countless hours diving into HTML and CSS code to give it my personal touch. This made me comfortable with messing around with configuration files after being spoiled by years of using UI settings. When I realized that migrating to Doom Emacs was within the realm of possibility, I downloaded the [Parus theme](https://emacsthemes.com/themes/parus-theme.html) to emulate my blog’s aesthetics as closely as possible.
+Expressing my love for the design would be an understatement, and I spent countless hours diving into HTML and CSS code to give it my personal touch. This made me comfortable with messing around with configuration files after being spoiled by years of using UI settings. When I realized that migrating to Doom Emacs was within the realm of possibility, I downloaded the [Parus theme](https://github.com/emacs-jp/replace-colorthemes/blob/master/parus-theme.el) to emulate my blog’s aesthetics as closely as possible.
 
-Now, I use the [Modus Theme](https://protesilaos.com/emacs/modus-themes) for accessibility reasons but coupling it with an [Iosevka](https://typeof.net/Iosevka/) font, and it feels like I’m living within a terminal.
+Now, I use the [Modus Theme](https://protesilaos.com/emacs/modus-themes) for accessibility reasons but coupling it with an [Iosevka](https://github.com/be5invis/Iosevka) font, and it feels like I’m living within a terminal.
 
 Final Thoughts
 --------------

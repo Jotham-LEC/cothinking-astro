@@ -2,6 +2,8 @@
 title: Misconceptions About Group Decision-Making — Tips for Better Business Communication
 date: 2023-01-02
 updated: 2026-10-03T16:29:26+00:00
+seo:
+  title: Misconceptions about group decision-making
 ---
 
 Is group decision-making a democratic process or a dictatorship? A survival of the fittest idea or a battle to achieve consensus?
@@ -42,7 +44,7 @@ Misconception 3: The Best Ideas Come from Group Discussions
 The pandemic years are rife with virtual meeting technical issues, and it’s tempting to see face-to-face meetings as a superior alternative. However, both mediums have surprisingly similar limitations that make it a terrible incubator of good ideas:
 
 1. **[Personality Types](https://www.semanticscholar.org/paper/1bc13f45e7c615b17833c69da6da629040e05f40)**: Some people may feel uncomfortable or overwhelmed in group settings, particularly if they are introverted or shy. This can inhibit their ability to contribute effectively to the discussion.
-2. **[Communication Skills](https://www.semanticscholar.org/paper/1bc13f45e7c615b17833c69da6da629040e05f40%3E)**: Individuals with less developed communication skills may struggle to articulate their ideas in a group setting, which can lead to their contributions being overlooked.
+2. **[Communication Skills](https://www.semanticscholar.org/paper/1bc13f45e7c615b17833c69da6da629040e05f40)**: Individuals with less developed communication skills may struggle to articulate their ideas in a group setting, which can lead to their contributions being overlooked.
 3. **[Balanced Participation](https://www.semanticscholar.org/paper/334e23b08c00a9dce94c3d8c08c8983c0aa02fbf)**: In some cases, group discussions can be dominated by a few individuals, which can prevent others from contributing. This can lead to a lack of diversity in the ideas generated.
 4. **Time Constraints**: Group discussions can also be time-consuming, and not all ideas may get the attention they deserve due to time constraints.
 

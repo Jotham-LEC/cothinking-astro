@@ -67,4 +67,4 @@ This sample email sums up the value proposition of the giant “Enter” key pil
 
 Instead of breaking your keyboard, take out your aggression on this soft Enter key pillow and punch away. It also doubles as a standard pillow, which you can use for a quick nap. Just remember to unplug the device first!
 
-***https://bit.ly/3xmhziB***
+***https:<!---->//bit.ly/3xmhziB***
