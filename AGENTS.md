@@ -179,7 +179,11 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
   pages); a sixth would be a token there, its `--color-graph-6` line in
   `styles/site.css` and its class in `scripts/graph.ts` `COLOURS`.
 - **A behaviour**: a `scripts/<name>.ts` exporting `init<Name>()`, imported
-  by a `<script>` in the component that owns the markup. Talk to another
+  by a `<script>` in the component that owns the markup. `init<Name>()`
+  only finds the markup and binds the listeners; the handlers are
+  module-level functions over one small state object (`palette.ts`
+  `Palette`, `popovers.ts` `Previews`, `keys.ts` `Keys`, `graph.ts`
+  `Pointer`). Talk to another
   component through the platform (`showModal()`, `hidePopover()`).
 - **A site**: `sites/<name>/` with `astro.config.mjs`, `tsconfig.json`,
   `wrangler.jsonc`, `cloudflare.env`, `package.json`, `src/site.config.ts`,
