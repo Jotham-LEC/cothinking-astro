@@ -2,7 +2,7 @@
 // over both sites' folders), one named rule each, run in turn. File names are ids: lower-case letters, digits
 // and dashes. Every collection folder is in the site config, and each
 // section's landing page exists. Every published page: its [[wiki links]]
-// name a published page, its /media links exist, its ](/path) links are
+// and its links to a page's file (`../essays/x.md`) name a published page, its /media links exist, its ](/path) links are
 // pages or routes, its image exists, its first heading is `##` (the page's
 // title is the h1), no "Sample:" page is left. Every page
 // (drafts too): an ordered collection's page has its `order`; a field that
@@ -15,9 +15,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { byKey, keyOf, published, toSiteEntry, type RawEntry, type SiteEntry } from './entry.ts';
-import { firstHeadingDepth, localTargets, wikiLinksIn } from './links.ts';
+import { fileLinksIn, fileOf, firstHeadingDepth, localTargets, wikiLinksIn } from './links.ts';
 import { pathOf, type NavItem, type SiteConfig } from './site.ts';
-import { normaliseTitle, resolveTitle, titleIndex, type TitleIndex } from './titles.ts';
+import { fileTarget, linkIndex, normaliseTitle, resolveFile, resolveTitle, type LinkIndex } from './titles.ts';
 
 const ID = /^[a-z0-9-]+$/;
 const REFERENCE = /^([a-z_]+)\/([a-z0-9-]+)$/;
@@ -26,15 +26,15 @@ export type CheckInput = {
   root: URL | string;
   site: SiteConfig;
   raws: RawEntry[];
-  /** The other site's published entries and address, for the title index and the uniqueness of titles. */
-  other: { entries: SiteEntry[]; url: string };
+  /** The other site's published entries, address and folder under sites/, for the link index and the uniqueness of titles. */
+  other: { entries: SiteEntry[]; url: string; folder: string };
 };
 
-/** What every rule reads: the site, its entries (drafts too) and published ones, the title index, the path rule. */
+/** What every rule reads: the site, its entries (drafts too) and published ones, the link index, the path rule. */
 type Context = CheckInput & {
   entries: SiteEntry[];
   live: SiteEntry[];
-  titles: TitleIndex;
+  index: LinkIndex;
   urls: Set<string>;
   /** A site path a link may name: a page, a known route, or a file in public/; else what is wrong with it. */
   pathProblem: (path: string) => string | null;
@@ -84,12 +84,15 @@ function checkRedirects({ site, other, urls, pathProblem }: Context): string[] {
 }
 
 /** Every published page: its [[wiki links]] and site paths lead somewhere, its first heading is ##, it is no sample. */
-function checkLinks({ live, titles, pathProblem }: Context): string[] {
+function checkLinks({ live, index, pathProblem }: Context): string[] {
   const problems: string[] = [];
   for (const page of live) {
     const body = page.body + '\n\n' + (page.quote ?? '');
     for (const title of wikiLinksIn(body))
-      if (!resolveTitle(titles, title)) problems.push(`${where(page)}: [[${title}]] names no published page.`);
+      if (!resolveTitle(index, title)) problems.push(`${where(page)}: [[${title}]] names no published page.`);
+    for (const link of fileLinksIn(page.body))
+      if (!resolveFile(index, fileTarget(index, fileOf(page), link)))
+        problems.push(`${where(page)}: (${link}) names no published page.`);
     for (const target of localTargets(body)) {
       const problem = pathProblem(decodeURIComponent(target.split(/[?#]/)[0]!));
       if (problem) problems.push(`${where(page)}: ${problem}`);
@@ -172,7 +175,7 @@ export function check(input: CheckInput): string[] {
     ...input,
     entries,
     live,
-    titles: titleIndex(live, other.entries, other.url),
+    index: linkIndex(live, other.entries, other.url, other.folder),
     urls,
     pathProblem: (p) => {
       if (publicDirs.some((d) => p.startsWith(d))) return inPublic(p) ? null : `${p} is missing from public/.`;

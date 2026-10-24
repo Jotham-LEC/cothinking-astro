@@ -1,5 +1,5 @@
 // The entries read off the disk, for what runs outside Astro's collections:
-// garden/config.mjs (the [[wiki link]] title index, the sitemap) and the
+// garden/config.mjs (the link index, the sitemap) and the
 // tests. Each `src/content/<collection>/<id>.md` is parsed with Astro's own
 // front-matter reader, so the ids match the glob loader's. The index is
 // read once per `astro build`, and again on every render in `astro dev`, so
@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 import { parseFrontmatter } from '@astrojs/markdown-remark';
 import { published, toSiteEntry, type RawEntry, type SiteEntry } from './entry.ts';
 import type { SiteConfig } from './site.ts';
-import { titleIndex, type TitleIndex } from './titles.ts';
+import { linkIndex, type LinkIndex } from './titles.ts';
 
 /** A site folder's `src/content`, every collection in it, as the front matter and body of each file. */
 export function scanRaw(root: URL | string): RawEntry[] {
@@ -34,21 +34,22 @@ export const scanEntries = (root: URL | string, site: SiteConfig): SiteEntry[] =
 
 export type Scan = { root: URL | string; site: SiteConfig };
 
-/** The title index for a site: its published pages over the other site's, by full address. */
-function scanTitles(site: Scan, other: Scan & { url: string }): TitleIndex {
-  return titleIndex(
+/** The link index for a site: its published pages over the other site's (`folder` is its folder under sites/). */
+function scanIndex(site: Scan, other: Scan & { url: string; folder: string }): LinkIndex {
+  return linkIndex(
     published(scanEntries(site.root, site.site)),
     published(scanEntries(other.root, other.site)),
     other.url,
+    other.folder,
   );
 }
 
-/** `scanTitles`, read once in a build and on every call in dev. */
-export function lazyTitles(site: Scan, other: Scan & { url: string }): () => TitleIndex {
-  let cached: TitleIndex | null = null;
+/** `scanIndex`, read once in a build and on every call in dev. */
+export function lazyIndex(site: Scan, other: Scan & { url: string; folder: string }): () => LinkIndex {
+  let cached: LinkIndex | null = null;
   return () => {
-    if (process.env.NODE_ENV !== 'production') return scanTitles(site, other);
-    cached ??= scanTitles(site, other);
+    if (process.env.NODE_ENV !== 'production') return scanIndex(site, other);
+    cached ??= scanIndex(site, other);
     return cached;
   };
 }

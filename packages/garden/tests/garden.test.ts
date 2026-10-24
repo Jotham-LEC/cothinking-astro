@@ -20,14 +20,14 @@ import { fullUrls, pageOnly } from '../lib/feed.ts';
 import { byCategory, explorerRows, headerLinks, markCurrent, menu, panels, urlsIn } from '../lib/explorer.ts';
 import { backlinks, buildGraph } from '../lib/graph.ts';
 import { pageInfo } from '../lib/info.ts';
-import { linkedPages, localTargets, wikiLinksIn } from '../lib/links.ts';
+import { fileLinksIn, linkedPages, localTargets, wikiLinksIn } from '../lib/links.ts';
 import { pager } from '../lib/pager.ts';
 import { readTime, wordCount } from '../lib/readTime.ts';
 import { head, inSitemap } from '../lib/seo.ts';
 import { absolute, type SiteConfig } from '../lib/site.ts';
 import { sitemapOptions } from '../lib/sitemap.ts';
 import { robotsTxt } from '../lib/textFiles.ts';
-import { resolveTitle, titleIndex } from '../lib/titles.ts';
+import { fileTarget, linkIndex, resolveFile, resolveTitle } from '../lib/titles.ts';
 import { toc } from '../lib/toc.ts';
 
 const site: SiteConfig = {
@@ -110,7 +110,7 @@ const raws: RawEntry[] = [
 const entries = raws.map((r) => toSiteEntry(r, site));
 const live = published(entries);
 const other = [toSiteEntry({ collection: 'pages', id: 'other-page', data: { title: 'Other Page' } }, site)];
-const titles = titleIndex(live, other, site.otherSite.url);
+const index = linkIndex(live, other, site.otherSite.url, site.otherSite.folder);
 const at = (url: string) => live.find((e) => e.url === url)!;
 
 describe('entries', () => {
@@ -224,20 +224,45 @@ describe('links and the graph', () => {
       '/media/a.png',
       '/media/b.png',
     ]);
-    const urls = new Map(live.map((e) => [e.url, e]));
-    expect(linkedPages('[[About]], [x](/essays/older#top) and `[y](/)`', titles, urls).map((e) => e.url)).toEqual([
-      '/about',
-      '/essays/older',
+    expect(fileLinksIn('[a](../pages/about.md), [b](older.md#top), ![c](x.png) and [d](https://x.test/a.md)')).toEqual([
+      '../pages/about.md',
+      'older.md#top',
     ]);
+    const urls = new Map(live.map((e) => [e.url, e]));
+    const page = toSiteEntry(
+      {
+        collection: 'essays',
+        id: 'x',
+        data: { title: 'X' },
+        body: '[[About]], [x](/essays/older#top), [h](../pages/home.md) and `[y](/)`',
+      },
+      site,
+    );
+    expect(linkedPages(page, index, urls).map((e) => e.url)).toEqual(['/about', '/', '/essays/older']);
+  });
+  it('resolves a link to a file by its path from the page, on either site', () => {
+    const from = 'src/content/essays/older.md';
+    expect(fileTarget(index, from, '../pages/about.md#team')).toEqual({
+      site: 'own',
+      key: 'pages/about',
+      hash: '#team',
+    });
+    expect(fileTarget(index, from, '../../../../other/src/content/pages/other-page.md').site).toBe('other');
+    expect(fileTarget(index, from, '../../../../elsewhere/src/content/pages/other-page.md').site).toBeNull();
+    const resolve = (link: string) => resolveFile(index, fileTarget(index, from, link));
+    expect(resolve('newer.md')).toBe('/essays/newer');
+    expect(resolve('../pages/about.md#team')).toBe('/about#team');
+    expect(resolve('../../../../other/src/content/pages/other-page.md')).toBe('https://other.test/other-page');
+    expect(resolve('draft.md')).toBeNull();
   });
   it('resolves titles case-insensitively, on this site over the other, trimming a table cell backslash', () => {
-    expect(resolveTitle(titles, 'older essay')).toBe('/essays/older');
-    expect(resolveTitle(titles, 'Older Essay\\')).toBe('/essays/older');
-    expect(resolveTitle(titles, 'Other Page')).toBe('https://other.test/other-page');
-    expect(resolveTitle(titles, 'Draft')).toBeNull();
+    expect(resolveTitle(index, 'older essay')).toBe('/essays/older');
+    expect(resolveTitle(index, 'Older Essay\\')).toBe('/essays/older');
+    expect(resolveTitle(index, 'Other Page')).toBe('https://other.test/other-page');
+    expect(resolveTitle(index, 'Draft')).toBeNull();
   });
   it('has a node per published page and an edge per link, with backlinks by title', () => {
-    const graph = buildGraph(live, site, titles);
+    const graph = buildGraph(live, site, index);
     expect(graph.nodes.length).toBe(live.length);
     expect(graph.links).toEqual([
       { source: 'pages/home', target: 'pages/about' },
@@ -418,7 +443,7 @@ describe('content check', () => {
       root: '/nowhere',
       site: config,
       raws: [...raws, ...extra],
-      other: { entries: other, url: site.otherSite.url },
+      other: { entries: other, url: site.otherSite.url, folder: site.otherSite.folder },
     });
   it('passes a sound site', () => {
     expect(run()).toEqual([]);
@@ -429,13 +454,14 @@ describe('content check', () => {
         collection: 'essays',
         id: 'Bad_Name',
         data: { title: 'A [bracketed] title', date: new Date(), related: ['essays/nothing'] },
-        body: '### Too deep\n\n[[No Such Page]]\n\n~~~\n[[Also Missing]]\n~~~\n\n[x](/nowhere)',
+        body: '### Too deep\n\n[[No Such Page]] and [gone](nothing.md)\n\n~~~\n[[Also Missing]]\n~~~\n\n[x](/nowhere)',
       },
       { collection: 'essays', id: 'selfish', data: { title: 'Selfish', date: new Date(), related: 'essays/selfish' } },
     ]);
     expect(problems).toContainEqual(expect.stringContaining('name it with [a-z0-9-] only'));
     expect(problems).toContainEqual(expect.stringContaining('has [, ] or |'));
     expect(problems).toContainEqual(expect.stringContaining('[[No Such Page]] names no published page'));
+    expect(problems).toContainEqual(expect.stringContaining('(nothing.md) names no published page'));
     expect(problems).toContainEqual(expect.stringContaining('/nowhere is not a page'));
     expect(problems).toContainEqual(expect.stringContaining('its related essays/nothing names no page'));
     expect(problems).toContainEqual(expect.stringContaining('/essays/selfish: its related names itself'));

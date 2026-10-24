@@ -13,7 +13,7 @@ import { explorerRows } from '../lib/explorer.ts';
 import { buildGraph } from '../lib/graph.ts';
 import { scanRaw } from '../lib/scan.ts';
 import type { SiteConfig } from '../lib/site.ts';
-import { titleIndex } from '../lib/titles.ts';
+import { linkIndex } from '../lib/titles.ts';
 
 const sitesDir = path.resolve(__dirname, '../../../sites');
 const names = fs.readdirSync(sitesDir).filter((n) => fs.existsSync(path.join(sitesDir, n, 'src/site.config.ts')));
@@ -46,7 +46,7 @@ describe.each(loaded)('$name', (s) => {
         root: s.root,
         site: s.site,
         raws,
-        other: { entries: otherEntries, url: s.site.otherSite.url },
+        other: { entries: otherEntries, url: s.site.otherSite.url, folder: s.site.otherSite.folder },
       }),
     ).toEqual([]);
   });
@@ -68,7 +68,8 @@ describe.each(loaded)('$name', (s) => {
     const folders = rows.filter((r) => r.kind === 'folder');
     expect(folders.length).toBeGreaterThan(0);
     for (const folder of folders) expect(folder.children.length, folder.title).toBeGreaterThan(0);
-    const graph = buildGraph(live, s.site, titleIndex(live, otherEntries, s.site.otherSite.url));
+    const index = linkIndex(live, otherEntries, s.site.otherSite.url, s.site.otherSite.folder);
+    const graph = buildGraph(live, s.site, index);
     expect(graph.nodes.length).toBe(live.length);
     expect(graph.links.length).toBeGreaterThan(0);
     expect(graph.links.some((l) => l.source === l.target)).toBe(false);

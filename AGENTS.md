@@ -76,16 +76,19 @@ from `lib/seo.ts`.
   the palette lists them first); every other one is the config's.
 - **Addresses** come from `urlFor(site)` (`lib/entry.ts`): `pages/home` is
   `/`, a page is `/<id>`, any other entry `<path>/<id>`. It is pure, so the
-  Astro config and the tests use it too. `[[wiki links]]` resolve against a title
-  index (`lib/titles.ts` `titleIndex`: lower-cased title → path on this
-  site, full address on the other) scanned off both sites' `src/content`
-  with Astro's own front-matter reader (`lib/scan.ts` `lazyTitles`): once per
-  build, on every render in `astro dev`. `garden()` builds the graph from
-  this site's own titles, which resolve the same; the content check builds
-  its own from the raw files. The sitemap lists what `inSitemap` (`seo.ts`)
+  Astro config and the tests use it too. `[[wiki links]]` and links to a
+  page's file (`[text](../essays/x.md)`, the kind Emacs's markdown-mode
+  follows; the other site's as `../../../../<folder>/src/content/…`) resolve
+  against the link index (`lib/titles.ts` `linkIndex`: lower-cased title and
+  `collection/id` → path on this site, full address on the other;
+  `fileTarget` reads a link's path from the page's own file) scanned off both
+  sites' `src/content` with Astro's own front-matter reader (`lib/scan.ts`
+  `lazyIndex`): once per build, on every render in `astro dev`. `garden()`
+  builds the graph from this site's own index; the content check builds its
+  own from the raw files. The sitemap lists what `inSitemap` (`seo.ts`)
   allows, as llms.txt does.
 - **The Markdown pipeline** (`lib/markdown/index.ts`, in `config.mjs`): remark
-  `wiki-links`; rehype `external-links`, `clean-heading-ids` (GitHub-style, emoji
+  `wiki-links`, `file-links` (a link to a page's `.md` file → its address); rehype `external-links`, `clean-heading-ids` (GitHub-style, emoji
   cleaned; Astro keeps them), `callouts`, `task-lists` (a task item's checkbox labelled with its text), `excerpt` (the first paragraphs, for
   descriptions), `heading-anchors` (the icon is CSS). Astro does the rest:
   GFM, Shiki in both themes inside the chrome `shiki-code-block.ts` draws, raw
@@ -158,7 +161,10 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
   (a file under `src/assets/media`, referenced relatively), `updated`,
   `draft: true`, `seo` (`title`, `description`, `canonical`, `og_type`
   (only `profile`, on a person's home page), `noindex`; a noindex page is left out of the sitemap and llms.txt). Headings start at `##` (the check fails otherwise); `[[Title]]` links a page on
-  either site; `> [!NOTE] Title` is a callout; raw HTML is allowed
+  either site, and so does `[text](../<collection>/<id>.md)` by its file (the
+  one `C-c C-o` follows in Emacs; the other site's by its path into that site,
+  `../../../../<folder>/src/content/…`), and the check fails on one that names
+  no published page; `> [!NOTE] Title` is a callout; raw HTML is allowed
   (`<img class="wiki-logo-light">`/`-dark` pairs, `<figure class="wiki-pdf">`,
   `<a class="button">`).
 - **A page with its own view**: a file in `src/pages/` that `getEntry`s the
@@ -189,7 +195,7 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
   (`explorer.ts`). Talk to another
   component through the platform (`showModal()`, `hidePopover()`).
 - **A site**: `sites/<name>/` with `astro.config.mjs`, `tsconfig.json`,
-  `wrangler.jsonc`, `cloudflare.env`, `package.json`, `src/site.config.ts`,
+  `wrangler.jsonc`, `package.json`, `src/site.config.ts`,
   `src/content.config.ts`, `src/styles/site.css`, `src/pages/`, and a
   `pages` collection with a `home` entry (the garden's one named
   collection: `/`); name it in
@@ -210,7 +216,7 @@ npm run dev           # both sites' astro dev in the background: jothamlim :4321
 npm run preview       # both sites' last build: jothamlim :4331, cothinking :4332
 npm run stop          # stops every dev and preview server
 npm run format        # prettier
-npm run <dev|build|preview|check|smoke|deploy> -w sites/<site>   # one site
+npm run <dev|build|preview|check|smoke> -w sites/<site>   # one site
 ```
 
 ## Verify
@@ -246,11 +252,8 @@ account (`account_id`). **Every push to `main` deploys both**
 (after the build, so the test that every entry has its page in `dist/` runs),
 the site's build tests, then `wrangler deploy`, with the repository secret
 `CLOUDFLARE_API_TOKEN`, a token scoped to Workers Scripts and the two zones;
-pull requests only build). `npm run deploy -w sites/<site>` is the manual
-fallback: it builds with `--force` and runs `wrangler deploy` through
-`op run --env-file=cloudflare.env`, whose one line is the 1Password
-reference of a scoped token (`CLOUDFLARE_API_TOKEN=op://CoThinking/Cloudflare/CF Workers API`),
-never a value. `public/_headers` caches `/_astro/*` a year (pages are revalidated) and
+pull requests only build). CI is the only way to deploy: there is no
+manual deploy script; to ship, merge to `main`. `public/_headers` caches `/_astro/*` a year (pages are revalidated) and
 sets the security headers on every response (HSTS without subdomains,
 `nosniff`, a referrer policy, `SAMEORIGIN` framing, a same-origin opener
 policy, a permissions policy, and a CSP that leaves scripts alone:
@@ -268,7 +271,7 @@ policy, a permissions policy, and a CSP that leaves scripts alone:
 | **Room** | A full-width page with no Explorer column and no rail (`<Layout room>`): cothink.ing's home, privacy page and case studies. |
 | **Rail** | The right-hand column about the current page: graph, outline, "Linked from" (`components/Rail.astro`). |
 | **Explorer** | The site as one tree on the left, from `navigation.explorer` plus each section's pages (`lib/explorer.ts`). |
-| **Title index** | Lower-cased title → address over both sites' published pages: what `[[Title]]` resolves against (`lib/titles.ts`). |
+| **Link index** | Lower-cased title and `collection/id` → address over both sites' published pages: what `[[Title]]` and `[text](x.md)` resolve against (`lib/titles.ts`). |
 | **`OWN`** | The list in a site's `src/pages/[slug].astro` of the `pages` entries with a view of their own file (the home page, the landings); `[slug].astro` builds the rest. |
 
 ## What is custom, and deviations

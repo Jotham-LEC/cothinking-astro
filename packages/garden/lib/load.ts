@@ -12,7 +12,7 @@ import { descriptionOf, keyOf, published, toSiteEntry, urlFor, type SiteEntry } 
 import { explorerRows, type Row } from './explorer.ts';
 import { buildGraph, type Graph } from './graph.ts';
 import type { SiteConfig } from './site.ts';
-import { titleIndex } from './titles.ts';
+import { linkIndex } from './titles.ts';
 
 /** The site being built, as the garden sees any site (its own views import site.config.ts for its literal types). */
 export const site: SiteConfig = config;
@@ -48,8 +48,8 @@ export function garden(): Promise<Garden> {
     const entries = collections.flat().map((e) => toSiteEntry(e, site));
     const live = published(entries);
     const byId = new Map(entries.map((e) => [keyOf(e), e]));
-    // The graph's links are this site's pages only, so its titles are enough (a [[link]] to the other site is no node).
-    const titles = titleIndex(live);
+    // The graph's links are this site's pages only, so its own index is enough (a link to the other site is no node).
+    const index = linkIndex(live);
     const html = new Map<string, Promise<string>>();
     let container: Promise<AstroContainer> | null = null;
     return {
@@ -60,7 +60,7 @@ export function garden(): Promise<Garden> {
         return found;
       },
       explorer: explorerRows(live, site),
-      graph: buildGraph(live, site, titles),
+      graph: buildGraph(live, site, index),
       htmlOf: (entry) => {
         const key = keyOf(entry);
         if (!html.has(key))

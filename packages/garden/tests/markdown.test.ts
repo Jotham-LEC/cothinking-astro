@@ -1,16 +1,26 @@
 // The Markdown pipeline: Astro's own remark/rehype processor with the garden's plugins.
+import { pathToFileURL } from 'node:url';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { wikiRehypePlugins, wikiRemarkPlugins } from '../lib/markdown/index.ts';
 import { codeBlock } from '../lib/markdown/shiki-code-block.ts';
+import type { LinkIndex } from '../lib/titles.ts';
 
-const titles = { 'older essay': '/essays/older-essay', cothinking: 'https://cothink.ing/' };
+const index: LinkIndex = {
+  titles: { 'older essay': '/essays/older-essay', cothinking: 'https://cothink.ing/' },
+  files: { 'essays/older-essay': '/essays/older-essay' },
+  otherFiles: { 'pages/home': 'https://cothink.ing/' },
+  otherFolder: 'cothinking',
+};
+/** The site's folder and a page in it, for the links to a page's file. */
+const root = '/sites/jothamlim';
+const page = pathToFileURL(`${root}/src/content/essays/this-one.md`);
 let processor: Awaited<ReturnType<typeof createMarkdownProcessor>>;
 let render: (md: string) => Promise<string>;
 
 beforeAll(async () => {
   processor = await createMarkdownProcessor({
-    remarkPlugins: wikiRemarkPlugins({ titles: () => titles, siteUrl: 'https://jothamlim.com' }),
+    remarkPlugins: wikiRemarkPlugins({ index: () => index, siteUrl: 'https://jothamlim.com', root }),
     rehypePlugins: wikiRehypePlugins({ siteUrl: 'https://jothamlim.com' }),
     gfm: true,
     smartypants: false,
@@ -21,7 +31,7 @@ beforeAll(async () => {
       transformers: [codeBlock()],
     },
   });
-  render = async (md) => (await processor.render(md)).code;
+  render = async (md) => (await processor.render(md, { fileURL: page })).code;
 });
 
 describe('headings and callouts', () => {
@@ -98,6 +108,17 @@ describe('wiki links', () => {
     expect(await render('<div>\n[[Older Essay]]\n</div>')).not.toContain('wiki-link');
   });
 
+  it("link a page by its file's path, on this site or the other, and mark a missing one", async () => {
+    const html = await render(
+      'See [the older one](older-essay.md), [a part](../essays/older-essay.md#a-part), [CoThinking](../../../../cothinking/src/content/pages/home.md) and [nowhere](nowhere.md).',
+    );
+    expect(html).toContain('<a href="/essays/older-essay" class="wiki-link">the older one</a>');
+    expect(html).toContain('<a href="/essays/older-essay#a-part" class="wiki-link">a part</a>');
+    expect(html).toContain('<a href="https://cothink.ing/" class="wiki-link external-link">CoThinking</a>');
+    expect(html).toContain('<span class="wiki-link-missing" data-title="nowhere">nowhere</span>');
+    expect(await render('[a file](notes.txt) and [a site](https://x.test/a.md)')).not.toContain('wiki-link');
+  });
+
   it('link the other site by its full address, marked external', async () => {
     expect(await render('See [[CoThinking]].')).toContain(
       '<a class="wiki-link external-link" href="https://cothink.ing/">CoThinking</a>',
@@ -140,7 +161,10 @@ describe('links, images and plain text', () => {
     );
     expect(html).toContain('<figure class="wiki-pdf">');
     expect(html).toContain('width="884" height="1200" loading="lazy"');
-    expect(html).toContain('<img src="../../assets/media/a.png" alt="A photo">');
+    // A local picture is Astro's to optimise: render() swaps the placeholder for the <img>.
+    expect(html).toContain(
+      '__ASTRO_IMAGE_="{&#x22;src&#x22;:&#x22;../../assets/media/a.png&#x22;,&#x22;alt&#x22;:&#x22;A photo&#x22;,&#x22;index&#x22;:0}"',
+    );
     expect(html).toMatch(
       /<div class="code-block"><div class="code-block-header"><span class="code-block-lang">sh<\/span><button [^>]*class="code-block-copy"[^>]*>Copy<\/button><\/div><pre class="astro-code astro-code-themes gruvbox-light-soft gruvbox-dark-soft" style="--shiki-light:/,
     );
