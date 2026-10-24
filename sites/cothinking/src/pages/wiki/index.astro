@@ -2,7 +2,7 @@
 // /wiki: the landing page's text, then every wiki entry under its category,
 // A to Z (the Explorer's grouping, `explorer: 'by-category'`).
 import { getCollection, getEntry, render } from 'astro:content';
-import { describe, urlOf } from '@garden/lib/load.ts';
+import { describeEntry, urlOf } from '@garden/lib/load.ts';
 import { groupByCategory } from '@garden/lib/explorer.ts';
 import Entry from '@garden/components/Entry.astro';
 import HeadingLink from '@garden/components/HeadingLink.astro';
@@ -13,7 +13,7 @@ const { Content, headings } = await render(entry);
 const wiki = await Promise.all(
   (await getCollection('wiki', (e) => !e.data.draft)).map(async (page) => ({
     page,
-    description: await describe(page),
+    description: await describeEntry(page),
   })),
 );
 const categories = groupByCategory(wiki, site.collections.wiki.categories, ({ page }) => page.data);

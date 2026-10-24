@@ -1,15 +1,12 @@
 ---
 // One row of an archive list, after `ls -l`: the entry's date in the display
 // timezone (blank when undated), its title, then `note` (a publication's
-// outlet). `entry` is one of Astro's, from any collection.
+// outlet).
 import { day } from '../lib/dates.ts';
-import { urlOf } from '../lib/load.ts';
-type Props = {
-  entry: { collection: string; id: string; data: { title: string; date?: Date } };
-  note?: string | null;
-};
+import { urlOf, type AstroEntry } from '../lib/load.ts';
+type Props = { entry: AstroEntry; note?: string | null };
 const { entry, note = null } = Astro.props;
-const text = entry.data.date ? day(entry.data.date) : null;
+const text = 'date' in entry.data ? day(entry.data.date) : null;
 ---
 
 <li class="border-rule grid grid-cols-[6.5rem_minmax(0,1fr)] items-baseline gap-x-4 border-b py-1.5">

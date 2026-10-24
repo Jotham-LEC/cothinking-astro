@@ -2,12 +2,12 @@
 // Links from a page to others (`keys`: `collection/slug`, from a field such
 // as `related_pages` or `related_wiki`), A–Z under a heading (`title`), or
 // nothing when none is published.
-import { describe, urlOf } from '@garden/lib/load.ts';
+import { describeEntry, urlOf } from '@garden/lib/load.ts';
 import { relatedPages } from '@site/lib/related.ts';
 type Props = { keys: string[] | undefined; id: string; title: string };
 const { keys, id, title } = Astro.props;
 const links = await Promise.all(
-  (await relatedPages(keys)).map(async (entry) => ({ entry, description: await describe(entry) })),
+  (await relatedPages(keys)).map(async (entry) => ({ entry, description: await describeEntry(entry) })),
 );
 ---
 

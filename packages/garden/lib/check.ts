@@ -1,5 +1,5 @@
 // The content rules a schema cannot see, one function each (run by tests/sites.test.ts over both sites).
-// DEV_FILES/wiki/07-tests-and-checks.md lists them.
+// DEV_FILES/wiki/01-content-and-sites.md, "The content check", lists them.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

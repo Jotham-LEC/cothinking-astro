@@ -2,7 +2,7 @@
 // The site shell: the head, the header, the Explorer (a drawer below lg, a column from there), the page, the `rail`
 // slot, the palette, the keys card, the status line and the footer. Slots: default (the page), `rail`, `head`.
 import { Font } from 'astro:assets';
-import { garden, site } from '../lib/load.ts';
+import { garden, site, type AstroEntry } from '../lib/load.ts';
 import type { PageInfo } from '../lib/pageInfo.ts';
 import { headerLinks, markCurrent, menu, panels, footerColumns } from '../lib/explorer.ts';
 import { seoFor } from '../lib/seo.ts';
@@ -18,7 +18,7 @@ import '@site/styles/site.css';
 
 type Props = {
   /** One of Astro's entries, for an entry's page; omit it for a page without one (the 404). */
-  entry?: { collection: string; id: string } | null;
+  entry?: AstroEntry | null;
   /** `pageInfo()` of the entry (Entry passes it): the section's feed. */
   info?: PageInfo | null;
   /** The page's address. Never `Astro.url`: `build.format: 'file'` makes that `/x.html`. */
@@ -31,7 +31,7 @@ type Props = {
   statusline?: string | null;
 };
 const { entry = null, info = null, path, room = false, seo = {}, statusline = null } = Astro.props;
-const { entry: siteEntryOf, live, explorer } = await garden();
+const { siteEntryOf, live, explorer } = await garden();
 const page = entry ? siteEntryOf(entry) : null;
 const head = seoFor(site, live, {
   page,

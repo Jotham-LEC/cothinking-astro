@@ -48,15 +48,16 @@ from `lib/seo.ts`.
   `SiteEntry` (address, title, dates, body, the opening paragraphs, and the
   fields the garden reads, `null` where a site has none) through `toSiteEntry`.
   `lib/load.ts` `garden()` loads them once per build: `live` (published),
-  `entry(astroEntry)`, `explorer`, `graph`, `htmlOf()`. `SiteEntry` stays
+  `siteEntryOf(astroEntry)`, `explorer`, `graph`, `htmlOf()`. `SiteEntry` stays
   inside `lib/` and the garden's components: **a site's view works on Astro
-  entries** (`CollectionEntry<'x'>`, `entry.data.*`), gets an address from
+  entries** (`CollectionEntry<'x'>`, `entry.data.*`; any collection's is
+  `AstroEntry`, `lib/load.ts`), gets an address from
   `urlOf(entry)` (`lib/load.ts`), and hands the entry to `<Entry entry>` or
   `<Layout entry>`, which look up the rest; no site view awaits `garden()`
   (a site's feed endpoint does, to hand it to `lib/feed.ts`).
   `descriptionOf(entry)` (`lib/entry.ts`) is what a page is about everywhere:
   the head, the share card, llms.txt and listing cards. A view gets it with
-  `describe(entry)` (`lib/load.ts`), the one bridge from an Astro entry to
+  `describeEntry(entry)` (`lib/load.ts`), the one bridge from an Astro entry to
   its SiteEntry, since the opening paragraphs exist only there; for order it
   sorts on `entry.data` (`order`, the title with `naturalCompare`).
 - **The site's config is imported, never passed.** A site's views import
@@ -264,6 +265,7 @@ policy, a permissions policy, and a CSP that leaves scripts alone:
 | Term | Meaning |
 | --- | --- |
 | **SiteEntry** | The garden's own shape for any entry of either site: address, title, dates, body, opening paragraphs and the fields the garden reads (`lib/entry.ts`). |
+| **AstroEntry** | `CollectionEntry<CollectionKey>`: an entry as Astro returns it, from any collection of the site being built; what a site's views hold and hand to `<Entry>`/`<Layout>` (`lib/load.ts`). |
 | **`garden()`** | The one thing a component awaits: the published entries, the Explorer and the graph, built once per build (`lib/load.ts`). |
 | **`live`** | `garden().live`: the published entries (no `draft: true`), the ones a reader can see. |
 | **Landing page** | The `pages` entry a section hangs under (`/essays` for the essays); a collection's `landing` in `site.config.ts` names it. |

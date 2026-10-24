@@ -2,7 +2,7 @@
 // An entry's page inside the site shell: breadcrumbs, title, outline, body, pager and the rail.
 // Slots: default (the rendered body), `body` (markup in place of it), `before-body` and `after-body` (inside the
 // text), `after-title`, `after-article`, and `head` (into the <head>).
-import { garden, site } from '../lib/load.ts';
+import { garden, site, type AstroEntry } from '../lib/load.ts';
 import { pageInfo } from '../lib/pageInfo.ts';
 import { backlinks } from '../lib/graph.ts';
 import { pager } from '../lib/pager.ts';
@@ -18,8 +18,8 @@ import Prose from './Prose.astro';
 import Rail from './Rail.astro';
 
 type Props = {
-  /** One of Astro's content entries, from any collection. */
-  entry: { collection: string; id: string };
+  /** One of Astro's entries, from any collection: the garden finds its SiteEntry. */
+  entry: AstroEntry;
   /** The page's address when it is not the entry's own (/notes/2). */
   path?: string;
   /** `render(entry).headings`, for the outline. */
@@ -32,7 +32,7 @@ type Props = {
   searchable?: boolean;
 };
 const { headings = [], extraHeadings = [], seo, searchable = true } = Astro.props;
-const { entry: siteEntryOf, live, graph } = await garden();
+const { siteEntryOf, live, graph } = await garden();
 const page = siteEntryOf(Astro.props.entry);
 const path = Astro.props.path ?? page.url;
 const info = pageInfo(page, site);
