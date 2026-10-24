@@ -65,25 +65,25 @@ type Previews = {
   fetchTimer: ReturnType<typeof setTimeout> | null;
 };
 
-function preview(s: Previews, link: HTMLAnchorElement): Promise<HTMLElement | null> {
+function preview(state: Previews, link: HTMLAnchorElement): Promise<HTMLElement | null> {
   if (link.classList.contains('external-link')) return Promise.resolve(sitePreview(link));
   const key = link.href.split('#')[0]!;
-  if (!s.cache.has(key))
-    s.cache.set(
+  if (!state.cache.has(key))
+    state.cache.set(
       key,
       pagePreview(key).catch(() => null),
     );
-  return s.cache.get(key)!;
+  return state.cache.get(key)!;
 }
 
-function close(s: Previews) {
-  s.open?.remove();
-  s.open = null;
+function close(state: Previews) {
+  state.open?.remove();
+  state.open = null;
 }
 
 /** The card beside the link: below it, or above when there is no room below, and inside the window. */
-function show(s: Previews, link: HTMLAnchorElement, content: HTMLElement) {
-  close(s);
+function show(state: Previews, link: HTMLAnchorElement, content: HTMLElement) {
+  close(state);
   const card = document.createElement('div');
   card.className = 'popover';
   card.appendChild(content.cloneNode(true));
@@ -94,42 +94,42 @@ function show(s: Previews, link: HTMLAnchorElement, content: HTMLElement) {
     rect.bottom + 8 + card.offsetHeight > window.innerHeight ? rect.top - card.offsetHeight - 8 : rect.bottom + 8;
   card.style.left = `${left}px`;
   card.style.top = `${Math.max(8, top)}px`;
-  card.addEventListener('mouseleave', () => close(s));
-  s.open = card;
+  card.addEventListener('mouseleave', () => close(state));
+  state.open = card;
 }
 
-function clearTimers(s: Previews) {
-  if (s.timer) clearTimeout(s.timer);
-  if (s.fetchTimer) clearTimeout(s.fetchTimer);
+function clearTimers(state: Previews) {
+  if (state.timer) clearTimeout(state.timer);
+  if (state.fetchTimer) clearTimeout(state.fetchTimer);
 }
 
 /**
  * After 100ms on the link its preview is fetched, and the link shows it is loading until it is ready;
  * the card waits for both the preview and 1.5s of rest, so passing over a link never opens one.
  */
-function onEnter(s: Previews, link: HTMLAnchorElement) {
-  clearTimers(s);
+function onEnter(state: Previews, link: HTMLAnchorElement) {
+  clearTimers(state);
   const ready = new Promise<HTMLElement | null>((resolve) => {
-    s.fetchTimer = setTimeout(() => {
+    state.fetchTimer = setTimeout(() => {
       link.classList.add('is-previewing');
-      const loading = preview(s, link);
+      const loading = preview(state, link);
       loading.then(() => link.classList.remove('is-previewing'));
       resolve(loading);
     }, 100);
   });
-  s.timer = setTimeout(() => {
+  state.timer = setTimeout(() => {
     ready.then((content) => {
-      if (content && link.matches(':hover')) show(s, link, content);
+      if (content && link.matches(':hover')) show(state, link, content);
     });
   }, 1500);
 }
 
 /** Leaving the link closes its card, unless the pointer has moved onto the card (or back) within 150ms. */
-function onLeave(s: Previews, link: HTMLAnchorElement) {
-  clearTimers(s);
+function onLeave(state: Previews, link: HTMLAnchorElement) {
+  clearTimers(state);
   link.classList.remove('is-previewing');
   setTimeout(() => {
-    if (s.open && !s.open.matches(':hover') && !link.matches(':hover')) close(s);
+    if (state.open && !state.open.matches(':hover') && !link.matches(':hover')) close(state);
   }, 150);
 }
 
@@ -137,13 +137,13 @@ export function initPopovers() {
   if (!window.matchMedia('(hover: hover) and (min-width: 1024px)').matches) return;
   const links = [...document.querySelectorAll<HTMLAnchorElement>('main a[href]')].filter(isPreviewable);
   if (!links.length) return;
-  const s: Previews = { cache: new Map(), open: null, timer: null, fetchTimer: null };
+  const state: Previews = { cache: new Map(), open: null, timer: null, fetchTimer: null };
   for (const link of links) {
-    link.addEventListener('mouseenter', () => onEnter(s, link));
-    link.addEventListener('mouseleave', () => onLeave(s, link));
+    link.addEventListener('mouseenter', () => onEnter(state, link));
+    link.addEventListener('mouseleave', () => onLeave(state, link));
   }
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') close(s);
+    if (e.key === 'Escape') close(state);
   });
-  window.addEventListener('scroll', () => close(s), { passive: true });
+  window.addEventListener('scroll', () => close(state), { passive: true });
 }

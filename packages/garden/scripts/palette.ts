@@ -51,56 +51,56 @@ type Palette = {
   requestId: number;
 };
 
-const items = (p: Palette) => [...p.list.querySelectorAll<HTMLAnchorElement>('li a')];
-const visibleItems = (p: Palette) => items(p).filter((a) => !a.parentElement!.hasAttribute('hidden'));
-const announce = (p: Palette, count: number) => {
-  if (p.status) p.status.textContent = count ? `${count} ${count === 1 ? 'result' : 'results'}` : 'No results';
+const items = (state: Palette) => [...state.list.querySelectorAll<HTMLAnchorElement>('li a')];
+const visibleItems = (state: Palette) => items(state).filter((a) => !a.parentElement!.hasAttribute('hidden'));
+const announce = (state: Palette, count: number) => {
+  if (state.status) state.status.textContent = count ? `${count} ${count === 1 ? 'result' : 'results'}` : 'No results';
 };
 
-function setActive(p: Palette, i: number) {
-  const visible = visibleItems(p);
-  for (const a of items(p)) {
+function setActive(state: Palette, i: number) {
+  const visible = visibleItems(state);
+  for (const a of items(state)) {
     a.classList.remove('is-active');
     a.parentElement!.setAttribute('aria-selected', 'false');
   }
   if (!visible.length) {
-    p.activeIndex = -1;
-    p.input.removeAttribute('aria-activedescendant');
+    state.activeIndex = -1;
+    state.input.removeAttribute('aria-activedescendant');
     return;
   }
-  p.activeIndex = Math.max(0, Math.min(visible.length - 1, i));
-  const active = visible[p.activeIndex]!;
+  state.activeIndex = Math.max(0, Math.min(visible.length - 1, i));
+  const active = visible[state.activeIndex]!;
   active.classList.add('is-active');
   active.parentElement!.setAttribute('aria-selected', 'true');
-  p.input.setAttribute('aria-activedescendant', active.parentElement!.id);
+  state.input.setAttribute('aria-activedescendant', active.parentElement!.id);
   active.scrollIntoView({ block: 'nearest' });
 }
 
-function localFilter(p: Palette, query: string) {
+function localFilter(state: Palette, query: string) {
   const q = query.trim().toLowerCase();
-  for (const a of items(p)) {
+  for (const a of items(state)) {
     a.parentElement!.toggleAttribute('hidden', !(!q || (a.dataset.label ?? '').includes(q)));
     a.classList.remove('is-active');
   }
-  setActive(p, 0);
-  announce(p, visibleItems(p).length);
+  setActive(state, 0);
+  announce(state, visibleItems(state).length);
 }
 
-const restore = (p: Palette) => {
-  p.list.innerHTML = p.originalHtml;
+const restore = (state: Palette) => {
+  state.list.innerHTML = state.originalHtml;
 };
 
 /** Pagefind's hits as options, under a header each time a section's run begins. */
-function renderResults(p: Palette, hits: Hit[]) {
-  p.list.innerHTML = '';
+function renderResults(state: Palette, hits: Hit[]) {
+  state.list.innerHTML = '';
   if (!hits.length) {
     const empty = document.createElement('li');
     empty.className = 'palette-empty';
     empty.setAttribute('role', 'presentation');
     empty.textContent = 'No results';
-    p.list.appendChild(empty);
-    setActive(p, -1);
-    announce(p, 0);
+    state.list.appendChild(empty);
+    setActive(state, -1);
+    announce(state, 0);
     return;
   }
   let lastSection: string | null = null;
@@ -115,7 +115,7 @@ function renderResults(p: Palette, hits: Hit[]) {
         header.setAttribute('role', 'presentation');
         header.setAttribute('aria-hidden', 'true');
         header.textContent = hit.section;
-        p.list.appendChild(header);
+        state.list.appendChild(header);
       }
     }
     const li = document.createElement('li');
@@ -136,21 +136,21 @@ function renderResults(p: Palette, hits: Hit[]) {
       a.appendChild(excerpt);
     }
     li.appendChild(a);
-    p.list.appendChild(li);
+    state.list.appendChild(li);
   }
-  setActive(p, 0);
-  announce(p, hits.length);
+  setActive(state, 0);
+  announce(state, hits.length);
 }
 
-async function remoteSearch(p: Palette, q: string) {
-  const id = ++p.requestId;
+async function remoteSearch(state: Palette, q: string) {
+  const id = ++state.requestId;
   try {
     const pagefind = await loadPagefind();
     const search = await pagefind.search(q);
     const pages: PagefindResult[] = await Promise.all(search.results.slice(0, 20).map((r) => r.data()));
-    if (id !== p.requestId) return;
+    if (id !== state.requestId) return;
     renderResults(
-      p,
+      state,
       pages.map((page) => ({
         title: page.meta.title,
         url: cleanUrl(page.url),
@@ -160,64 +160,64 @@ async function remoteSearch(p: Palette, q: string) {
     );
   } catch {
     // A failed search falls back to filtering the page titles.
-    if (id !== p.requestId) return;
-    restore(p);
-    localFilter(p, q);
+    if (id !== state.requestId) return;
+    restore(state);
+    localFilter(state, q);
   }
 }
 
-function onInput(p: Palette) {
-  const q = p.input.value.trim();
-  if (p.debounce) clearTimeout(p.debounce);
+function onInput(state: Palette) {
+  const q = state.input.value.trim();
+  if (state.debounce) clearTimeout(state.debounce);
   if (q.length < MIN_CHARS) {
-    p.requestId++;
-    restore(p);
-    localFilter(p, '');
+    state.requestId++;
+    restore(state);
+    localFilter(state, '');
     return;
   }
-  p.debounce = setTimeout(() => remoteSearch(p, q), 150);
+  state.debounce = setTimeout(() => remoteSearch(state, q), 150);
 }
 
 // A search still on its way must not fill the list after it closes, or under an empty field when it opens again.
-function forget(p: Palette) {
-  if (p.debounce) clearTimeout(p.debounce);
-  p.requestId++;
+function forget(state: Palette) {
+  if (state.debounce) clearTimeout(state.debounce);
+  state.requestId++;
 }
 
-function open(p: Palette) {
-  if (p.dialog.open) return;
-  forget(p);
-  p.input.value = '';
-  restore(p);
-  localFilter(p, '');
-  p.dialog.showModal();
+function open(state: Palette) {
+  if (state.dialog.open) return;
+  forget(state);
+  state.input.value = '';
+  restore(state);
+  localFilter(state, '');
+  state.dialog.showModal();
 }
 
 /** ⌘K/Ctrl+K toggles the palette; while it is open, Esc closes it, arrows and Ctrl+n/p move, Enter opens. */
-function onKeydown(p: Palette, e: KeyboardEvent) {
+function onKeydown(state: Palette, e: KeyboardEvent) {
   if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
     e.preventDefault();
-    if (p.dialog.open) p.dialog.close();
-    else open(p);
+    if (state.dialog.open) state.dialog.close();
+    else open(state);
     return;
   }
-  if (!p.dialog.open) return;
+  if (!state.dialog.open) return;
   // The search field swallows Escape to clear itself; the dialog must close all the same.
   if (e.key === 'Escape') {
     e.preventDefault();
-    p.dialog.close();
+    state.dialog.close();
   } else if (e.ctrlKey && (e.key === 'n' || e.key === 'p')) {
     // Vim's Ctrl-n / Ctrl-p; plain j and k would be typed into the field.
     e.preventDefault();
-    setActive(p, p.activeIndex + (e.key === 'n' ? 1 : -1));
+    setActive(state, state.activeIndex + (e.key === 'n' ? 1 : -1));
   } else if (e.key === 'ArrowDown') {
     e.preventDefault();
-    setActive(p, p.activeIndex + 1);
+    setActive(state, state.activeIndex + 1);
   } else if (e.key === 'ArrowUp') {
     e.preventDefault();
-    setActive(p, p.activeIndex - 1);
-  } else if (e.key === 'Enter' && document.activeElement === p.input) {
-    const target = visibleItems(p)[p.activeIndex];
+    setActive(state, state.activeIndex - 1);
+  } else if (e.key === 'Enter' && document.activeElement === state.input) {
+    const target = visibleItems(state)[state.activeIndex];
     if (target) {
       e.preventDefault();
       window.location.href = target.href;
@@ -230,7 +230,7 @@ export function initPalette() {
   const input = dialog?.querySelector<HTMLInputElement>('[data-palette-input]');
   const list = dialog?.querySelector<HTMLElement>('[data-palette-results]');
   if (!dialog || !input || !list) return;
-  const p: Palette = {
+  const state: Palette = {
     dialog,
     input,
     list,
@@ -240,9 +240,9 @@ export function initPalette() {
     debounce: null,
     requestId: 0,
   };
-  document.addEventListener('keydown', (e) => onKeydown(p, e));
+  document.addEventListener('keydown', (e) => onKeydown(state, e));
   for (const button of document.querySelectorAll('[data-palette-open]'))
-    button.addEventListener('click', () => open(p));
-  input.addEventListener('input', () => onInput(p));
-  dialog.addEventListener('close', () => forget(p));
+    button.addEventListener('click', () => open(state));
+  input.addEventListener('input', () => onInput(state));
+  dialog.addEventListener('close', () => forget(state));
 }

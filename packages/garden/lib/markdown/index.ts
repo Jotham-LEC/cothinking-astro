@@ -6,15 +6,17 @@ import type { Element } from 'hast';
 import rehypeExternalLinks from 'rehype-external-links';
 import wikiLinkPlugin from 'remark-wiki-link';
 import { isExternal } from '../site.ts';
-import type { TitleIndex } from '../titles.ts';
+import type { LinkIndex } from '../linkIndex.ts';
 import rehypeCallouts from './rehype-callouts.ts';
 import rehypeExcerpt from './rehype-excerpt.ts';
 import rehypeHeadingAnchors from './rehype-heading-anchors.ts';
 import rehypeCleanHeadingIds from './rehype-clean-heading-ids.ts';
 import rehypeTaskLists from './rehype-task-lists.ts';
+import remarkFileLinks from './remark-file-links.ts';
 import remarkWikiLinks from './remark-wiki-links.ts';
 
-type PipelineOptions = { titles: () => TitleIndex; siteUrl: string };
+/** `root` is the site's folder (a page's file links are read from its path there). */
+type PipelineOptions = { index: () => LinkIndex; siteUrl: string; root: string };
 
 /** remark-wiki-link, parsing only: remark-wiki-links resolves the nodes. */
 export const wikiLinkSyntax = (): [RemarkPlugin, unknown][] => [
@@ -24,8 +26,9 @@ export const wikiLinkSyntax = (): [RemarkPlugin, unknown][] => [
   ],
 ];
 
-export function wikiRemarkPlugins({ titles, siteUrl }: Pick<PipelineOptions, 'titles' | 'siteUrl'>): RemarkPlugins {
-  return [...wikiLinkSyntax(), [remarkWikiLinks, { titles, siteUrl }]];
+/** `[[Title]]` links, then links to a page's file (`[text](../essays/x.md)`), both resolved against the link index. */
+export function wikiRemarkPlugins({ index, siteUrl, root }: PipelineOptions): RemarkPlugins {
+  return [...wikiLinkSyntax(), [remarkWikiLinks, { index, siteUrl }], [remarkFileLinks, { index, siteUrl, root }]];
 }
 
 /**

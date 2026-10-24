@@ -1,0 +1,32 @@
+---
+// The pages either side of this one: a series' parts, or the notes by date (lib/pager.ts).
+import type { SiteEntry } from '../lib/entry.ts';
+
+type Props = { previous: SiteEntry | null; next: SiteEntry | null };
+const { previous, next } = Astro.props;
+const links = [
+  { rel: 'prev', label: '← Previous', page: previous },
+  { rel: 'next', label: 'Next →', page: next },
+] as const;
+---
+
+{(previous || next) && (
+  <nav class="mt-10 grid gap-3 font-sans text-sm sm:grid-cols-2" aria-label="Previous and next" data-pagefind-ignore>
+    {links.map(
+      ({ rel, label, page }) =>
+        page && (
+          <a
+            class:list={[
+              'rounded-site border-rule hover:border-accent group block border px-4 py-3 no-underline',
+              { 'sm:col-start-2 sm:text-right': rel === 'next' },
+            ]}
+            href={page.url}
+            rel={rel}
+          >
+            <span class="text-muted block text-xs">{label}</span>{' '}
+            <span class="text-heading group-hover:text-accent font-semibold">{page.title}</span>
+          </a>
+        ),
+    )}
+  </nav>
+)}

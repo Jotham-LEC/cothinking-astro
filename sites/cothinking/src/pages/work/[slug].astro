@@ -1,6 +1,7 @@
 ---
 // A client's case study, as a room: the eyebrow, title, screenshot (1280px
 // wide at most) and numbers, the write-up, the live site and the closing panel.
+import type { InferGetStaticPropsType } from 'astro';
 import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import { urlOf } from '@garden/lib/load.ts';
@@ -14,6 +15,7 @@ export async function getStaticPaths() {
   const entries = await getCollection('work', (e) => !e.data.draft);
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const eyebrow = entry.data.eyebrow || [entry.data.year, entry.data.kind].filter(Boolean).join(' · ');

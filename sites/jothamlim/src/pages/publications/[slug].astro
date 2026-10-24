@@ -1,5 +1,6 @@
 ---
 // An entry of the publications collection: nothing but the page.
+import type { InferGetStaticPropsType } from 'astro';
 import { getCollection, render } from 'astro:content';
 import Entry from '@garden/components/Entry.astro';
 
@@ -7,6 +8,7 @@ export async function getStaticPaths() {
   const entries = await getCollection('publications', (e) => !e.data.draft);
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 ---

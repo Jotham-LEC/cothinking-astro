@@ -1,9 +1,9 @@
 # Every push to main deploys both sites: check, a forced build (Astro reuses
-# rendered Markdown until a file or the config changes), the tests against
+# rendered pages until a file or the config changes), the tests against
 # it, and `wrangler deploy` of dist/ to each Worker. The one secret is
 # CLOUDFLARE_API_TOKEN, a token scoped to Workers Scripts: Edit on the
 # owner's account (the account id is in each wrangler.jsonc). Pull requests
-# only build. `npm run deploy -w sites/<site>` stays the manual fallback.
+# only build. This is the only way the sites deploy: there is no manual deploy.
 name: Deploy
 
 on:

@@ -2,7 +2,7 @@
 // /notes/type/{type}: the stream narrowed to one post type; only a type with
 // a published note gets a listing. Not indexed: /notes lists the same notes.
 import { getEntry } from 'astro:content';
-import type { GetStaticPaths } from 'astro';
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
 import Layout from '@garden/layouts/Layout.astro';
 import Breadcrumbs from '@garden/components/Breadcrumbs.astro';
 import PageHeader from '@garden/components/PageHeader.astro';
@@ -18,17 +18,19 @@ export const getStaticPaths = (async ({ paginate }) => {
   });
 }) satisfies GetStaticPaths;
 
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { page, title } = Astro.props;
 const landing = (await getEntry('pages', 'notes'))!;
-const path =
-  page.currentPage > 1 ? `/notes/type/${Astro.params.type}/${page.currentPage}` : `/notes/type/${Astro.params.type}`;
+const path = page.url.current;
 ---
 
 <Layout
   path={path}
-  seoTitle={`${title} notes`}
-  seoDescription={`Every ${title.toLowerCase()} note, newest first.`}
-  seoNoindex
+  seo={{
+    title: `${title} notes`,
+    description: `Every ${title.toLowerCase()} note, newest first.`,
+    noindex: true,
+  }}
 >
   <Fragment slot="head">
     {page.url.prev && <link rel="prev" href={page.url.prev} />}

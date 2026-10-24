@@ -3,6 +3,7 @@
 // a view of its own (OWN) has its own file: index.astro, essays/index.astro…
 // Listing one here too would build two files for one address, which fails
 // the build (prerenderConflictBehavior).
+import type { InferGetStaticPropsType } from 'astro';
 import { getCollection, render } from 'astro:content';
 import Entry from '@garden/components/Entry.astro';
 
@@ -11,6 +12,7 @@ export async function getStaticPaths() {
   const pages = await getCollection('pages', (p) => !p.data.draft && !OWN.includes(p.id));
   return pages.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 ---

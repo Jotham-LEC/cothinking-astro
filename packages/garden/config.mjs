@@ -1,6 +1,7 @@
 // @ts-check
 // The Astro config every site shares; each site's astro.config.mjs calls
 // `gardenConfig({ root, site, otherSite })`.
+import { fileURLToPath } from 'node:url';
 import { defineConfig, fontProviders } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
 import pagefind from 'astro-pagefind';
@@ -8,7 +9,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { wikiRehypePlugins, wikiRemarkPlugins } from './lib/markdown/index.ts';
 import { codeBlock } from './lib/markdown/shiki-code-block.ts';
-import { lazyTitles, scanEntries } from './lib/scan.ts';
+import { lazyIndex, scanEntries } from './lib/scan.ts';
 import { sitemapOptions } from './lib/sitemap.ts';
 
 /**
@@ -53,13 +54,19 @@ const sharedRoutes = {
  * @param {object} options
  * @param {URL} options.root the site's folder (sites/<site>/)
  * @param {import('./lib/site.ts').SiteConfig} options.site the site's config (src/site.config.ts)
- * @param {import('./lib/site.ts').SiteConfig} options.otherSite the other site's config (sites/<site.otherSite.folder>), for `[[wiki links]]` to its pages
+ * @param {import('./lib/site.ts').SiteConfig} options.otherSite the other site's config (sites/<site.otherSite.folder>), for links to its pages
  */
 export function gardenConfig({ root: rootUrl, site, otherSite }) {
-  // The `[[wiki link]]` title index, from both sites' content on disk: read once in a build, on every render in dev.
-  const titles = lazyTitles(
+  // The link index (`[[Title]]` and `[text](../essays/x.md)`), from both sites' content on disk: read once in a
+  // build, on every render in dev.
+  const index = lazyIndex(
     { root: rootUrl, site },
-    { root: new URL(`../${site.otherSite.folder}/`, rootUrl), site: otherSite, url: site.otherSite.url },
+    {
+      root: new URL(`../${site.otherSite.folder}/`, rootUrl),
+      site: otherSite,
+      url: site.otherSite.url,
+      folder: site.otherSite.folder,
+    },
   );
 
   return defineConfig({
@@ -73,7 +80,7 @@ export function gardenConfig({ root: rootUrl, site, otherSite }) {
         gfm: true,
         // `--`, `...` and straight quotes stay as typed.
         smartypants: false,
-        remarkPlugins: wikiRemarkPlugins({ titles, siteUrl: site.url }),
+        remarkPlugins: wikiRemarkPlugins({ index, siteUrl: site.url, root: fileURLToPath(rootUrl) }),
         rehypePlugins: wikiRehypePlugins({ siteUrl: site.url }),
       }),
       // Shiki in both modes (styles/components.css picks the colour by light-dark()), each block in its chrome.

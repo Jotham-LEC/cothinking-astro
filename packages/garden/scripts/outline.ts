@@ -34,24 +34,24 @@ function activeHeading(ids: string[]): string | null {
 /** The outline's links (both copies), by the heading id they point at, and the frame a scroll has asked for. */
 type Outline = { links: HTMLAnchorElement[]; byId: Map<string, HTMLAnchorElement[]>; frame: number | null };
 
-function update(o: Outline) {
-  const ids = [...o.byId.keys()];
+function update(state: Outline) {
+  const ids = [...state.byId.keys()];
   if (!ids.some((id) => document.getElementById(id))) return;
   const active = activeHeading(ids);
-  for (const l of o.links) {
-    l.classList.remove('is-active');
-    l.removeAttribute('aria-current');
+  for (const link of state.links) {
+    link.classList.remove('is-active');
+    link.removeAttribute('aria-current');
   }
-  for (const l of (active && o.byId.get(active)) || []) {
-    l.classList.add('is-active');
-    l.setAttribute('aria-current', 'true');
+  for (const link of (active && state.byId.get(active)) || []) {
+    link.classList.add('is-active');
+    link.setAttribute('aria-current', 'true');
   }
 }
 
-function schedule(o: Outline) {
-  o.frame ??= requestAnimationFrame(() => {
-    o.frame = null;
-    update(o);
+function schedule(state: Outline) {
+  state.frame ??= requestAnimationFrame(() => {
+    state.frame = null;
+    update(state);
   });
 }
 
@@ -63,8 +63,8 @@ export function initOutline() {
     const id = link.getAttribute('href')!.slice(1);
     byId.set(id, [...(byId.get(id) ?? []), link]);
   }
-  const o: Outline = { links, byId, frame: null };
-  window.addEventListener('scroll', () => schedule(o), { passive: true });
-  window.addEventListener('resize', () => schedule(o));
-  update(o);
+  const state: Outline = { links, byId, frame: null };
+  window.addEventListener('scroll', () => schedule(state), { passive: true });
+  window.addEventListener('resize', () => schedule(state));
+  update(state);
 }

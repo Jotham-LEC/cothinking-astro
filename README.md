@@ -30,7 +30,8 @@ image: ../../assets/media/essays/why-i-write/cover.jpg
 
 ## The reason
 
-Link other pages by title, on either site: [[Writing shorter]].
+Link other pages by title, on either site: [[Writing shorter]], or by
+their file, which Emacs follows with C-c C-o: [Writing shorter](../notes/writing-shorter.md).
 ```
 
 Pictures go under `sites/<site>/src/assets/media/` and are referenced with a
@@ -44,8 +45,10 @@ npm run check        # types
 npm test             # the code, and every page's links and references
 npm run build        # both sites into sites/<site>/dist
 npm run preview      # the build at :4331 and :4332
-npm run deploy -w sites/jothamlim   # to Cloudflare (needs the owner's 1Password)
 ```
+
+There is no manual deploy: every push to `main` checks, builds, tests and
+deploys both sites to Cloudflare (`.github/workflows/deploy.yml`).
 
 ## Where to go next
 

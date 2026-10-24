@@ -2,11 +2,11 @@
 // against the title index: a page → `<a class="wiki-link" href>` (a page on
 // the other site by its full address, marked external too), a missing or
 // draft one → `<span class="wiki-link-missing" data-title>`. In a table cell
-// the pipe is written `\|`, which leaves a backslash on the title. `titles`
+// the pipe is written `\|`, which leaves a backslash on the title. `index`
 // is read on each run, so `astro dev` sees a renamed page without a restart.
 import type { Root } from 'mdast';
 import { visit } from 'unist-util-visit';
-import { resolveTitle, type TitleIndex } from '../titles.ts';
+import { resolveTitle, type LinkIndex } from '../linkIndex.ts';
 import { isExternal } from '../site.ts';
 
 type WikiLinkNode = {
@@ -15,9 +15,9 @@ type WikiLinkNode = {
   data: { alias?: string | null; hName?: string; hProperties?: Record<string, unknown>; hChildren?: unknown[] };
 };
 
-export default function remarkWikiLinks({ titles, siteUrl }: { titles: () => TitleIndex; siteUrl?: string }) {
+export default function remarkWikiLinks({ index: indexOf, siteUrl }: { index: () => LinkIndex; siteUrl?: string }) {
   return (tree: Root) => {
-    const index = titles();
+    const index = indexOf();
     visit(tree as unknown as import('unist').Node, 'wikiLink', (node: unknown) => {
       const link = node as WikiLinkNode;
       const title = link.value.replace(/\\$/, '').trim();

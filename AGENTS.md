@@ -17,7 +17,7 @@ packages/garden/       @cothinking/garden: the shared code and its runtime depen
   lib/                 the garden layer, plain TypeScript (tests cover it): see "How a page is built"
   lib/markdown/        the remark/rehype plugins and the Shiki transformer
   routes/              the routes every site has (404, feed, graph, llms, robots, share cards), injected by config.mjs
-  components/          22 .astro components; layouts/Layout.astro is the shell
+  components/          23 .astro components; layouts/Layout.astro is the shell
   scripts/             one TypeScript module per client behaviour, each imported by the component that owns the markup
   styles/              tokens.css (the only colours), shell.css (the grid and its states), components.css, site.css
   assets/              fonts (woff2 for the pages, ttf for the cards), icons (SVG components), portrait.jpg (the header, the share cards, cothink.ing's About me)
@@ -48,15 +48,16 @@ from `lib/seo.ts`.
   `SiteEntry` (address, title, dates, body, the opening paragraphs, and the
   fields the garden reads, `null` where a site has none) through `toSiteEntry`.
   `lib/load.ts` `garden()` loads them once per build: `live` (published),
-  `entry(astroEntry)`, `explorer`, `graph`, `htmlOf()`. `SiteEntry` stays
+  `siteEntryOf(astroEntry)`, `explorer`, `graph`, `htmlOf()`. `SiteEntry` stays
   inside `lib/` and the garden's components: **a site's view works on Astro
-  entries** (`CollectionEntry<'x'>`, `entry.data.*`), gets an address from
+  entries** (`CollectionEntry<'x'>`, `entry.data.*`; any collection's is
+  `AstroEntry`, `lib/load.ts`), gets an address from
   `urlOf(entry)` (`lib/load.ts`), and hands the entry to `<Entry entry>` or
   `<Layout entry>`, which look up the rest; no site view awaits `garden()`
   (a site's feed endpoint does, to hand it to `lib/feed.ts`).
   `descriptionOf(entry)` (`lib/entry.ts`) is what a page is about everywhere:
   the head, the share card, llms.txt and listing cards. A view gets it with
-  `describe(entry)` (`lib/load.ts`), the one bridge from an Astro entry to
+  `describeEntry(entry)` (`lib/load.ts`), the one bridge from an Astro entry to
   its SiteEntry, since the opening paragraphs exist only there; for order it
   sorts on `entry.data` (`order`, the title with `naturalCompare`).
 - **The site's config is imported, never passed.** A site's views import
@@ -74,18 +75,21 @@ from `lib/seo.ts`.
   and `graphColour` say the rest. The garden names one collection, `pages`
   (the plain pages: `pages/home` is `/`, a landing page is a `pages` entry,
   the palette lists them first); every other one is the config's.
-- **Addresses** come from `urlFor(site)` (`lib/entry.ts`): `pages/home` is
+- **Addresses** come from `makeUrlOf(site)` (`lib/entry.ts`): `pages/home` is
   `/`, a page is `/<id>`, any other entry `<path>/<id>`. It is pure, so the
-  Astro config and the tests use it too. `[[wiki links]]` resolve against a title
-  index (`lib/titles.ts` `titleIndex`: lower-cased title → path on this
-  site, full address on the other) scanned off both sites' `src/content`
-  with Astro's own front-matter reader (`lib/scan.ts` `lazyTitles`): once per
-  build, on every render in `astro dev`. `garden()` builds the graph from
-  this site's own titles, which resolve the same; the content check builds
-  its own from the raw files. The sitemap lists what `inSitemap` (`seo.ts`)
+  Astro config and the tests use it too. `[[wiki links]]` and links to a
+  page's file (`[text](../essays/x.md)`, the kind Emacs's markdown-mode
+  follows; the other site's as `../../../../<folder>/src/content/…`) resolve
+  against the link index (`lib/linkIndex.ts` `linkIndex`: lower-cased title and
+  `collection/id` → path on this site, full address on the other;
+  `fileTarget` reads a link's path from the page's own file) scanned off both
+  sites' `src/content` with Astro's own front-matter reader (`lib/scan.ts`
+  `lazyIndex`): once per build, on every render in `astro dev`. `garden()`
+  builds the graph from this site's own index; the content check builds its
+  own from the raw files. The sitemap lists what `inSitemap` (`seo.ts`)
   allows, as llms.txt does.
 - **The Markdown pipeline** (`lib/markdown/index.ts`, in `config.mjs`): remark
-  `wiki-links`; rehype `external-links`, `clean-heading-ids` (GitHub-style, emoji
+  `wiki-links`, `file-links` (a link to a page's `.md` file → its address); rehype `external-links`, `clean-heading-ids` (GitHub-style, emoji
   cleaned; Astro keeps them), `callouts`, `task-lists` (a task item's checkbox labelled with its text), `excerpt` (the first paragraphs, for
   descriptions), `heading-anchors` (the icon is CSS). Astro does the rest:
   GFM, Shiki in both themes inside the chrome `shiki-code-block.ts` draws, raw
@@ -133,7 +137,7 @@ utilities; `shell.css` is the grid, the drawer, reader mode, the status
 line's mode and `.light-only`/`.dark-only`; `components.css` styles markup no
 component writes (plugins' output, raw HTML in content, what the scripts
 build). The share cards read their four colours off `tokens.css`
-(`lib/palette.ts`; `tests/tokens.test.ts` guards the lines' shape).
+(`lib/cardColours.ts`; `tests/tokens.test.ts` guards the lines' shape).
 
 ### Injected routes
 
@@ -158,7 +162,10 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
   (a file under `src/assets/media`, referenced relatively), `updated`,
   `draft: true`, `seo` (`title`, `description`, `canonical`, `og_type`
   (only `profile`, on a person's home page), `noindex`; a noindex page is left out of the sitemap and llms.txt). Headings start at `##` (the check fails otherwise); `[[Title]]` links a page on
-  either site; `> [!NOTE] Title` is a callout; raw HTML is allowed
+  either site, and so does `[text](../<collection>/<id>.md)` by its file (the
+  one `C-c C-o` follows in Emacs; the other site's by its path into that site,
+  `../../../../<folder>/src/content/…`), and the check fails on one that names
+  no published page; `> [!NOTE] Title` is a callout; raw HTML is allowed
   (`<img class="wiki-logo-light">`/`-dark` pairs, `<figure class="wiki-pdf">`,
   `<a class="button">`).
 - **A page with its own view**: a file in `src/pages/` that `getEntry`s the
@@ -189,7 +196,7 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
   (`explorer.ts`). Talk to another
   component through the platform (`showModal()`, `hidePopover()`).
 - **A site**: `sites/<name>/` with `astro.config.mjs`, `tsconfig.json`,
-  `wrangler.jsonc`, `cloudflare.env`, `package.json`, `src/site.config.ts`,
+  `wrangler.jsonc`, `package.json`, `src/site.config.ts`,
   `src/content.config.ts`, `src/styles/site.css`, `src/pages/`, and a
   `pages` collection with a `home` entry (the garden's one named
   collection: `/`); name it in
@@ -210,7 +217,7 @@ npm run dev           # both sites' astro dev in the background: jothamlim :4321
 npm run preview       # both sites' last build: jothamlim :4331, cothinking :4332
 npm run stop          # stops every dev and preview server
 npm run format        # prettier
-npm run <dev|build|preview|check|smoke|deploy> -w sites/<site>   # one site
+npm run <dev|build|preview|check|smoke> -w sites/<site>   # one site
 ```
 
 ## Verify
@@ -246,11 +253,8 @@ account (`account_id`). **Every push to `main` deploys both**
 (after the build, so the test that every entry has its page in `dist/` runs),
 the site's build tests, then `wrangler deploy`, with the repository secret
 `CLOUDFLARE_API_TOKEN`, a token scoped to Workers Scripts and the two zones;
-pull requests only build). `npm run deploy -w sites/<site>` is the manual
-fallback: it builds with `--force` and runs `wrangler deploy` through
-`op run --env-file=cloudflare.env`, whose one line is the 1Password
-reference of a scoped token (`CLOUDFLARE_API_TOKEN=op://CoThinking/Cloudflare/CF Workers API`),
-never a value. `public/_headers` caches `/_astro/*` a year (pages are revalidated) and
+pull requests only build). CI is the only way to deploy: there is no
+manual deploy script; to ship, merge to `main`. `public/_headers` caches `/_astro/*` a year (pages are revalidated) and
 sets the security headers on every response (HSTS without subdomains,
 `nosniff`, a referrer policy, `SAMEORIGIN` framing, a same-origin opener
 policy, a permissions policy, and a CSP that leaves scripts alone:
@@ -261,6 +265,7 @@ policy, a permissions policy, and a CSP that leaves scripts alone:
 | Term | Meaning |
 | --- | --- |
 | **SiteEntry** | The garden's own shape for any entry of either site: address, title, dates, body, opening paragraphs and the fields the garden reads (`lib/entry.ts`). |
+| **AstroEntry** | `CollectionEntry<CollectionKey>`: an entry as Astro returns it, from any collection of the site being built; what a site's views hold and hand to `<Entry>`/`<Layout>` (`lib/load.ts`). |
 | **`garden()`** | The one thing a component awaits: the published entries, the Explorer and the graph, built once per build (`lib/load.ts`). |
 | **`live`** | `garden().live`: the published entries (no `draft: true`), the ones a reader can see. |
 | **Landing page** | The `pages` entry a section hangs under (`/essays` for the essays); a collection's `landing` in `site.config.ts` names it. |
@@ -268,7 +273,7 @@ policy, a permissions policy, and a CSP that leaves scripts alone:
 | **Room** | A full-width page with no Explorer column and no rail (`<Layout room>`): cothink.ing's home, privacy page and case studies. |
 | **Rail** | The right-hand column about the current page: graph, outline, "Linked from" (`components/Rail.astro`). |
 | **Explorer** | The site as one tree on the left, from `navigation.explorer` plus each section's pages (`lib/explorer.ts`). |
-| **Title index** | Lower-cased title → address over both sites' published pages: what `[[Title]]` resolves against (`lib/titles.ts`). |
+| **Link index** | Lower-cased title and `collection/id` → address over both sites' published pages: what `[[Title]]` and `[text](x.md)` resolve against (`lib/linkIndex.ts`). |
 | **`OWN`** | The list in a site's `src/pages/[slug].astro` of the `pages` entries with a view of their own file (the home page, the landings); `[slug].astro` builds the rest. |
 
 ## What is custom, and deviations

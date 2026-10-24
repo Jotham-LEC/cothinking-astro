@@ -2,6 +2,7 @@
 // A single note: the entry's page with the post (a quote) above its text. A
 // text note is all text, so it adds nothing. A slug is never a number, so none
 // collides with /notes/2.
+import type { InferGetStaticPropsType } from 'astro';
 import { getCollection, render } from 'astro:content';
 import Entry from '@garden/components/Entry.astro';
 import Quote from '@site/components/Quote.astro';
@@ -13,6 +14,7 @@ export async function getStaticPaths() {
     return { params: { slug: entry.id }, props: { entry } };
   });
 }
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 ---

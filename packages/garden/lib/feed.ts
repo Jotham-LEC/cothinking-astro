@@ -3,8 +3,8 @@
 // URLs and without what only works on the page (the dark-mode twin of a
 // picture, the code blocks' copy buttons). @astrojs/rss writes the XML.
 import type { RSSOptions } from '@astrojs/rss';
-import { byDateDesc, type SiteEntry } from './entry.ts';
-import { feedOf } from './info.ts';
+import { sortNewestFirst, type SiteEntry } from './entry.ts';
+import { feedOf } from './pageInfo.ts';
 import { absolute, type SiteConfig } from './site.ts';
 
 /** What a feed reads off `garden()`: the published entries and each one's rendered body. */
@@ -48,7 +48,7 @@ export async function feedOptions(section: string | null, site: SiteConfig, ctx:
     : Object.entries(site.collections)
         .filter(([, c]) => c.order === 'date')
         .map(([h]) => h);
-  const items = byDateDesc(live.filter((p) => from.includes(p.collection))).slice(0, 20);
+  const items = sortNewestFirst(live.filter((p) => from.includes(p.collection))).slice(0, 20);
   return {
     title: feed.title,
     description: feed.title,

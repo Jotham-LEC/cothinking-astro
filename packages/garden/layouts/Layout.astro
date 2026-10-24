@@ -1,17 +1,9 @@
 ---
-// The site shell: the head, the header, the Explorer (a drawer below lg, a
-// column from there), the page, the `rail` slot, the palette, the keys
-// card, the status line and the footer. A `room` takes the full width and
-// keeps the Explorer as a drawer (with the header's links only). Pass
-// `entry` (one of Astro's) for an entry's page, or `seoTitle`, `seoDescription` and
-// `seoStatus` for one without (`seoTitle` also renames an entry's later
-// pages); `seoNoindex` keeps a page out of search engines; `path` is the page's address (never
-// Astro.url). `statusline` is the status line's text.
-// Pagefind indexes what <Entry> marks with data-pagefind-body; a room has no
-// <Entry>, so its whole <main> is marked here.
+// The site shell: the head, the header, the Explorer (a drawer below lg, a column from there), the page, the `rail`
+// slot, the palette, the keys card, the status line and the footer. Slots: default (the page), `rail`, `head`.
 import { Font } from 'astro:assets';
-import { garden, site } from '../lib/load.ts';
-import type { PageInfo } from '../lib/info.ts';
+import { garden, site, type AstroEntry } from '../lib/load.ts';
+import type { PageInfo } from '../lib/pageInfo.ts';
 import { headerLinks, markCurrent, menu, panels, footerColumns } from '../lib/explorer.ts';
 import { seoFor } from '../lib/seo.ts';
 import Drawer from '../components/Drawer.astro';
@@ -25,30 +17,32 @@ import Statusline from '../components/Statusline.astro';
 import '@site/styles/site.css';
 
 type Props = {
-  entry?: { collection: string; id: string } | null;
+  /** One of Astro's entries, for an entry's page; omit it for a page without one (the 404). */
+  entry?: AstroEntry | null;
+  /** `pageInfo()` of the entry (Entry passes it): the section's feed. */
   info?: PageInfo | null;
+  /** The page's address. Never `Astro.url`: `build.format: 'file'` makes that `/x.html`. */
   path: string;
+  /** Full width, no Explorer column and no rail; its whole <main> goes into the search index. */
   room?: boolean;
-  seoTitle?: string | null;
-  seoDescription?: string | null;
-  seoStatus?: number;
-  seoNoindex?: boolean;
+  /** Head overrides: a title (also renames an entry's later pages), a description, noindex, the HTTP status. */
+  seo?: { title?: string; description?: string; noindex?: boolean; status?: number };
+  /** The status line's text. */
   statusline?: string | null;
 };
-const { entry = null, info = null, path, room = false, seoStatus = 200, statusline = null } = Astro.props;
-const g = await garden();
-const page = entry ? g.entry(entry) : null;
-const { live } = g;
+const { entry = null, info = null, path, room = false, seo = {}, statusline = null } = Astro.props;
+const { siteEntryOf, live, explorer } = await garden();
+const page = entry ? siteEntryOf(entry) : null;
 const head = seoFor(site, live, {
   page,
   path,
-  status: seoStatus,
-  title: Astro.props.seoTitle,
-  description: Astro.props.seoDescription,
-  noindex: Astro.props.seoNoindex,
+  status: seo.status ?? 200,
+  title: seo.title,
+  description: seo.description,
+  noindex: seo.noindex,
 });
 const { hasExplorer, hasDrawer } = panels(live, site, room);
-const rows = hasExplorer ? markCurrent(g.explorer, page, path) : [];
+const rows = hasExplorer ? markCurrent(explorer, page, path) : [];
 const links = headerLinks(live, site, path);
 const hasRail = Astro.slots.has('rail') && !room;
 // Google Tag Manager, in production builds only.
