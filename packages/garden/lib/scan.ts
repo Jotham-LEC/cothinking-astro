@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 import { parseFrontmatter } from '@astrojs/markdown-remark';
 import { published, toSiteEntry, type RawEntry, type SiteEntry } from './entry.ts';
 import type { SiteConfig } from './site.ts';
-import { linkIndex, type LinkIndex } from './titles.ts';
+import { linkIndex, type LinkIndex } from './linkIndex.ts';
 
 /** A site folder's `src/content`, every collection in it, as the front matter and body of each file. */
 export function scanRaw(root: URL | string): RawEntry[] {

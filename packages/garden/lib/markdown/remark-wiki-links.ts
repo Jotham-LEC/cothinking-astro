@@ -6,7 +6,7 @@
 // is read on each run, so `astro dev` sees a renamed page without a restart.
 import type { Root } from 'mdast';
 import { visit } from 'unist-util-visit';
-import { resolveTitle, type LinkIndex } from '../titles.ts';
+import { resolveTitle, type LinkIndex } from '../linkIndex.ts';
 import { isExternal } from '../site.ts';
 
 type WikiLinkNode = {

@@ -10,12 +10,12 @@ import LightBulb from '@site/assets/icons/light-bulb.svg';
 import Email from '@site/components/Email.astro';
 import Enquiry from '@site/components/Enquiry.astro';
 import Whatsapp from '@site/components/Whatsapp.astro';
-import { byReference } from '@site/lib/related.ts';
+import { resolveReference } from '@site/lib/related.ts';
 type Props = { entry: CollectionEntry<'problems'> };
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 const title = entry.data.title;
-const caseStudy = await byReference(entry.data.case_study?.[0]);
+const caseStudy = await resolveReference(entry.data.case_study?.[0]);
 const whatIDo = entry.data.what_i_do ?? null;
 ---
 

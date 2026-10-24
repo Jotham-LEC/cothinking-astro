@@ -7,7 +7,7 @@ import { naturalCompare } from '@garden/lib/natural.ts';
 type AnyEntry = CollectionEntry<CollectionKey>;
 
 /** The published entry a reference names, or null. */
-export async function byReference(key: string | undefined): Promise<AnyEntry | null> {
+export async function resolveReference(key: string | undefined): Promise<AnyEntry | null> {
   if (!key) return null;
   const [collection, id] = key.split('/') as [CollectionKey, string];
   const entry = await getEntry(collection, id);
@@ -16,6 +16,6 @@ export async function byReference(key: string | undefined): Promise<AnyEntry | n
 
 /** The published entries the references name, A–Z by title. */
 export async function relatedPages(keys: string[] | undefined): Promise<AnyEntry[]> {
-  const entries = await Promise.all([...new Set(keys)].map(byReference));
+  const entries = await Promise.all([...new Set(keys)].map(resolveReference));
   return entries.filter((e) => e !== null).sort((a, b) => naturalCompare(a.data.title, b.data.title));
 }

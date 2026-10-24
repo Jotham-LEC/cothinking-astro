@@ -10,7 +10,7 @@ import Button from './Button.astro';
 const host = new URL(site.url).host;
 ---
 
-<Layout path="/404" seoTitle="Page not found" seoStatus={404}>
+<Layout path="/404" seo={{ title: 'Page not found', status: 404 }}>
   <PageHeader title="404: Page not found" />
 
   <div class="rounded-site border-rule bg-bg-elev overflow-hidden border font-mono text-sm" data-not-found>

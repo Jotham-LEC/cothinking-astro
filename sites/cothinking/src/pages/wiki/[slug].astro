@@ -1,6 +1,7 @@
 ---
 // A wiki entry: the byline (the site's `author`) under the title; after the
 // text, the `related_pages`, the author box and the closing panel.
+import type { InferGetStaticPropsType } from 'astro';
 import { getCollection, render } from 'astro:content';
 import Entry from '@garden/components/Entry.astro';
 import NextStep from '@site/components/NextStep.astro';
@@ -12,6 +13,7 @@ export async function getStaticPaths() {
   const entries = await getCollection('wiki', (e) => !e.data.draft);
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 const { author } = site;

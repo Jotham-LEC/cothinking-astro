@@ -34,10 +34,10 @@ function ignored(e: KeyboardEvent): boolean {
 type Keys = { card: HTMLDialogElement | null; pendingG: ReturnType<typeof setTimeout> | null };
 
 /** The second key after g: g goes to the top, h goes home. Returns whether it was one. */
-function afterG(s: Keys, e: KeyboardEvent): boolean {
-  if (!s.pendingG) return false;
-  clearTimeout(s.pendingG);
-  s.pendingG = null;
+function afterG(state: Keys, e: KeyboardEvent): boolean {
+  if (!state.pendingG) return false;
+  clearTimeout(state.pendingG);
+  state.pendingG = null;
   if (e.key === 'g') {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: behavior() });
@@ -51,8 +51,8 @@ function afterG(s: Keys, e: KeyboardEvent): boolean {
   return false;
 }
 
-function onKey(s: Keys, e: KeyboardEvent) {
-  if (ignored(e) || afterG(s, e)) return;
+function onKey(state: Keys, e: KeyboardEvent) {
+  if (ignored(e) || afterG(state, e)) return;
   switch (e.key) {
     case '/':
     case ':': {
@@ -67,8 +67,8 @@ function onKey(s: Keys, e: KeyboardEvent) {
       window.scrollBy({ top: lines(e.key === 'j' ? 3 : -3), behavior: behavior(e.repeat) });
       break;
     case 'g':
-      s.pendingG = setTimeout(() => {
-        s.pendingG = null;
+      state.pendingG = setTimeout(() => {
+        state.pendingG = null;
       }, 800);
       break;
     case 'G':
@@ -83,9 +83,9 @@ function onKey(s: Keys, e: KeyboardEvent) {
       break;
     }
     case '?':
-      if (!s.card) return;
+      if (!state.card) return;
       e.preventDefault();
-      s.card.showModal();
+      state.card.showModal();
       break;
   }
 }
@@ -111,7 +111,7 @@ export function initKeys() {
       } catch {}
     });
   }
-  const s: Keys = { card: document.querySelector<HTMLDialogElement>('#keys'), pendingG: null };
-  document.addEventListener('keydown', (e) => onKey(s, e));
+  const state: Keys = { card: document.querySelector<HTMLDialogElement>('#keys'), pendingG: null };
+  document.addEventListener('keydown', (e) => onKey(state, e));
   platformHint();
 }

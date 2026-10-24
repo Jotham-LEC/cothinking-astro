@@ -6,7 +6,7 @@ import type { Element } from 'hast';
 import rehypeExternalLinks from 'rehype-external-links';
 import wikiLinkPlugin from 'remark-wiki-link';
 import { isExternal } from '../site.ts';
-import type { LinkIndex } from '../titles.ts';
+import type { LinkIndex } from '../linkIndex.ts';
 import rehypeCallouts from './rehype-callouts.ts';
 import rehypeExcerpt from './rehype-excerpt.ts';
 import rehypeHeadingAnchors from './rehype-heading-anchors.ts';

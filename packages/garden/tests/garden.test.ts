@@ -6,20 +6,20 @@ import { breadcrumbs, parents } from '../lib/breadcrumbs.ts';
 import { check } from '../lib/check.ts';
 import { badge, day, longDate, year } from '../lib/dates.ts';
 import {
-  byDateDesc,
-  byYear,
+  sortNewestFirst,
+  groupByYear,
   childrenOf,
   descriptionOf,
-  mountedOn,
+  sectionOfLanding,
   published,
   toSiteEntry,
-  urlFor,
+  makeUrlOf,
   type RawEntry,
 } from '../lib/entry.ts';
 import { fullUrls, pageOnly } from '../lib/feed.ts';
-import { byCategory, explorerRows, headerLinks, markCurrent, menu, panels, urlsIn } from '../lib/explorer.ts';
+import { groupByCategory, explorerRows, headerLinks, markCurrent, menu, panels, urlsIn } from '../lib/explorer.ts';
 import { backlinks, buildGraph } from '../lib/graph.ts';
-import { pageInfo } from '../lib/info.ts';
+import { pageInfo } from '../lib/pageInfo.ts';
 import { fileLinksIn, linkedPages, localTargets, wikiLinksIn } from '../lib/links.ts';
 import { pager } from '../lib/pager.ts';
 import { readTime, wordCount } from '../lib/readTime.ts';
@@ -27,7 +27,7 @@ import { head, inSitemap } from '../lib/seo.ts';
 import { absolute, type SiteConfig } from '../lib/site.ts';
 import { sitemapOptions } from '../lib/sitemap.ts';
 import { robotsTxt } from '../lib/textFiles.ts';
-import { fileTarget, linkIndex, resolveFile, resolveTitle } from '../lib/titles.ts';
+import { fileTarget, linkIndex, resolveFile, resolveTitle } from '../lib/linkIndex.ts';
 import { toc } from '../lib/toc.ts';
 
 const site: SiteConfig = {
@@ -59,7 +59,7 @@ const site: SiteConfig = {
   seo: { defaultDescription: 'A garden.', publisher: { type: 'Person' } },
   marketing: {},
 };
-const urlOf = urlFor(site);
+const urlOf = makeUrlOf(site);
 // The site with a stream of posts (a collection with `types`), as jothamlim.com's notes.
 const posts: SiteConfig = {
   ...site,
@@ -149,15 +149,15 @@ describe('entries', () => {
     expect(descriptionOf(column({ description: 'Own.', seo: { description: 'For search.' } }))).toBe('For search.');
   });
   it('know sections, landing pages and listing order', () => {
-    expect(mountedOn(at('/essays'), site)).toBe('essays');
+    expect(sectionOfLanding(at('/essays'), site)).toBe('essays');
     expect(childrenOf('essays', entries, site).map((e) => e.id)).toEqual(['newer', 'older']);
     expect(childrenOf('problems', entries, site).map((e) => e.id)).toEqual(['slow', 'spam']);
-    expect(byDateDesc(entries.filter((e) => e.collection === 'essays')).map((e) => e.id)).toEqual([
+    expect(sortNewestFirst(entries.filter((e) => e.collection === 'essays')).map((e) => e.id)).toEqual([
       'draft',
       'newer',
       'older',
     ]);
-    expect(byYear(childrenOf('essays', entries, site)).map(([y, es]) => [y, es.length])).toEqual([
+    expect(groupByYear(childrenOf('essays', entries, site)).map(([y, es]) => [y, es.length])).toEqual([
       ['2024', 1],
       ['2023', 1],
     ]);
@@ -196,7 +196,7 @@ describe('explorer and navigation', () => {
       { id: 'a', data: { title: 'Alpha', category: 'x' } },
       { id: 'y', data: { title: 'Why', category: 'y' } },
     ];
-    const groups = byCategory(astro, { y: 'Y', x: 'X' }, (e) => e.data);
+    const groups = groupByCategory(astro, { y: 'Y', x: 'X' }, (e) => e.data);
     expect(groups.map((g) => [g.title, g.entries.map((e) => e.id)])).toEqual([
       ['Y', ['y']],
       ['X', ['a', 'b']],

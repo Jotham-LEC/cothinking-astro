@@ -11,10 +11,10 @@ import extrabold from '../assets/fonts/ttf/aporetic-sans-extrabold.ttf?inline';
 import regular from '../assets/fonts/ttf/aporetic-sans-regular.ttf?inline';
 import portrait from '../assets/portrait.jpg?inline';
 import tokens from '../styles/tokens.css?raw';
-import { paletteFrom } from './palette.ts';
+import { cardColoursFrom } from './cardColours.ts';
 
 const CARD = { width: 1200, height: 630, border: 20, padding: 64 };
-const PALETTE = paletteFrom(tokens);
+const PALETTE = cardColoursFrom(tokens);
 
 export type CardInput = { label: string; title: string; description: string | null; url: string };
 

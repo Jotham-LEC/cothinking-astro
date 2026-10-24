@@ -51,7 +51,7 @@ export type UrlOf = (collection: string, id: string) => string;
  * A site's address rule, from its collections: `pages/home` is `/`, a `pages` entry is `/<id>`, any other
  * collection's entry is `<path>/<id>` (its `path`, else `/<landing>`). A collection the config lacks throws.
  */
-export function urlFor(site: SiteConfig): UrlOf {
+export function makeUrlOf(site: SiteConfig): UrlOf {
   return (collection, id) => {
     if (collection === 'pages' && id === 'home') return '/';
     const c = site.collections[collection];
@@ -72,8 +72,8 @@ export type RawEntry = {
 const asDate = (value: unknown): Date | null => {
   if (value instanceof Date) return value;
   if (typeof value === 'string' || typeof value === 'number') {
-    const d = new Date(value);
-    return Number.isNaN(d.getTime()) ? null : d;
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date;
   }
   return null;
 };
@@ -90,29 +90,29 @@ const asImage = (value: unknown): SiteEntry['image'] => {
     : null;
 };
 
-export function toSiteEntry({ collection, id, data: d, body, rendered }: RawEntry, site: SiteConfig): SiteEntry {
+export function toSiteEntry({ collection, id, data, body, rendered }: RawEntry, site: SiteConfig): SiteEntry {
   const paragraphs = (rendered?.metadata?.frontmatter as Record<string, unknown> | undefined)?.paragraphs;
   const types = site.collections[collection]?.types;
   return {
     collection,
     id,
-    url: urlFor(site)(collection, id),
-    title: String(d.title ?? id),
-    description: asString(d.description),
-    image: asImage(d.image),
-    date: asDate(d.date),
-    updated: asDate(d.updated),
-    draft: d.draft === true,
+    url: makeUrlOf(site)(collection, id),
+    title: String(data.title ?? id),
+    description: asString(data.description),
+    image: asImage(data.image),
+    date: asDate(data.date),
+    updated: asDate(data.updated),
+    draft: data.draft === true,
     body: body ?? '',
     paragraphs: Array.isArray(paragraphs) ? paragraphs.map(String) : [],
-    seo: d.seo && typeof d.seo === 'object' ? (d.seo as Seo) : {},
-    order: asNumber(d.order),
-    type: types ? (asString(d.type) ?? Object.keys(types)[0] ?? null) : null,
-    category: asString(d.category),
-    series: asString(d.series),
-    part: asNumber(d.part),
-    quote: asString(d.quote),
-    cite: asString(d.cite),
+    seo: data.seo && typeof data.seo === 'object' ? (data.seo as Seo) : {},
+    order: asNumber(data.order),
+    type: types ? (asString(data.type) ?? Object.keys(types)[0] ?? null) : null,
+    category: asString(data.category),
+    series: asString(data.series),
+    part: asNumber(data.part),
+    quote: asString(data.quote),
+    cite: asString(data.cite),
   };
 }
 
@@ -137,47 +137,47 @@ export const keyOf = (entry: { collection: string; id: string }) => `${entry.col
 /** The entries a reader can see. */
 export const published = (entries: SiteEntry[]): SiteEntry[] => entries.filter((e) => !e.draft);
 
-export const byUrl = (entries: SiteEntry[]): Map<string, SiteEntry> => new Map(entries.map((e) => [e.url, e]));
+export const indexByUrl = (entries: SiteEntry[]): Map<string, SiteEntry> => new Map(entries.map((e) => [e.url, e]));
 
 /** An entry by its `collection/id` key (how navigations and references name one). */
-export function byKey(entries: SiteEntry[], key: string | undefined | null): SiteEntry | null {
+export function findByKey(entries: SiteEntry[], key: string | undefined | null): SiteEntry | null {
   if (!key) return null;
   return entries.find((e) => keyOf(e) === key) ?? null;
 }
 
 /** Whether an entry is a section's page (its collection hangs under a landing page). */
-export const isChild = (entry: SiteEntry, site: SiteConfig): boolean =>
+export const isSectionPage = (entry: SiteEntry, site: SiteConfig): boolean =>
   site.collections[entry.collection]?.landing !== undefined;
 
 /** The collection whose landing page this is, if any. */
-export function mountedOn(entry: SiteEntry, site: SiteConfig): string | null {
+export function sectionOfLanding(entry: SiteEntry, site: SiteConfig): string | null {
   if (entry.collection !== 'pages') return null;
   for (const [handle, c] of Object.entries(site.collections)) if (c.landing === entry.id) return handle;
   return null;
 }
 
 /** Newest first, then by title (Statamic's `date:desc|title:asc`). */
-export function byDateDesc(entries: SiteEntry[]): SiteEntry[] {
+export function sortNewestFirst(entries: SiteEntry[]): SiteEntry[] {
   return [...entries].sort(
     (a, b) => (b.date?.getTime() ?? 0) - (a.date?.getTime() ?? 0) || a.title.localeCompare(b.title),
   );
 }
 
 /** Oldest first (the notes pager): the newest-first order reversed, so two entries sharing a date keep their relative order. */
-export const byDateAsc = (entries: SiteEntry[]): SiteEntry[] => byDateDesc(entries).reverse();
+export const sortOldestFirst = (entries: SiteEntry[]): SiteEntry[] => sortNewestFirst(entries).reverse();
 
 /** A collection's published entries in its listing order: by `order`, or newest first. */
 export function childrenOf(collection: string, entries: SiteEntry[], site: SiteConfig): SiteEntry[] {
   const own = published(entries).filter((e) => e.collection === collection);
   return site.collections[collection]?.order === 'order'
     ? [...own].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-    : byDateDesc(own);
+    : sortNewestFirst(own);
 }
 
 export const home = (entries: SiteEntry[]): SiteEntry | null => entries.find((e) => e.url === '/') ?? null;
 
 /** Entries grouped by the year of their date (display timezone), in the order given (newest first). */
-export function byYear(entries: SiteEntry[]): [string, SiteEntry[]][] {
+export function groupByYear(entries: SiteEntry[]): [string, SiteEntry[]][] {
   const groups = new Map<string, SiteEntry[]>();
   for (const e of entries) {
     const y = e.date ? year(e.date) : '';

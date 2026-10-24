@@ -1,23 +1,12 @@
-// The content rules a schema cannot see (`npm test`, tests/sites.test.ts,
-// over both sites' folders), one named rule each, run in turn. File names are ids: lower-case letters, digits
-// and dashes. Every collection folder is in the site config, and each
-// section's landing page exists. Every published page: its [[wiki links]]
-// and its links to a page's file (`../essays/x.md`) name a published page, its /media links exist, its ](/path) links are
-// pages or routes, its image exists, its first heading is `##` (the page's
-// title is the h1), no "Sample:" page is left. Every page
-// (drafts too): an ordered collection's page has its `order`; a field that
-// names another entry (`collection/id`) names one that exists; its title can be linked (no `[`, `]` or `|`) and is unique
-// across both sites. Every navigation item that names an entry names a
-// published one (the Explorer, header and footer would drop it in silence),
-// and every redirect leaves an address no page uses for a page that exists
-// (on this site or the other).
+// The content rules a schema cannot see, one function each (run by tests/sites.test.ts over both sites).
+// DEV_FILES/wiki/07-tests-and-checks.md lists them.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { byKey, keyOf, published, toSiteEntry, type RawEntry, type SiteEntry } from './entry.ts';
+import { findByKey, keyOf, published, toSiteEntry, type RawEntry, type SiteEntry } from './entry.ts';
 import { fileLinksIn, fileOf, firstHeadingDepth, localTargets, wikiLinksIn } from './links.ts';
 import { pathOf, type NavItem, type SiteConfig } from './site.ts';
-import { fileTarget, linkIndex, normaliseTitle, resolveFile, resolveTitle, type LinkIndex } from './titles.ts';
+import { fileTarget, linkIndex, normaliseTitle, resolveFile, resolveTitle, type LinkIndex } from './linkIndex.ts';
 
 const ID = /^[a-z0-9-]+$/;
 const REFERENCE = /^([a-z_]+)\/([a-z0-9-]+)$/;
@@ -48,7 +37,7 @@ function checkIds({ site, raws, entries }: Context): string[] {
   for (const collection of new Set(raws.map((r) => r.collection)))
     if (!site.collections[collection]) problems.push(`src/content/${collection}: not in site.config.ts.`);
   for (const [collection, config] of Object.entries(site.collections))
-    if (config.landing && !byKey(entries, `pages/${config.landing}`))
+    if (config.landing && !findByKey(entries, `pages/${config.landing}`))
       problems.push(`${collection}: its landing page pages/${config.landing} does not exist.`);
   for (const raw of raws)
     if (!ID.test(raw.id)) problems.push(`src/content/${raw.collection}/${raw.id}.md: name it with [a-z0-9-] only.`);
@@ -60,7 +49,7 @@ function checkNavigation({ site, live }: Context): string[] {
   const navItems = (items: NavItem[]): NavItem[] => items.flatMap((item) => [item, ...navItems(item.children ?? [])]);
   return Object.entries(site.navigation).flatMap(([menu, items]) =>
     navItems(items)
-      .filter((item) => item.entry && !byKey(live, item.entry))
+      .filter((item) => item.entry && !findByKey(live, item.entry))
       .map((item) => `navigation.${menu}: ${item.entry} names no published page, so it would be left out.`),
   );
 }
@@ -118,7 +107,7 @@ function checkReferences({ site, raws, entries }: Context): string[] {
         const m = REFERENCE.exec(key);
         if (!m || !site.collections[m[1]!]) continue;
         if (key === keyOf(page)) problems.push(`${where(page)}: its ${field} names itself.`);
-        else if (!byKey(entries, key)) problems.push(`${where(page)}: its ${field} ${key} names no page.`);
+        else if (!findByKey(entries, key)) problems.push(`${where(page)}: its ${field} ${key} names no page.`);
       }
     }
   }

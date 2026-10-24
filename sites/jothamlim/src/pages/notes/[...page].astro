@@ -3,7 +3,7 @@
 // text, then the stream, 20 to a page, newest first. From page 2 the head
 // says which page it is, and the search index skips the repeated text.
 import { getEntry, render } from 'astro:content';
-import type { GetStaticPaths } from 'astro';
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
 import Entry from '@garden/components/Entry.astro';
 import Stream from '@site/components/Stream.astro';
 import { newestFirst } from '@site/lib/listing.ts';
@@ -11,6 +11,7 @@ import { newestFirst } from '@site/lib/listing.ts';
 export const getStaticPaths = (async ({ paginate }) =>
   paginate(await newestFirst('notes'), { pageSize: 20 })) satisfies GetStaticPaths;
 
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { page } = Astro.props;
 const landing = (await getEntry('pages', 'notes'))!;
 const { Content, headings } = await render(landing);
@@ -21,7 +22,7 @@ const first = page.currentPage === 1;
   entry={landing}
   path={page.url.current}
   headings={headings}
-  seoTitle={first ? undefined : `${landing.data.title}, page ${page.currentPage}`}
+  seo={first ? undefined : { title: `${landing.data.title}, page ${page.currentPage}` }}
   searchable={first}
 >
   <Fragment slot="head">

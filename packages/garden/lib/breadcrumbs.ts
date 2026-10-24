@@ -1,12 +1,12 @@
 // `~ / Section` breadcrumbs: the pages at each prefix of the address, home
 // first, the page itself last (the JSON-LD trail), and the crumbs drawn
 // above the title (`parents`).
-import { byUrl, type SiteEntry } from './entry.ts';
+import { indexByUrl, type SiteEntry } from './entry.ts';
 
 type Crumb = { title: string; url: string };
 
 export function breadcrumbs(url: string, live: SiteEntry[]): Crumb[] {
-  const urls = byUrl(live);
+  const urls = indexByUrl(live);
   const crumbs: Crumb[] = [];
   const home = urls.get('/');
   if (home) crumbs.push({ title: home.title, url: '/' });

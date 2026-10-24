@@ -7,12 +7,12 @@ import { cardFor } from '../../lib/share.ts';
 import { renderCard } from '../../lib/ogCard.ts';
 
 export const getStaticPaths = (async () => {
-  const g = await garden();
-  return g.live.filter((p) => p.url !== '/').map((p) => ({ params: { uri: p.url.slice(1) }, props: { page: p } }));
+  const { live } = await garden();
+  return live.filter((p) => p.url !== '/').map((p) => ({ params: { uri: p.url.slice(1) }, props: { page: p } }));
 }) satisfies GetStaticPaths;
 
 export const GET: APIRoute = async ({ props }) => {
-  const g = await garden();
-  const png = await renderCard(cardFor(props.page, site, g.live));
+  const { live } = await garden();
+  const png = await renderCard(cardFor(props.page, site, live));
   return new Response(new Uint8Array(png), { headers: { 'Content-Type': 'image/png' } });
 };

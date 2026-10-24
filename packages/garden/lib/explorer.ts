@@ -7,7 +7,7 @@
 // before folders; text-only items holding nothing are dropped, so are
 // drafts. Also the header, drawer and footer links, and which panels a page
 // has.
-import { byKey, byYear, childrenOf, keyOf, mountedOn, type SiteEntry } from './entry.ts';
+import { findByKey, groupByYear, childrenOf, keyOf, sectionOfLanding, type SiteEntry } from './entry.ts';
 import { naturalCompare } from './natural.ts';
 import { isExternal, pathOf, type NavItem, type SiteConfig } from './site.ts';
 
@@ -43,10 +43,10 @@ export function explorerRows(live: SiteEntry[], site: SiteConfig): Row[] {
   const navRows = (items: NavItem[]): Row[] => {
     const rows: Row[] = [];
     for (const item of items) {
-      const entry = byKey(live, item.entry);
+      const entry = findByKey(live, item.entry);
       const title = item.title ?? entry?.title ?? '';
       if (item.entry && !entry) continue;
-      const section = entry ? mountedOn(entry, site) : null;
+      const section = entry ? sectionOfLanding(entry, site) : null;
       if (entry && section) {
         rows.push(folder(entry, section, title));
         continue;
@@ -70,7 +70,7 @@ export function explorerRows(live: SiteEntry[], site: SiteConfig): Row[] {
             group(name, `${landing.url}/type/${handle}`, [], null, 'type'),
           );
         case 'by-year':
-          return byYear(pages).map(([y, pieces]) =>
+          return groupByYear(pages).map(([y, pieces]) =>
             group(
               y,
               `${landing.url}#${y}`,
@@ -78,7 +78,7 @@ export function explorerRows(live: SiteEntry[], site: SiteConfig): Row[] {
             ),
           );
         case 'by-category':
-          return byCategory(pages, config.categories ?? {}, (e) => e).map((c) =>
+          return groupByCategory(pages, config.categories ?? {}, (e) => e).map((c) =>
             group(
               c.title,
               `${landing.url}#${c.handle}`,
@@ -101,7 +101,7 @@ export function explorerRows(live: SiteEntry[], site: SiteConfig): Row[] {
  * Entries by their `category`, in the categories' order, each A–Z; the rest last as "Other".
  * `fields` reads an entry's title and category: the entry itself for a SiteEntry, `entry.data` for one of Astro's.
  */
-export function byCategory<T>(
+export function groupByCategory<T>(
   entries: T[],
   categories: Record<string, string>,
   fields: (entry: T) => { title: string; category?: string | null },
@@ -153,7 +153,7 @@ export type Link = { title: string; url: string; isCurrent: boolean };
 /** The header navigation's links; one to another site is never the current page. */
 export function headerLinks(live: SiteEntry[], site: SiteConfig, currentUrl: string | null): Link[] {
   return site.navigation.header.flatMap((item) => {
-    const entry = byKey(live, item.entry);
+    const entry = findByKey(live, item.entry);
     const url = entry?.url ?? item.url;
     if (!url || (item.entry && !entry)) return [];
     return [
@@ -190,9 +190,9 @@ export function footerColumns(
   site: SiteConfig,
 ): { title: string; children: { title: string; url: string }[] }[] {
   return site.navigation.footer.map((item) => ({
-    title: item.title ?? byKey(live, item.entry)?.title ?? '',
+    title: item.title ?? findByKey(live, item.entry)?.title ?? '',
     children: (item.children ?? []).flatMap((child) => {
-      const entry = byKey(live, child.entry);
+      const entry = findByKey(live, child.entry);
       const url = entry?.url ?? child.url;
       return url ? [{ title: child.title ?? entry?.title ?? '', url }] : [];
     }),

@@ -17,7 +17,7 @@ packages/garden/       @cothinking/garden: the shared code and its runtime depen
   lib/                 the garden layer, plain TypeScript (tests cover it): see "How a page is built"
   lib/markdown/        the remark/rehype plugins and the Shiki transformer
   routes/              the routes every site has (404, feed, graph, llms, robots, share cards), injected by config.mjs
-  components/          22 .astro components; layouts/Layout.astro is the shell
+  components/          23 .astro components; layouts/Layout.astro is the shell
   scripts/             one TypeScript module per client behaviour, each imported by the component that owns the markup
   styles/              tokens.css (the only colours), shell.css (the grid and its states), components.css, site.css
   assets/              fonts (woff2 for the pages, ttf for the cards), icons (SVG components), portrait.jpg (the header, the share cards, cothink.ing's About me)
@@ -74,12 +74,12 @@ from `lib/seo.ts`.
   and `graphColour` say the rest. The garden names one collection, `pages`
   (the plain pages: `pages/home` is `/`, a landing page is a `pages` entry,
   the palette lists them first); every other one is the config's.
-- **Addresses** come from `urlFor(site)` (`lib/entry.ts`): `pages/home` is
+- **Addresses** come from `makeUrlOf(site)` (`lib/entry.ts`): `pages/home` is
   `/`, a page is `/<id>`, any other entry `<path>/<id>`. It is pure, so the
   Astro config and the tests use it too. `[[wiki links]]` and links to a
   page's file (`[text](../essays/x.md)`, the kind Emacs's markdown-mode
   follows; the other site's as `../../../../<folder>/src/content/…`) resolve
-  against the link index (`lib/titles.ts` `linkIndex`: lower-cased title and
+  against the link index (`lib/linkIndex.ts` `linkIndex`: lower-cased title and
   `collection/id` → path on this site, full address on the other;
   `fileTarget` reads a link's path from the page's own file) scanned off both
   sites' `src/content` with Astro's own front-matter reader (`lib/scan.ts`
@@ -136,7 +136,7 @@ utilities; `shell.css` is the grid, the drawer, reader mode, the status
 line's mode and `.light-only`/`.dark-only`; `components.css` styles markup no
 component writes (plugins' output, raw HTML in content, what the scripts
 build). The share cards read their four colours off `tokens.css`
-(`lib/palette.ts`; `tests/tokens.test.ts` guards the lines' shape).
+(`lib/cardColours.ts`; `tests/tokens.test.ts` guards the lines' shape).
 
 ### Injected routes
 
@@ -271,7 +271,7 @@ policy, a permissions policy, and a CSP that leaves scripts alone:
 | **Room** | A full-width page with no Explorer column and no rail (`<Layout room>`): cothink.ing's home, privacy page and case studies. |
 | **Rail** | The right-hand column about the current page: graph, outline, "Linked from" (`components/Rail.astro`). |
 | **Explorer** | The site as one tree on the left, from `navigation.explorer` plus each section's pages (`lib/explorer.ts`). |
-| **Link index** | Lower-cased title and `collection/id` → address over both sites' published pages: what `[[Title]]` and `[text](x.md)` resolve against (`lib/titles.ts`). |
+| **Link index** | Lower-cased title and `collection/id` → address over both sites' published pages: what `[[Title]]` and `[text](x.md)` resolve against (`lib/linkIndex.ts`). |
 | **`OWN`** | The list in a site's `src/pages/[slug].astro` of the `pages` entries with a view of their own file (the home page, the landings); `[slug].astro` builds the rest. |
 
 ## What is custom, and deviations

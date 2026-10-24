@@ -1,43 +1,44 @@
 ---
-// An entry's page inside the site shell: breadcrumbs, title, outline, body,
-// pager and the rail. `entry` is one of Astro's content entries (any
-// collection). Slots: `after-title` (under the title: a subtitle, a
-// byline), `before-body` and `after-body` (inside the text),
-// `after-article`, and `body`, markup in place of the Markdown body; the
-// default slot is the rendered body; `head` goes into the <head>.
-// `extraHeadings` are headings for the outline that the body lacks (a view's
-// own h2s). `path` is the address when it is not the entry's own (/notes/2);
-// such a page passes `seoTitle` for its own title, and `searchable={false}`
-// so the search index holds the entry's text once.
+// An entry's page inside the site shell: breadcrumbs, title, outline, body, pager and the rail.
+// Slots: default (the rendered body), `body` (markup in place of it), `before-body` and `after-body` (inside the
+// text), `after-title`, `after-article`, and `head` (into the <head>).
 import { garden, site } from '../lib/load.ts';
-import { pageInfo } from '../lib/info.ts';
+import { pageInfo } from '../lib/pageInfo.ts';
 import { backlinks } from '../lib/graph.ts';
 import { pager } from '../lib/pager.ts';
 import { toc, type Heading, type TocEntry } from '../lib/toc.ts';
 import { day } from '../lib/dates.ts';
+import type { ComponentProps } from 'astro/types';
 import Layout from '../layouts/Layout.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import Outline from './Outline.astro';
+import Pager from './Pager.astro';
 import PageHeader from './PageHeader.astro';
 import Prose from './Prose.astro';
 import Rail from './Rail.astro';
 
 type Props = {
+  /** One of Astro's content entries, from any collection. */
   entry: { collection: string; id: string };
+  /** The page's address when it is not the entry's own (/notes/2). */
   path?: string;
+  /** `render(entry).headings`, for the outline. */
   headings?: Heading[];
+  /** Outline headings the body lacks (a view's own h2s). */
   extraHeadings?: TocEntry[];
-  seoTitle?: string;
+  /** Head overrides, such as a later page's own title (Layout's `seo`). */
+  seo?: ComponentProps<typeof Layout>['seo'];
+  /** false on a page at another address, so the search index holds the entry's text once. */
   searchable?: boolean;
 };
-const { headings = [], extraHeadings = [], seoTitle, searchable = true } = Astro.props;
-const g = await garden();
-const page = g.entry(Astro.props.entry);
+const { headings = [], extraHeadings = [], seo, searchable = true } = Astro.props;
+const { entry: siteEntryOf, live, graph } = await garden();
+const page = siteEntryOf(Astro.props.entry);
 const path = Astro.props.path ?? page.url;
 const info = pageInfo(page, site);
 const entries = toc(headings, extraHeadings);
-const neighbours = pager(page, g.live, site);
-const linked = backlinks(g.graph, page);
+const neighbours = pager(page, live, site);
+const linked = backlinks(graph, page);
 const updated = page.updated ?? page.date;
 const section = info.section ? (site.collections[info.section]?.title ?? info.section) : null;
 ---
@@ -46,7 +47,7 @@ const section = info.section ? (site.collections[info.section]?.title ?? info.se
   entry={Astro.props.entry}
   info={info}
   path={path}
-  seoTitle={seoTitle}
+  seo={seo}
   statusline={info.readTime ? `${info.readTime} min read` : null}
 >
   <slot name="head" slot="head" />
@@ -73,32 +74,7 @@ const section = info.section ? (site.collections[info.section]?.title ?? info.se
     )}
   </div>
 
-  {/* The pages either side: a series' parts, or the notes by date. */}
-  {(neighbours.previous || neighbours.next) && (
-    <nav class="mt-10 grid gap-3 font-sans text-sm sm:grid-cols-2" aria-label="Previous and next" data-pagefind-ignore>
-      {(
-        [
-          ['prev', neighbours.previous],
-          ['next', neighbours.next],
-        ] as const
-      ).map(
-        ([rel, neighbour]) =>
-          neighbour && (
-            <a
-              class:list={[
-                'rounded-site border-rule hover:border-accent group block border px-4 py-3 no-underline',
-                { 'sm:col-start-2 sm:text-right': rel === 'next' },
-              ]}
-              href={neighbour.url}
-              rel={rel}
-            >
-              <span class="text-muted block text-xs">{rel === 'prev' ? '← Previous' : 'Next →'}</span>{' '}
-              <span class="text-heading group-hover:text-accent font-semibold">{neighbour.title}</span>
-            </a>
-          ),
-      )}
-    </nav>
-  )}
+  <Pager previous={neighbours.previous} next={neighbours.next} />
 
   <slot name="after-article" />
 

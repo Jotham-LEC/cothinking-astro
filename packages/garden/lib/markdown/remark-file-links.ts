@@ -13,7 +13,7 @@ import { toString } from 'mdast-util-to-string';
 import { visit } from 'unist-util-visit';
 import type { VFile } from 'vfile';
 import { isExternal } from '../site.ts';
-import { fileTarget, isFileLink, resolveFile, type LinkIndex } from '../titles.ts';
+import { fileTarget, isFileLink, resolveFile, type LinkIndex } from '../linkIndex.ts';
 
 type Options = { index: () => LinkIndex; siteUrl?: string; root: string };
 

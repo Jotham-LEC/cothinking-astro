@@ -1,17 +1,17 @@
 // The site as a graph: every published page is a node, every wiki link, file
 // link or Markdown link from one body to another page an edge. /graph.json and the
 // rail's "Linked from" both read it, so they always agree.
-import { byUrl, isChild, keyOf, type SiteEntry } from './entry.ts';
+import { indexByUrl, isSectionPage, keyOf, type SiteEntry } from './entry.ts';
 import { linkedPages } from './links.ts';
 import { naturalCompare } from './natural.ts';
 import type { SiteConfig } from './site.ts';
-import type { LinkIndex } from './titles.ts';
+import type { LinkIndex } from './linkIndex.ts';
 
 export type GraphNode = { id: string; title: string; url: string; section: string; section_title: string };
 export type Graph = { nodes: GraphNode[]; links: { source: string; target: string }[] };
 
 export function buildGraph(live: SiteEntry[], site: SiteConfig, index: LinkIndex): Graph {
-  const urls = byUrl(live);
+  const urls = indexByUrl(live);
   const links: Graph['links'] = [];
   for (const page of live) {
     const seen = new Set<string>();
@@ -27,8 +27,8 @@ export function buildGraph(live: SiteEntry[], site: SiteConfig, index: LinkIndex
       id: keyOf(p),
       title: p.title,
       url: p.url,
-      section: isChild(p, site) ? p.collection : '',
-      section_title: isChild(p, site) ? (site.collections[p.collection]?.title ?? '') : '',
+      section: isSectionPage(p, site) ? p.collection : '',
+      section_title: isSectionPage(p, site) ? (site.collections[p.collection]?.title ?? '') : '',
     })),
     links,
   };

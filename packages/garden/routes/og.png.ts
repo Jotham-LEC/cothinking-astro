@@ -6,9 +6,9 @@ import { cardFor } from '../lib/share.ts';
 import { renderCard } from '../lib/ogCard.ts';
 
 export const GET: APIRoute = async () => {
-  const g = await garden();
-  const page = home(g.live);
+  const { live } = await garden();
+  const page = home(live);
   if (!page) return new Response(null, { status: 404 });
-  const png = await renderCard(cardFor(page, site, g.live));
+  const png = await renderCard(cardFor(page, site, live));
   return new Response(new Uint8Array(png), { headers: { 'Content-Type': 'image/png' } });
 };

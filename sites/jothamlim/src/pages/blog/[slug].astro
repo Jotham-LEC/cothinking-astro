@@ -4,6 +4,7 @@
 // Astro.redirect() writes a meta-refresh page, served with status 200 like the
 // `redirects` in site.config.ts (the owner's choice). The 301 is never sent;
 // it makes the refresh instant, which Google reads as permanent (a 302 waits 2s).
+import type { InferGetStaticPropsType } from 'astro';
 import { getCollection } from 'astro:content';
 import { urlOf } from '@garden/lib/load.ts';
 
@@ -13,5 +14,6 @@ export async function getStaticPaths() {
   return pieces.flat().map((p) => ({ params: { slug: p.id }, props: { url: urlOf(p) } }));
 }
 
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 return Astro.redirect(Astro.props.url, 301);
 ---

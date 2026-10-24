@@ -4,7 +4,7 @@ import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { wikiRehypePlugins, wikiRemarkPlugins } from '../lib/markdown/index.ts';
 import { codeBlock } from '../lib/markdown/shiki-code-block.ts';
-import type { LinkIndex } from '../lib/titles.ts';
+import type { LinkIndex } from '../lib/linkIndex.ts';
 
 const index: LinkIndex = {
   titles: { 'older essay': '/essays/older-essay', cothinking: 'https://cothink.ing/' },

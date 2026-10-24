@@ -8,12 +8,12 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { check } from '../lib/check.ts';
-import { byUrl, published, toSiteEntry, urlFor } from '../lib/entry.ts';
+import { indexByUrl, published, toSiteEntry, makeUrlOf } from '../lib/entry.ts';
 import { explorerRows } from '../lib/explorer.ts';
 import { buildGraph } from '../lib/graph.ts';
 import { scanRaw } from '../lib/scan.ts';
 import type { SiteConfig } from '../lib/site.ts';
-import { linkIndex } from '../lib/titles.ts';
+import { linkIndex } from '../lib/linkIndex.ts';
 
 const sitesDir = path.resolve(__dirname, '../../../sites');
 const names = fs.readdirSync(sitesDir).filter((n) => fs.existsSync(path.join(sitesDir, n, 'src/site.config.ts')));
@@ -51,10 +51,10 @@ describe.each(loaded)('$name', (s) => {
     ).toEqual([]);
   });
   it('has a home page and a landing page for every section', () => {
-    const urls = byUrl(live);
+    const urls = indexByUrl(live);
     expect(urls.get('/')?.collection).toBe('pages');
     for (const [collection, c] of Object.entries(s.site.collections))
-      if (c.landing) expect(urls.get(urlFor(s.site)('pages', c.landing))?.id, collection).toBe(c.landing);
+      if (c.landing) expect(urls.get(makeUrlOf(s.site)('pages', c.landing))?.id, collection).toBe(c.landing);
   });
   it('gives every address to one entry', () => {
     const seen = new Map<string, string>();
@@ -74,7 +74,7 @@ describe.each(loaded)('$name', (s) => {
     expect(graph.links.length).toBeGreaterThan(0);
     expect(graph.links.some((l) => l.source === l.target)).toBe(false);
   });
-  it.skipIf(!fs.existsSync(dist))('builds a page for every published entry, where urlFor says', () => {
+  it.skipIf(!fs.existsSync(dist))('builds a page for every published entry, where makeUrlOf says', () => {
     const missing = live
       .map((e) => (e.url === '/' ? 'index.html' : `${e.url.slice(1)}.html`))
       .filter((file) => !fs.existsSync(path.join(dist, file)));

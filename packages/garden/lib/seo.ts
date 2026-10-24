@@ -3,7 +3,7 @@
 // BreadcrumbList, Article). A piece first published elsewhere sends search
 // engines there (`seo.canonical`).
 import { breadcrumbs } from './breadcrumbs.ts';
-import { byUrl, descriptionOf, type SiteEntry } from './entry.ts';
+import { indexByUrl, descriptionOf, type SiteEntry } from './entry.ts';
 import { absolute, cardUrl, type SiteConfig } from './site.ts';
 
 const TITLE_MAX = 60;
@@ -112,7 +112,7 @@ function image(input: HeadInput): ShareImage | null {
   if ((status ?? 200) >= 400) return null;
   if (page?.image)
     return { url: absolute(site.url, page.image.src), width: page.image.width, height: page.image.height, alt: null };
-  const subject = page ?? byUrl(live).get('/') ?? null;
+  const subject = page ?? indexByUrl(live).get('/') ?? null;
   if (!subject) return null;
   return {
     url: absolute(site.url, cardUrl(subject.url)),

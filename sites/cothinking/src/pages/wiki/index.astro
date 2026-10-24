@@ -3,7 +3,7 @@
 // A to Z (the Explorer's grouping, `explorer: 'by-category'`).
 import { getCollection, getEntry, render } from 'astro:content';
 import { describe, urlOf } from '@garden/lib/load.ts';
-import { byCategory } from '@garden/lib/explorer.ts';
+import { groupByCategory } from '@garden/lib/explorer.ts';
 import Entry from '@garden/components/Entry.astro';
 import HeadingLink from '@garden/components/HeadingLink.astro';
 import NextStep from '@site/components/NextStep.astro';
@@ -16,7 +16,7 @@ const wiki = await Promise.all(
     description: await describe(page),
   })),
 );
-const categories = byCategory(wiki, site.collections.wiki.categories, ({ page }) => page.data);
+const categories = groupByCategory(wiki, site.collections.wiki.categories, ({ page }) => page.data);
 ---
 
 <Entry

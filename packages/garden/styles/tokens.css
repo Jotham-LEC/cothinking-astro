@@ -7,7 +7,7 @@
    which the color-scheme rules below translate for light-dark(), so the site
    needs no dark: variants.
 
-   The share cards read this file too (lib/palette.ts: the dark value of
+   The share cards read this file too (lib/cardColours.ts: the dark value of
    --site-bg, --site-heading and --site-muted, and --brand-yellow), so keep
    those lines' shape; tests/tokens.test.ts checks. The SVGs (favicon, logos)
    carry the brand colours themselves. */

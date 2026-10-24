@@ -11,7 +11,7 @@ import { visit } from 'unist-util-visit';
 import type { SiteEntry } from './entry.ts';
 import { wikiLinkSyntax } from './markdown/index.ts';
 import { pathOf } from './site.ts';
-import { fileTarget, isFileLink, resolveFile, resolveTitle, type LinkIndex } from './titles.ts';
+import { fileTarget, isFileLink, resolveFile, resolveTitle, type LinkIndex } from './linkIndex.ts';
 
 const parser = unified().use(remarkParse).use(remarkGfm).use(wikiLinkSyntax());
 
@@ -62,22 +62,22 @@ export function firstHeadingDepth(body: string): number | null {
 }
 
 /** The pages an entry's body links to (wiki links by title, file links by file, Markdown links by path), on this site. */
-export function linkedPages(entry: SiteEntry, index: LinkIndex, byUrl: Map<string, SiteEntry>): SiteEntry[] {
+export function linkedPages(entry: SiteEntry, index: LinkIndex, pagesByUrl: Map<string, SiteEntry>): SiteEntry[] {
   const { wikiLinks, files, paths } = linksIn(entry.body);
   const out: SiteEntry[] = [];
   for (const title of wikiLinks) {
     const url = resolveTitle(index, title);
-    const page = url && !url.startsWith('http') ? byUrl.get(url) : undefined;
+    const page = url && !url.startsWith('http') ? pagesByUrl.get(url) : undefined;
     if (page) out.push(page);
   }
   for (const link of files) {
     const target = fileTarget(index, fileOf(entry), link);
     const url = target.site === 'own' ? resolveFile(index, { ...target, hash: '' }) : null;
-    const page = url ? byUrl.get(url) : undefined;
+    const page = url ? pagesByUrl.get(url) : undefined;
     if (page) out.push(page);
   }
   for (const url of paths) {
-    const page = byUrl.get(pathOf(url));
+    const page = pagesByUrl.get(pathOf(url));
     if (page) out.push(page);
   }
   return out;

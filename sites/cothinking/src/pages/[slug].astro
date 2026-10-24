@@ -3,6 +3,7 @@
 // top level too. A page with a view of its own (OWN) has its own file:
 // index.astro, problem-statements.astro… Listing one here too would build two
 // files for one address, which fails the build (prerenderConflictBehavior).
+import type { InferGetStaticPropsType } from 'astro';
 import { getCollection } from 'astro:content';
 import Page from '@site/components/Page.astro';
 import Problem from '@site/components/Problem.astro';
@@ -13,6 +14,7 @@ export async function getStaticPaths() {
   const problems = await getCollection('problems', (p) => !p.data.draft);
   return [...pages, ...problems].map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { entry } = Astro.props;
 ---
 

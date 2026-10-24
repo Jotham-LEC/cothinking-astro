@@ -7,18 +7,18 @@
 import { getCollection, getEntry, render, type CollectionKey } from 'astro:content';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 // `@site/*` is the site being built: each site's tsconfig.json maps it to its own src/ (AGENTS.md, "Aliases").
-import { site as config } from '@site/site.config.ts';
-import { descriptionOf, keyOf, published, toSiteEntry, urlFor, type SiteEntry } from './entry.ts';
+import { site as siteConfig } from '@site/site.config.ts';
+import { descriptionOf, keyOf, published, toSiteEntry, makeUrlOf, type SiteEntry } from './entry.ts';
 import { explorerRows, type Row } from './explorer.ts';
 import { buildGraph, type Graph } from './graph.ts';
 import type { SiteConfig } from './site.ts';
-import { linkIndex } from './titles.ts';
+import { linkIndex } from './linkIndex.ts';
 
 /** The site being built, as the garden sees any site (its own views import site.config.ts for its literal types). */
-export const site: SiteConfig = config;
+export const site: SiteConfig = siteConfig;
 
-/** Where one of Astro's entries lives on this site (`urlFor` with the site's config). */
-export const urlOf = (entry: { collection: string; id: string }): string => urlFor(site)(entry.collection, entry.id);
+/** Where one of Astro's entries lives on this site (`makeUrlOf` with the site's config). */
+export const urlOf = (entry: { collection: string; id: string }): string => makeUrlOf(site)(entry.collection, entry.id);
 
 /**
  * What one of Astro's entries is about: `descriptionOf` its SiteEntry (its own description, else its opening

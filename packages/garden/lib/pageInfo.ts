@@ -4,7 +4,7 @@
 // was first published (`seo.canonical`), and the eyebrow (date and reading
 // time, on a section's pages only).
 import { day } from './dates.ts';
-import { isChild, mountedOn, type SiteEntry } from './entry.ts';
+import { isSectionPage, sectionOfLanding, type SiteEntry } from './entry.ts';
 import { readTime } from './readTime.ts';
 import type { SiteConfig } from './site.ts';
 
@@ -30,8 +30,8 @@ export function feedOf(section: string | null, site: SiteConfig): { title: strin
 }
 
 export function pageInfo(entry: SiteEntry, site: SiteConfig): PageInfo {
-  const child = isChild(entry, site);
-  const section = child ? entry.collection : mountedOn(entry, site);
+  const child = isSectionPage(entry, site);
+  const section = child ? entry.collection : sectionOfLanding(entry, site);
   const feed = section && site.collections[section]?.feed ? feedOf(section, site) : null;
   const source = entry.seo.canonical ?? null;
   const dayText = entry.date ? day(entry.date) : null;
