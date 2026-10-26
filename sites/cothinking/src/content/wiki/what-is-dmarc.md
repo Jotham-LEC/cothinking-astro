@@ -46,15 +46,23 @@ Help pages and receivers lag: Google's DMARC page still recommends `pct` ([Googl
 
 Each step is a DNS change, made wherever your DNS is hosted.
 
+::::steps
 1. **List everything that sends email as your domain:** mailboxes, contact form, newsletter tool, CRM, and accounting system.
 2. **Publish one SPF record** covering them. Google Workspace: `v=spf1 include:_spf.google.com ~all` ([Google](https://knowledge.workspace.google.com/admin/security/set-up-spf)). Microsoft 365: `v=spf1 include:spf.protection.outlook.com -all` ([Microsoft](https://learn.microsoft.com/en-us/defender-office-365/email-authentication-spf-configure)). Add each other sender's `include:`. Keep to one record and 10 DNS lookups, or it fails.
 3. **Turn on DKIM** for your mailboxes and each tool.
-   - Google Workspace: Admin console → Apps → Google Workspace → Gmail → Authenticate email, with a 2048-bit key ([Google](https://knowledge.workspace.google.com/admin/security/set-up-dkim)).
-   - Microsoft 365: Defender portal → Email & collaboration → Policies & rules → Threat policies → Email authentication settings → DKIM, which asks for two CNAME records ([Microsoft](https://learn.microsoft.com/en-us/defender-office-365/email-authentication-dkim-configure)).
+
+   :::tabs
+   ::tab[Google Workspace]
+   Admin console → Apps → Google Workspace → Gmail → Authenticate email, with a 2048-bit key ([Google](https://knowledge.workspace.google.com/admin/security/set-up-dkim)).
+
+   ::tab[Microsoft 365]
+   Defender portal → Email & collaboration → Policies & rules → Threat policies → Email authentication settings → DKIM, which asks for two CNAME records ([Microsoft](https://learn.microsoft.com/en-us/defender-office-365/email-authentication-dkim-configure)).
+   :::
 4. **Wait 48 hours**, as Google suggests, before adding DMARC.
 5. **Publish DMARC at `p=none`** with a `rua` address on a group or dedicated mailbox; XML reports arrive daily from every large receiver.
 6. **Read the reports for a few weeks**, through a DMARC reporting service, and fix any legitimate sender that fails.
 7. **Move to `p=quarantine`, then `p=reject`**, once the reports show your real email passing.
+::::
 
 Google ends SPF with `~all` (soft fail), Microsoft with `-all` (hard fail). With DMARC in place it matters less: DMARC decides what happens to a failure.
 

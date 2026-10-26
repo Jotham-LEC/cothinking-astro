@@ -93,7 +93,9 @@ from `lib/seo.ts`.
   own from the raw files. The sitemap lists what `inSitemap` (`seo.ts`)
   allows, as llms.txt does.
 - **The Markdown pipeline** (`lib/markdown/index.ts`, in `config.mjs`): remark
-  `wiki-links`, `file-links` (a link to a page's `.md` file → its address); rehype `external-links`, `clean-heading-ids` (GitHub-style, emoji
+  `wiki-links`, `file-links` (a link to a page's `.md` file → its address),
+  `directives` (remark-directive's `:::tabs`, `:::cards` and `:::steps` made
+  their markup; any other directive put back as the text it was); rehype `external-links`, `clean-heading-ids` (GitHub-style, emoji
   cleaned; Astro keeps them), `callouts`, `task-lists` (a task item's checkbox labelled with its text), `excerpt` (the first paragraphs, for
   descriptions), `heading-anchors` (the icon is CSS). Astro does the rest:
   GFM, Shiki in both themes inside the chrome `shiki-code-block.ts` draws, raw
@@ -132,7 +134,7 @@ from `lib/seo.ts`.
 | vim keys, `?`, Ctrl+K hint | `keys.ts` | Keys |
 | progress bar, scroll position | `progress.ts` | Statusline |
 | scroll spy | `outline.ts` | Outline |
-| hover previews, zoom, heading links, code copy | `popovers.ts`, `zoom.ts`, `heading-links.ts`, `code-copy.ts` | Prose |
+| hover previews, zoom, heading links, code copy, tabs | `popovers.ts`, `zoom.ts`, `heading-links.ts`, `code-copy.ts`, `tabs.ts` | Prose |
 | Copy as Markdown | `copy-markdown.ts` | PageHeader |
 | the local graph (d3-force) | `graph.ts` | Rail, so d3 ships only on rail pages |
 
@@ -171,7 +173,11 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
   either site, and so does `[text](../<collection>/<id>.md)` by its file (the
   one `C-c C-o` follows in Emacs; the other site's by its path into that site,
   `../../../../<folder>/src/content/…`), and the check fails on one that names
-  no published page; `> [!NOTE] Title` is a callout; raw HTML is allowed
+  no published page; `> [!NOTE] Title` is a callout; `:::tabs` (a
+  `::tab[Label]` before each panel), `:::cards` (around a list) and
+  `:::steps` (around an ordered list) are the content components (a fence
+  holding another takes one more colon: `::::steps`), and a page's `.md`
+  copy drops their fences; raw HTML is allowed
   (`<img class="wiki-logo-light">`/`-dark` pairs, `<figure class="wiki-pdf">`,
   `<a class="button">`).
 - **A page with its own view**: a file in `src/pages/` that `getEntry`s the

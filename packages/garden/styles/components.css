@@ -192,6 +192,124 @@
     @apply text-muted mt-2 text-sm;
   }
 
+  /* ── Content components (lib/markdown/remark-directives.ts) ─────── */
+  /* The typography plugin's list and paragraph rules come from the utilities
+       layer, which beats this one: what they set and these undo is important. */
+
+  /* `:::tabs`: without JS each panel under its label; scripts/tabs.ts adds
+       the tab list and hides the labels. */
+  .tabs {
+    @apply rounded-site border-rule my-6 border;
+  }
+
+  .tab-panel {
+    @apply px-4.5 py-3.5;
+  }
+
+  /* A hidden panel (`until-found`) keeps its box: no padding leaves it none. */
+  .tab-panel[hidden] {
+    @apply p-0;
+  }
+
+  .tab-panel + .tab-panel {
+    @apply border-rule border-t;
+  }
+
+  .tab-panel > :first-child,
+  .tab-label + * {
+    @apply mt-0!;
+  }
+
+  .tab-panel > :last-child {
+    @apply mb-0!;
+  }
+
+  .tab-panel:focus-visible {
+    @apply outline-accent outline-2 -outline-offset-2;
+  }
+
+  .tab-label {
+    @apply text-muted mb-2! font-sans text-xs font-semibold tracking-wider uppercase;
+  }
+
+  .tab-list {
+    @apply border-rule bg-bg-elev rounded-t-site flex overflow-x-auto border-b;
+  }
+
+  .tab {
+    @apply text-muted hover:text-fg -mb-px border-b-2 border-transparent px-4 py-2.5 font-sans text-sm font-semibold whitespace-nowrap;
+  }
+
+  .tab[aria-selected='true'] {
+    @apply text-accent border-accent;
+  }
+
+  .tab:focus-visible {
+    @apply outline-accent outline-2 -outline-offset-2;
+  }
+
+  .tabs.is-tabbed .tab-panel + .tab-panel {
+    @apply border-t-0;
+  }
+
+  /* `:::cards`: the list as a grid of cards; an item's first link covers
+       its card, and an ordered list keeps its numbers. */
+  .cards > :is(ul, ol) {
+    @apply my-6! grid list-none! gap-3 ps-0! sm:grid-cols-2;
+  }
+
+  .cards li {
+    @apply rounded-site border-rule bg-bg-elev has-[a:hover]:border-rule-strong relative m-0! border px-4! py-3 font-sans leading-snug;
+  }
+
+  .cards li > :is(p, ul, ol) {
+    @apply my-0!;
+  }
+
+  .cards > ol > li::before {
+    @apply text-muted mb-1 block font-mono text-xs;
+    content: counter(list-item, decimal-leading-zero);
+  }
+
+  .cards li > a:first-child,
+  .cards li > p:first-child > a:first-child {
+    @apply block font-sans font-semibold;
+  }
+
+  .cards li > a:first-child::after,
+  .cards li > p:first-child > a:first-child::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  /* `:::steps`: the ordered list as numbered steps on a line. */
+  .steps > ol {
+    @apply my-6! list-none! ps-0!;
+  }
+
+  .steps > ol > li {
+    @apply relative my-0! ps-11! pb-5;
+  }
+
+  .steps > ol > li::before {
+    @apply border-rule-strong bg-bg text-accent absolute top-0 left-0 flex size-7 items-center justify-center rounded-full border font-sans text-sm font-bold;
+    content: counter(list-item);
+  }
+
+  .steps > ol > li:not(:last-child)::after {
+    @apply bg-rule absolute top-8 bottom-1 left-3.5 w-px;
+    content: '';
+  }
+
+  .steps > ol > li > :first-child {
+    @apply mt-0.5!;
+  }
+
+  .steps > ol > li > :last-child {
+    @apply mb-0!;
+  }
+
   /* ── What the scripts build or mark ────────────────────────────── */
 
   /* The palette's highlighted result: its list mixes the view's pages

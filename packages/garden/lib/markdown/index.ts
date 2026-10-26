@@ -4,6 +4,7 @@
 import type { RehypePlugins, RemarkPlugin, RemarkPlugins } from '@astrojs/markdown-remark';
 import type { Element } from 'hast';
 import rehypeExternalLinks from 'rehype-external-links';
+import remarkDirective from 'remark-directive';
 import wikiLinkPlugin from 'remark-wiki-link';
 import { isExternal } from '../site.ts';
 import type { LinkIndex } from '../linkIndex.ts';
@@ -12,6 +13,7 @@ import rehypeExcerpt from './rehype-excerpt.ts';
 import rehypeHeadingAnchors from './rehype-heading-anchors.ts';
 import rehypeCleanHeadingIds from './rehype-clean-heading-ids.ts';
 import rehypeTaskLists from './rehype-task-lists.ts';
+import remarkDirectives from './remark-directives.ts';
 import remarkFileLinks from './remark-file-links.ts';
 import remarkWikiLinks from './remark-wiki-links.ts';
 
@@ -26,9 +28,19 @@ export const wikiLinkSyntax = (): [RemarkPlugin, unknown][] => [
   ],
 ];
 
-/** `[[Title]]` links, then links to a page's file (`[text](../essays/x.md)`), both resolved against the link index. */
+/**
+ * `[[Title]]` links, then links to a page's file (`[text](../essays/x.md)`),
+ * both resolved against the link index; then the `:::tabs`, `:::cards` and
+ * `:::steps` fences (remark-directive's syntax) made their markup.
+ */
 export function wikiRemarkPlugins({ index, siteUrl, root }: PipelineOptions): RemarkPlugins {
-  return [...wikiLinkSyntax(), [remarkWikiLinks, { index, siteUrl }], [remarkFileLinks, { index, siteUrl, root }]];
+  return [
+    ...wikiLinkSyntax(),
+    remarkDirective,
+    [remarkWikiLinks, { index, siteUrl }],
+    [remarkFileLinks, { index, siteUrl, root }],
+    remarkDirectives,
+  ];
 }
 
 /**

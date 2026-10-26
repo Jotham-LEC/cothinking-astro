@@ -4,9 +4,12 @@
 // and links to a page's file resolve against the link index as on the page
 // (one to no published page keeps its text); a site path gets the site's
 // address, so do raw HTML's `href` and `src`; an image Astro optimised takes
-// the address the page draws it from (`images`, in order).
+// the address the page draws it from (`images`, in order). The content
+// components' fences (`:::tabs`, `:::cards`, `:::steps`) go, keeping what
+// they hold, and a tab's `::tab[Label]` becomes its label in bold.
 import type { Node } from 'unist';
-import { visit } from 'unist-util-visit';
+import { toString } from 'mdast-util-to-string';
+import { SKIP, visit } from 'unist-util-visit';
 import { descriptionOf, type SiteEntry } from './entry.ts';
 import { fileOf, parseBody } from './links.ts';
 import { fileTarget, isFileLink, resolveFile, resolveTitle, type LinkIndex } from './linkIndex.ts';
@@ -15,6 +18,12 @@ import { absolute, type SiteConfig } from './site.ts';
 type Edit = { start: number; end: number; text: string };
 
 const isSitePath = (url: string) => url.startsWith('/') && !url.startsWith('//');
+/** The line around an offset, with its newline. */
+function lineAt(body: string, offset: number): { start: number; end: number } {
+  const end = body.indexOf('\n', offset);
+  return { start: body.lastIndexOf('\n', offset - 1) + 1, end: end < 0 ? body.length : end + 1 };
+}
+
 const isRelative = (url: string) => !/^[a-z][a-z0-9+.-]*:/i.test(url) && !url.startsWith('/') && !url.startsWith('#');
 
 export function markdownCopy(
@@ -35,9 +44,28 @@ export function markdownCopy(
   };
   let image = 0;
 
-  visit(parseBody(body), (node) => {
+  visit(parseBody(body), (node, _, parent) => {
     if (!node.position) return;
+    // A fence's `[label]` is on its opening line, which goes.
+    if ((node.data as { directiveLabel?: boolean } | undefined)?.directiveLabel) return SKIP;
     switch (node.type as string) {
+      case 'containerDirective': {
+        const opening = lineAt(body, at(node).start);
+        const closing = lineAt(body, at(node).end - 1);
+        edits.push({ ...opening, text: '' });
+        if (closing.start > opening.start && /^\s*:{3,}\s*$/.test(body.slice(closing.start, closing.end)))
+          edits.push({ ...closing, text: '' });
+        break;
+      }
+      case 'leafDirective': {
+        const directive = node as Node & { name: string };
+        const inTabs = (parent as { name?: string } | undefined)?.name === 'tabs';
+        if (directive.name !== 'tab' || !inTabs) break;
+        const line = lineAt(body, at(node).start).start;
+        const indent = body.slice(line, at(node).start);
+        edits.push({ start: line, end: at(node).end, text: `\n${indent}**${toString(node)}**\n` });
+        break;
+      }
       case 'wikiLink': {
         const link = node as unknown as { value: string; data: { alias?: string | null } };
         const title = link.value.replace(/\\$/, '').trim();

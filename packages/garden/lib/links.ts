@@ -1,9 +1,10 @@
 // The links a body makes to other pages, read off the Markdown as the renderer
-// parses it (remark-parse, GFM, remark-wiki-link): `[[wiki links]]`, links to
+// parses it (remark-parse, GFM, remark-wiki-link, remark-directive): `[[wiki links]]`, links to
 // a page's file (`[text](../essays/x.md)`) and Markdown links to a site path. Code, escaped brackets and raw HTML blocks
 // hold no links, exactly as on the page. Raw HTML tags are searched for their
 // `href`, `src` and `data` paths.
 import type { Root } from 'mdast';
+import remarkDirective from 'remark-directive';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import { unified } from 'unified';
@@ -13,7 +14,7 @@ import { wikiLinkSyntax } from './markdown/index.ts';
 import { pathOf } from './site.ts';
 import { fileTarget, isFileLink, resolveFile, resolveTitle, type LinkIndex } from './linkIndex.ts';
 
-const parser = unified().use(remarkParse).use(remarkGfm).use(wikiLinkSyntax());
+const parser = unified().use(remarkParse).use(remarkGfm).use(wikiLinkSyntax()).use(remarkDirective);
 
 /** A body's Markdown tree, as the renderer parses it (with positions into the body). */
 export const parseBody = (body: string): Root => parser.parse(body) as Root;
