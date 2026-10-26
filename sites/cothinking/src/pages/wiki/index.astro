@@ -1,6 +1,6 @@
 ---
 // /wiki: the landing page's text, then every wiki entry under its category,
-// A to Z (the Explorer's grouping, `explorer: 'by-category'`).
+// by `order`, then A to Z (the Explorer's grouping, `explorer: 'by-category'`).
 import { getCollection, getEntry, render } from 'astro:content';
 import { describeEntry, urlOf } from '@garden/lib/load.ts';
 import { groupByCategory } from '@garden/lib/explorer.ts';

@@ -1,13 +1,37 @@
 ---
 // The title block: an eyebrow, the h1 and, for a piece first published
 // elsewhere, where (`source`). With `popover`, it is part of the hover preview.
-type Props = { title: string; eyebrow?: string | null; source?: string | null; sourceDate?: string; popover?: boolean };
-const { title, eyebrow = null, source = null, sourceDate = '', popover = false } = Astro.props;
+// A page with a Markdown copy (`markdownUrl`) has a Copy as Markdown button
+// beside the eyebrow, shown once the script finds a clipboard.
+type Props = {
+  title: string;
+  eyebrow?: string | null;
+  source?: string | null;
+  sourceDate?: string;
+  popover?: boolean;
+  markdownUrl?: string | null;
+};
+const { title, eyebrow = null, source = null, sourceDate = '', popover = false, markdownUrl = null } = Astro.props;
 const host = source ? new URL(source).host.replace(/^www\./, '') : '';
 ---
 
 <header class="mb-8" data-popover={popover ? '' : undefined}>
-  {eyebrow && <p class="text-accent mb-2 text-xs font-semibold tracking-wider uppercase">{eyebrow}</p>}
+  {(eyebrow || markdownUrl) && (
+    <div class="mb-2 flex items-baseline justify-between gap-4 text-xs font-semibold tracking-wider uppercase">
+      {eyebrow && <p class="text-accent">{eyebrow}</p>}
+      {markdownUrl && (
+        <button
+          type="button"
+          class="text-muted hover:text-accent ml-auto cursor-pointer font-sans tracking-wider uppercase print:hidden"
+          data-copy-markdown={markdownUrl}
+          data-pagefind-ignore
+          hidden
+        >
+          Copy as Markdown
+        </button>
+      )}
+    </div>
+  )}
   <h1 class="after:bg-accent motion-safe:after:animate-blink text-heading font-heading text-3xl font-extrabold tracking-tight text-balance after:ml-[0.2em] after:inline-block after:h-[0.85em] after:w-[0.5em] after:align-[-0.05em] after:content-[''] sm:text-4xl print:after:hidden">
     {title}
   </h1>
@@ -21,3 +45,8 @@ const host = source ? new URL(source).host.replace(/^www\./, '') : '';
     </p>
   )}
 </header>
+
+<script>
+  import { initCopyMarkdown } from '../scripts/copy-markdown.ts';
+  initCopyMarkdown();
+</script>

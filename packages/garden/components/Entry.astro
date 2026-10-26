@@ -57,7 +57,14 @@ const section = info.section ? (site.collections[info.section]?.title ?? info.se
     data-pagefind-body={searchable ? '' : undefined}
     data-pagefind-meta={searchable && section ? `section:${section}` : undefined}
   >
-    <PageHeader title={page.title} eyebrow={info.eyebrow} source={info.source} sourceDate={info.sourceDate} popover />
+    <PageHeader
+      title={page.title}
+      eyebrow={info.eyebrow}
+      source={info.source}
+      sourceDate={info.sourceDate}
+      markdownUrl={info.markdownUrl}
+      popover
+    />
     <slot name="after-title" />
     <Outline entries={entries} variant="details" />
 
@@ -79,8 +86,15 @@ const section = info.section ? (site.collections[info.section]?.title ?? info.se
   <slot name="after-article" />
 
   {/* A note's date is in its eyebrow; a saved edit to it is not news. */}
-  {!info.isNote && updated && (
-    <p class="border-rule text-muted mt-10 border-t pt-5 text-sm">Last updated {day(updated)}</p>
+  {((!info.isNote && updated) || info.editUrl) && (
+    <p class="border-rule text-muted mt-10 flex flex-wrap justify-between gap-x-4 border-t pt-5 text-sm">
+      {!info.isNote && updated && <span>Last updated {day(updated)}</span>}
+      {info.editUrl && (
+        <a class="text-muted hover:text-accent ml-auto" href={info.editUrl}>
+          Edit this page on GitHub
+        </a>
+      )}
+    </p>
   )}
 
   <Rail slot="rail" page={page} toc={entries} graphSection={info.graphSection} backlinks={linked} />

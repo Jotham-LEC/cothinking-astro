@@ -15,6 +15,7 @@ export const site = {
   logoDark: '/images/cothinking/logo-dark.svg',
   favicon: '/images/cothinking/favicon.svg',
   footerText: businessLine,
+  editUrl: 'https://github.com/Jotham-LEC/cothinking-astro/edit/main/sites/cothinking/',
   collections: {
     pages: { title: 'CoThinking pages', order: 'order' },
     problems: {
@@ -33,6 +34,7 @@ export const site = {
       article: true,
       order: 'date',
       explorer: 'by-category',
+      markdown: true,
       categories: {
         'choosing-a-provider': 'Choosing a provider',
         'email-and-security': 'Email and security',

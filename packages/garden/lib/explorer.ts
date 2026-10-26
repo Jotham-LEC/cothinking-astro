@@ -2,8 +2,8 @@
 // item whose page is a section's landing page is a folder holding that
 // section's pages, as the collection's `explorer` says: every page (`all`),
 // one row per post type in use (`by-type`), a group per year (`by-year`), a
-// group per category, A–Z, "Other" last (`by-category`), or only the pages
-// with a body (`with-body`). At each level single pages come
+// group per category, by `order` then A–Z, "Other" last (`by-category`), or
+// only the pages with a body (`with-body`). At each level single pages come
 // before folders; text-only items holding nothing are dropped, so are
 // drafts. Also the header, drawer and footer links, and which panels a page
 // has.
@@ -98,15 +98,18 @@ export function explorerRows(live: SiteEntry[], site: SiteConfig): Row[] {
 }
 
 /**
- * Entries by their `category`, in the categories' order, each A–Z; the rest last as "Other".
- * `fields` reads an entry's title and category: the entry itself for a SiteEntry, `entry.data` for one of Astro's.
+ * Entries by their `category`, in the categories' order, each by its `order` (those with one first), then A–Z; the
+ * rest last as "Other". `fields` reads an entry's title, category and order: the entry itself for a SiteEntry,
+ * `entry.data` for one of Astro's.
  */
 export function groupByCategory<T>(
   entries: T[],
   categories: Record<string, string>,
-  fields: (entry: T) => { title: string; category?: string | null },
+  fields: (entry: T) => { title: string; category?: string | null; order?: number | null },
 ): { handle: string; title: string; entries: T[] }[] {
-  const sorted = [...entries].sort((a, b) => naturalCompare(fields(a).title, fields(b).title));
+  const rank = (e: T) => fields(e).order ?? Infinity;
+  // Two entries without an order give NaN, which falls through to the title.
+  const sorted = [...entries].sort((a, b) => rank(a) - rank(b) || naturalCompare(fields(a).title, fields(b).title));
   const out: { handle: string; title: string; entries: T[] }[] = [];
   for (const [handle, title] of Object.entries(categories)) {
     const own = sorted.filter((e) => fields(e).category === handle);

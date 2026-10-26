@@ -19,6 +19,11 @@ export type CollectionConfig = {
   article?: boolean;
   /** The section has its own feed at /<collection>/feed.xml. */
   feed?: boolean;
+  /**
+   * Each page has a Markdown copy at `<address>.md` (routes/[...uri].md.ts), which its Copy as Markdown button and
+   * llms.txt link, and, with the site's `editUrl`, an edit link to its file.
+   */
+  markdown?: boolean;
   /** How listings order the pages: newest first, or by their `order` field. */
   order: 'date' | 'order';
   /**
@@ -52,6 +57,11 @@ export type SiteConfig = {
   footerText: string;
   collections: Record<string, CollectionConfig>;
   navigation: { explorer: NavItem[]; header: NavItem[]; footer: NavItem[] };
+  /**
+   * The repository's editor for the site's folder, ending in `/` (`https://github.com/<owner>/<repo>/edit/main/sites/<site>/`):
+   * a page of a collection with `markdown` links its file, `src/content/<collection>/<id>.md`, there.
+   */
+  editUrl?: string;
   /** Old addresses and where they go: Astro writes each as a meta-refresh page (garden/config.mjs). */
   redirects?: Record<string, string>;
   /** Who writes the articles, for the byline: the owner, named as on the other site, whose publisher (a Person) the JSON-LD names by `@id`. Absent when the publisher is the author. */

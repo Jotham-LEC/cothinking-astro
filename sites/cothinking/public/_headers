@@ -3,6 +3,10 @@
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
+# The wiki's Markdown copies (garden/routes/[...uri].md.ts), read as UTF-8 text.
+/*.md
+  Content-Type: text/markdown; charset=utf-8
+
 # Security headers on every response. The CSP leaves scripts alone (GTM and the
 # inline scripts would need hashes): it only stops framing, <base> and plugins.
 /*

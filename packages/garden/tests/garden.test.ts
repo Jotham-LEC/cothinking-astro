@@ -19,14 +19,15 @@ import {
 import { fullUrls, pageOnly } from '../lib/feed.ts';
 import { groupByCategory, explorerRows, headerLinks, markCurrent, menu, panels, urlsIn } from '../lib/explorer.ts';
 import { backlinks, buildGraph } from '../lib/graph.ts';
-import { pageInfo } from '../lib/pageInfo.ts';
 import { fileLinksIn, linkedPages, localTargets, wikiLinksIn } from '../lib/links.ts';
 import { pager } from '../lib/pager.ts';
 import { readTime, wordCount } from '../lib/readTime.ts';
 import { head, inSitemap } from '../lib/seo.ts';
 import { absolute, type SiteConfig } from '../lib/site.ts';
 import { sitemapOptions } from '../lib/sitemap.ts';
-import { robotsTxt } from '../lib/textFiles.ts';
+import { llmsTxt, robotsTxt } from '../lib/textFiles.ts';
+import { markdownCopy } from '../lib/markdownCopy.ts';
+import { pageInfo } from '../lib/pageInfo.ts';
 import { fileTarget, linkIndex, resolveFile, resolveTitle } from '../lib/linkIndex.ts';
 import { toc } from '../lib/toc.ts';
 
@@ -188,18 +189,20 @@ describe('explorer and navigation', () => {
     expect(later[2]!.isCurrent).toBe(false);
     expect(markCurrent(rows, at('/essays'), '/essays')[2]!.isCurrent).toBe(true);
   });
-  it('groups by category, in the config order, A–Z, the rest as Other, on either entry model', () => {
+  it('groups by category, in the config order, by order then A–Z, the rest as Other, on either entry model', () => {
     // Astro's entries keep their fields in `data`, as a site's view holds them.
     const astro = [
       { id: 'b', data: { title: 'Beta', category: 'x' } },
       { id: 'n', data: { title: 'None' } },
       { id: 'a', data: { title: 'Alpha', category: 'x' } },
+      { id: 'z2', data: { title: 'Zulu', category: 'x', order: 2 } },
+      { id: 'z1', data: { title: 'Zed', category: 'x', order: 1 } },
       { id: 'y', data: { title: 'Why', category: 'y' } },
     ];
     const groups = groupByCategory(astro, { y: 'Y', x: 'X' }, (e) => e.data);
     expect(groups.map((g) => [g.title, g.entries.map((e) => e.id)])).toEqual([
       ['Y', ['y']],
-      ['X', ['a', 'b']],
+      ['X', ['z1', 'z2', 'a', 'b']],
       ['Other', ['n']],
     ]);
   });
@@ -288,6 +291,48 @@ describe('pager, breadcrumbs, info, outline', () => {
     );
     expect(pager(notes[0]!, notes, posts).next?.id).toBe('n1');
     expect(pager(notes[0]!, notes, site)).toEqual({ previous: null, next: null });
+  });
+  it('pages through a collection grouped by category in the Explorer order, across categories, a series by part', () => {
+    const wiki: SiteConfig = {
+      ...site,
+      collections: {
+        ...site.collections,
+        wiki: {
+          title: 'Wiki',
+          landing: 'wiki',
+          order: 'date',
+          explorer: 'by-category',
+          categories: { b: 'B', a: 'A' },
+        },
+      },
+    };
+    const docs = (
+      [
+        ['alpha', { title: 'Alpha', category: 'a' }],
+        ['beta', { title: 'Beta', category: 'b' }],
+        ['zulu', { title: 'Zulu', category: 'b', order: 1 }],
+        ['loose', { title: 'Loose' }],
+        ['part-2', { title: 'Part 2', category: 'a', series: 'p', part: 2 }],
+        ['part-1', { title: 'Part 1', category: 'a', series: 'p', part: 1 }],
+      ] as [string, Record<string, unknown>][]
+    ).map(([id, data]) => toSiteEntry({ collection: 'wiki', id, data }, wiki));
+    const walk = (id: string) => {
+      const { previous, next } = pager(
+        docs.find((d) => d.id === id)!,
+        docs,
+        wiki,
+      );
+      return [previous?.id ?? null, next?.id ?? null];
+    };
+    // B (Zulu by its order, then A–Z), then A, then Other; a series' first and last parts lead on to the walk.
+    expect(['zulu', 'beta', 'alpha', 'part-1', 'part-2', 'loose'].map(walk)).toEqual([
+      [null, 'beta'],
+      ['zulu', 'alpha'],
+      ['beta', 'part-1'],
+      ['alpha', 'part-2'],
+      ['part-1', 'loose'],
+      ['part-2', null],
+    ]);
   });
   it('walks the address for breadcrumbs, and draws the parents only', () => {
     expect(breadcrumbs('/essays/older', live).map((c) => c.url)).toEqual(['/', '/essays', '/essays/older']);
@@ -422,6 +467,61 @@ describe('head and generated files', () => {
       'https://garden.test/spam',
     ]);
     expect(robotsTxt(site)).toBe('User-agent: *\nAllow: /\n\nSitemap: https://garden.test/sitemap-index.xml\n');
+  });
+  it('writes a page as Markdown with full addresses, and links it from llms.txt and the page', () => {
+    const md: SiteConfig = {
+      ...site,
+      editUrl: 'https://git.test/edit/main/sites/garden/',
+      collections: { ...site.collections, essays: { ...site.collections.essays!, markdown: true } },
+    };
+    const page = toSiteEntry(
+      {
+        collection: 'essays',
+        id: 'x',
+        data: { title: 'X', description: 'About X.' },
+        body: [
+          '## Part',
+          '',
+          'See [[About|the about page]], [[Other Page]], [[Draft]], [older](older.md#top), [gone](draft.md) and [home](/).',
+          '',
+          '[![Shot](../../assets/a.png)](/about) ![Logo](/media/l.svg) [ext](https://x.test/a)',
+          '',
+          '<img class="wiki-logo-light" src="/media/d.svg" alt="">',
+          '',
+          '| a |',
+          '| - |',
+          '| [[About\\|cell]] |',
+        ].join('\n'),
+      },
+      md,
+    );
+    expect(markdownCopy(page, { index, site: md, images: ['/_astro/a.webp'] })).toBe(
+      [
+        '# X',
+        '',
+        '> About X.',
+        '',
+        '## Part',
+        '',
+        'See [the about page](https://garden.test/about), [Other Page](https://other.test/other-page), Draft, [older](https://garden.test/essays/older#top), gone and [home](https://garden.test).',
+        '',
+        '[![Shot](https://garden.test/_astro/a.webp)](https://garden.test/about) ![Logo](https://garden.test/media/l.svg) [ext](https://x.test/a)',
+        '',
+        '<img class="wiki-logo-light" src="https://garden.test/media/d.svg" alt="">',
+        '',
+        '| a |',
+        '| - |',
+        '| [cell](https://garden.test/about) |',
+        '',
+      ].join('\n'),
+    );
+    expect(pageInfo(at('/essays/older'), md)).toMatchObject({
+      markdownUrl: '/essays/older.md',
+      editUrl: 'https://git.test/edit/main/sites/garden/src/content/essays/older.md',
+    });
+    expect(pageInfo(at('/about'), md)).toMatchObject({ markdownUrl: null, editUrl: null });
+    expect(llmsTxt(live, md)).toContain('- [Older Essay](https://garden.test/essays/older.md)');
+    expect(llmsTxt(live, md)).toContain('- [About](https://garden.test/about)');
   });
 });
 

@@ -1,10 +1,12 @@
 // What an entry's page says about the entry beyond its fields: its section
 // and that section's feed, whether it is a post (a collection with `types`,
 // such as notes) or the home page, where it
-// was first published (`seo.canonical`), and the eyebrow (date and reading
-// time, on a section's pages only).
+// was first published (`seo.canonical`), the eyebrow (date and reading
+// time, on a section's pages only), and, in a collection with `markdown`, its
+// Markdown copy and where its file is edited.
 import { day } from './dates.ts';
 import { isSectionPage, sectionOfLanding, type SiteEntry } from './entry.ts';
+import { fileOf } from './links.ts';
 import { readTime } from './readTime.ts';
 import type { SiteConfig } from './site.ts';
 
@@ -19,7 +21,15 @@ export type PageInfo = {
   readTime: number | null;
   eyebrow: string | null;
   graphSection: string | null;
+  /** The page as Markdown (routes/[...uri].md.ts). */
+  markdownUrl: string | null;
+  /** The page's file in the repository's editor (`editUrl`). */
+  editUrl: string | null;
 };
+
+/** A page's Markdown copy, `<address>.md`, in a collection with `markdown`. */
+export const markdownUrlOf = (entry: SiteEntry, site: SiteConfig): string | null =>
+  site.collections[entry.collection]?.markdown && entry.url !== '/' ? `${entry.url}.md` : null;
 
 /** A feed's title and address: the site's, or one section's. */
 export function feedOf(section: string | null, site: SiteConfig): { title: string; url: string } {
@@ -49,5 +59,7 @@ export function pageInfo(entry: SiteEntry, site: SiteConfig): PageInfo {
     eyebrow: child && dayText ? `${dayText}${minutes ? ` · ${minutes} min read` : ''}` : null,
     // A section whose landing page's graph holds the whole section (`graphSection`).
     graphSection: !child && section && site.collections[section]?.graphSection ? section : null,
+    markdownUrl: markdownUrlOf(entry, site),
+    editUrl: site.editUrl && site.collections[entry.collection]?.markdown ? site.editUrl + fileOf(entry) : null,
   };
 }

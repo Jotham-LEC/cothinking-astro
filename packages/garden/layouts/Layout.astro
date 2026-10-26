@@ -101,7 +101,7 @@ const gtmId = import.meta.env.PROD ? (site.marketing.gtmId ?? null) : null;
         </div>
       )}
       {hasRail && (
-        <aside id="rail">
+        <aside id="rail" aria-label="About this page">
           <div class="xl:h-full xl:overflow-y-auto xl:py-10 xl:pl-6">
             <slot name="rail" />
           </div>

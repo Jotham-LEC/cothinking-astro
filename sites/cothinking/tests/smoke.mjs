@@ -2,7 +2,7 @@
 // PREVIEW_URL, else :4332): the rooms (terminal ground, no rail, the drawer
 // at every width, with and without JavaScript), the panels starting open
 // and reader mode, the wiki's categories and its section-wide graph, the
-// series pager, the Pagefind palette and the 404's suggestions, with
+// series and wiki pager, Copy as Markdown, the Pagefind palette and the 404's suggestions, with
 // screenshots of rooms and garden pages in light and dark.
 import { fileURLToPath } from 'node:url';
 import { smoke } from '../../../packages/garden/tests/smoke.mjs';
@@ -87,6 +87,24 @@ async function run({ page, BASE, check, shots }) {
     (await page.locator('main a[rel="next"]').getAttribute('href')) === '/wiki/boring-office-part-3-password-managers',
   );
   check('byline', (await page.locator('main a[rel="author"]').textContent())?.trim() === 'Jotham Lim');
+  // Past a series' first part, the pager walks on through the wiki in the Explorer's order.
+  await page.goto(`${BASE}/wiki/boring-office-part-1-overview`, { waitUntil: 'networkidle' });
+  check(
+    'wiki pager leaves the series',
+    (await page.locator('main a[rel="prev"]').getAttribute('href')) === '/wiki/website-ownership-checklist',
+  );
+  // Copy as Markdown puts the page's Markdown copy on the clipboard.
+  await page.context().grantPermissions(['clipboard-read', 'clipboard-write'], { origin: BASE });
+  const copy = page.locator('[data-copy-markdown]');
+  check('copy as markdown shown', await copy.isVisible());
+  await copy.click();
+  await page.waitForFunction(() => document.querySelector('[data-copy-markdown]')?.textContent?.trim() === 'Copied');
+  check(
+    'copy as markdown copies',
+    (await page.evaluate(() => navigator.clipboard.readText())).startsWith(
+      '# Setting up IT for a small company, Part 1: The Boring Office',
+    ),
+  );
   await page.goto(`${BASE}/wiki/boring-office-part-3-password-managers`, { waitUntil: 'networkidle' });
   check(
     'light and dark diagram pair',

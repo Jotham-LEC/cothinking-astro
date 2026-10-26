@@ -1,9 +1,10 @@
 // robots.txt and llms.txt: every crawler welcome, and where the sitemap is
 // (sitemap.ts); the site's name and default description, then each
 // collection's listed pages (newest change first) as Markdown links with
-// their descriptions.
+// their descriptions; to a page's Markdown copy where it has one.
 import { descriptionOf, type SiteEntry } from './entry.ts';
 import { naturalCompare } from './natural.ts';
+import { markdownUrlOf } from './pageInfo.ts';
 import { inSitemap, limit, squish } from './seo.ts';
 import { absolute, type SiteConfig } from './site.ts';
 
@@ -35,7 +36,7 @@ export function llmsTxt(live: SiteEntry[], site: SiteConfig): string {
       const text = descriptionOf(page, { skipCreditLine: false });
       const description = text ? limit(squish(text), 200) : null;
       lines.push(
-        `- [${page.title.replace(/\[/g, '(').replace(/\]/g, ')')}](${absolute(site.url, page.url)})${description ? `: ${description}` : ''}`,
+        `- [${page.title.replace(/\[/g, '(').replace(/\]/g, ')')}](${absolute(site.url, markdownUrlOf(page, site) ?? page.url)})${description ? `: ${description}` : ''}`,
       );
     }
     lines.push('');
