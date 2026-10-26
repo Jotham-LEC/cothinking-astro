@@ -2,7 +2,7 @@
 // one place a colour is written: the dark value of light-dark() for the
 // ground, headings and muted text, and the brand yellow (tests/tokens.test.ts
 // guards the shapes these regexes expect).
-export type CardColours = { background: string; heading: string; muted: string; accent: string };
+type CardColours = { background: string; heading: string; muted: string; accent: string };
 
 export function cardColoursFrom(css: string): CardColours {
   const dark = (token: string) => {

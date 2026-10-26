@@ -124,11 +124,7 @@ export function groupByCategory<T>(
 }
 
 /** The post types with a published entry, as `[handle, title]` in the config's order. */
-export function noteTypesInUse(
-  live: SiteEntry[],
-  collection: string,
-  types: Record<string, string>,
-): [string, string][] {
+function noteTypesInUse(live: SiteEntry[], collection: string, types: Record<string, string>): [string, string][] {
   const inUse = new Set(live.filter((e) => e.collection === collection).map((e) => e.type));
   return Object.entries(types).filter(([handle]) => inUse.has(handle));
 }

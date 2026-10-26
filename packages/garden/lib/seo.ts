@@ -13,7 +13,7 @@ const ROBOTS_DEFAULT = 'max-snippet:-1, max-image-preview:large, max-video-previ
 const IMAGE_WIDTH = 1200;
 const IMAGE_HEIGHT = 630;
 
-export type HeadInput = {
+type HeadInput = {
   page: SiteEntry | null;
   /** The page's path (never Astro.url: build.format 'file' makes that `/x.html`). */
   path: string;

@@ -46,7 +46,7 @@ export const isFileLink = (url: string): boolean =>
   !/^[a-z][a-z0-9+.-]*:/i.test(url) && !url.startsWith('/') && /\.md(#|$)/.test(url);
 
 /** The content file a relative link names, from the page that holds it: on this site, the other, or neither. */
-export type FileTarget = { site: 'own' | 'other' | null; key: string; hash: string };
+type FileTarget = { site: 'own' | 'other' | null; key: string; hash: string };
 
 /**
  * Where a relative `.md` link leads, from the file that holds it (`from`, as `src/content/essays/x.md`, relative to

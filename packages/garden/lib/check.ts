@@ -11,7 +11,7 @@ import { fileTarget, linkIndex, normaliseTitle, resolveFile, resolveTitle, type 
 const ID = /^[a-z0-9-]+$/;
 const REFERENCE = /^([a-z_]+)\/([a-z0-9-]+)$/;
 
-export type CheckInput = {
+type CheckInput = {
   root: URL | string;
   site: SiteConfig;
   raws: RawEntry[];

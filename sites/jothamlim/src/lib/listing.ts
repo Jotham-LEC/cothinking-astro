@@ -5,7 +5,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { site } from '@site/site.config.ts';
 
 type Dated = 'essays' | 'notes' | 'projects' | 'publications';
-export type DatedEntry = CollectionEntry<Dated>;
+type DatedEntry = CollectionEntry<Dated>;
 
 const newest = (a: DatedEntry, b: DatedEntry) =>
   b.data.date.getTime() - a.data.date.getTime() || a.data.title.localeCompare(b.data.title);

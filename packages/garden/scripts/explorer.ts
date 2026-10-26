@@ -61,11 +61,16 @@ function bindDrawer(explorer: HTMLElement) {
     document.getElementById('rail'),
     document.querySelector('body > footer'),
   ].filter((el): el is HTMLElement => el instanceof HTMLElement);
-  explorer.addEventListener('toggle', (event) => {
+  // `beforetoggle` fires as the drawer opens or closes; `toggle` comes a task later, which would leave the page
+  // inert for a moment after the drawer has gone.
+  explorer.addEventListener('beforetoggle', (event) => {
     const opened = (event as ToggleEvent).newState === 'open';
     // From lg outside a room the Explorer is a column, not a drawer over the page.
     for (const el of behind) el.inert = opened && (room || !column.matches);
-    if (!opened) return;
+  });
+  // Focus once the drawer is showing.
+  explorer.addEventListener('toggle', (event) => {
+    if ((event as ToggleEvent).newState !== 'open') return;
     const current =
       explorer.querySelector<HTMLElement>('[aria-current]') ?? explorer.querySelector<HTMLElement>('a, button');
     current?.focus();
