@@ -172,3 +172,29 @@ describe('links, images and plain text', () => {
     expect(html).toContain('--shiki-dark:');
   });
 });
+
+describe('content components', () => {
+  it('makes `:::tabs` a panel per `::tab[Label]`, each with its label first, and keeps what comes before the first tab above', async () => {
+    const html = await render(':::tabs\nIntro.\n\n::tab[Google Workspace]\nG *em*\n\n::tab[Microsoft 365]\nM\n:::');
+    expect(html).toBe(
+      '<p>Intro.</p>\n<div class="tabs"><div class="tab-panel"><p class="tab-label">Google Workspace</p><p>G <em>em</em></p></div><div class="tab-panel"><p class="tab-label">Microsoft 365</p><p>M</p></div></div>',
+    );
+  });
+
+  it('wraps `:::cards` and `:::steps` lists, with wiki links resolved inside, and nests tabs in a step', async () => {
+    const cards = await render(':::cards\n- [[Older Essay]]\n- [Docs](/docs) text\n:::');
+    expect(cards).toContain(
+      '<div class="cards"><ul>\n<li><a class="wiki-link" href="/essays/older-essay">Older Essay</a></li>',
+    );
+    const steps = await render('::::steps\n1. One\n2. Two\n\n   :::tabs\n   ::tab[A]\n   a\n   :::\n::::');
+    expect(steps).toMatch(/^<div class="steps"><ol>/);
+    expect(steps).toContain('<div class="tabs"><div class="tab-panel"><p class="tab-label">A</p><p>a</p></div></div>');
+    expect(steps).not.toContain(':::');
+  });
+
+  it('puts text the parser took for a directive back as written, and keeps what an unknown fence holds', async () => {
+    expect(await render('TL:DR, 1:80 and :b[x]{y=1}.')).toBe('<p>TL:DR, 1:80 and :b[x]{y=1}.</p>');
+    expect(await render('::leaf')).toBe('<p>::leaf</p>');
+    expect(await render(':::unknown[Label]\nkept **bold**\n:::')).toBe('<p>kept <strong>bold</strong></p>');
+  });
+});

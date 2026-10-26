@@ -523,6 +523,66 @@ describe('head and generated files', () => {
     expect(llmsTxt(live, md)).toContain('- [Older Essay](https://garden.test/essays/older.md)');
     expect(llmsTxt(live, md)).toContain('- [About](https://garden.test/about)');
   });
+
+  it('writes the content components as plain Markdown: no fences, a tab its label in bold', () => {
+    const md: SiteConfig = {
+      ...site,
+      collections: { ...site.collections, essays: { ...site.collections.essays!, markdown: true } },
+    };
+    const page = toSiteEntry(
+      {
+        collection: 'essays',
+        id: 'x',
+        data: { title: 'X', description: 'About X.' },
+        body: [
+          '::::steps',
+          '1. One, see [[About]].',
+          '2. Two:',
+          '',
+          '   :::tabs',
+          '   ::tab[Google Workspace]',
+          '   G',
+          '',
+          '   ::tab[Microsoft 365]',
+          '   M',
+          '   :::',
+          '::::',
+          '',
+          ':::cards',
+          '- [[About]]',
+          ':::',
+          '',
+          'TL:DR, 1:80.',
+        ].join('\n'),
+      },
+      md,
+    );
+    expect(markdownCopy(page, { index, site: md, images: [] })).toBe(
+      [
+        '# X',
+        '',
+        '> About X.',
+        '',
+        '1. One, see [About](https://garden.test/about).',
+        '2. Two:',
+        '',
+        '',
+        '   **Google Workspace**',
+        '',
+        '   G',
+        '',
+        '',
+        '   **Microsoft 365**',
+        '',
+        '   M',
+        '',
+        '- [About](https://garden.test/about)',
+        '',
+        'TL:DR, 1:80.',
+        '',
+      ].join('\n'),
+    );
+  });
 });
 
 describe('content check', () => {

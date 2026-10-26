@@ -1,11 +1,14 @@
 ---
-// /wiki: the landing page's text, then every wiki entry under its category,
-// by `order`, then A to Z (the Explorer's grouping, `explorer: 'by-category'`).
+// /wiki: the landing page's text, a search field (the ⌘K palette's), a card
+// per category with its count and first entries, then every wiki entry under
+// its category, by `order`, then A to Z (the Explorer's grouping,
+// `explorer: 'by-category'`).
 import { getCollection, getEntry, render } from 'astro:content';
 import { describeEntry, urlOf } from '@garden/lib/load.ts';
 import { groupByCategory } from '@garden/lib/explorer.ts';
 import Entry from '@garden/components/Entry.astro';
 import HeadingLink from '@garden/components/HeadingLink.astro';
+import MagnifyingGlass from '@garden/assets/icons/magnifying-glass.svg';
 import NextStep from '@site/components/NextStep.astro';
 import { site } from '@site/site.config.ts';
 const entry = (await getEntry('pages', 'wiki'))!;
@@ -17,6 +20,9 @@ const wiki = await Promise.all(
   })),
 );
 const categories = groupByCategory(wiki, site.collections.wiki.categories, ({ page }) => page.data);
+/** How many entries a category's card lists. */
+const FIRST = 3;
+const pages = (n: number) => `${n} ${n === 1 ? 'guide' : 'guides'}`;
 ---
 
 <Entry
@@ -26,6 +32,50 @@ const categories = groupByCategory(wiki, site.collections.wiki.categories, ({ pa
 >
   <Content />
   <Fragment slot="after-body">
+    {/* Opens the ⌘K palette (its script binds every `data-palette-open`); without JS it does nothing, as the header's. */}
+    <button
+      type="button"
+      class="not-prose border-rule bg-bg-elev text-muted hover:border-rule-strong hover:text-fg mt-8 flex w-full items-center gap-3 rounded-lg border px-4 py-3 text-left font-sans"
+      data-palette-open
+    >
+      <MagnifyingGlass class="size-5" aria-hidden="true" />
+      <span class="flex-1">Search the wiki…</span>
+      <kbd
+        class="border-rule rounded border px-1.5 font-mono text-xs pointer-coarse:hidden"
+        aria-hidden="true"
+        data-kbd-trigger
+      >
+        ⌘K
+      </kbd>
+    </button>
+    {/* Titles look like headings but are not, or the outline would repeat the sections below. */}
+    <ul class="not-prose mt-6 grid gap-3 font-sans sm:grid-cols-2" aria-label="Topics">
+      {categories.map((category) => (
+        <li class="rounded-site border-rule bg-bg-elev flex flex-col border p-4">
+          <a
+            class="text-heading hover:text-accent font-heading text-lg font-extrabold no-underline"
+            href={`#${category.handle}`}
+          >
+            {category.title}
+          </a>
+          <span class="text-muted text-sm">{pages(category.entries.length)}</span>
+          <ul class="mt-3 space-y-1.5 text-sm">
+            {category.entries.slice(0, FIRST).map(({ page }) => (
+              <li>
+                <a class="text-accent hover:text-accent-hover" href={urlOf(page)}>
+                  {page.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+          {category.entries.length > FIRST && (
+            <a class="text-muted hover:text-accent mt-auto pt-3 text-sm" href={`#${category.handle}`}>
+              All {pages(category.entries.length)} <span aria-hidden="true">→</span>
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
     {categories.map((category) => (
       <>
         <h2 id={category.handle}>

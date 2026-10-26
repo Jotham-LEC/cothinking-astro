@@ -32,6 +32,7 @@ Each is cheap to avoid while the company is small, and expensive to fix once it 
 
 ## The eight parts
 
+:::cards
 1. The Boring Office (this page)
 2. [[Setting up IT for a small company, Part 2: The domain and accounts|The domain and accounts]]
 3. [[Setting up IT for a small company, Part 3: Password managers|Password managers]]
@@ -40,6 +41,7 @@ Each is cheap to avoid while the company is small, and expensive to fix once it 
 6. [[Setting up IT for a small company, Part 6: Backups|Backups]]
 7. [[Setting up IT for a small company, Part 7: People joining and leaving|People joining and leaving]]
 8. [[Setting up IT for a small company, Part 8: What to avoid, and when to get help|What to avoid, and when to get help]]
+:::
 
 ---
 

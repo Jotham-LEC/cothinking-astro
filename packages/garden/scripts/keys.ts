@@ -90,15 +90,14 @@ function onKey(state: Keys, e: KeyboardEvent) {
   }
 }
 
-/** The search button's hint says Ctrl+K off a Mac. */
+/** The search buttons' hint says Ctrl+K off a Mac. */
 function platformHint() {
-  const kbd = document.querySelector('[data-kbd-trigger]');
-  if (!kbd) return;
   const platform =
     (navigator as Navigator & { userAgentData?: { platform?: string } }).userAgentData?.platform ??
     navigator.platform ??
     '';
-  if (!/mac/i.test(platform)) kbd.textContent = 'Ctrl+K';
+  if (!/mac/i.test(platform))
+    for (const kbd of document.querySelectorAll('[data-kbd-trigger]')) kbd.textContent = 'Ctrl+K';
 }
 
 export function initKeys() {
