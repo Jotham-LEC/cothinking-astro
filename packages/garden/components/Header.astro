@@ -49,8 +49,9 @@ const icon =
     ) : (
       <>
         <Image class="size-7 rounded-full" src={portrait} alt="" width={56} height={56} loading="eager" />
-        {/* Below 380px the name gives way to "Work with me"; screen readers still hear it. */}
-        <span class="max-[380px]:sr-only">{site.name}</span>
+        {/* Below 480px the portrait stands alone, as a wordmark's favicon does, so the header keeps to one row
+            beside "Work with me" and the touch-sized buttons; screen readers still hear the name. */}
+        <span class="max-[479px]:sr-only">{site.name}</span>
       </>
     )}
   </a>

@@ -81,10 +81,12 @@
   --color-button-fg: var(--site-button-fg);
   --color-danger: var(--site-danger);
 
-  /* Aporetic (garden/config.mjs `fonts`): Sans for everything, Sans Mono for code. Headings and prose keep roles of their own, so either can change here alone. */
+  /* The fonts (garden/config.mjs `fonts`): Aporetic Sans for the shell and headings, the character of both
+     sites; Source Serif 4 for rendered prose, as long reads want a book face; Aporetic Sans Mono for code.
+     Headings and prose keep roles of their own, so either can change here alone. */
   --font-sans: var(--font-aporetic-sans);
   --font-heading: var(--font-aporetic-sans);
-  --font-prose: var(--font-aporetic-sans);
+  --font-prose: var(--font-source-serif);
   --font-mono: var(--font-aporetic-mono);
   --radius-site: var(--site-radius);
 }

@@ -1,5 +1,5 @@
 ---
-// The rail: the local graph, the outline (wide screens) and the pages that
+// The rail: the outline (wide screens), the local graph and the pages that
 // link here; each hides when it has nothing.
 import type { SiteEntry } from '../lib/entry.ts';
 import type { TocEntry } from '../lib/toc.ts';
@@ -18,6 +18,9 @@ const colours = JSON.stringify(
 ---
 
 <div class="space-y-8 text-sm" data-pagefind-ignore>
+  {/* First: the outline is what a reader uses most; the graph is for wandering. */}
+  <Outline entries={toc} variant="rail" />
+
   {/* This page and its neighbours one link away (scripts/graph.ts); gone when it has none. `graphSection` widens it to the whole section. */}
   <section data-graph={page.url} data-graph-section={graphSection ?? undefined} data-graph-colours={colours} hidden>
     <h2 class="text-heading mb-2 text-sm font-semibold lowercase">Graph</h2>
@@ -47,8 +50,6 @@ const colours = JSON.stringify(
       </div>
     </dialog>
   </section>
-
-  <Outline entries={toc} variant="rail" />
 
   {backlinks.length > 0 && (
     <section data-backlinks>

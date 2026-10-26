@@ -13,7 +13,7 @@ import { lazyIndex, scanEntries } from './lib/scan.ts';
 import { sitemapOptions } from './lib/sitemap.ts';
 
 /**
- * One Aporetic face (SIL OFL, assets/fonts/LICENSE.md), self-hosted and subset to Latin.
+ * One self-hosted face (SIL OFL, assets/fonts/LICENSE.md): Aporetic subset to Latin, Source Serif 4 whole.
  * @param {string} file
  * @param {number} weight
  * @param {'normal' | 'italic'} style
@@ -93,7 +93,8 @@ export function gardenConfig({ root: rootUrl, site, otherSite }) {
     },
     integrations: [sharedRoutes, sitemap(sitemapOptions(scanEntries(rootUrl, site), site)), pagefind()],
     vite: { plugins: [tailwindcss()] },
-    // Sans for everything (400 and 700 with italics, 800 for headings), Sans Mono for code; layouts/Layout.astro loads them.
+    // Aporetic Sans for the shell and headings (400 and 700 with italics, 800 for headings), Source Serif 4 for
+    // rendered prose (400 and 700 with italics), Aporetic Sans Mono for code; layouts/Layout.astro loads them.
     fonts: [
       {
         provider: fontProviders.local(),
@@ -107,6 +108,20 @@ export function gardenConfig({ root: rootUrl, site, otherSite }) {
             font('aporetic-sans-bold', 700, 'normal'),
             font('aporetic-sans-bold-italic', 700, 'italic'),
             font('aporetic-sans-extrabold', 800, 'normal'),
+          ],
+        },
+      },
+      {
+        provider: fontProviders.local(),
+        name: 'Source Serif 4',
+        cssVariable: '--font-source-serif',
+        fallbacks: ['ui-serif', 'Charter', 'Cambria', 'Georgia', 'Noto Serif', 'serif'],
+        options: {
+          variants: [
+            font('source-serif-4-regular', 400, 'normal'),
+            font('source-serif-4-italic', 400, 'italic'),
+            font('source-serif-4-bold', 700, 'normal'),
+            font('source-serif-4-bold-italic', 700, 'italic'),
           ],
         },
       },

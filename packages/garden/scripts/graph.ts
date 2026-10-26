@@ -96,6 +96,8 @@ const palette = () => ({
   link: colorOf('text-subtle'),
   ring: colorOf('text-heading'),
   label: colorOf('text-fg'),
+  // The card's ground, outlined round each label so it reads over the links and pages under it.
+  halo: colorOf('text-bg-elev'),
 });
 
 /** The force layout, spread in proportion to the canvas (the rail's is about 270px), with room for a label under every page when all are named. */
@@ -146,11 +148,16 @@ function drawGraph(view: GraphView) {
   // Labels keep their size on screen at any zoom.
   ctx.font = `${11 / transform.k}px ${getComputedStyle(document.body).fontFamily}`;
   ctx.textAlign = 'center';
+  ctx.lineJoin = 'round';
+  ctx.lineWidth = 3 / transform.k;
+  ctx.strokeStyle = colors.halo;
   ctx.fillStyle = colors.label;
   for (const node of view.graph.nodes) {
     if (view.labels !== 'all' && node !== view.hovered && !view.isCurrent(node)) continue;
     const label = node.title.length > 28 ? `${node.title.slice(0, 27)}…` : node.title;
-    ctx.fillText(label, node.x!, node.y! + view.radius(node) + 14 / transform.k);
+    const y = node.y! + view.radius(node) + 14 / transform.k;
+    ctx.strokeText(label, node.x!, y);
+    ctx.fillText(label, node.x!, y);
   }
 }
 

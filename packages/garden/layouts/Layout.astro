@@ -70,8 +70,9 @@ const gtmId = import.meta.env.PROD ? (site.marketing.gtmId ?? null) : null;
         } catch (e) {}
       })();
     </script>
-    {/* The fonts (garden/config.mjs); the upright Sans faces the first screen is set in are preloaded. */}
+    {/* The fonts (garden/config.mjs); the upright faces the first screen is set in are preloaded. */}
     <Font cssVariable="--font-aporetic-sans" preload={[{ style: 'normal' }]} />
+    <Font cssVariable="--font-source-serif" preload={[{ weight: 400, style: 'normal' }]} />
     <Font cssVariable="--font-aporetic-mono" />
   </head>
   <body class:list={['min-h-screen font-sans antialiased', { 'bg-terminal': room }]}>
