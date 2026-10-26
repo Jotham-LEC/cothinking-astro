@@ -9,7 +9,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { wikiRehypePlugins, wikiRemarkPlugins } from './lib/markdown/index.ts';
 import { codeBlock } from './lib/markdown/shiki-code-block.ts';
-import { lazyIndex, scanEntries } from './lib/scan.ts';
+import { scanEntries, siteIndex } from './lib/scan.ts';
 import { sitemapOptions } from './lib/sitemap.ts';
 
 /**
@@ -34,6 +34,7 @@ const ROUTES = [
   ['/feed.xml', 'feed.xml.ts'],
   ['/graph.json', 'graph.json.ts'],
   ['/llms.txt', 'llms.txt.ts'],
+  ['/[...uri].md', '[...uri].md.ts'],
   ['/og.png', 'og.png.ts'],
   ['/og/[...uri].png', 'og/[...uri].png.ts'],
   ['/robots.txt', 'robots.txt.ts'],
@@ -50,6 +51,31 @@ const sharedRoutes = {
   },
 };
 
+const LINK_INDEX = 'virtual:garden/link-index';
+
+/**
+ * `virtual:garden/link-index`: the link index the Markdown pipeline resolves against, for the routes (the Markdown
+ * copies), which cannot import this config: the same `siteIndex` on the same files. virtual.d.ts types it.
+ * @param {URL} rootUrl
+ * @param {import('./lib/site.ts').SiteConfig} site
+ * @returns {import('vite').Plugin}
+ */
+const linkIndexModule = (rootUrl, site) => ({
+  name: 'garden-link-index',
+  resolveId: (id) => (id === LINK_INDEX ? `\0${LINK_INDEX}` : undefined),
+  load(id) {
+    if (id !== `\0${LINK_INDEX}`) return;
+    const file = (/** @type {string} */ path, /** @type {URL} */ base) =>
+      JSON.stringify(fileURLToPath(new URL(path, base)));
+    return [
+      `import { siteIndex } from ${file('./lib/scan.ts', new URL(import.meta.url))};`,
+      `import { site } from ${file('src/site.config.ts', rootUrl)};`,
+      `import { site as otherSite } from ${file(`../${site.otherSite.folder}/src/site.config.ts`, rootUrl)};`,
+      `export const linkIndex = siteIndex(new URL(${JSON.stringify(rootUrl.href)}), site, otherSite);`,
+    ].join('\n');
+  },
+});
+
 /**
  * @param {object} options
  * @param {URL} options.root the site's folder (sites/<site>/)
@@ -59,15 +85,7 @@ const sharedRoutes = {
 export function gardenConfig({ root: rootUrl, site, otherSite }) {
   // The link index (`[[Title]]` and `[text](../essays/x.md)`), from both sites' content on disk: read once in a
   // build, on every render in dev.
-  const index = lazyIndex(
-    { root: rootUrl, site },
-    {
-      root: new URL(`../${site.otherSite.folder}/`, rootUrl),
-      site: otherSite,
-      url: site.otherSite.url,
-      folder: site.otherSite.folder,
-    },
-  );
+  const index = siteIndex(rootUrl, site, otherSite);
 
   return defineConfig({
     site: site.url,
@@ -92,7 +110,7 @@ export function gardenConfig({ root: rootUrl, site, otherSite }) {
       },
     },
     integrations: [sharedRoutes, sitemap(sitemapOptions(scanEntries(rootUrl, site), site)), pagefind()],
-    vite: { plugins: [tailwindcss()] },
+    vite: { plugins: [tailwindcss(), linkIndexModule(rootUrl, site)] },
     // Aporetic Sans for the shell and headings (400 and 700 with italics, 800 for headings), Source Serif 4 for
     // rendered prose (400 and 700 with italics), Aporetic Sans Mono for code; layouts/Layout.astro loads them.
     fonts: [

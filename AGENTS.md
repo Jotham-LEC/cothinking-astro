@@ -16,7 +16,7 @@ packages/garden/       @cothinking/garden: the shared code and its runtime depen
   content.ts           the schema pieces: base(image), dated, loader (content.config.ts imports it as @garden/content.ts)
   lib/                 the garden layer, plain TypeScript (tests cover it): see "How a page is built"
   lib/markdown/        the remark/rehype plugins and the Shiki transformer
-  routes/              the routes every site has (404, feed, graph, llms, robots, share cards), injected by config.mjs
+  routes/              the routes every site has (404, feed, graph, llms, robots, share cards, Markdown copies), injected by config.mjs
   components/          23 .astro components; layouts/Layout.astro is the shell
   scripts/             one TypeScript module per client behaviour, each imported by the component that owns the markup
   styles/              tokens.css (the only colours), shell.css (the grid and its states), components.css, site.css
@@ -71,8 +71,12 @@ from `lib/seo.ts`.
   says where its pages live (`/<landing>` unless set), `article`,
   `feed`, `order`, `explorer` (`all`, `with-body`, `by-year`,
   `by-category`, `by-type`), `categories`, `types` (a collection with types
-  is a stream of posts: paged by date, no "last updated"), `graphSection`
-  and `graphColour` say the rest. The garden names one collection, `pages`
+  is a stream of posts: paged by date, no "last updated"), `markdown` (each
+  page also as `<address>.md`, with a Copy as Markdown button, llms.txt's
+  link, and an edit link when the site sets `editUrl`), `graphSection`
+  and `graphColour` say the rest. A `by-category` collection's pages go by
+  `order`, then A–Z, within each category, and the pager walks them in that
+  order (a series by `part`, then on). The garden names one collection, `pages`
   (the plain pages: `pages/home` is `/`, a landing page is a `pages` entry,
   the palette lists them first); every other one is the config's.
 - **Addresses** come from `makeUrlOf(site)` (`lib/entry.ts`): `pages/home` is
@@ -129,6 +133,7 @@ from `lib/seo.ts`.
 | progress bar, scroll position | `progress.ts` | Statusline |
 | scroll spy | `outline.ts` | Outline |
 | hover previews, zoom, heading links, code copy | `popovers.ts`, `zoom.ts`, `heading-links.ts`, `code-copy.ts` | Prose |
+| Copy as Markdown | `copy-markdown.ts` | PageHeader |
 | the local graph (d3-force) | `graph.ts` | Rail, so d3 ships only on rail pages |
 
 Styles: `tokens.css` is the only file with a colour (`light-dark()` values;
@@ -151,6 +156,7 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
 | `/feed.xml` | `feed.xml.ts` | the site feed, every dated collection (`lib/feed.ts`); a section's feed is the site's own file |
 | `/graph.json` | `graph.json.ts` | the pages and links the rail's graph draws (`lib/graph.ts`) |
 | `/llms.txt` | `llms.txt.ts` | the site for language models (`lib/textFiles.ts`) |
+| `/<path>.md` | `[...uri].md.ts` | a page of a `markdown` collection as Markdown, its links full addresses (`lib/markdownCopy.ts`), resolved against the pipeline's link index (`virtual:garden/link-index`, from `config.mjs`) |
 | `/og.png` | `og.png.ts` | the home page's share card (`lib/ogCard.ts`) |
 | `/og/<path>.png` | `og/[...uri].png.ts` | every other page's share card |
 | `/robots.txt` | `robots.txt.ts` | the base file: every crawler allowed, and the sitemap (`lib/textFiles.ts`); which bots to turn away is the zone's, not the repo's (cothink.ing's Cloudflare managed robots.txt puts its AI-training block in front of it) |

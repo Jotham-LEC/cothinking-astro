@@ -1,6 +1,6 @@
 // The entries read off the disk, for what runs outside Astro's collections:
-// garden/config.mjs (the link index, the sitemap) and the
-// tests. Each `src/content/<collection>/<id>.md` is parsed with Astro's own
+// garden/config.mjs (the link index, the sitemap), the Markdown copies
+// (routes/[...uri].md.ts) and the tests. Each `src/content/<collection>/<id>.md` is parsed with Astro's own
 // front-matter reader, so the ids match the glob loader's. The index is
 // read once per `astro build`, and again on every render in `astro dev`, so
 // a renamed page shows without a restart.
@@ -52,4 +52,17 @@ export function lazyIndex(site: Scan, other: Scan & { url: string; folder: strin
     cached ??= scanIndex(site, other);
     return cached;
   };
+}
+
+/** `lazyIndex` for a site's folder (`root`, sites/<site>/), with the other site beside it under sites/. */
+export function siteIndex(root: URL, site: SiteConfig, otherSite: SiteConfig): () => LinkIndex {
+  return lazyIndex(
+    { root, site },
+    {
+      root: new URL(`../${site.otherSite.folder}/`, root),
+      site: otherSite,
+      url: site.otherSite.url,
+      folder: site.otherSite.folder,
+    },
+  );
 }

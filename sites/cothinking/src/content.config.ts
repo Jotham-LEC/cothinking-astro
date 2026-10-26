@@ -39,7 +39,7 @@ const problems = defineCollection({
       .strict(),
 });
 
-/** The wiki: articles by category, some in a series (`series`, `part`). */
+/** The wiki: articles by category (each by `order`, then A–Z), some in a series (`series`, `part`). */
 const wiki = defineCollection({
   loader: loader('wiki'),
   schema: ({ image }) =>
@@ -48,6 +48,7 @@ const wiki = defineCollection({
         ...base(image),
         ...dated,
         category: z.enum(Object.keys(site.collections.wiki.categories)).optional(),
+        order: z.number().optional(),
         related_pages: z.array(reference).optional(),
         series: z.string().optional(),
         part: z.number().int().optional(),

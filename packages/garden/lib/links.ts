@@ -15,10 +15,13 @@ import { fileTarget, isFileLink, resolveFile, resolveTitle, type LinkIndex } fro
 
 const parser = unified().use(remarkParse).use(remarkGfm).use(wikiLinkSyntax());
 
+/** A body's Markdown tree, as the renderer parses it (with positions into the body). */
+export const parseBody = (body: string): Root => parser.parse(body) as Root;
+
 type Found = { wikiLinks: string[]; files: string[]; paths: string[]; htmlPaths: string[] };
 
 function linksIn(body: string): Found {
-  const tree = parser.parse(body) as Root;
+  const tree = parseBody(body);
   const found: Found = { wikiLinks: [], files: [], paths: [], htmlPaths: [] };
   const local = (url: string) => url.startsWith('/') && !url.startsWith('//');
   visit(tree, (node) => {
@@ -55,7 +58,7 @@ export function localTargets(body: string): string[] {
 /** The level of a body's first Markdown heading (`##` is 2), or null when it has none. */
 export function firstHeadingDepth(body: string): number | null {
   let depth: number | null = null;
-  visit(parser.parse(body) as Root, 'heading', (node) => {
+  visit(parseBody(body), 'heading', (node) => {
     depth ??= node.depth;
   });
   return depth;
