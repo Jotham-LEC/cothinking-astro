@@ -32,7 +32,7 @@ export function scanRaw(root: URL | string): RawEntry[] {
 export const scanEntries = (root: URL | string, site: SiteConfig): SiteEntry[] =>
   scanRaw(root).map((raw) => toSiteEntry(raw, site));
 
-export type Scan = { root: URL | string; site: SiteConfig };
+type Scan = { root: URL | string; site: SiteConfig };
 
 /** The link index for a site: its published pages over the other site's (`folder` is its folder under sites/). */
 function scanIndex(site: Scan, other: Scan & { url: string; folder: string }): LinkIndex {
@@ -45,7 +45,7 @@ function scanIndex(site: Scan, other: Scan & { url: string; folder: string }): L
 }
 
 /** `scanIndex`, read once in a build and on every call in dev. */
-export function lazyIndex(site: Scan, other: Scan & { url: string; folder: string }): () => LinkIndex {
+function lazyIndex(site: Scan, other: Scan & { url: string; folder: string }): () => LinkIndex {
   let cached: LinkIndex | null = null;
   return () => {
     if (process.env.NODE_ENV !== 'production') return scanIndex(site, other);

@@ -7,7 +7,7 @@
 import { year } from './dates.ts';
 import type { SiteConfig } from './site.ts';
 
-export type Seo = {
+type Seo = {
   title?: string;
   description?: string;
   /** Where the piece was first published: search engines are sent there. */
@@ -45,7 +45,7 @@ export type SiteEntry = {
 };
 
 /** A site's rule for an entry's address: `urlOf(collection, id)`. */
-export type UrlOf = (collection: string, id: string) => string;
+type UrlOf = (collection: string, id: string) => string;
 
 /**
  * A site's address rule, from its collections: `pages/home` is `/`, a `pages` entry is `/<id>`, any other

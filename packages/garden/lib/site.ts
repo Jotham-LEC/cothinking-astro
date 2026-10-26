@@ -9,7 +9,7 @@ export type NavItem = {
   children?: NavItem[];
 };
 
-export type CollectionConfig = {
+type CollectionConfig = {
   title: string;
   /** The `pages` entry the collection hangs under: a section's landing page. Absent for `pages` itself. */
   landing?: string;
