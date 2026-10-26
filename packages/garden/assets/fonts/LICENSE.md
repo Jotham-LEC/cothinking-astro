@@ -1,4 +1,6 @@
-Copyright (c) 2015-2025, Renzhi Li (aka. Belleve Invis, belleve@typeof.net)
+Aporetic (`aporetic-*`): Copyright (c) 2015-2025, Renzhi Li (aka. Belleve Invis, belleve@typeof.net)
+
+Source Serif 4 (`source-serif-4-*`, unmodified, converted to WOFF2): © 2014 - 2023 Adobe (http://www.adobe.com/), with Reserved Font Name ‘Source’.
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 

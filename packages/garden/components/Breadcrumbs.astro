@@ -1,38 +1,25 @@
 ---
-// `~ / Section` breadcrumbs up to the current page's parent (`parents`).
+// `~/` `Section/` breadcrumbs up to the current page's parent (`parents`).
 import { parents } from '../lib/breadcrumbs.ts';
 import { garden } from '../lib/load.ts';
 type Props = { url: string };
 const crumbs = parents(Astro.props.url, (await garden()).live);
+// Every crumb a chip in the accent, so each reads as a link; together they spell a shell's path, `~/` for home.
+const chip =
+  'rounded-site border-rule bg-bg-elev text-accent hover:border-accent hover:text-accent-hover inline-flex items-center border px-1.5 py-px font-mono text-xs leading-5 font-semibold no-underline pointer-coarse:px-2.5 pointer-coarse:py-1.5';
 ---
 
-<nav class="text-muted mb-4 flex flex-wrap items-center gap-x-1.5 text-sm" aria-label="Breadcrumb" data-pagefind-ignore>
-  {crumbs.map((crumb, i) => {
-    const first = i === 0;
-    return (
-      <>
-        {!first && (
-          <Fragment>
-            {' '}
-            <span class="text-subtle" aria-hidden="true">
-              /
-            </span>{' '}
-          </Fragment>
-        )}
-        {first ? (
-          <a
-            class="hover:text-fg -mx-2 inline-flex min-w-6 justify-center px-2 pointer-coarse:py-2"
-            href={crumb.url}
-            aria-label="Home"
-          >
-            ~
-          </a>
-        ) : (
-          <a class="hover:text-fg pointer-coarse:py-2" href={crumb.url}>
-            {crumb.title}
-          </a>
-        )}
-      </>
-    );
-  })}
+<nav class="mb-4 flex flex-wrap items-center gap-1.5" aria-label="Breadcrumb" data-pagefind-ignore>
+  {crumbs.map((crumb, i) =>
+    i === 0 ? (
+      <a class={chip} href={crumb.url} aria-label="Home" title="Home">
+        ~/
+      </a>
+    ) : (
+      <a class={chip} href={crumb.url}>
+        {crumb.title}
+        <span aria-hidden="true">/</span>
+      </a>
+    ),
+  )}
 </nav>
