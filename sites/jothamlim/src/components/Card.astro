@@ -1,16 +1,18 @@
 ---
-// One note in the stream: a date badge linking to the note, the type icon
-// linking to that type's listing, then the post.
+// One note in the stream, as a timeline shows a post: a date badge linking to
+// the note, the type icon linking to that type's listing, then the post
+// whole (its text, its pictures, where it lives on Mastodon).
 import { render, type CollectionEntry } from 'astro:content';
 import { badge, longDate } from '@garden/lib/dates.ts';
 import { urlOf } from '@garden/lib/load.ts';
 import Prose from '@garden/components/Prose.astro';
 import { site } from '@site/site.config.ts';
 import Icon from './Icon.astro';
-import Quote from './Quote.astro';
-type Props = { note: CollectionEntry<'notes'> };
-const { note } = Astro.props;
-const { type, title, quote, cite, date } = note.data;
+import NoteMedia from './NoteMedia.astro';
+import NoteSource from './NoteSource.astro';
+type Props = { note: CollectionEntry<'notes'>; eager?: boolean };
+const { note, eager = false } = Astro.props;
+const { type, title, date, media } = note.data;
 const typeTitle = site.collections.notes.types[type as keyof typeof site.collections.notes.types] ?? type;
 const url = urlOf(note);
 const posted = badge(date);
@@ -38,22 +40,13 @@ const hasContent = (note.body ?? '').trim() !== '';
       <Icon type={type} />
     </a>
   </div>
-  <div class="rounded-site border-rule bg-bg-elev overflow-hidden border">
-    {type === 'quote' && <Quote quote={quote ?? ''} cite={cite} />}
-    {(type === 'text' || hasContent) && (
-      <div class="px-6 py-5">
-        {type === 'text' && (
-          <h2 class="text-heading font-heading mb-4 text-xl font-extrabold" data-note-title>
-            <a class="hover:text-accent no-underline" href={url}>
-              {title}
-            </a>
-          </h2>
-        )}
-        {/* A heading in a note stays under the card's title in size. */}
-        <Prose class="prose-h2:mt-7 prose-h2:text-xl">
-          <Content />
-        </Prose>
-      </div>
+  <div class="rounded-site border-rule bg-bg-elev flex flex-col gap-4 overflow-hidden border px-6 py-5">
+    {hasContent && (
+      <Prose>
+        <Content />
+      </Prose>
     )}
+    <NoteMedia media={media} eager={eager} />
+    <NoteSource note={note} />
   </div>
 </article>

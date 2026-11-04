@@ -65,7 +65,11 @@ describe.each(loaded)('$name', (s) => {
   });
   it('builds the Explorer with a folder per section and a graph with a node per page', () => {
     const rows = explorerRows(live, s.site);
-    const folders = rows.filter((r) => r.kind === 'folder');
+    // A remote section's pages are not on disk, so its folder is empty here.
+    const remote = new Set(
+      Object.values(s.site.collections).flatMap((c) => (c.remote && c.landing ? [`pages/${c.landing}`] : [])),
+    );
+    const folders = rows.filter((r) => r.kind === 'folder' && !remote.has(r.id ?? ''));
     expect(folders.length).toBeGreaterThan(0);
     for (const folder of folders) expect(folder.children.length, folder.title).toBeGreaterThan(0);
     const index = linkIndex(live, otherEntries, s.site.otherSite.url, s.site.otherSite.folder);

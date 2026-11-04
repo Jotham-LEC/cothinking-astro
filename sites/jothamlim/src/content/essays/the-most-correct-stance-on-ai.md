@@ -2,7 +2,6 @@
 title: The Most Correct Stance on AI
 date: 2026-10-08T11:30:00Z
 updated: 2026-10-09T09:59:50+00:00
-type: text
 ---
 > Is AI the harbinger of death for all white collar work? Or is it still glorified autocomplete: no better than a talented but misguided, overconfident intern?
 
@@ -24,7 +23,7 @@ Yes, open-source maintainers are allowed to auto-ban AI-generated pull requests.
 
 No, you can't vibe your way to a high-quality product. Quality comes from care, intention and a long series of small decisions. After all, that's what makes a luxury car, watch or bag what it is.
 
-## TL:DR
+## TL;DR
 
 The neutral take is the boring take. But I think it's also the most correct one, because the subject is nuanced, complicated and still changing.
 

@@ -1,18 +1,16 @@
 ---
-// A single note: the entry's page with the post (a quote) above its text. A
-// text note is all text, so it adds nothing. A slug is never a number, so none
-// collides with /notes/2.
+// A single note: the post's text, its pictures, and where it lives on
+// Mastodon. Its id is its date and minute, never only digits, so none
+// collides with /notes/2 (garden/lib/mastodon.ts).
 import type { InferGetStaticPropsType } from 'astro';
 import { getCollection, render } from 'astro:content';
 import Entry from '@garden/components/Entry.astro';
-import Quote from '@site/components/Quote.astro';
+import NoteMedia from '@site/components/NoteMedia.astro';
+import NoteSource from '@site/components/NoteSource.astro';
 
 export async function getStaticPaths() {
   const notes = await getCollection('notes', (n) => !n.data.draft);
-  return notes.map((entry) => {
-    if (/^\d+$/.test(entry.id)) throw new Error(`Note "${entry.id}" would collide with the stream's pagination.`);
-    return { params: { slug: entry.id }, props: { entry } };
-  });
+  return notes.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { entry } = Astro.props;
@@ -20,14 +18,9 @@ const { Content, headings } = await render(entry);
 ---
 
 <Entry entry={entry} headings={headings}>
-  {entry.data.type === 'quote' && (
-    <div
-      slot="before-body"
-      class="not-prose rounded-site border-rule bg-bg-elev overflow-hidden border"
-      data-type="quote"
-    >
-      <Quote quote={entry.data.quote ?? ''} cite={entry.data.cite} />
-    </div>
-  )}
   <Content />
+  <div slot="after-body" class="flex flex-col gap-4">
+    <NoteMedia media={entry.data.media} eager />
+    <NoteSource note={entry} />
+  </div>
 </Entry>

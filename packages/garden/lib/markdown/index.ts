@@ -48,7 +48,7 @@ export function wikiRemarkPlugins({ index, siteUrl, root }: PipelineOptions): Re
  * target. Raw HTML anchors in the content are still raw here, so they are
  * left alone.
  */
-const externalLinks = (siteUrl: string): RehypePlugins => [
+export const externalLinks = (siteUrl: string): RehypePlugins => [
   [
     rehypeExternalLinks,
     {

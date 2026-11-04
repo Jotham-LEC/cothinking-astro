@@ -1,0 +1,20 @@
+---
+// Where a note lives: the post on Mastodon, with its replies, boosts and
+// favourites as they were at the last build.
+import type { CollectionEntry } from 'astro:content';
+type Props = { note: CollectionEntry<'notes'> };
+const { url, replies, boosts, favourites } = Astro.props.note.data;
+const counts = [
+  [replies, 'reply', 'replies'],
+  [boosts, 'boost', 'boosts'],
+  [favourites, 'favourite', 'favourites'],
+] as const;
+const said = counts.filter(([n]) => n > 0).map(([n, one, many]) => `${n} ${n === 1 ? one : many}`);
+---
+
+<p class="not-prose text-muted mt-4 text-sm" data-note-source>
+  <a class="external-link hover:text-accent" href={url}>
+    On Mastodon
+  </a>
+  {said.length > 0 && <span> · {said.join(' · ')}</span>}
+</p>

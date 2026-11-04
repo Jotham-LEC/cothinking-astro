@@ -1,5 +1,5 @@
 ---
-// /blog/{slug}: the old blog's address for every essay, note and publication,
+// /blog/{slug}: the old blog's address for every essay and publication,
 // each a redirect page to where the piece lives now. In a static build
 // Astro.redirect() writes a meta-refresh page, served with status 200 like the
 // `redirects` in site.config.ts (the owner's choice). The 301 is never sent;
@@ -9,7 +9,7 @@ import { getCollection } from 'astro:content';
 import { urlOf } from '@garden/lib/load.ts';
 
 export async function getStaticPaths() {
-  const collections = ['essays', 'notes', 'publications'] as const;
+  const collections = ['essays', 'publications'] as const;
   const pieces = await Promise.all(collections.map((c) => getCollection(c, (e) => !e.data.draft)));
   return pieces.flat().map((p) => ({ params: { slug: p.id }, props: { url: urlOf(p) } }));
 }

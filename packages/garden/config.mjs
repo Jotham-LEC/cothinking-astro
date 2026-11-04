@@ -109,6 +109,8 @@ export function gardenConfig({ root: rootUrl, site, otherSite }) {
         transformers: [codeBlock()],
       },
     },
+    // A remote collection's pictures (site.config.ts `remoteImages`), fetched and optimised by <Image> at build.
+    image: { remotePatterns: (site.remoteImages ?? []).map((hostname) => ({ protocol: 'https', hostname })) },
     integrations: [sharedRoutes, sitemap(sitemapOptions(scanEntries(rootUrl, site), site)), pagefind()],
     vite: { plugins: [tailwindcss(), linkIndexModule(rootUrl, site)] },
     // Aporetic Sans for the shell and headings (400 and 700 with italics, 800 for headings), Source Serif 4 for

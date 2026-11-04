@@ -176,7 +176,7 @@ async function run({ page, BASE, check, shots }) {
 
   // Notes stream and a note page
   await page.goto(`${BASE}/notes`, { waitUntil: 'networkidle' });
-  check('notes stream cards', (await page.locator('[data-stream] article').count()) === 8);
+  check('notes stream cards', (await page.locator('[data-stream] article').count()) > 0);
   await page.screenshot({ path: `${shots}/notes.png` });
   await page.goto(`${BASE}/publications`, { waitUntil: 'networkidle' });
   check('publications years', (await page.locator('main h2').count()) >= 6);

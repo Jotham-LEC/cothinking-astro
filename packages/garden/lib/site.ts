@@ -27,6 +27,11 @@ type CollectionConfig = {
   /** How listings order the pages: newest first, or by their `order` field. */
   order: 'date' | 'order';
   /**
+   * The pages come from a loader that reads them off the web (notes from Mastodon), not from src/content: what reads
+   * the files (the link index, the content check) does not see them, and the sitemap lists every `<path>/<id>`.
+   */
+  remote?: boolean;
+  /**
    * What the section's Explorer folder holds: every page (`all`, the default), only those with a body, a group per
    * year, a group per `category` (`categories`, in order), or a row per post type in use (`types`).
    */
@@ -56,6 +61,8 @@ export type SiteConfig = {
   favicon: string;
   footerText: string;
   collections: Record<string, CollectionConfig>;
+  /** The hosts a remote collection's pictures come from, which Astro optimises at build (`image.remotePatterns`). */
+  remoteImages?: string[];
   navigation: { explorer: NavItem[]; header: NavItem[]; footer: NavItem[] };
   /**
    * The repository's editor for the site's folder, ending in `/` (`https://github.com/<owner>/<repo>/edit/main/sites/<site>/`):

@@ -16,14 +16,16 @@ export const site = {
   collections: {
     pages: { title: 'Pages', order: 'order' },
     essays: { title: 'Essays', landing: 'essays', article: true, feed: true, order: 'date', graphColour: 1 },
+    // Read off Mastodon at every build (content.config.ts), not written here.
     notes: {
       title: 'Notes',
       landing: 'notes',
       article: true,
       feed: true,
       order: 'date',
+      remote: true,
       explorer: 'by-type',
-      types: { text: 'Text', quote: 'Quote' },
+      types: { text: 'Text', photo: 'Photo' },
       graphColour: 2,
     },
     projects: { title: 'Projects', landing: 'projects', article: true, order: 'date', graphColour: 4 },
@@ -36,6 +38,8 @@ export const site = {
       graphColour: 3,
     },
   },
+  // The notes' pictures (Mastodon's media server).
+  remoteImages: ['files.mastodon.social'],
   navigation: {
     explorer: [
       { title: '🏠 Home', entry: 'pages/home' },
@@ -56,6 +60,11 @@ export const site = {
     '/cothinking': 'https://cothink.ing',
     '/projects/ultimate-circle': 'https://cothink.ing/work/ultimate-circle',
     '/web-development': '/projects',
+    // Notes that were Markdown before the notes came from Mastodon; the longer ones became essays.
+    '/notes/changing-jobs-for-the-eighth-time': '/essays/changing-jobs-for-the-eighth-time',
+    '/notes/omnifocus-is-not-a-todo-app-its-a-can-do-app': '/essays/omnifocus-is-not-a-todo-app-its-a-can-do-app',
+    '/notes/the-most-correct-stance-on-ai': '/essays/the-most-correct-stance-on-ai',
+    '/notes/writing-shorter': '/essays/writing-shorter',
   },
   otherSite: { name: 'CoThinking', url: 'https://cothink.ing', folder: 'cothinking' },
   seo: {

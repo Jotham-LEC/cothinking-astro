@@ -1,5 +1,5 @@
 ---
-// The post type's icon (outline, 24px grid): quote, else text.
+// The post type's icon (outline, 24px grid): photo, else text.
 type Props = { type: string };
 const { type } = Astro.props;
 ---
@@ -14,10 +14,11 @@ const { type } = Astro.props;
   stroke-linejoin="round"
   aria-hidden="true"
 >
-  {type === 'quote' ? (
+  {type === 'photo' ? (
     <>
-      <path d="M7 7h4v4c0 3-1.5 5-4 6" />
-      <path d="M14 7h4v4c0 3-1.5 5-4 6" />
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <circle cx="9" cy="10" r="1.5" />
+      <path d="m21 15-5-5-9 9" />
     </>
   ) : (
     <path d="M4 6h16M4 11h16M4 16h10" />

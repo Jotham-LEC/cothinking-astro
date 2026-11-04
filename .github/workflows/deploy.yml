@@ -4,6 +4,9 @@
 # CLOUDFLARE_API_TOKEN, a token scoped to Workers Scripts: Edit on the
 # owner's account (the account id is in each wrangler.jsonc). Pull requests
 # only build. This is the only way the sites deploy: there is no manual deploy.
+# Every 6 hours, a scheduled run rebuilds and deploys jothamlim.com alone, so
+# its notes (read off Mastodon at build) follow what was posted, edited or
+# deleted there.
 name: Deploy
 
 on:
@@ -11,6 +14,8 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
 
 concurrency:
   group: deploy-${{ github.ref }}
@@ -22,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        site: [jothamlim, cothinking]
+        site: ${{ github.event_name == 'schedule' && fromJSON('["jothamlim"]') || fromJSON('["jothamlim","cothinking"]') }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5

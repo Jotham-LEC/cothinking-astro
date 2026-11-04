@@ -1,0 +1,41 @@
+---
+// A note's pictures and videos, as Mastodon holds them: a picture through
+// <Image> (Astro fetches and optimises it at build: site.config.ts
+// `remoteImages`), a video or GIF as the platform's <video>. Two or more sit
+// in a grid. A picture whose size Mastodon does not give is measured at build
+// (`inferSize`). `eager` loads the first picture first (the first card of a stream).
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+type Props = { media: CollectionEntry<'notes'>['data']['media']; eager?: boolean };
+const { media, eager = false } = Astro.props;
+---
+
+{media.length > 0 && (
+  <div class:list={['not-prose grid gap-2', media.length > 1 && 'sm:grid-cols-2']} data-note-media>
+    {media.map((m, i) =>
+      m.kind === 'image' ? (
+        <Image
+          class="rounded-site border-rule h-auto w-full border"
+          src={m.src}
+          alt={m.alt}
+          {...(m.width && m.height ? { width: m.width, height: m.height } : { inferSize: true })}
+          widths={[480, 960, Math.min(m.width ?? 1600, 1600)]}
+          sizes="(min-width: 768px) 720px, 100vw"
+          loading={eager && i === 0 ? 'eager' : 'lazy'}
+          fetchpriority={eager && i === 0 ? 'high' : undefined}
+        />
+      ) : (
+        <video
+          class="rounded-site border-rule h-auto w-full border"
+          src={m.src}
+          width={m.width ?? undefined}
+          height={m.height ?? undefined}
+          aria-label={m.alt || undefined}
+          controls
+          playsinline
+          preload="metadata"
+        />
+      ),
+    )}
+  </div>
+)}

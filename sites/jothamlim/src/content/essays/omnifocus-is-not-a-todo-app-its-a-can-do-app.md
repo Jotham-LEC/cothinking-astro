@@ -2,10 +2,9 @@
 title: Omnifocus Is Not a TODO App, It’s a CAN DO App
 date: 2024-02-11T00:00:00Z
 updated: 2024-02-11T00:00:00+00:00
-image: ../../assets/media/notes/omnifocus-is-not-a-todo-app-its-a-can-do-app.webp
-type: text
+image: ../../assets/media/essays/omnifocus-is-not-a-todo-app-its-a-can-do-app/omnifocus-is-not-a-todo-app-its-a-can-do-app.webp
 ---
-![](../../assets/media/notes/omnifocus-is-not-a-todo-app-its-a-can-do-app.webp)
+![](../../assets/media/essays/omnifocus-is-not-a-todo-app-its-a-can-do-app/omnifocus-is-not-a-todo-app-its-a-can-do-app.webp)
 
 I made the switch from Things (my main app for 3 years) to OF4 after learning about [David Sparks](https://www.youtube.com/watch?v=vUUaQF3_Pyo) and [CGP Grey’s](https://www.relay.fm/cortex/142) approach to task management.
 
@@ -22,6 +21,6 @@ Time-based systems are arbitrary ways to cut this deck of cards. “I’ll work 
 
 OF4 works by scrying — “Here are the top 3 cards you can work on at any given time. Oh, you can’t work on them today? It’s okay. These 3 cards will be waiting for you tomorrow, and I’ll ping you if there’s something more urgent that comes your way”. The combination of features like Review, first available, available, sequential projects, custom perspectives are hard to find elsewhere.
 
-I’ve only adopted this system over the past 2 weeks, and it works well with me so far. We’ll see how it goes.
+I’ve only adopted this system over the past 2 weeks, and it works well for me so far. We’ll see how it goes.
 
 Worst case scenario, I’ll just go back to Things.

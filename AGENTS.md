@@ -16,6 +16,7 @@ packages/garden/       @cothinking/garden: the shared code and its runtime depen
   content.ts           the schema pieces: base(image), dated, loader (content.config.ts imports it as @garden/content.ts)
   lib/                 the garden layer, plain TypeScript (tests cover it): see "How a page is built"
   lib/markdown/        the remark/rehype plugins and the Shiki transformer
+  lib/mastodon.ts      the content loader jothamlim's notes come from (see "Notes from Mastodon")
   routes/              the routes every site has (404, feed, graph, llms, robots, share cards, Markdown copies), injected by config.mjs
   components/          23 .astro components; layouts/Layout.astro is the shell
   scripts/             one TypeScript module per client behaviour, each imported by the component that owns the markup
@@ -180,6 +181,8 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
   copy drops their fences; raw HTML is allowed
   (`<img class="wiki-logo-light">`/`-dark` pairs, `<figure class="wiki-pdf">`,
   `<a class="button">`).
+- **A note** (jothamlim): post on Mastodon as @jothamlec@mastodon.social;
+  the next build (at most 6 hours) publishes it. See "Notes from Mastodon".
 - **A page with its own view**: a file in `src/pages/` that `getEntry`s the
   landing entry, and its id in `[slug].astro`'s `OWN` list (a page in both
   places fails the build: `prerenderConflictBehavior`).
@@ -217,6 +220,26 @@ integration), so a site's `src/pages/` holds only its own views. Each reads
   `astro.config.mjs`. Give it a dev and a
   preview port in the root `package.json` `dev` and `preview` scripts, and
   the preview port as `PREVIEW_URL`'s default in its `tests/smoke.mjs`.
+
+## Notes from Mastodon
+
+jothamlim's `notes` collection has no files: its loader
+(`garden/lib/mastodon.ts` `mastodonLoader`, Astro's Content Layer API, set
+in `content.config.ts`) reads the account's whole public timeline at every
+build and makes the collection match it, so a post written, edited or
+deleted on Mastodon is one on the site at the next build (`store.set` with
+a digest, `store.delete` for what is gone). It keeps public posts that are
+not replies or boosts, have no content warning and no `#nosite` tag. A
+note's id is its minute in `Asia/Kuala_Lumpur` (`2025-01-16-1314`; a second
+post in that minute adds its second), its title the first sentence, its
+type `photo` when it has media, else `text`; the HTML is Mastodon's through
+the garden's external links and excerpt. Pictures stay on Mastodon's server
+and `<Image>` optimises them at build (`site.config.ts` `remoteImages` →
+`image.remotePatterns`). In a build a failed fetch fails the build (a deploy
+never empties the notes); in `astro dev` it keeps the last notes. The
+collection is `remote: true`: what reads `src/content` (the link index, the
+content check) does not see it, so a `[[wiki link]]` cannot name a note, and
+the sitemap lists every `/notes/<id>` by its path.
 
 ## Commands
 
@@ -260,7 +283,8 @@ when that page is next saved (or on restart), as its render is cached too.
 Each site is a Worker of static assets (`wrangler.jsonc`: `dist/`,
 `not_found_handling: "404-page"`, `html_handling: "drop-trailing-slash"`),
 a Custom Domain at jothamlim.com and cothink.ing, both in the owner's
-account (`account_id`). **Every push to `main` deploys both**
+account (`account_id`). **Every push to `main` deploys both**, and a
+schedule every 6 hours deploys jothamlim alone, for its notes
 (`.github/workflows/deploy.yml`: check, a forced build, the garden's tests
 (after the build, so the test that every entry has its page in `dist/` runs),
 the site's build tests, then `wrangler deploy`, with the repository secret
