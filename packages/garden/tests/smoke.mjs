@@ -1,7 +1,7 @@
 // The smoke test's runner: a browser against a site's `astro preview`
 // (sites/<site>/tests/smoke.mjs gives the steps, the address and where the
 // screenshots go). Any console error fails the run. Needs Playwright's
-// browsers: PLAYWRIGHT_BROWSERS_PATH (nixpkgs' playwright-driver.browsers).
+// browsers: `npx playwright install chromium` once.
 import fs from 'node:fs';
 import { chromium } from 'playwright';
 

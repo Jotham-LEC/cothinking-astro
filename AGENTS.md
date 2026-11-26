@@ -258,13 +258,9 @@ npm run <dev|build|preview|check|smoke> -w sites/<site>   # one site
 ## Verify
 
 `npm run check && npm test && npm run build:force`, then `npm run preview` and
-`PLAYWRIGHT_BROWSERS_PATH=$(cat DEV_FILES/<site>/playwright-browsers-path)
-npm run smoke -w sites/<site>` (Playwright against the preview; the browsers
-are nixpkgs', never `npx playwright install`). The path file is local
-(`DEV_FILES/` is gitignored): write it once with
-`nix build --no-link --print-out-paths nixpkgs#playwright-driver.browsers >
-DEV_FILES/<site>/playwright-browsers-path`, from a nixpkgs whose Playwright
-matches the `playwright` pin in `package.json`. For a refactor:
+`npm run smoke -w sites/<site>` (Playwright against the preview). Install its
+Chromium once, matching the `playwright` pin in `package.json`, with
+`npx playwright install chromium`. For a refactor:
 `node scripts/snapshot.mjs <site> before.json`, change, build,
 `node scripts/snapshot.mjs <site> after.json`, then
 `node scripts/diff-snapshot.mjs before.json after.json --allow allow.txt`
@@ -294,7 +290,7 @@ manual deploy script; to ship, merge to `main`. `public/_headers` caches `/_astr
 sets the security headers on every response (HSTS without subdomains,
 `nosniff`, a referrer policy, `SAMEORIGIN` framing, a same-origin opener
 policy, a permissions policy, and a CSP that leaves scripts alone:
-`frame-ancestors`, `base-uri`, `object-src`, `upgrade-insecure-requests`). Locally, `wrangler dev` needs `steam-run` on NixOS.
+`frame-ancestors`, `base-uri`, `object-src`, `upgrade-insecure-requests`).
 
 ## Glossary
 
